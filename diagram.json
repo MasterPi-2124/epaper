@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "author": "Master Pi",
+  "editor": "wokwi",
+  "serialMonitor": {
+    "display": "terminal",
+    "newline": "lf",
+    "convertEol": false
+  },
+  "parts": [
+    {
+      "type": "board-wemos-s2-mini",
+      "id": "s2-mini",
+      "top": -221.4,
+      "left": -8.34,
+      "rotate": 90,
+      "attrs": { "psramSize": "2" }
+    },
+    { "type": "board-epaper-2in9", "id": "epd1", "top": -47.4, "left": -82.32, "attrs": {} }
+  ],
+  "connections": [
+    [ "s2-mini:3V3", "epd1:VCC", "red", [ "v-67.2", "h-192", "v316.87" ] ],
+    [
+      "s2-mini:GND.1",
+      "epd1:GND",
+      "black",
+      [ "v28.65", "h115.2", "v-182.4", "h-326.4", "v336.07" ]
+    ],
+    [ "s2-mini:11(MOSI)", "epd1:DIN", "yellow", [ "v-57.6", "h-201.6", "v297.67" ] ],
+    [ "s2-mini:7(SCK)", "epd1:CLK", "green", [ "v-48", "h-211.2", "v278.47" ] ],
+    [ "s2-mini:13", "epd1:CS", "blue", [ "v-38.4", "h-172.8", "v259.2" ] ],
+    [ "epd1:DC", "s2-mini:5", "white", [ "h-76.8", "v-240", "h201.6" ] ],
+    [ "s2-mini:3", "epd1:RST", "orange", [ "v-19.2", "h-201.6", "v220.8" ] ],
+    [ "epd1:BUSY", "s2-mini:1", "purple", [ "h-57.6", "v-201.6", "h201.6" ] ]
+  ],
+  "dependencies": {}
+}
