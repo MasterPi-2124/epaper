@@ -37,8 +37,10 @@ extern sFONT Font12;
 extern sFONT Font8;
 extern sFONT FontSegoe12;
 extern sFONT Segoe8;
+extern sFONT Segoe12;
+extern sFONT Segoe16;
+extern sFONT Segoe20;
 
-// extern const unsigned char Font16_Table[];
 
 #ifdef __cplusplus
 }
