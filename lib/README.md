@@ -21,7 +21,7 @@ For example, see a structure of the following two libraries `Foo` and `Bar`:
 |  |  |- Foo.c
 |  |  |- Foo.h
 |  |
-|  |- README --> THIS FILE
+|  |- README.md --> THIS FILE
 |
 |- platformio.ini
 |--src

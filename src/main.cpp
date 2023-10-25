@@ -12,25 +12,27 @@ void setup()
     printf("EPD_2IN9_V2_test Demo\r\n");
     delay(1000);
     DEV_Module_Init();
-    MQTT_Client_Init();
-    MQTT_Connect();
-    MQTT_Loop();
 
-    // printf("e-Paper Init and Clear...\r\n");
-    // EPD_2IN9_V2_Init();
-    // EPD_2IN9_V2_Clear();
-    // DEV_Delay_ms(500);
+    // MQTT Client init and connect 
+    // MQTT_Client_Init();
+    // MQTT_Connect();
+    // MQTT_Loop();
 
-    // // Create a new image cache
-    // UBYTE *BlackImage;
-    // /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
-    // UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0)? (EPD_2IN9_V2_WIDTH / 8 ): (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
-    // if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
-    //     printf("Failed to apply for black memory...\r\n");
-    //     while(1);
-    // }
-    // printf("Paint_NewImage\r\n");
-    // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
+    printf("e-Paper Init and Clear...\r\n");
+    EPD_2IN9_V2_Init();
+    EPD_2IN9_V2_Clear();
+    DEV_Delay_ms(500);
+
+    // Create a new image cache
+    UBYTE *BlackImage;
+    /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
+    UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0)? (EPD_2IN9_V2_WIDTH / 8 ): (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
+    if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
+        printf("Failed to apply for black memory...\r\n");
+        while(1);
+    }
+    printf("Paint_NewImage\r\n");
+    Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
 
     // #if 1   //show image for array
     // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 270, WHITE);
@@ -77,14 +79,13 @@ void setup()
     //     DEV_Delay_ms(2000);
     // #endif
 
-    // #if 1
-    //     printf("Show custom data");
-    //     Paint_Clear(WHITE);
-    //     // Paint_SetRotate(90);
-    //     Paint_DrawString_EN(100, 20,"A", &FontSegoe12, WHITE, BLACK);
-    //         EPD_2IN9_V2_Display_Partial(BlackImage);
-
-    // #endif
+    #if 1
+        Serial.print("Show custom data");
+        Paint_Clear(WHITE);
+        // Paint_SetRotate(90);
+        Paint_DrawString_EN(100, 20,"A", &Font12, WHITE, BLACK);
+            EPD_2IN9_V2_Display_Partial(BlackImage);
+    #endif
 
     // #if 1   //Partial refresh, example shows time
     //     printf("Partial refresh\r\n");
