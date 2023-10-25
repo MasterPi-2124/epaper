@@ -75,9 +75,10 @@ void setup()
 
 #if 1 
     printf("Show custom data");
+    Serial.printf("asdasd");
     Paint_Clear(WHITE);
     // Paint_SetRotate(90);
-    Paint_DrawString_EN(100, 20,"A", &FontSegoe12, WHITE, BLACK);
+    Paint_DrawString_EN(100, 20,"A", &Font12, WHITE, BLACK);
         EPD_2IN9_V2_Display_Partial(BlackImage);
 
 #endif
