@@ -37,8 +37,6 @@ Info:
 UBYTE DEV_Module_Init(void)
 {
     // gpio
-
-    Serial.println("YOYOYOYOYOYOYO");
     pinMode(EPD_BUSY_PIN, INPUT);
     pinMode(EPD_RST_PIN, OUTPUT);
     pinMode(EPD_DC_PIN, OUTPUT);

@@ -80,7 +80,7 @@
 
 #include "Debug/Debug.h"
 #include "DEV_Config/DEV_Config.h"
-#include "fonts/fonts.h"
+#include <fonts.h>
 
 /**
  * Image attributes
