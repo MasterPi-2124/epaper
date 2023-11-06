@@ -25,7 +25,7 @@ export default function IndexPage() {
         <div className={styles.buttons}>
           <div className={styles.grid}>
             <Link href="/submit" className={styles.card}>
-              <h2>Submit a blog &rarr;</h2>
+              <h2>Add a blog &rarr;</h2>
               <p>Just takes moment.</p>
             </Link>
           </div>
