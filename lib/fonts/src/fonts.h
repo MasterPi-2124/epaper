@@ -5,9 +5,6 @@
 /* Max size of bitmap will based on a font24 (17x24) */
 #define MAX_HEIGHT_FONT         41
 #define MAX_WIDTH_FONT          32
-#define OFFSET_BITMAP           54
-#include <vector>
-
 
 #ifdef __cplusplus
  extern "C" {
@@ -25,37 +22,33 @@ typedef struct _tFont
   uint16_t Width;
   uint16_t Height;
   
-} sFONT;
+} mFont;  // monospace fonts
 
 //GB2312
-typedef struct                                          // 汉字字模数据结构
+typedef struct 
 {
-  char16_t * index;                               // 汉字内码索引
-  uint8_t width;
-  const char matrix[MAX_HEIGHT_FONT*MAX_WIDTH_FONT/8];  // 点阵码数据
-} CH_CN;
+  char16_t * index;                                     // index character, utf-16
+  uint8_t width;                                        // dynamic width
+  const char matrix[MAX_HEIGHT_FONT*MAX_WIDTH_FONT/8];  // maximum index table
+} FT_IDX;
 
 typedef struct
 {    
-  const CH_CN *table;
+  const FT_IDX *table;
   uint16_t size;
-  uint16_t Width;
   uint16_t Height;
-}cFONT;
+} cFONT;   // custom Font
 
-extern sFONT Font8;
-extern sFONT Font12;
-extern sFONT Font16;
-extern sFONT Font20;
-extern sFONT Font24;
+extern mFont Font8;
+extern mFont Font12;
+extern mFont Font16;
+extern mFont Font20;
+extern mFont Font24;
 
-extern sFONT Segoe8;
+// extern cFONT Segoe8;
 extern cFONT Segoe12;
-extern sFONT Segoe16;
-extern sFONT Segoe20;
-
-extern cFONT Font12CN;
-
+// extern mFont Segoe16;
+// extern mFont Segoe20;
 
 #ifdef __cplusplus
 }

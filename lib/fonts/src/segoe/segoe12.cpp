@@ -5,7 +5,7 @@
 // 
 
 // Character bitmaps for Segoe UI Light 12pt
-const CH_CN Segoe12_Table[] = 
+const FT_IDX Segoe12_Table[] = 
 {
 	{   
 		u" ", // @0 ' ' (2 pixels wide)
@@ -5437,7 +5437,6 @@ const CH_CN Segoe12_Table[] =
 cFONT Segoe12 =
 {
 	Segoe12_Table,
-  	sizeof(Segoe12_Table)/sizeof(CH_CN),  /*size of table*/
-	16, //  Character width
+  	sizeof(Segoe12_Table)/sizeof(FT_IDX),  /*size of table*/
 	21, //  Height, in pixels, of space character
 };

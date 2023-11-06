@@ -8331,7 +8331,7 @@ const uint8_t Segoe20_Table[] =
 	0xE0, 0x00, // ###         
 };
 
-sFONT Segoe20 = {
+mFont Segoe20 = {
 	Segoe20_Table,
 	16, // max width
 	20   // max height

@@ -70,8 +70,8 @@ void setup()
     //     Paint_DrawLine(85, 95, 125, 95, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
     //     Paint_DrawLine(105, 75, 105, 115, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
 
-    //     // Paint_DrawString_EN(10, 0, "waveshare", &Font16, BLACK, WHITE);
-    //     // Paint_DrawString_EN(10, 20, "hello world", &Font12, WHITE, BLACK);
+    //     // Paint_DrawString(10, 0, "waveshare", &Font16, BLACK, WHITE);
+    //     // Paint_DrawString(10, 20, "hello world", &Font12, WHITE, BLACK);
 
     //     Paint_DrawNum(10, 33, 123456789, &Font12, BLACK, WHITE);
     //     Paint_DrawNum(10, 50, 987654321, &Font16, WHITE, BLACK);
@@ -84,7 +84,7 @@ void setup()
     Serial.print("Show custom data");
     EPD_2IN9_V2_Init();
     // Paint_SetRotate(90);
-    // Paint_DrawString_EN(100, 20, "!", &Segoe12, WHITE, BLACK);
+    // Paint_DrawString(100, 20, "!", &Segoe12, WHITE, BLACK);
     //     Imagesize = ((EPD_2IN9_V2_WIDTH % 4 == 0)? (EPD_2IN9_V2_WIDTH / 4 ): (EPD_2IN9_V2_WIDTH / 4 + 1)) * EPD_2IN9_V2_HEIGHT;
     // if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
     //     printf("Failed to apply for black memory...\r\n");
@@ -95,13 +95,13 @@ void setup()
     // Paint_SetScale(4);
     Paint_Clear(0xff);
 
-    // Paint_DrawString_CN(150, 10, "你好abc", &Font12CN, GRAY4, GRAY1);
-    // Paint_DrawString_CN(150, 30, "你 好 树 莓派", &Font12CN, GRAY3, GRAY2);
-    const char16_t * test = u"Vũ Lê Nhật Minh ẠĂẰẮẲẴẶÂẦẤẨẪẬ";
-    Paint_DrawString_CN(10, 50, test, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬ
-    // Paint_DrawString_CN(10, 70, "Vũ Lê Nhật Minh", &Segoe12, WHITE, BLACK);
-    // Paint_DrawString_CN(150, 60, "微雪电子Ả", &Font12CN, GRAY1, GRAY4);
-    // Paint_DrawString_CN(10, 20, "微雪电子", &Font12CN, GRAY1, GRAY4);
+    // Paint_DrawString_custom(150, 10, "你好abc", &Font12CN, GRAY4, GRAY1);
+    // Paint_DrawString_custom(150, 30, "你 好 树 莓派", &Font12CN, GRAY3, GRAY2);
+    const char16_t * test = u"123@#$%^&*()_+-=/.,:'";
+    Paint_DrawString_custom(10, 50, test, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    // Paint_DrawString_custom(10, 70, "Vũ Lê Nhật Minh", &Segoe12, WHITE, BLACK);
+    // Paint_DrawString_custom(150, 60, "微雪电子Ả", &Font12CN, GRAY1, GRAY4);
+    // Paint_DrawString_custom(10, 20, "微雪电子", &Font12CN, GRAY1, GRAY4);
     EPD_2IN9_V2_Display(BlackImage);
     // Paint_Clear(0xff);
     // EPD_2IN9_V2_4GrayDisplay(BlackImage);
@@ -125,15 +125,15 @@ void setup()
 //     Paint_SetScale(4);
 //     Paint_Clear(0xff);
 
-//     Paint_DrawString_EN(10, 0, "waveshare", &Font16, GRAY4, GRAY1);
-//     Paint_DrawString_EN(10, 20, "hello world", &Font12, GRAY3, GRAY1);
+//     Paint_DrawString(10, 0, "waveshare", &Font16, GRAY4, GRAY1);
+//     Paint_DrawString(10, 20, "hello world", &Font12, GRAY3, GRAY1);
 //     Paint_DrawNum(10, 33, 123456789, &Font12, GRAY4, GRAY2);
 //     Paint_DrawNum(10, 50, 987654321, &Font16, GRAY1, GRAY4);
-//     Paint_DrawString_CN(150, 0, "你好abc", &Font12CN, GRAY4, GRAY1);
-//     Paint_DrawString_CN(150, 20, "你好abc", &Font12CN, GRAY3, GRAY2);
-//     Paint_DrawString_CN(150, 40, "你好abc", &Font12CN, GRAY2, GRAY3);
-//     Paint_DrawString_CN(150, 60, "你好abc", &Font12CN, GRAY1, GRAY4);
-//     Paint_DrawString_CN(150, 80, "微雪电子", &Font12CN, GRAY1, GRAY4);
+//     Paint_DrawString_custom(150, 0, "你好abc", &Font12CN, GRAY4, GRAY1);
+//     Paint_DrawString_custom(150, 20, "你好abc", &Font12CN, GRAY3, GRAY2);
+//     Paint_DrawString_custom(150, 40, "你好abc", &Font12CN, GRAY2, GRAY3);
+//     Paint_DrawString_custom(150, 60, "你好abc", &Font12CN, GRAY1, GRAY4);
+//     Paint_DrawString_custom(150, 80, "微雪电子", &Font12CN, GRAY1, GRAY4);
 //     EPD_2IN9_V2_4GrayDisplay(BlackImage);
 //     DEV_Delay_ms(3000);
 
@@ -204,15 +204,15 @@ void setup()
     //     Paint_DrawCircle(105, 95, 20, GRAY2, DOT_PIXEL_1X1, DRAW_FILL_FULL);
     //     Paint_DrawLine(85, 95, 125, 95, GRAY4, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
     //     Paint_DrawLine(105, 75, 105, 115, GRAY4, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
-    //     Paint_DrawString_EN(10, 0, "waveshare", &Font16, GRAY4, GRAY1);
-    //     Paint_DrawString_EN(10, 20, "hello world", &Font12, GRAY3, GRAY1);
+    //     Paint_DrawString(10, 0, "waveshare", &Font16, GRAY4, GRAY1);
+    //     Paint_DrawString(10, 20, "hello world", &Font12, GRAY3, GRAY1);
     //     Paint_DrawNum(10, 33, 123456789, &Font12, GRAY4, GRAY2);
     //     Paint_DrawNum(10, 50, 987654321, &Font16, GRAY1, GRAY4);
-    //     Paint_DrawString_CN(150, 0,"你好abc", &Font12CN, GRAY4, GRAY1);
-    //     Paint_DrawString_CN(150, 20,"你好abc", &Font12CN, GRAY3, GRAY2);
-    //     Paint_DrawString_CN(150, 40,"你好abc", &Font12CN, GRAY2, GRAY3);
-    //     Paint_DrawString_CN(150, 60,"你好abc", &Font12CN, GRAY1, GRAY4);
-    //     Paint_DrawString_CN(150, 80, "微雪电子", &Font24CN, GRAY1, GRAY4);
+    //     Paint_DrawString_custom(150, 0,"你好abc", &Font12CN, GRAY4, GRAY1);
+    //     Paint_DrawString_custom(150, 20,"你好abc", &Font12CN, GRAY3, GRAY2);
+    //     Paint_DrawString_custom(150, 40,"你好abc", &Font12CN, GRAY2, GRAY3);
+    //     Paint_DrawString_custom(150, 60,"你好abc", &Font12CN, GRAY1, GRAY4);
+    //     Paint_DrawString_custom(150, 80, "微雪电子", &Font24CN, GRAY1, GRAY4);
     //     EPD_2IN9_V2_4GrayDisplay(BlackImage);
     //     DEV_Delay_ms(3000);
 
