@@ -1,0 +1,12 @@
+.sidebar {
+  background-color: black;
+  min-width: 100px;
+  width: 30%;
+}
+
+.sidebar .navigation {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  
+}
