@@ -1,0 +1,919 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Quiz API",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3005/api",
+      "description": "Dev server"
+    },
+    {
+      "url": "https://cn-web.artsakh.ventures/api",
+      "description": "Live server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "quiz",
+      "description": "Represent a roll call session"
+    },
+    {
+      "name": "class",
+      "description": "Class informations"
+    },
+    {
+      "name": "quizRecord",
+      "description": "Object to store student's attempt to register a roll call"
+    },
+    {
+      "name": "user",
+      "description": "Represent the end-user"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "DefaultMongo": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-05-31T08:00:00.000+00:00"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-05-31T08:00:00.000+00:00"
+          },
+          "__v": {
+            "type": "number",
+            "example": 0
+          },
+          "createBy": {
+            "type": "string"
+          }
+        }
+      },
+      "Quiz": {
+        "type": "object",
+        "properties": {
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-05-31T08:00:00.000+00:00"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-05-31T08:45:00.000+00:00"
+          },
+          "formLink": {
+            "type": "string",
+            "format": "url",
+            "example": "https://example.com/"
+          },
+          "_class": {
+            "type": "string",
+            "default": "647afcfd9524a2813008eb90"
+          }
+        }
+      },
+      "QuizWithoutClass": {
+        "type": "object",
+        "properties": {
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-05-31T08:00:00.000+00:00"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-05-31T08:45:00.000+00:00"
+          },
+          "formLink": {
+            "type": "string",
+            "format": "url",
+            "example": "https://example.com/"
+          }
+        }
+      },
+      "QuizResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Quiz"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": ["Not Started", "In Progress", "Finished"]
+              }
+            }
+          }
+        ]
+      },
+      "QuizWithoutClassResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuizWithoutClass"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": ["Not Started", "In Progress", "Finished"]
+              }
+            }
+          }
+        ]
+      },
+      "Class": {
+        "type": "object",
+        "properties": {
+          "codename": {
+            "type": "string",
+            "default": "123456"
+          },
+          "subject": {
+            "type": "string",
+            "default": "CN Web"
+          },
+          "semester": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 20222
+          },
+          "studentCount": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 50
+          },
+          "note": {
+            "type": "string",
+            "default": "A note"
+          }
+        }
+      },
+      "QuizRecord": {
+        "type": "object",
+        "properties": {
+          "quiz": {
+            "type": "string",
+            "default": "645d04485aa78ee9ac47e189"
+          },
+          "studentList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentInput"
+            }
+          }
+        }
+      },
+      "QuizRecordResponse": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "submissionCount": {
+                "type": "integer",
+                "default": "50"
+              },
+              "classStudentCount": {
+                "type": "integer",
+                "default": "50"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/QuizRecord"
+          }
+        ]
+      },
+      "User": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/UserLogin"
+          },
+          {
+            "$ref": "#/components/schemas/UserInfo"
+          }
+        ]
+      },
+      "UserLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "default": "example@mailinator.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "minLength": 8,
+            "default": "12345678"
+          }
+        }
+      },
+      "UserInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "Nguyễn Văn A"
+          },
+          "gender": {
+            "type": "integer",
+            "default": 1
+          }
+        }
+      },
+      "UserResponse": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email",
+                "default": "example@mailinator.com"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/UserInfo"
+          }
+        ]
+      },
+      "jwt": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          }
+        }
+      },
+      "StudentInput": {
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "string",
+            "default": "20001234"
+          },
+          "studentName": {
+            "type": "string",
+            "default": "Nguyễn Văn A"
+          },
+          "ipAddress": {
+            "type": "string",
+            "format": "ipv6"
+          },
+          "isValid": {
+            "type": "boolean",
+            "default": true
+          },
+          "note": {
+            "type": "string",
+            "default": "A note"
+          }
+        }
+      }
+    },
+    "responses": {
+      "UnauthorizedError": {
+        "description": "Access token is missing or invalid",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Invalid Request!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/quizzes": {
+      "get": {
+        "tags": ["quiz"],
+        "summary": "Get all quizzes",
+        "description": "Return all quizzes sort by latest startTime, then createdAt, first",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "_class",
+            "in": "query",
+            "description": "The class's id required in the results",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/DefaultMongo"
+                      },
+                      {
+                        "$ref": "#/components/schemas/QuizResponse"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["quiz"],
+        "summary": "Create new quiz",
+        "description": "Return new quiz created",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "New quiz's values",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Quiz"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Quiz"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/quizzes/{id}": {
+      "get": {
+        "tags": ["quiz"],
+        "summary": "Get quiz by id",
+        "description": "Return single quiz",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of quiz to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645d04485aa78ee9ac47e189"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/QuizResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["quiz"],
+        "summary": "Delete quiz by id",
+        "description": "Return deleted quiz",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of quiz to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645d04485aa78ee9ac47e189"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Quiz"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/classes": {
+      "get": {
+        "tags": ["class"],
+        "summary": "Get all classes",
+        "description": "Return all classes",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Select field to group classes by",
+            "schema": {
+              "type": "string",
+              "default": "semester"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/DefaultMongo"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Class"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "quizzes": {
+                            "type": "array",
+                            "items": {
+                              "allOf": [
+                                {
+                                  "$ref": "#/components/schemas/QuizWithoutClassResponse"
+                                },
+                                {
+                                  "$ref": "#/components/schemas/DefaultMongo"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["class"],
+        "summary": "Create new class",
+        "description": "Return new class created",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "New class's values",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Class"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Class"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/classes/{id}": {
+      "delete": {
+        "tags": ["class"],
+        "summary": "Delete class by id",
+        "description": "Return deleted class",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of class to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645d04485aa78ee9ac47e189"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Class"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Create new user",
+        "description": "Return new user created",
+        "parameters": [],
+        "requestBody": {
+          "description": "New user's values",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UserResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email has been used"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Login user",
+        "description": "Return user and jwt",
+        "parameters": [],
+        "requestBody": {
+          "description": "Existing user's values",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UserResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/jwt"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User and password incorrect"
+          }
+        }
+      }
+    },
+    "/quizRecords/{quizId}": {
+      "get": {
+        "tags": ["quizRecord"],
+        "summary": "Get quizRecord by quiz's id",
+        "description": "Return single quizRecord",
+        "parameters": [
+          {
+            "name": "quizId",
+            "in": "path",
+            "description": "The quiz's id required in the result",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645d04485aa78ee9ac47e189"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/QuizRecordResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["quizRecord"],
+        "summary": "Update quizRecord's studentList by id",
+        "description": "Return single quizRecord before update",
+        "parameters": [
+          {
+            "name": "quizId",
+            "in": "path",
+            "description": "ID of quizRecord to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645d04485aa78ee9ac47e189"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Student's input values",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/QuizRecord"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Get user by id",
+        "description": "Return single user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645d04485aa78ee9ac47e189"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UserResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["user"],
+        "summary": "Get user by id",
+        "description": "Return single user before update",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645d04485aa78ee9ac47e189"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "New user's basic infos",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DefaultMongo"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UserResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    }
+  }
+}
