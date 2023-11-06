@@ -82,6 +82,9 @@
 #include <stdlib.h>
 #include <string.h> //memset()
 #include <math.h>
+#include <cwchar>
+
+#include <stdio.h>
 
 PAINT Paint;
 
@@ -620,6 +623,8 @@ void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char * pString,
 {
     UWORD Xpoint = Xstart;
     UWORD Ypoint = Ystart;
+    Serial.println(Font->Width);
+    Serial.print(Font->Height);
 
     if (Xstart > Paint.Width || Ystart > Paint.Height) {
         Debug("Paint_DrawString_EN Input exceeds the normal display range\r\n");
@@ -647,6 +652,102 @@ void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char * pString,
         Xpoint += Font->Width;
     }
 }
+
+void Paint_DrawString_CN(UWORD Xstart, UWORD Ystart, const char16_t * pString, cFONT* font,
+                        UWORD Color_Foreground, UWORD Color_Background)
+{
+    const char16_t* p_text = pString;
+    int x = Xstart, y = Ystart;
+    int i, j, Num;
+
+    /* Send the string character by character on EPD */
+    while (*p_text != 0) {
+        Serial.print("character: ");
+        Serial.println(*p_text);
+        uint8_t width;
+        if(*p_text <= 0x7F) {  //ASCII < 126'
+            Serial.println("ASCII!!");
+            for(Num = 0; Num < font->size; Num++) {
+                if(*p_text == font->table[Num].index[0]) {
+                    const char* ptr = &font->table[Num].matrix[0];
+                    width = font->table[Num].width;
+                    Serial.print(width);
+
+                    for (j = 0; j < font->Height; j++) {
+                        for (i = 0; i < width; i++) {
+                            if (FONT_BACKGROUND == Color_Background) { //this process is to speed up the scan
+                                if (*ptr & (0x80 >> (i % 8))) {
+                                    Paint_SetPixel(x + i, y + j, Color_Foreground);
+                                    // Paint_DrawPoint(x + i, y + j, Color_Foreground, DOT_PIXEL_DFT, DOT_STYLE_DFT);
+                                }
+                            } else {
+                                if (*ptr & (0x80 >> (i % 8))) {
+                                    Paint_SetPixel(x + i, y + j, Color_Foreground);
+                                    // Paint_DrawPoint(x + i, y + j, Color_Foreground, DOT_PIXEL_DFT, DOT_STYLE_DFT);
+                                } else {
+                                    Paint_SetPixel(x + i, y + j, Color_Background);
+                                    // Paint_DrawPoint(x + i, y + j, Color_Background, DOT_PIXEL_DFT, DOT_STYLE_DFT);
+                                }
+                            }
+                            if (i % 8 == 7) {
+                                ptr++;
+                            }
+                        }
+                        if (width % 8 != 0) {
+                            ptr++;
+                        }
+                    }
+                    break;
+                }
+            }
+            /* Point on the next character */
+            p_text += 1;
+            /* Decrement the column position by 16 */
+            x += width + 2;
+        } else {        //Chinese
+            Serial.println("Non ASCII!!\n");
+            for(Num = 0; Num < font->size; Num++) {
+                if ((*p_text == font->table[Num].index[0]))
+                {
+                    Serial.println("found");
+                    width = font->table[Num].width;
+                    Serial.print(width);
+                    const char* ptr = &font->table[Num].matrix[0];
+                    for (j = 0; j < font->Height; j++) {
+                        for (i = 0; i < width; i++) {
+                            if (FONT_BACKGROUND == Color_Background) { //this process is to speed up the scan
+                                if (*ptr & (0x80 >> (i % 8))) {
+                                    Paint_SetPixel(x + i, y + j, Color_Foreground);
+                                    // Paint_DrawPoint(x + i, y + j, Color_Foreground, DOT_PIXEL_DFT, DOT_STYLE_DFT);
+                                }
+                            } else {
+                                if (*ptr & (0x80 >> (i % 8))) {
+                                    Paint_SetPixel(x + i, y + j, Color_Foreground);
+                                    // Paint_DrawPoint(x + i, y + j, Color_Foreground, DOT_PIXEL_DFT, DOT_STYLE_DFT);
+                                } else {
+                                    Paint_SetPixel(x + i, y + j, Color_Background);
+                                    // Paint_DrawPoint(x + i, y + j, Color_Background, DOT_PIXEL_DFT, DOT_STYLE_DFT);
+                                }
+                            }
+                            if (i % 8 == 7) {
+                                ptr++;
+                            }
+                        }
+                        if (width % 8 != 0) {
+                            ptr++;
+                        }
+                    }
+                    break;
+                }
+            }
+            /* Point on the next character */
+            p_text += 1;
+            /* Decrement the column position by 16 */
+            x += width + 2;
+        }
+    }
+}
+
 
 /******************************************************************************
 function:	Display nummber
