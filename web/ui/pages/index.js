@@ -4,15 +4,10 @@ import Layout from '@/components/layout';
 import Link from 'next/link';
 import Asd from '@/components/vertical-scroll';
 import { ParallaxBanner, ParallaxProvider } from "react-scroll-parallax";
-
 import { projects } from '@/assets/data/projects';
 import Abstract from "@/assets/imgs/abstract.jpg";
 import DottedMap from "@/assets/imgs/dotted-map.svg";
 import Filter from "@/assets/imgs/filter.svg";
-import Tech_1 from "@/assets/imgs/tech-1.svg";
-import Tech_2 from "@/assets/imgs/tech-2.png";
-import Tech_3 from "@/assets/imgs/tech-3.png";
-import Tech_4 from "@/assets/imgs/tech-4.png";
 import Project from "@/assets/imgs/github-project.png";
 
 export default function Home() {

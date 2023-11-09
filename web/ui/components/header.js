@@ -79,16 +79,9 @@ const Header = ({ currentPath }) => {
                 })}
             </div>
             <div className="header-right flex items-center">
-                <Link className="get-started leading-10 font-thin text-white w-32 items-center text-center" href="/login">
+                <Link className="get-started leading-10 font-thin text-white w-32 items-center text-center" href="/dashboard">
                     Get Started
                 </Link>
-                {renderThemeChanger()}
-                {/* <div className="header-mobile">
-                    <DrawerMenu
-                            navButton={navButton}
-                        />
-                    </div> */}
-
             </div>
 
         </Navbar>

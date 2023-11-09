@@ -1,8 +1,7 @@
 import Link from "next/link";
-import Cookies from "universal-cookie";
 import Layout from "@/components/layout";
 import Menu from "@/components/dashboard/menu";
-import validToken from "@/services/validToken";
+
 import data from "@/assets/data/dashboard.json";
 import React, { useState, useEffect } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
@@ -12,19 +11,6 @@ import { BoardProvider } from '@/components/dashboard/context';
 const API = process.env.NEXT_PUBLIC_API;
 
 const QuizzesDashboard = () => {
-    const cookies = new Cookies();
-    const [boardsData, setBoardsData] = useState();
-    const [token, setToken] = useState(cookies.get("TOKEN"));
-
-    useEffect(() => {
-        const token = cookies.get("TOKEN");
-        if (validToken(token)) {
-            setToken(token);
-        } else {
-            setToken(null);
-        }
-
-    }, [token]);
 
     useEffect(() => {
         try {
@@ -51,25 +37,12 @@ const QuizzesDashboard = () => {
     return (
         <Layout pageTitle="Quizzes | CNWeb">
             <div className="dashboard bg-[#212121] h-screen bg-center bg-cover bg-no-repeat flex items-center">
-                {token ? (
-                    <>
-                        <Menu currentPath={"Dashboard"} />
-                        <div className="main-container">
-                            <BoardProvider data={boardsData} type="quizzes" >
-                                <Dashboard />
-                            </BoardProvider>
-                        </div>
-                    </>
-                ) : (
-                    <div className="main-container">
-                        <div className="content">
-                            <p>You are not logged in. Please log in to continue.</p>
-                            <button className="ok mt-5">
-                                <Link href="/login">Log In</Link>
-                            </button>
-                        </div>
-                    </div>
-                )}
+                <Menu currentPath={"Dashboard"} />
+                <div className="main-container">
+                    <BoardProvider data={boardsData} type="quizzes" >
+                        <Dashboard />
+                    </BoardProvider>
+                </div>
             </div>
         </Layout>
     );

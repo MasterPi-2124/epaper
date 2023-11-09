@@ -7,37 +7,26 @@ import Link from "next/link";
 
 const API = process.env.NEXT_PUBLIC_API;
 
-const CreateQuiz = ({ classSelected, setClassSelected, handleReset }) => {
-    console.log(classSelected)
+const CreateQuiz = ({ handleReset }) => {
     const [submitOK, setSubmitOK] = useState(false);
-    const [startDate, setStartDate] = useState();
-    const [startTime, setStartTime] = useState();
-    const [interval, setInterval] = useState(0);
-    const [quizzed, setQuizzed] = useState(false);
-    const [url, setURL] = useState("");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [address, setAddress] = useState("");
+    const [active, setActive] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const calculateEndTime = (startDate, startTime, interval) => {
-            const startDateTime = new Date(`${startDate}T${startTime}`);
-            startDateTime.setMinutes(startDateTime.getMinutes() + parseInt(interval));
-            const endDateTime = startDateTime.toISOString();
-            return endDateTime;
-        }
-        const startDateTime = new Date(`${startDate}T${startTime}`).toISOString();
-        const endDateTime = calculateEndTime(startDate, startTime, interval);
-        console.log(startDateTime, endDateTime)
-
         const data = {
-            startTime: startDateTime,
-            endTime: endDateTime,
-            formLink: url,
-            _class: classSelected.classID
+            name: name,
+            email: email,
+            address: address,
+            active: active,
+            activeTime: activeTime
         }
 
         console.log(data)
-        instanceCoreApi.post(`${API}/quizzes`, data).then(response => {
+        instanceCoreApi.post(`${API}/users`, data).then(response => {
             console.log(response.data);
             setSubmitOK(true);
         }).catch(error => {
@@ -47,78 +36,57 @@ const CreateQuiz = ({ classSelected, setClassSelected, handleReset }) => {
     };
 
     const resetState = () => {
-        setStartDate();
-        setStartTime();
-        setInterval(0);
-        setQuizzed(false);
-        setURL("");
-        setClassSelected({})
-        localStorage.setItem("classSelected", JSON.stringify({}))
+        setName("");
+        setEmail("");
+        setAddress("");
+        setActive(false);
     }
 
     return (
         <>
             {!submitOK ? (
                 <div className="content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
-                        <h1>Create a new Quiz</h1>
+                        <h1>Hi</h1>
                         <Image alt="logo" src={Logo}></Image>
                         <form className="form" onSubmit={handleSubmit}>
-                            <label>{classSelected.className} - {classSelected.codename}</label>
                             <Input
                                 className="input"
                                 required
-                                label="Start Date"
-                                type="date"
-                                onChange={(e) => setStartDate(e.target.value)}
+                                label="Name"
+                                type="text"
+                                onChange={(e) => setName(e.target.value)}
                             />
 
                             <Input
                                 className="input"
-                                label="Start Time"
+                                label="Email"
                                 required
-                                type="time"
-                                onChange={(e) => setStartTime(e.target.value)}
+                                type="email"
+                                onChange={(e) => setEmail(e.target.value)}
                             />
 
                             <Input
                                 className="input"
+                                label="Address"
                                 required
-                                label="Interval (in minutes)"
-                                type="number"
-                                bordered
-                                min={0}
-                                max={120}
-                                onChange={(e) => setInterval(e.target.value)}
+                                type="text"
+                                onChange={(e) => setAddress(e.target.value)}
                             />
                             <div className="switch">
-                                <label>Google Form included?</label>
+                                <label>Display on EPD?</label>
                                 <Switch
                                     className="input"
                                     bordered
-                                    label="URL included?"
-                                    isSelected={quizzed}
-                                    onChange={(e) => setQuizzed(e.target.checked)}
+                                    label="EPD display?"
+                                    isSelected={active}
+                                    onChange={(e) => setActive(e.target.checked)}
                                 />
                             </div>
-                            {console.log(quizzed)}
-                            {quizzed ? <Input
-                                className="input"
-                                label="Form URL"
-                                required
-                                type="url"
-                                onChange={(e) => setURL(e.target.value)}
-
-                            /> : <Input
-                                className="input-disabled"
-                                label="Form URL"
-                                type="url"
-                                disabled
-                            />}
-                            {console.log(`Class Name: ${classSelected.className}`)}
-                            {console.log(`Start Date: `, startDate)}
-                            {console.log(`Start Time: `, startTime)}
-                            {console.log(`Interval: `, interval)}
-                            {console.log(`URL: `, url)}
+                            
+                            {console.log(`Name: `, name)}
+                            {console.log(`Email: `, email)}
+                            {console.log(`Address: `, address)}
+                            {console.log(`Write on EPD?: `, active)}
 
                             <button type="submit">Create</button>
                             <button onClick={handleReset}>Back</button>
@@ -126,12 +94,12 @@ const CreateQuiz = ({ classSelected, setClassSelected, handleReset }) => {
                 </div>
             ) : (
             <div className="content text-light-text dark:text-dark-text">
-                    <h1>The quiz for class {classSelected.codename} is created sucessfully!</h1>
+                    <h1>Your information is successfully updated</h1>
                     <br />
-                    <p>You can check the detail or get the QR code by going to Dashboard - Quizzes</p>
+                    <p>We are updating your information in the epaper</p>
                     <br />
                     <button className="ok" onClick={() => resetState()}>
-                        <Link href="/dashboard/quizzes">Let&apos;s go!</Link>
+                        <Link href="/dashboard/users">Let&apos;s go!</Link>
                     </button>
                     </div>
             )}
