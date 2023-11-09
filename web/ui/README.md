@@ -1,2 +1,3 @@
-# Management UI
-![Alt text](../doc/imgs/WebUI%20diagram.png)
+Live website: https://cn-web.artsakh.ventures
+
+Backend API: https://cn-web.artsakh.ventures/api/swagger (credentials-protected)
