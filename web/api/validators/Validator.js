@@ -2,7 +2,7 @@ const { validationResult, body } = require("express-validator");
 
 exports.validate = (req, res, next) => {
   const errors = validationResult(req);
-  // console.log(errors);
+  
   if (errors.isEmpty()) {
     return next();
   }
@@ -13,7 +13,3 @@ exports.validate = (req, res, next) => {
     error: extractedErrors[0],
   });
 };
-
-// module.exports = {
-//   validate
-// };

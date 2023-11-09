@@ -1,32 +1,20 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "title": "Quiz API",
+    "title": "Epaper API",
     "version": "1.0"
   },
   "servers": [
     {
-      "url": "http://localhost:3005/api",
+      "url": "http://localhost:3007/api",
       "description": "Dev server"
     },
     {
-      "url": "https://cn-web.artsakh.ventures/api",
+      "url": "https://epaper.artsakh.ventures/api",
       "description": "Live server"
     }
   ],
   "tags": [
-    {
-      "name": "quiz",
-      "description": "Represent a roll call session"
-    },
-    {
-      "name": "class",
-      "description": "Class informations"
-    },
-    {
-      "name": "quizRecord",
-      "description": "Object to store student's attempt to register a roll call"
-    },
     {
       "name": "user",
       "description": "Represent the end-user"
@@ -82,58 +70,6 @@
             "default": "647afcfd9524a2813008eb90"
           }
         }
-      },
-      "QuizWithoutClass": {
-        "type": "object",
-        "properties": {
-          "startTime": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-05-31T08:00:00.000+00:00"
-          },
-          "endTime": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-05-31T08:45:00.000+00:00"
-          },
-          "formLink": {
-            "type": "string",
-            "format": "url",
-            "example": "https://example.com/"
-          }
-        }
-      },
-      "QuizResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Quiz"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "status": {
-                "type": "string",
-                "enum": ["Not Started", "In Progress", "Finished"]
-              }
-            }
-          }
-        ]
-      },
-      "QuizWithoutClassResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/QuizWithoutClass"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "status": {
-                "type": "string",
-                "enum": ["Not Started", "In Progress", "Finished"]
-              }
-            }
-          }
-        ]
       },
       "Class": {
         "type": "object",
@@ -252,15 +188,6 @@
             "$ref": "#/components/schemas/UserInfo"
           }
         ]
-      },
-      "jwt": {
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string",
-            "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-          }
-        }
       },
       "StudentInput": {
         "type": "object",

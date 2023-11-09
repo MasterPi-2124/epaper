@@ -2,8 +2,8 @@
 Description=Backend Deploy Service
 
 [Service]
-WorkingDirectory=/root/CNWeb30-Backend
-ExecStart=/bin/bash -c "PORT=3005 PATH=/root/.nvm/versions/node/v19.1.0/bin/:$PATH /root/.nvm/versions/node/v19.1.0/bin/npm start"
+WorkingDirectory=/root/epaper/web/api/
+ExecStart=/bin/bash -c "PORT=3005 PATH=/root/.nvm/versions/node/v21.0.0/bin/:$PATH /root/.nvm/versions/node/v21.0.0/bin/npm start"
 
 [Install]
 WantedBy=multi-user.target

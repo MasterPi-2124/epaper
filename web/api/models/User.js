@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+    name: {
+        type: String,
+        default: "Nguyễn Văn A"
+    },
     email: {
         type: String,
         unique: true,
@@ -9,19 +13,19 @@ const userSchema = new Schema({
         trim: true,
         lowercase: true
     },
-    password: {
+    active: {
+        type: Boolean,
+        required: true,
+    },
+    activeTime: {
+        type: [String],
+        required: false,
+
+    },
+    address: {
         type: String,
         required: true,
-        trim: true,
-        minlength: 8
-    },
-    name: {
-        type: String,
-        default: "Nguyễn Văn A"
-    },
-    gender: {
-        type: Number,
-        default: 1
+
     }
 }, {
   timestamps: true
