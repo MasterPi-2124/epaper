@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react"
-import CreateQuiz from "./create-quiz";
+import CreateUser from "./create-user";
 
-const NewQuiz = () => {
-
+const NewUser = () => {
     const handleReset = () => {
         setSubmitted(false);
     }
 
     return (
         <div className="content text-light-text dark:text-dark-text">
-            <CreateQuiz
+            <CreateUser
                 handleReset={handleReset}
             />
         </div>
     );
 };
 
-export default NewQuiz;
+export default NewUser;

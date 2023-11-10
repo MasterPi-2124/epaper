@@ -1,7 +1,7 @@
 import Menu from "@/components/dashboard/menu";
 import Layout from "@/components/layout";
 import React, { useState, useEffect } from "react";
-import NewQuiz from "@/components/new-quiz"
+import NewQuiz from "@/components/new-user"
 import Link from "next/link";
 
 function NewQuizPage() {
