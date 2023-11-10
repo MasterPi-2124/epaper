@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const API = process.env.NEXT_PUBLIC_API;
 
-const CreateQuiz = ({ handleReset }) => {
+const CreateUser = ({ handleReset }) => {
     const [submitOK, setSubmitOK] = useState(false);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -21,8 +21,7 @@ const CreateQuiz = ({ handleReset }) => {
             name: name,
             email: email,
             address: address,
-            active: active,
-            activeTime: activeTime
+            active: active
         }
 
         console.log(data)
@@ -107,4 +106,4 @@ const CreateQuiz = ({ handleReset }) => {
     );
 };
 
-export default CreateQuiz;
+export default CreateUser;
