@@ -29,6 +29,12 @@ const userSchema = new Schema({
     activeTimestamp: {
         type: [String],
         required: false,
+    },
+    fontStyle: {
+        type: String,
+    },
+    desginSchema: {
+        type: String,
     }
 });
 
