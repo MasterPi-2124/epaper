@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const swaggerRouter = require("./resources/swaggerRoutes");
 const userRouter = require("./routes/UserRoutes");
+const deviceRouter = require("./routes/DeviceRoutes");
 
 //configure mongoose
 mongoose.set('strictQuery', false);
@@ -28,7 +29,7 @@ app.use(
 );
 app.use("/api/swagger", swaggerRouter);
 app.use("/api/users", userRouter);
-app.use("/api/devices", userRouter);
+app.use("/api/devices", deviceRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}...`);

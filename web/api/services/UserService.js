@@ -25,7 +25,12 @@ exports.getUserById = async (id) => {
 }
 
 exports.createUser = async (user) => {
-  return await UserModel.create(user);
+  console.log(user);
+  // if (user.active) {
+
+  // } else {
+    return await UserModel.create(user);
+  // }
 }
 
 exports.updateUser = async (id, user) => {
