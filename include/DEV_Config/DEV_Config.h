@@ -42,7 +42,7 @@
 #define UDOUBLE uint32_t
 
 /**
- * GPIO config
+ * GPIO config for c3
 **/
 #define EPD_SCK_PIN  4
 #define EPD_MOSI_PIN 6
