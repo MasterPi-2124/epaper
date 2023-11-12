@@ -97,8 +97,14 @@ void setup()
 
     // Paint_DrawString_custom(150, 10, "你好abc", &Font12CN, GRAY4, GRAY1);
     // Paint_DrawString_custom(150, 30, "你 好 树 莓派", &Font12CN, GRAY3, GRAY2);
-    const char16_t * test = u"123@#$%^&*()_+-=/.,:'";
-    Paint_DrawString_custom(10, 50, test, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    const char16_t * Line1 = u"Name: Vũ Lê Nhật Minh";
+    const char16_t * Line2 = u"Addr: DHBK, Hai Bà Trưng, Hà Nội, Việt Nam";
+    const char16_t * Line3 = u"Tel: (+84) 796 045 129";
+    const char16_t * Line4 = u"Email: minh.vln140501@gmail.com";
+    Paint_DrawString_custom(10, 30, Line1, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    Paint_DrawString_custom(10, 50, Line2, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    Paint_DrawString_custom(10, 70, Line3, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    Paint_DrawString_custom(50, 90, Line4, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
     // Paint_DrawString_custom(10, 70, "Vũ Lê Nhật Minh", &Segoe12, WHITE, BLACK);
     // Paint_DrawString_custom(150, 60, "微雪电子Ả", &Font12CN, GRAY1, GRAY4);
     // Paint_DrawString_custom(10, 20, "微雪电子", &Font12CN, GRAY1, GRAY4);
