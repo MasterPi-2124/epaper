@@ -36,7 +36,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "fonts/fonts.h"
+#include <fonts.h>
 
 // 
 //  Font data for Courier New 12pt
@@ -1755,7 +1755,7 @@ const uint8_t Font16_Table[] =
 	0x00, 0x00, //            
 };
 
-sFONT Font16 = {
+mFont Font16 = {
   Font16_Table,
   11, /* Width */
   16, /* Height */
