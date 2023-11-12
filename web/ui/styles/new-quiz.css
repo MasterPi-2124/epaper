@@ -1,0 +1,102 @@
+.main-container .content {
+    border-radius: 20px;
+    /* backdrop-filter: blur(15px); */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.content h1 {
+    font-size: 35px;
+    font-weight: 700;
+}
+
+.content p {
+    font-weight: 200;
+}
+
+.content img {
+    height: 160px;
+    width: 160px;
+    object-fit: cover;
+    margin: 60px 0px;
+}
+
+.content form {
+    width: 100%;
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.devices-choices {
+    justify-content: space-between !important;
+    font-weight: 100 !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    padding: 10px !important;
+    border: 1px solid rgba(86, 86, 86, 0.736) !important;
+    color: white !important;
+    align-items: left;
+}
+
+.devices-choices:hover {
+    background-color: rgba(255, 255, 255, 0.124) !important;
+}
+
+div.nextui-popover-content {
+    backdrop-filter: blur(88px) !important;
+}
+
+ul.nextui-c-clSMyX, ul.nextui-c-ltVxD {
+    background-color: rgb(46, 46, 46) !important;
+    border-radius: 10px;
+}
+
+ul.nextui-c-clSMyX, ul.nextui-c-ltVxD::after, ::before {
+    border: 1px solid rgb(79, 79, 79);
+}
+
+.nextui-c-kpzpMf-kIthQh-isFocused-true {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+li.nextui-dropdown-item {
+    height: 100%;
+}
+
+form>label {
+    font-weight: 200;
+    text-align: center;
+}
+
+label {
+    color: white !important;
+    font-weight: 200 !important;
+}
+
+form .input>div {
+    background-color: #7c7c7c44;
+    color: white;
+}
+
+form .input>div input {
+    color: white;
+    font-weight: 200;
+}
+
+form .input-disabled>div {
+    background-color: #38383844;
+}
+
+form>div.switch {
+    align-items: center;
+    display: flex;
+}
+
+form>div.switch label.input {
+    margin-right: 0px;
+    margin-left: auto;
+}

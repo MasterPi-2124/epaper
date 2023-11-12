@@ -1,0 +1,192 @@
+main.homepage h1 {
+    font-size: 35px;
+    font-weight: 800;
+}
+
+main.homepage .anchor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 1000px;
+    /* border: 1px solid red; */
+}
+
+main.homepage .heading {
+    /* border: 1px solid red; */
+    height: 800px;
+    position: relative;
+    background: linear-gradient(0deg, rgba(21, 21, 21, 1) 0%, rgba(17, 17, 17, 1) 65%);
+}
+
+.heading h1 {
+    top: 40%;
+    position: inherit;
+    margin-left: 50px;
+    max-width: 500px;
+}
+
+.heading a {
+    position: inherit;
+    top: 45%;
+    margin-left: 50px;
+    font-size: 20px;
+    font-weight: 200;
+    border: 1px solid rgba(86, 86, 86, 0.736);
+    padding: 10px 30px;
+    border-radius: 12px;
+    background-color: #21212166;
+}
+
+.heading a:hover {
+    background-color: #61616166;
+}
+
+.anchor h1 {
+    margin: 30px 0px;
+}
+
+.anchor p {
+    font-weight: 100;
+    font-size: 20px;
+}
+
+.how-it-works .background {
+    position: absolute;
+    width: 100%;
+    height: 1200px;
+    top: 150px;
+    z-index: 0;
+}
+
+.how-it-works .background img {
+    height: 1200px;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+}
+
+.background img.filter-image {
+    object-fit: stretch;
+}
+
+.how-it-works h1 {
+    z-index: 1;
+    margin-left: 50px;
+    margin-top: 500px;
+    align-self: flex-start;
+}
+
+.how-it-works p {
+    z-index: 1;
+    align-self: flex-start;
+    margin-left: 50px;
+    max-width: 40%;
+}
+
+.project .techs {
+    width: 400%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    align-items: center;
+}
+
+.project .techs a img {
+    max-width: 150%;
+    object-fit: cover;
+}
+
+.project .diagram {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    justify-self: center;
+    align-content: center;
+    align-self: center;
+}
+
+.project .diagram div {
+    justify-content: center;
+    align-items: center;
+    inset: 20px !important;
+    display: flex;
+    position: sticky;
+}
+
+.project .diagram img.tech-1 {
+    height: 90%;
+    width: auto;
+}
+
+.project .diagram img.tech-2 {
+    height: 90%;
+    width: auto;
+}
+
+.project .diagram img.tech-3, img.tech-4 {
+    height: 60%;
+    width: auto;
+    cursor: pointer;
+}
+
+.project .diagram img.tech-3 {
+    margin-left: 400px;
+}
+
+.project .diagram img.tech-4 {
+    margin-right: 400px;
+}
+
+.project .ahihi {
+    border: 1px solid red;
+    /* position: relative; */
+}
+
+.project .ahihi > div {
+    border: 1px solid blue;
+}
+
+.asd-container {
+    height: 32px;
+    margin-top: 700px;
+    width: 1000px;
+    margin-right: 50px;
+    margin-left: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 24px;
+    /* border: 1px solid red; */
+}
+
+.github .background {
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
+
+.github .background img {
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+}
+
+.background img.filter-image {
+    object-fit: stretch;
+}
+
+.github h1 {
+    z-index: 10;
+}
+
+.github p {
+    z-index: 10;
+    max-width: 40%;
+}
+
+.github .background-filter {
+    height: 100%;
+    width: 100%;
+    background-color: #000000e1;
+    backdrop-filter: blur(2px);
+}
