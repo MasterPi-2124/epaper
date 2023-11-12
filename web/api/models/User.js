@@ -16,7 +16,6 @@ const userSchema = new Schema({
     address: {
         type: String,
         required: true,
-
     },
     active: {
         type: Boolean,
@@ -24,7 +23,13 @@ const userSchema = new Schema({
     },
     activeStartTime: {
         type: Number,
-        required: false
+        required: false,
+        default: -1,
+    },
+    deviceID: {
+        type: String,
+        required: false,
+        default: ""
     },
     activeTimestamp: {
         type: [String],
@@ -32,9 +37,13 @@ const userSchema = new Schema({
     },
     fontStyle: {
         type: String,
+        required: false,
+        default: ""
     },
-    desginSchema: {
+    designSchema: {
         type: String,
+        required: false,
+        default: ""
     }
 });
 
