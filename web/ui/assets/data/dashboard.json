@@ -1,0 +1,30 @@
+{
+  "boards": {
+    "quizzes": {
+      "name": "Quizzes",
+      "items": [],
+      "columns": [
+        {
+          "name": "Not Started",
+          "color": "#49C4E5",
+          "items": []
+        },
+        {
+          "name": "In Progress",
+          "color": "#8471F2",
+          "items": []
+        },
+        {
+          "name": "Finished",
+          "color": "#67E2AE",
+          "items": []
+        }
+      ]
+    },
+    "classes": {
+      "name": "Devicees",
+      "items": [],
+      "columns": []
+    }
+  }
+}
