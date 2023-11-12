@@ -8,29 +8,32 @@
 /* Entry point ----------------------------------------------------------------*/
 void setup()
 {
-
     printf("EPD_2IN9_V2_test Demo\r\n");
     delay(1000);
     DEV_Module_Init();
-    MQTT_Client_Init();
-    MQTT_Connect();
-    MQTT_Loop();
 
-    // printf("e-Paper Init and Clear...\r\n");
-    // EPD_2IN9_V2_Init();
-    // EPD_2IN9_V2_Clear();
-    // DEV_Delay_ms(500);
+    // MQTT Client init and connect
+    // MQTT_Client_Init();
+    // MQTT_Connect();
+    // MQTT_Loop();
 
-    // // Create a new image cache
-    // UBYTE *BlackImage;
-    // /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
-    // UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0)? (EPD_2IN9_V2_WIDTH / 8 ): (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
-    // if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
-    //     printf("Failed to apply for black memory...\r\n");
-    //     while(1);
-    // }
-    // printf("Paint_NewImage\r\n");
-    // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
+    printf("e-Paper Init and Clear...\r\n");
+    EPD_2IN9_V2_Init();
+    EPD_2IN9_V2_Clear();
+    DEV_Delay_ms(500);
+
+    // Create a new image cache
+    UBYTE *BlackImage;
+    /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
+    UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
+    if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
+    {
+        printf("Failed to apply for black memory...\r\n");
+        while (1)
+            ;
+    }
+    printf("Paint_NewImage\r\n");
+    Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
 
     // #if 1   //show image for array
     // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 270, WHITE);
@@ -67,8 +70,8 @@ void setup()
     //     Paint_DrawLine(85, 95, 125, 95, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
     //     Paint_DrawLine(105, 75, 105, 115, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
 
-    //     // Paint_DrawString_EN(10, 0, "waveshare", &Font16, BLACK, WHITE);
-    //     // Paint_DrawString_EN(10, 20, "hello world", &Font12, WHITE, BLACK);
+    //     // Paint_DrawString(10, 0, "waveshare", &Font16, BLACK, WHITE);
+    //     // Paint_DrawString(10, 20, "hello world", &Font12, WHITE, BLACK);
 
     //     Paint_DrawNum(10, 33, 123456789, &Font12, BLACK, WHITE);
     //     Paint_DrawNum(10, 50, 987654321, &Font16, WHITE, BLACK);
@@ -77,14 +80,75 @@ void setup()
     //     DEV_Delay_ms(2000);
     // #endif
 
-    // #if 1
-    //     printf("Show custom data");
-    //     Paint_Clear(WHITE);
-    //     // Paint_SetRotate(90);
-    //     Paint_DrawString_EN(100, 20,"A", &FontSegoe12, WHITE, BLACK);
-    //         EPD_2IN9_V2_Display_Partial(BlackImage);
+#if 1
+    Serial.print("Show custom data");
+    EPD_2IN9_V2_Init();
+    // Paint_SetRotate(90);
+    // Paint_DrawString(100, 20, "!", &Segoe12, WHITE, BLACK);
+    //     Imagesize = ((EPD_2IN9_V2_WIDTH % 4 == 0)? (EPD_2IN9_V2_WIDTH / 4 ): (EPD_2IN9_V2_WIDTH / 4 + 1)) * EPD_2IN9_V2_HEIGHT;
+    // if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
+    //     printf("Failed to apply for black memory...\r\n");
+    //     while(1);
+    // }
+    // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
+    // Paint_SelectImage(BlackImage);
+    // Paint_SetScale(4);
+    Paint_Clear(0xff);
 
-    // #endif
+    // Paint_DrawString_custom(150, 10, "你好abc", &Font12CN, GRAY4, GRAY1);
+    // Paint_DrawString_custom(150, 30, "你 好 树 莓派", &Font12CN, GRAY3, GRAY2);
+    const char16_t * Line1 = u"Name: Vũ Lê Nhật Minh";
+    const char16_t * Line2 = u"Addr: DHBK, Hai Bà Trưng, Hà Nội, Việt Nam";
+    const char16_t * Line3 = u"Tel: (+84) 796 045 129";
+    const char16_t * Line4 = u"Email: minh.vln140501@gmail.com";
+    Paint_DrawString_custom(10, 30, Line1, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    Paint_DrawString_custom(10, 50, Line2, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    Paint_DrawString_custom(10, 70, Line3, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    Paint_DrawString_custom(50, 90, Line4, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    // Paint_DrawString_custom(10, 70, "Vũ Lê Nhật Minh", &Segoe12, WHITE, BLACK);
+    // Paint_DrawString_custom(150, 60, "微雪电子Ả", &Font12CN, GRAY1, GRAY4);
+    // Paint_DrawString_custom(10, 20, "微雪电子", &Font12CN, GRAY1, GRAY4);
+    EPD_2IN9_V2_Display(BlackImage);
+    // Paint_Clear(0xff);
+    // EPD_2IN9_V2_4GrayDisplay(BlackImage);
+    DEV_Delay_ms(2000);
+#endif
+
+// #if 1
+//     free(BlackImage);
+//     // printf("show Gray------------------------\r\n");
+//     // Imagesize = ((EPD_2IN9_V2_WIDTH % 4 == 0) ? (EPD_2IN9_V2_WIDTH / 4) : (EPD_2IN9_V2_WIDTH / 4 + 1)) * EPD_2IN9_V2_HEIGHT;
+//     // if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
+//     // {
+//     //     printf("Failed to apply for black memory...\r\n");
+//     //     while (1)
+//     //         ;
+//     // }
+//     // EPD_2IN9_V2_Gray4_Init();
+//     EPD_2IN9_V2_Clear();
+//     printf("4 grayscale display\r\n");
+//     Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
+//     Paint_SetScale(4);
+//     Paint_Clear(0xff);
+
+//     Paint_DrawString(10, 0, "waveshare", &Font16, GRAY4, GRAY1);
+//     Paint_DrawString(10, 20, "hello world", &Font12, GRAY3, GRAY1);
+//     Paint_DrawNum(10, 33, 123456789, &Font12, GRAY4, GRAY2);
+//     Paint_DrawNum(10, 50, 987654321, &Font16, GRAY1, GRAY4);
+//     Paint_DrawString_custom(150, 0, "你好abc", &Font12CN, GRAY4, GRAY1);
+//     Paint_DrawString_custom(150, 20, "你好abc", &Font12CN, GRAY3, GRAY2);
+//     Paint_DrawString_custom(150, 40, "你好abc", &Font12CN, GRAY2, GRAY3);
+//     Paint_DrawString_custom(150, 60, "你好abc", &Font12CN, GRAY1, GRAY4);
+//     Paint_DrawString_custom(150, 80, "微雪电子", &Font12CN, GRAY1, GRAY4);
+//     EPD_2IN9_V2_4GrayDisplay(BlackImage);
+//     DEV_Delay_ms(3000);
+
+//     // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 0, WHITE);
+//     // Paint_SetScale(4);
+//     // Paint_Clear(WHITE);
+//     // EPD_2IN9_V2_Display(BlackImage);
+//     // DEV_Delay_ms(3000);
+// #endif
 
     // #if 1   //Partial refresh, example shows time
     //     printf("Partial refresh\r\n");
@@ -146,15 +210,15 @@ void setup()
     //     Paint_DrawCircle(105, 95, 20, GRAY2, DOT_PIXEL_1X1, DRAW_FILL_FULL);
     //     Paint_DrawLine(85, 95, 125, 95, GRAY4, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
     //     Paint_DrawLine(105, 75, 105, 115, GRAY4, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
-    //     Paint_DrawString_EN(10, 0, "waveshare", &Font16, GRAY4, GRAY1);
-    //     Paint_DrawString_EN(10, 20, "hello world", &Font12, GRAY3, GRAY1);
+    //     Paint_DrawString(10, 0, "waveshare", &Font16, GRAY4, GRAY1);
+    //     Paint_DrawString(10, 20, "hello world", &Font12, GRAY3, GRAY1);
     //     Paint_DrawNum(10, 33, 123456789, &Font12, GRAY4, GRAY2);
     //     Paint_DrawNum(10, 50, 987654321, &Font16, GRAY1, GRAY4);
-    //     Paint_DrawString_CN(150, 0,"你好abc", &Font12CN, GRAY4, GRAY1);
-    //     Paint_DrawString_CN(150, 20,"你好abc", &Font12CN, GRAY3, GRAY2);
-    //     Paint_DrawString_CN(150, 40,"你好abc", &Font12CN, GRAY2, GRAY3);
-    //     Paint_DrawString_CN(150, 60,"你好abc", &Font12CN, GRAY1, GRAY4);
-    //     Paint_DrawString_CN(150, 80, "微雪电子", &Font24CN, GRAY1, GRAY4);
+    //     Paint_DrawString_custom(150, 0,"你好abc", &Font12CN, GRAY4, GRAY1);
+    //     Paint_DrawString_custom(150, 20,"你好abc", &Font12CN, GRAY3, GRAY2);
+    //     Paint_DrawString_custom(150, 40,"你好abc", &Font12CN, GRAY2, GRAY3);
+    //     Paint_DrawString_custom(150, 60,"你好abc", &Font12CN, GRAY1, GRAY4);
+    //     Paint_DrawString_custom(150, 80, "微雪电子", &Font24CN, GRAY1, GRAY4);
     //     EPD_2IN9_V2_4GrayDisplay(BlackImage);
     //     DEV_Delay_ms(3000);
 

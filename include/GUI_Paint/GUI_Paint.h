@@ -49,7 +49,7 @@
 *    but only 90.180.270 rotation is better
 * 4.add: Paint_SetMirroring() 
 *    Can Mirroring the picture, horizontal, vertical, origin
-* 5.add: Paint_DrawString_CN() 
+* 5.add: Paint_DrawString_custom() 
 *    Can display Chinese(GB1312)   
 *
 * ----------------------------------------------------------------------------- 
@@ -80,7 +80,7 @@
 
 #include "Debug/Debug.h"
 #include "DEV_Config/DEV_Config.h"
-#include "fonts/fonts.h"
+#include <fonts.h>
 
 /**
  * Image attributes
@@ -206,10 +206,11 @@ void Paint_DrawRectangle(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWO
 void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius, UWORD Color, DOT_PIXEL Line_width, DRAW_FILL Draw_Fill);
 
 //Display string
-void Paint_DrawChar(UWORD Xstart, UWORD Ystart, const char Acsii_Char, sFONT* Font, UWORD Color_Foreground, UWORD Color_Background);
-void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char * pString, sFONT* Font, UWORD Color_Foreground, UWORD Color_Background);
-void Paint_DrawNum(UWORD Xpoint, UWORD Ypoint, int32_t Nummber, sFONT* Font, UWORD Color_Foreground, UWORD Color_Background);
-void Paint_DrawTime(UWORD Xstart, UWORD Ystart, PAINT_TIME *pTime, sFONT* Font, UWORD Color_Foreground, UWORD Color_Background);
+void Paint_DrawChar(UWORD Xstart, UWORD Ystart, const char Acsii_Char, mFont* Font, UWORD Color_Foreground, UWORD Color_Background);
+void Paint_DrawString(UWORD Xstart, UWORD Ystart, const char * pString, mFont* Font, UWORD Color_Foreground, UWORD Color_Background);
+void Paint_DrawString_custom(UWORD Xstart, UWORD Ystart, const char16_t * pString, cFONT* Font, UWORD Color_Foreground, UWORD Color_Background);
+void Paint_DrawNum(UWORD Xpoint, UWORD Ypoint, int32_t Nummber, mFont* Font, UWORD Color_Foreground, UWORD Color_Background);
+void Paint_DrawTime(UWORD Xstart, UWORD Ystart, PAINT_TIME *pTime, mFont* Font, UWORD Color_Foreground, UWORD Color_Background);
 
 //pic
 void Paint_DrawBitMap(const unsigned char* image_buffer);
