@@ -1,9 +1,9 @@
 [Unit]
-Description=Backend Deploy Service
+Description=Epaper Backend Service
 
 [Service]
 WorkingDirectory=/root/epaper/web/api/
-ExecStart=/bin/bash -c "PORT=3005 PATH=/root/.nvm/versions/node/v21.0.0/bin/:$PATH /root/.nvm/versions/node/v21.0.0/bin/npm start"
+ExecStart=/bin/bash -c "PORT=3007 PATH=/root/.nvm/versions/node/v21.0.0/bin/:$PATH /root/.nvm/versions/node/v21.0.0/bin/npm start"
 
 [Install]
 WantedBy=multi-user.target
