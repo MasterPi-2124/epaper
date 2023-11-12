@@ -1,20 +1,19 @@
 import Menu from "@/components/dashboard/menu";
 import Layout from "@/components/layout";
 import React, { useState, useEffect } from "react";
-import NewClass from "@/components/new-class"
-import Link from "next/link";
+import NewDevice from "@/components/new-device"
 
-function NewClassPage() {
+function NewDevicePage() {
   return (
-    <Layout pageTitle="New Class | Dashboard">
+    <Layout pageTitle="New Device | Dashboard">
       <div className="dashboard bg-[#212121] h-screen bg-center bg-cover bg-no-repeat flex items-center">
-            <Menu currentPath={"New Class"} />
+            <Menu currentPath={"New Device"} />
             <div className="main-container">
-              <NewClass />
+              <NewDevice />
             </div>
       </div>
     </Layout>
   );
 }
 
-export default NewClassPage;
+export default NewDevicePage;

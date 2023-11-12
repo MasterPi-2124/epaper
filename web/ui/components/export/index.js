@@ -3,7 +3,7 @@ import { Dropdown } from "@nextui-org/react";
 import { instanceCoreApi } from "@/services/setupAxios";
 import * as XLSX from "xlsx";
 
-const API = process.env.NEXT_PUBLIC_API;
+const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 const Export = () => {
     const [quizzes, setQuizzes] = useState([]);
@@ -49,7 +49,7 @@ const Export = () => {
             <form className="form" onSubmit={handleExport}>
                 <label>Choose a quiz to export</label>
                 <Dropdown>
-                    <Dropdown.Button flat className="classes-choices">
+                    <Dropdown.Button flat className="devices-choices">
                         {quiz ? quiz : 'Choose a quiz'}
                     </Dropdown.Button>
                     <Dropdown.Menu

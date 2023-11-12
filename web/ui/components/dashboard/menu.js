@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import Image from "next/image";
-import CNWeb from "@/public/logo/cnweb-30.png";
+import CNWeb from "@/public/logo/epaper.svg";
 import Link from "next/link";
 import DropDown from "./dropdown";
 import { useTheme } from "next-themes";
@@ -11,19 +11,18 @@ import DashboardIcon from "@/assets/icons/thin/dashboard.svg";
 import ExportIcon from "@/assets/icons/thin/export.svg";
 import NotiIcon from "@/assets/icons/thin/notification.svg";
 import UserIcon from "@/assets/icons/thin/human.svg";
-import QuizIcon from "@/assets/icons/thin/quiz.svg";
-import ClassIcon from "@/assets/icons/thin/class.svg";
+import DeviceIcon from "@/assets/icons/thin/device.svg";
 
 const navButton = [
     {
-        text: "New Quiz",
-        path: "/new-quiz",
-        img: QuizIcon,
+        text: "New User",
+        path: "/new-user",
+        img: UserIcon,
     },
     {
-        text: "New Class",
-        path: "/new-class",
-        img: ClassIcon,
+        text: "New Device",
+        path: "/new-device",
+        img: DeviceIcon,
     },
     {
         text: "Dashboard",
@@ -32,13 +31,13 @@ const navButton = [
         subNav: [
             {
                 text: "Quizzes",
-                path: "/dashboard/quizzes",
-                img: QuizIcon,
+                path: "/dashboard/users",
+                img: UserIcon,
             },
             {
                 text: "Classes",
-                path: "/dashboard/classes",
-                img: ClassIcon,
+                path: "/dashboard/devices",
+                img: DeviceIcon,
             }
         ]
     },
@@ -152,7 +151,7 @@ const Menu = ({ currentPath }) => {
                         alt="cnweb logo"
                         className="invert dark:invert-0 h-12 w-12"
                     />
-                    CNWeb-30
+                        Epaper
                 </NavbarBrand>
                 <div className="menu-bar">
                     {navButton.map((button, index) => {

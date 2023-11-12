@@ -3,7 +3,7 @@ import { MenuOutlined, CloseOutlined } from "@ant-design/icons"
 import { NavbarBrand } from "reactstrap";
 import Image from "next/image";
 import { useState } from 'react';
-import CNWeb from "../assets/logo/cnweb-30.png";
+import CNWeb from "../assets/logo/epaper.svg";
 import Link from "next/link";
 
 const DrawerMenu = ({ navButton }) => {

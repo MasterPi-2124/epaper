@@ -1,108 +1,90 @@
-import { instanceCoreApi } from "@/services/setupAxios";
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import { Input, Switch } from "@nextui-org/react";
 import Image from "next/image";
-import Logo from "@/public/logo/cnweb-30.png";
+import Logo from "@/public/logo/epaper.svg";
 import Link from "next/link";
 
-const API = process.env.NEXT_PUBLIC_API;
-
-const CreateUser = ({ handleReset }) => {
-    const [submitOK, setSubmitOK] = useState(false);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [address, setAddress] = useState("");
-    const [active, setActive] = useState(false);
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        const data = {
-            name: name,
-            email: email,
-            address: address,
-            active: active
+const CreateUser = ({ userCreated, setUserCreated, stage, handleStage, handleReset, handleSubmit }) => {
+    const handleChange = (param, e) => {
+        let userTyped = {};
+        if (param === "active") {
+            userTyped[param] = e.target.checked;
+        } else {
+            userTyped[param] = e.target.value;
         }
-
-        console.log(data)
-        instanceCoreApi.post(`${API}/users`, data).then(response => {
-            console.log(response.data);
-            setSubmitOK(true);
-        }).catch(error => {
-            console.error(error)
-            setSubmitOK(false);
-        })
-    };
-
-    const resetState = () => {
-        setName("");
-        setEmail("");
-        setAddress("");
-        setActive(false);
+        setUserCreated(userCreated => ({
+            ...userCreated,
+            ...userTyped
+        }))
     }
 
     return (
-        <>
-            {!submitOK ? (
-                <div className="content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
-                        <h1>Hi</h1>
-                        <Image alt="logo" src={Logo}></Image>
-                        <form className="form" onSubmit={handleSubmit}>
-                            <Input
-                                className="input"
-                                required
-                                label="Name"
-                                type="text"
-                                onChange={(e) => setName(e.target.value)}
-                            />
+        (stage === 0) ? (
+            <>
+                <h1>Hi</h1>
+                <Image alt="logo" src={Logo}></Image>
+                <form className="form" onSubmit={handleStage}>
+                    <label className="dark:text-dark-text text-light-text">First, fill in your information to continue</label>
+                    <Input
+                        className="input"
+                        required
+                        label="Name"
+                        type="text"
+                        onChange={(e) => handleChange("name", e)}
+                    />
 
-                            <Input
-                                className="input"
-                                label="Email"
-                                required
-                                type="email"
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
+                    <Input
+                        className="input"
+                        label="Email"
+                        required
+                        type="email"
+                        onChange={(e) => handleChange("email", e)}
+                    />
 
-                            <Input
-                                className="input"
-                                label="Address"
-                                required
-                                type="text"
-                                onChange={(e) => setAddress(e.target.value)}
-                            />
-                            <div className="switch">
-                                <label>Display on EPD?</label>
-                                <Switch
-                                    className="input"
-                                    bordered
-                                    label="EPD display?"
-                                    isSelected={active}
-                                    onChange={(e) => setActive(e.target.checked)}
-                                />
-                            </div>
-                            
-                            {console.log(`Name: `, name)}
-                            {console.log(`Email: `, email)}
-                            {console.log(`Address: `, address)}
-                            {console.log(`Write on EPD?: `, active)}
+                    <Input
+                        className="input"
+                        label="Address"
+                        required
+                        type="text"
+                        onChange={(e) => handleChange("address", e)}
+                    />
 
-                            <button type="submit">Create</button>
-                            <button onClick={handleReset}>Back</button>
-                        </form>
-                </div>
-            ) : (
-            <div className="content text-light-text dark:text-dark-text">
-                    <h1>Your information is successfully updated</h1>
-                    <br />
-                    <p>We are updating your information in the epaper</p>
-                    <br />
-                    <button className="ok" onClick={() => resetState()}>
-                        <Link href="/dashboard/users">Let&apos;s go!</Link>
-                    </button>
+                    <div className="switch">
+                        <label>Display on EPD?</label>
+                        <Switch
+                            className="input"
+                            bordered
+                            label="EPD display?"
+                            onChange={(e) => handleChange("active", e)}
+                        />
                     </div>
-            )}
-        </>
+
+                    {console.log(`Name: `, userCreated.name)}
+                    {console.log(`Email: `, userCreated.email)}
+                    {console.log(`Address: `, userCreated.address)}
+                    {console.log(`Write on EPD?: `, userCreated.active)}
+
+                    {userCreated.active ? (
+                        <button type="button" onClick={handleStage}>
+                            Continue
+                        </button>
+                    ) : (
+                        <button type="submit" onClick={handleSubmit}>
+                            Submit
+                        </button>
+                    )}
+                </form>
+            </>
+        ) : (
+            <div className="content text-light-text dark:text-dark-text">
+                <h1>Your information is successfully submitted!</h1>
+                <br />
+                <p> Your personnal information is saved in our database, but you chose not to display it on EPD device yet.</p>
+                <button className="ok" onClick={() => handleReset()}>
+                    <Link href="/dashboard/users">Let&apos;s go!</Link>
+                </button>
+            </div>
+        )
     );
 };
 

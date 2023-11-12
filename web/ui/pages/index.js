@@ -184,7 +184,7 @@ export default function Home() {
                           We take advantage of Github Project together with Backend and Frontend repositories to manage all issues and features right in Github. This improves the project&apos;s speed and helps the team focus and save time.
                         </p>
                         <div style={{marginTop: "80px"}}>
-                          <a className='item-dashboard' href="https://github.com/MasterPi-2124/CNWeb-30" style={{padding: "40px 80px"}}>
+                          <a className='item-dashboard' href="https://github.com/MasterPi-2124/epaper" style={{padding: "40px 80px"}}>
                             Frontend
                           </a>
                           <a className='item-dashboard' href="https://github.com/MasterPi-2124/CNWeb30-Backend" style={{padding: "40px 80px"}}>

@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useBoards } from "../../context";
 import Modal from "../../modal";
 import ItemDetailModal from "../../modal/item-detail";
-import HumanIcon from "@/assets/icons/thick/human.svg";
-import QuizIcon from "@/assets/icons/thick/quiz.svg";
+import UserIcon from "@/assets/icons/thick/human.svg";
 import SubjectIcon from "@/assets/icons/thick/subject.svg";
 import DateIcon from "@/assets/icons/thick/date.svg";
 import Image from "next/image";
@@ -29,14 +28,13 @@ const ClassItem = ({ data }) => {
                             <p>{data?.subject}</p>
                         </div>
                         <div className="footer-item">
-                            <Image alt="a subject icon" src={QuizIcon} />
+                            <Image alt="a subject icon" src={UserIcon} />
                             <p>{data?.quizzes.length} quizzes</p>
                         </div>
                     </div>
 
                     <div>
                         <div className="footer-item">
-                            <Image alt="a human icon" src={HumanIcon} />
                             <p>{data?.studentCount} students</p>
                         </div>
                         <div className="footer-item">

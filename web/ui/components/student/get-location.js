@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
 
-const API = process.env.NEXT_PUBLIC_API;
+const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 const GetLocation = ({ IP, quizDetail, classDetail, location, checkLat, checkLon, setLocation, handleSubmit }) => {
     const [distance, setDistance] = useState(999999);
     const getLocation = () => {

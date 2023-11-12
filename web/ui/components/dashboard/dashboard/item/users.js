@@ -11,7 +11,7 @@ import HumanIcon from "@/assets/icons/thick/human.svg";
 import Image from "next/image";
 import { instanceCoreApi } from "@/services/setupAxios";
 
-const API = process.env.NEXT_PUBLIC_API;
+const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 const HOST = process.env.NEXT_PUBLIC_BASE_URL;
 
 const QuizItem = ({ data }) => {

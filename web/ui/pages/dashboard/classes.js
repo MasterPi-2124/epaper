@@ -8,7 +8,7 @@ import { instanceCoreApi } from "@/services/setupAxios";
 import Dashboard from "@/components/dashboard/dashboard";
 import { BoardProvider } from '@/components/dashboard/context';
 
-const API = process.env.NEXT_PUBLIC_API;
+const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 const ClassesDashboard = () => {
     const [boardsData, setBoardsData] = useState();

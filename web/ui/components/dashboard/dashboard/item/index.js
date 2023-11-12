@@ -1,5 +1,5 @@
-import QuizItem from "./quizzes";
-import ClassItem from "./classes";
+import QuizItem from "./users";
+import ClassItem from "./devices";
 
 const Item = ({ type, data, index }) => {
 

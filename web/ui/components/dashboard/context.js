@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
 
-const API = process.env.NEXT_PUBLIC_API;
+const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 const BoardContext = createContext();
 
 function BoardProvider({ data, type, children }) {

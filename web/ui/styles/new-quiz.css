@@ -32,7 +32,7 @@
 }
 
 
-.classes-choices {
+.devices-choices {
     justify-content: space-between !important;
     font-weight: 100 !important;
     background-color: rgba(255, 255, 255, 0.06) !important;
@@ -42,7 +42,7 @@
     align-items: left;
 }
 
-.classes-choices:hover {
+.devices-choices:hover {
     background-color: rgba(255, 255, 255, 0.124) !important;
 }
 

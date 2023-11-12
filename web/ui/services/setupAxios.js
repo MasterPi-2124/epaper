@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from "universal-cookie";
 
-const API = process.env.NEXT_PUBLIC_API;
+const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 axios.defaults.headers.common['Accept'] = 'application/json';
 
