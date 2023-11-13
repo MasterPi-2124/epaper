@@ -6,6 +6,8 @@
 #include <stdlib.h>
 
 /* Entry point ----------------------------------------------------------------*/
+UBYTE *BlackImage;
+
 void setup()
 {
     printf("EPD_2IN9_V2_test Demo\r\n");
@@ -13,9 +15,8 @@ void setup()
     DEV_Module_Init();
 
     // MQTT Client init and connect
-    // MQTT_Client_Init();
-    // MQTT_Connect();
-    // MQTT_Loop();
+    MQTT_Client_Init();
+    MQTT_Connect();
 
     printf("e-Paper Init and Clear...\r\n");
     EPD_2IN9_V2_Init();
@@ -23,7 +24,6 @@ void setup()
     DEV_Delay_ms(500);
 
     // Create a new image cache
-    UBYTE *BlackImage;
     /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
     UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
     if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
@@ -80,39 +80,33 @@ void setup()
     //     DEV_Delay_ms(2000);
     // #endif
 
-#if 1
-    Serial.print("Show custom data");
-    EPD_2IN9_V2_Init();
-    // Paint_SetRotate(90);
-    // Paint_DrawString(100, 20, "!", &Segoe12, WHITE, BLACK);
-    //     Imagesize = ((EPD_2IN9_V2_WIDTH % 4 == 0)? (EPD_2IN9_V2_WIDTH / 4 ): (EPD_2IN9_V2_WIDTH / 4 + 1)) * EPD_2IN9_V2_HEIGHT;
-    // if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
-    //     printf("Failed to apply for black memory...\r\n");
-    //     while(1);
-    // }
-    // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
-    // Paint_SelectImage(BlackImage);
-    // Paint_SetScale(4);
-    Paint_Clear(0xff);
+// #if 1
+//     Serial.print("Show custom data");
+//     EPD_2IN9_V2_Init();
+//     // Paint_SetRotate(90);
+//     // Paint_DrawString(100, 20, "!", &Segoe12, WHITE, BLACK);
+//     //     Imagesize = ((EPD_2IN9_V2_WIDTH % 4 == 0)? (EPD_2IN9_V2_WIDTH / 4 ): (EPD_2IN9_V2_WIDTH / 4 + 1)) * EPD_2IN9_V2_HEIGHT;
+//     // if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
+//     //     printf("Failed to apply for black memory...\r\n");
+//     //     while(1);
+//     // }
+//     // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
+//     // Paint_SelectImage(BlackImage);
+//     // Paint_SetScale(4);
+//     Paint_Clear(0xff);
 
-    // Paint_DrawString_custom(150, 10, "你好abc", &Font12CN, GRAY4, GRAY1);
-    // Paint_DrawString_custom(150, 30, "你 好 树 莓派", &Font12CN, GRAY3, GRAY2);
-    const char16_t * Line1 = u"Name: Vũ Lê Nhật Minh";
-    const char16_t * Line2 = u"Addr: DHBK, Hai Bà Trưng, Hà Nội, Việt Nam";
-    const char16_t * Line3 = u"Tel: (+84) 796 045 129";
-    const char16_t * Line4 = u"Email: minh.vln140501@gmail.com";
-    Paint_DrawString_custom(10, 30, Line1, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
-    Paint_DrawString_custom(10, 50, Line2, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
-    Paint_DrawString_custom(10, 70, Line3, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
-    Paint_DrawString_custom(50, 90, Line4, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
-    // Paint_DrawString_custom(10, 70, "Vũ Lê Nhật Minh", &Segoe12, WHITE, BLACK);
-    // Paint_DrawString_custom(150, 60, "微雪电子Ả", &Font12CN, GRAY1, GRAY4);
-    // Paint_DrawString_custom(10, 20, "微雪电子", &Font12CN, GRAY1, GRAY4);
-    EPD_2IN9_V2_Display(BlackImage);
-    // Paint_Clear(0xff);
-    // EPD_2IN9_V2_4GrayDisplay(BlackImage);
-    DEV_Delay_ms(2000);
-#endif
+//     const char16_t * Line1 = u"Name: Vũ Lê Nhật Minh";
+//     const char16_t * Line2 = u"Addr: DHBK, Hai Bà Trưng, Hà Nội, Việt Nam";
+//     const char16_t * Line3 = u"Tel: (+84) 796 045 129";
+//     const char16_t * Line4 = u"Email: minh.vln140501@gmail.com";
+//     Paint_DrawString_custom(10, 30, Line1, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+//     Paint_DrawString_custom(10, 50, Line2, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+//     Paint_DrawString_custom(10, 70, Line3, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+//     Paint_DrawString_custom(50, 90, Line4, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+//     EPD_2IN9_V2_Display(BlackImage);
+//     // Paint_Clear(0xff);
+//     DEV_Delay_ms(2000);
+// #endif
 
 // #if 1
 //     free(BlackImage);
@@ -244,5 +238,27 @@ void setup()
 /* The main loop -------------------------------------------------------------*/
 void loop()
 {
+    // UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
+    // if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
+    // {
+    //     printf("Failed to apply for black memory...\r\n");
+    //     while (1)
+    //         ;
+    // }
+    // printf("Paint_NewImage\r\n");
+    // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
     //
+     MQTT_Loop(BlackImage);
+
+     char16_t * ddd = u"ahihi đồ ngốc";
+    for (int i = 0; i < std::char_traits<char16_t>::length(ddd); i++) {
+            Serial.println(char16_t(ddd[i]));
+        }
+    // EPD_2IN9_V2_Init();
+    // // Serial.println(data);
+    // Paint_Clear(0xff);
+    // Paint_DrawString_custom(50, 90, data, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    // EPD_2IN9_V2_Display(BlackImage);
+    // DEV_Delay_ms(2000);
+
 }

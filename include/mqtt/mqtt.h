@@ -16,7 +16,7 @@
 
 void MQTT_Client_Init(void);
 void MQTT_Connect(void);
-void MQTT_Loop(void);
+void MQTT_Loop(uint8_t *BlackImage);
 // void MQTT_Publish(char *data, char *topic);
 // void MQTT_Subscribe(char* topc);
 
