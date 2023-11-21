@@ -115,17 +115,17 @@ void onMessage(int messageSize)
     if (messageSize)
     {
         int size = 0;
-        char16_t *newData = new char16_t[size + 2];
+        char16_t *newData = new char16_t[256];
         // use the Stream interface to print the contents
         while (client.available())
         {
-            char s = (char)client.read();
-            char16_t s_utf16 = static_cast<char16_t>(s); // Convert to char16_t if needed
-            newData[size] = s_utf16;                     // Add new character
-            newData[size + 1] = u'\0';                   // Null-terminate
+            char16_t s = (char16_t)client.read();
+            // char16_t s_utf16 = static_cast<char16_t>(s); // Convert to char16_t if needed
+            newData[size] = s;                     // Add new character
             size++;
         }
-        free(msg);
+        newData[size] = u'\0';
+        // free(msg);
         msg = newData;
         // delete[] newData;
     }
