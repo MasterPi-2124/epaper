@@ -25,6 +25,16 @@ const navButton = [
         img: DeviceIcon,
     },
     {
+        text: "Devices",
+        path: "/devices",
+        img: DeviceIcon,
+    },
+    {
+        text: "Users",
+        path: "/users",
+        img: UserIcon,
+    },
+    {
         text: "Dashboard",
         path: "/dashboard",
         img: DashboardIcon,
