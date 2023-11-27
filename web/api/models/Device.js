@@ -2,9 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const deviceSchema = new Schema({
-    name: {
+    id: {
         type: String,
         default: "epd#1"
+    },
+    ssid: {
+        type: String,
+    },
+    pass: {
+        type: String,
     },
     userID: {
         type: String,
