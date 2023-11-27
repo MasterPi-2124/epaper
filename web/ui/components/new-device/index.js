@@ -1,67 +1,66 @@
-import Image from "next/image";
-import Logo from "@/public/logo/epaper.svg";
-import { Input, Textarea } from "@nextui-org/react";
 import { instanceCoreApi } from "@/services/setupAxios";
-import React, { useState } from "react"
-import Link from "next/link";
+import Notify from 'notiflix/build/notiflix-notify-aio';
+import React, { useState } from "react";
+import GetUSBDevice from "./get-usb";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 const NewDevice = () => {
+    const [deviceCreated, setDeviceCreated] = useState({
+        id: "",
+        ssid: "",
+        pass: "",
+        active: false,
+        userID: ""
+    });
     const [submitted, setSubmitted] = useState(false);
-    const [name, setName] = useState(0);
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log(deviceCreated);
 
-        const data = {
-            name: name,
-        }
-
-        console.log(data)
-        instanceCoreApi.post(`${API}/devices`, data).then(response => {
+        instanceCoreApi.post(`${API}/devices`, deviceCreated).then(response => {
             console.log(response.data);
+            Notify.Notify.success(`Device info updated successfully!`);
             setSubmitted(true);
         }).catch(error => {
-            console.error(error)
+            console.error(error);
             setSubmitted(false);
+            Notify.Notify.failure(`Error updating new device info: ${error}`);
+
         })
     };
 
-    const resetState = () => {
-        setName("");
+    const handleReset = () => {
+        setDeviceCreated({
+            id: "",
+            ssid: "",
+            pass: "",
+            active: false,
+            userID: ""
+        })
     }
 
     return (
-        (!submitted) ? (
+        (submitted ? (
             <div className="content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
-                <h1>Create a new Device</h1>
-                <Image alt="logo" src={Logo}></Image>
-                <form className="form" onSubmit={handleSubmit}>
-
-                    <Input
-                        className="input"
-                        label="A pretty name"
-                        placeholder="EPD numba wan"
-                        onChange={(e) => setName(e.target.value)}
-                    />
-
-                    {console.log(`Name: ${name}`)}
-
-                    <button type="submit" className="dark:bg-dark-background">Create</button>
-                </form>
-            </div>
-        ) : (
-            <div className="content text-light-text dark:text-dark-text">
-                <h1>The EPD device {name} is created sucessfully!</h1>
+                <h1>The EPD device is created sucessfully!</h1>
                 <br />
                 <p>You can see device detail and its display status by going to Dashboard - Devices</p>
                 <br />
-                <button className="ok" onClick={() => resetState()}>
+                <button className="ok" onClick={() => handleReset()}>
                     <Link href="/dashboard/devices">Let&apos;s go!</Link>
                 </button>
             </div>
-        )
+        ) : (
+            <div className="content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
+                <GetUSBDevice
+                    deviceCreated={deviceCreated}
+                    setDeviceCreated={setDeviceCreated}
+                    handleSubmit={handleSubmit}
+                />
+            </div>
+        ))
     );
 };
 

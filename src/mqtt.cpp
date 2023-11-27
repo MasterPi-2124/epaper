@@ -13,15 +13,15 @@ void onMessage(int messageSize);
 
 MqttClient client(espClient);
 
-void setup_wifi()
+void setup_wifi(const char * ssid, const char * password)
 {
     delay(10);
     // We start by connecting to a WiFi network
     Serial.println();
     Serial.print("Connecting to ");
-    Serial.println(SSID);
+    Serial.println(ssid);
 
-    WiFi.begin(SSID, PASS);
+    WiFi.begin(ssid, password);
 
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -34,19 +34,19 @@ void setup_wifi()
     Serial.println(WiFi.localIP());
 }
 
-void MQTT_Client_Init(void) {
-    setup_wifi();
-    client.setId("s2mini#1");
+void MQTT_Client_Init(const char * ssid, const char * password, const char * id) {
+    setup_wifi(ssid, password);
+    client.setId(id);
     client.setUsernamePassword(MQTT_USERNAME, MQTT_PASSWORD);
 }
 
-void MQTT_Connect(void) {
+void MQTT_Connect(const char * id) {
     Serial.println("Attempting MQTT connection...");
     while (!client.connected()) {
         if (client.connect(MQTT_BROKER, MQTT_PORT)) {
             Serial.println(" connected");
             client.onMessage(onMessage);
-            client.subscribe("s2mini/output");
+            client.subscribe(id);
         } else {
             Serial.print("failed, rc=");
             Serial.print(client.connectError());
