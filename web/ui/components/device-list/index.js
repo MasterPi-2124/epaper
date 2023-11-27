@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { instanceCoreApi } from "../../services/setupAxios";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import Modal from "../dashboard/modal";
 
 export const DeviceList = () => {
   const [devices, setDevices] = useState([]);
@@ -81,6 +81,9 @@ export const DeviceList = () => {
               )}
             </tbody>
           </table>
+          <Modal show={openEditModal} onClose={() => setOpenEditModal(false)}>
+            Hello
+          </Modal>
         </div>
       </div>
     </div>
