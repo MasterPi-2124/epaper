@@ -58,7 +58,7 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
 
     const handleChange = (param, e) => {
         let userTyped = {};
-        if (param === "id") {
+        if (param === "name") {
             userTyped[param] = e.target.value.toString()
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
@@ -76,8 +76,6 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
         }))
     }
 
-
-
     return (
         <div className="content text-light-text dark:text-dark-text">
             <h1>Create a new Device</h1>
@@ -91,7 +89,7 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
                             required
                             label="A pretty name"
                             type="text"
-                            onChange={(e) => handleChange("id", e)}
+                            onChange={(e) => handleChange("name", e)}
                         />
 
                         <Input
@@ -110,7 +108,7 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
                             onChange={(e) => handleChange("pass", e)}
                         />
 
-                        {console.log(`ID: `, deviceCreated.id)}
+                        {console.log(`Name: `, deviceCreated.name)}
                         {console.log(`SSID: `, deviceCreated.ssid)}
                         {console.log(`Password: `, deviceCreated.pass)}
                         {console.log(`active: `, deviceCreated.active)}
@@ -136,7 +134,6 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
             )}
         </div>
     )
-
 }
 
 export default GetUSBDevice;

@@ -8,7 +8,7 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 const NewDevice = () => {
     const [deviceCreated, setDeviceCreated] = useState({
-        id: "",
+        name: "",
         ssid: "",
         pass: "",
         active: false,
@@ -34,7 +34,7 @@ const NewDevice = () => {
 
     const handleReset = () => {
         setDeviceCreated({
-            id: "",
+            name: "",
             ssid: "",
             pass: "",
             active: false,
