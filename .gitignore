@@ -5,7 +5,7 @@
 .vscode/ipch
 package-lock.json
 /coverage
-/.next/
+.next
 /out/
 /build
 .DS_Store
