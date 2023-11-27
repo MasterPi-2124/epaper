@@ -2,6 +2,7 @@ import { instanceCoreApi } from "@/services/setupAxios";
 import Notify from 'notiflix/build/notiflix-notify-aio';
 import React, { useState } from "react";
 import GetUSBDevice from "./get-usb";
+import Link from "next/link";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
