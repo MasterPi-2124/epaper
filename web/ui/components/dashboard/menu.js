@@ -40,12 +40,12 @@ const navButton = [
         img: DashboardIcon,
         subNav: [
             {
-                text: "Quizzes",
+                text: "Users",
                 path: "/dashboard/users",
                 img: UserIcon,
             },
             {
-                text: "Classes",
+                text: "Devices",
                 path: "/dashboard/devices",
                 img: DeviceIcon,
             }
@@ -223,3 +223,7 @@ const Menu = ({ currentPath }) => {
 };
 
 export default Menu;
+
+
+
+// gaiad tx gov submit-proposal update-client 07-tendermint-1157 07-tendermint-1189 --gas 1000000 --fees 25000000uatom --chain-id cosmoshub-4 --title "IBC Client Update: Expired Client to Realio Chain" --description "Due to an unforeseen relayer issue that resulted in the subject client exceeding the trusting period, the IBC client 07-tendermint-1157 used by channel-726 for ATOM transfers from Cosmoshub to Realio is currently in an expired state. If accepted, this proposal will update client 07-tendermint-1157 with the data from 07-tendermint-1189 which is created newly, so that users may continue to take advantage of both the established channels." --from test --node https://rpc-cosmoshub-ia.cosmosia.notional.ventures:443

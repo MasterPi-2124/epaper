@@ -33,7 +33,7 @@ export const DeviceList = () => {
           <table className="table-fixed w-full">
             <thead>
               <tr>
-                <th className="w-1/12">ID</th>
+                <th className="w-1/12">Name</th>
                 <th className="w-2/12">SSID</th>
                 <th className="w-2/12">Password</th>
                 <th className="w-2/12">Active</th>
@@ -57,7 +57,7 @@ export const DeviceList = () => {
               ) : (
                 devices.map((device, index) => (
                   <tr key={index}>
-                    <td>{device.id}</td>
+                    <td>{device.name}</td>
                     <td>{device.ssid}</td>
                     <td>{device.pass}</td>
                     <td>{device.active ? "True" : "False"}</td>
