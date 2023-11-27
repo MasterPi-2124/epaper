@@ -250,10 +250,6 @@ void loop()
     //
      MQTT_Loop(BlackImage);
 
-     char16_t * ddd = u"ahihi đồ ngốc";
-    for (int i = 0; i < std::char_traits<char16_t>::length(ddd); i++) {
-            Serial.println(char16_t(ddd[i]));
-        }
     // EPD_2IN9_V2_Init();
     // // Serial.println(data);
     // Paint_Clear(0xff);
