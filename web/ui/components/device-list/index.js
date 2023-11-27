@@ -83,13 +83,13 @@ export const DeviceList = () => {
               )}
             </tbody>
           </table>
-          <Modal show={openEditModal} onClose={() => setOpenEditModal(false)}>
+          {/* <Modal show={openEditModal} onClose={() => setOpenEditModal(false)}>
             Hello
           </Modal>
 
           <Modal show={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
             Delete here
-          </Modal>
+          </Modal> */}
         </div>
       </div>
     </div>
