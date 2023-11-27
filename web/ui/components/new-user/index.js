@@ -15,6 +15,7 @@ const NewUser = () => {
         email: "",
         address: "",
         active: false,
+        activeStartTime: -1,
         deviceID: "",
         fontStyle: "",
         designSchema: ""
@@ -46,6 +47,7 @@ const NewUser = () => {
             email: "",
             address: "",
             active: false,
+            activeStartTime: -1,
             deviceID: "",
             fontStyle: "",
             designSchema: ""
