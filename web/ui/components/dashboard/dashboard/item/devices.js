@@ -15,7 +15,7 @@ const ClassItem = ({ data }) => {
 
     return (
         <>
-            <li className="items-group select-none px-4 py-6 rounded-lg cursor-pointer"
+            {/* <li className="items-group select-none px-4 py-6 rounded-lg cursor-pointer"
                 onClick={() => setOpenItemModal(true)}>
                 <div className="item-title">
                     <p className="heading-md mb-2 group-hover:text-mainPurple">Class #{data?.codename}</p>
@@ -67,7 +67,7 @@ const ClassItem = ({ data }) => {
                         deleteItem(data._id)
                         setDeleteModal(false);
                     }} />
-            </Modal>
+            </Modal> */}
         </>
     )
 }

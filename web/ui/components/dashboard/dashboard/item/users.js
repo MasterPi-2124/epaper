@@ -35,7 +35,7 @@ const QuizItem = ({ data }) => {
 
     return (
         <>
-            <li
+            {/* <li
                 className="items-group select-none px-4 py-6 rounded-lg cursor-pointer"
                 onClick={() => setOpenItemModal(true)}
             >
@@ -110,7 +110,7 @@ const QuizItem = ({ data }) => {
                     quizID={data._id}
                     url={`${HOST}/quiz`}
                 />
-            </Modal>
+            </Modal> */}
         </>
     )
 
