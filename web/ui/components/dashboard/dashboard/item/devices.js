@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useBoards } from "../../context";
-import Modal from "../../modal";
-import ItemDetailModal from "../../modal/item-detail";
-import UserIcon from "@/assets/icons/thick/human.svg";
-import SubjectIcon from "@/assets/icons/thick/subject.svg";
-import DateIcon from "@/assets/icons/thick/date.svg";
-import Image from "next/image";
-import DeleteItemModal from "../../modal/delete-item";
+// import Modal from "../../modal";
+// import ItemDetailModal from "../../modal/item-detail";
+// import UserIcon from "@/assets/icons/thick/human.svg";
+// import SubjectIcon from "@/assets/icons/thick/subject.svg";
+// import DateIcon from "@/assets/icons/thick/date.svg";
+// import Image from "next/image";
+// import DeleteItemModal from "../../modal/delete-item";
 
 const ClassItem = ({ data }) => {
     const [openItemModal, setOpenItemModal] = useState(false);

@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import Modal from "../../modal";
-import ItemDetailModal from "../../modal/item-detail";
-import DeleteItemModal from "../../modal/delete-item";
-import QRModal from "../../modal/qr-full";
+// import Modal from "../../modal";
+// import ItemDetailModal from "../../modal/item-detail";
+// import DeleteItemModal from "../../modal/delete-item";
+// import QRModal from "../../modal/qr-full";
 import { useBoards } from "../../context";
-import SubjectIcon from "@/assets/icons/thick/subject.svg";
-import TimeIcon from "@/assets/icons/thick/time.svg";
-import DateIcon from "@/assets/icons/thick/date.svg";
-import HumanIcon from "@/assets/icons/thick/human.svg";
-import Image from "next/image";
+// import SubjectIcon from "@/assets/icons/thick/subject.svg";
+// import TimeIcon from "@/assets/icons/thick/time.svg";
+// import DateIcon from "@/assets/icons/thick/date.svg";
+// import HumanIcon from "@/assets/icons/thick/human.svg";
+// import Image from "next/image";
 import { instanceCoreApi } from "@/services/setupAxios";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
