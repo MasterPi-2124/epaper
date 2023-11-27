@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { instanceCoreApi } from "../../services/setupAxios";
 import Modal from "../dashboard/modal";
 
+const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
+
 export const DeviceList = () => {
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ export const DeviceList = () => {
 
   useEffect(() => {
     instanceCoreApi
-      .get("/devices")
+      .get(`${API}/devices`)
       .then((res) => {
         setDevices(res.data.data);
         setLoading(false);
@@ -83,6 +85,10 @@ export const DeviceList = () => {
           </table>
           <Modal show={openEditModal} onClose={() => setOpenEditModal(false)}>
             Hello
+          </Modal>
+
+          <Modal show={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
+            Delete here
           </Modal>
         </div>
       </div>
