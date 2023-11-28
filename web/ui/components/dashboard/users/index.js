@@ -7,7 +7,9 @@ import EyeIcon from "@/assets/icons/thin/eye.svg";
 import Image from "next/image";
 import { instanceCoreApi } from "@/services/setupAxios";
 import Notify from 'notiflix/build/notiflix-notify-aio';
-import ItemDetailModal from "../modal/item-detail";
+import DetailModal from "../modal/detail-modal";
+import DeleteModal from "../modal/delete-modal";
+import EditModal from "../modal/edit-modal";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
@@ -163,13 +165,12 @@ export const UserList = () => {
           />
         </Table>
 
-        <Modal show={editModal} onClose={() => setEditModal(false)}>
-          Hello
-        </Modal>
 
         <Modal show={detailModal} onClose={() => setDetailModal(false)}>
-          <ItemDetailModal
-            type="user"
+          <DetailModal
+            type="users"
+            id={selectedUser}
+            close={() => setItemModal(false)}
             switchToEdit={() => {
               setDetailModal(false);
               setDeleteModal(true);
@@ -182,8 +183,30 @@ export const UserList = () => {
         </Modal>
 
         <Modal show={deleteModal} onClose={() => setDeleteModal(false)}>
-          Delete here
+          <DeleteModal
+            type="users"
+            id={selectedUser}
+            onClose={() => {
+              setDeleteModal(false);
+              setDetailModal(true);
+            }}
+            onConfirm={() => {
+              setDeleteModal(false);
+            }}
+          />
         </Modal>
+
+        <Modal show={editModal} onClose={() => setEditModal(false)}>
+          <EditModal
+            type="users"
+            id={selectedUser}
+            onClose={() => {
+              setEditModal(false);
+              setDetailModal(true);
+            }}
+          />
+        </Modal>
+
       </div>
     </div>
   );

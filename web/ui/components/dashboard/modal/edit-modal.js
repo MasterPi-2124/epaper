@@ -1,9 +1,8 @@
-import * as XLSX from "xlsx";
 import DeleteIcon from "@/assets/icons/thin/delete.svg";
 import Image from "next/image";
 import { Table, useAsyncList } from "@nextui-org/react";
 
-const ItemDetailModal = ({ type, data, responses, switchToDelete }) => {
+const EditModal = ({ type, data, responses, switchToDelete }) => {
   if (type === "class") {
     const load = () => {
       return {
@@ -25,26 +24,7 @@ const ItemDetailModal = ({ type, data, responses, switchToDelete }) => {
             />
           </button>
         </div>
-        <div className="stats">
-          <p className="body-lg text-mediumGrey">
-            Class ID: {data.codename}
-          </p>
-          <p className="body-lg text-mediumGrey">
-            Subject: {data.subject}
-          </p>
 
-          <p className="body-lg text-mediumGrey">
-            Semester: {data.semester}
-          </p>
-
-          <p className="body-lg text-mediumGrey">
-            Total Student: {data.studentCount}
-          </p>
-
-          <p className="body-lg text-mediumGrey">
-            Note: {data.note}
-          </p>
-        </div>
         <div className="responses">
           <h2>Quizzes:</h2>
           <Table headerLined>
@@ -217,4 +197,4 @@ const ItemDetailModal = ({ type, data, responses, switchToDelete }) => {
   }
 }
 
-export default ItemDetailModal
+export default EditModal
