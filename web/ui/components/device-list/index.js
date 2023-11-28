@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { instanceCoreApi } from "../../services/setupAxios";
-import Modal from "../dashboard/modal";
+// import Modal from "../dashboard/modal";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
@@ -27,7 +27,7 @@ export const DeviceList = () => {
 
   return (
     <div>
-      <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
+      {/* <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl">Devices</h1>
         </div>
@@ -89,9 +89,9 @@ export const DeviceList = () => {
 
           <Modal show={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
             Delete here
-          </Modal> */}
+          </Modal>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
