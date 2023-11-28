@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import Image from "next/image";
-import CNWeb from "@/public/logo/epaper.svg";
+import Epaper from "@/public/logo/epaper.svg";
 import LightIcon from "@/assets/icons/thick/sun.svg";
 import DarkIcon from "@/assets/icons/thick/moon.svg";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-// import DrawerMenu from "./drawer";
 
 const navButton = [
     {
@@ -54,8 +53,8 @@ const Header = ({ currentPath }) => {
         >
             <div className="logo flex items-center font-semibold text-xl">
                 <Image
-                    src={CNWeb}
-                    alt="cnweb logo"
+                    src={Epaper}
+                    alt="Epaper logo"
                     className="invert dark:invert-0 h-10 w-10"
                 />
                 <NavbarBrand href="/" className="text-black dark:text-white">

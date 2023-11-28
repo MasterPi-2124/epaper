@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import Image from "next/image";
-import CNWeb from "@/public/logo/epaper.svg";
+import Epaper from "@/public/logo/epaper.svg";
 import Link from "next/link";
 import DropDown from "./dropdown";
 import { useTheme } from "next-themes";
@@ -23,16 +23,6 @@ const navButton = [
         text: "New Device",
         path: "/new-device",
         img: DeviceIcon,
-    },
-    {
-        text: "Devices",
-        path: "/devices",
-        img: DeviceIcon,
-    },
-    {
-        text: "Users",
-        path: "/users",
-        img: UserIcon,
     },
     {
         text: "Dashboard",
@@ -157,8 +147,8 @@ const Menu = ({ currentPath }) => {
             >
                 <NavbarBrand href="/" className="text-black dark:text-white logo flex items-center font-semibold text-xl">
                     <Image
-                        src={CNWeb}
-                        alt="cnweb logo"
+                        src={Epaper}
+                        alt="Epaper logo"
                         className="invert dark:invert-0 h-12 w-12"
                     />
                         Epaper
