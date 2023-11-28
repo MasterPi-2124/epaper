@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { instanceCoreApi } from "../../services/setupAxios";
-// import Modal from "../dashboard/modal";
+import Modal from "../dashboard/modal";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
