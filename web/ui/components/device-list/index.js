@@ -67,13 +67,13 @@ export const DeviceList = () => {
                     <td>
                       <button
                         className="edit pr-2"
-                        // onClick={() => setOpenEditModal(true)}
+                        onClick={() => setOpenEditModal(true)}
                       >
                         Edit
                       </button>
                       <button
                         className="delete"
-                        // onClick={() => setOpenDeleteModal(true)}
+                        onClick={() => setOpenDeleteModal(true)}
                       >
                         Delete
                       </button>
@@ -83,13 +83,13 @@ export const DeviceList = () => {
               )}
             </tbody>
           </table>
-          {/* <Modal show={openEditModal} onClose={() => setOpenEditModal(false)}>
+          <Modal show={openEditModal} onClose={() => setOpenEditModal(false)}>
             Hello
           </Modal>
 
           <Modal show={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
             Delete here
-          </Modal> */}
+          </Modal>
         </div>
       </div>
     </div>
