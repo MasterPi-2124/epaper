@@ -2,7 +2,7 @@ import DeleteIcon from "@/assets/icons/thin/delete.svg";
 import Image from "next/image";
 import { Table, useAsyncList } from "@nextui-org/react";
 
-const EditModal = ({ type, data, responses, switchToDelete }) => {
+const EditModal = ({ type, data }) => {
   if (type === "class") {
     const load = () => {
       return {
@@ -70,22 +70,6 @@ const EditModal = ({ type, data, responses, switchToDelete }) => {
       </div>
     )
   } else {
-    const exportResponse = () => {
-      const worksheet = XLSX.utils.json_to_sheet(responses);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
-
-      const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      const payload = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-      const downloadUrl = URL.createObjectURL(payload);
-
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = `${data._id}.xlsx`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
 
     const load = () => {
       return {

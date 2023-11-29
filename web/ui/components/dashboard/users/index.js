@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Modal from "../modal";
-import { Table } from "@nextui-org/react";
+import { Table, Modal } from "@nextui-org/react";
 import DeleteIcon from "@/assets/icons/thin/delete.svg";
 import EditIcon from "@/assets/icons/thin/edit.svg";
 import EyeIcon from "@/assets/icons/thin/eye.svg";
 import Image from "next/image";
 import { instanceCoreApi } from "@/services/setupAxios";
 import Notify from 'notiflix/build/notiflix-notify-aio';
-import DetailModal from "../modal/detail-modal";
 import DeleteModal from "../modal/delete-modal";
 import EditModal from "../modal/edit-modal";
+import DetailModal from "../modal/detail-modal";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
@@ -165,12 +164,14 @@ export const UserList = () => {
           />
         </Table>
 
-
-        <Modal show={detailModal} onClose={() => setDetailModal(false)}>
+        <Modal
+          blur
+          open={detailModal}
+          onClose={() => setDetailModal(false)}
+        >
           <DetailModal
             type="users"
             id={selectedUser}
-            close={() => setItemModal(false)}
             switchToEdit={() => {
               setDetailModal(false);
               setDeleteModal(true);
@@ -182,13 +183,17 @@ export const UserList = () => {
           />
         </Modal>
 
-        <Modal show={deleteModal} onClose={() => setDeleteModal(false)}>
+        <Modal
+          width="600px"
+          blur
+          open={deleteModal}
+          onClose={() => setDeleteModal(false)}
+        >
           <DeleteModal
             type="users"
             id={selectedUser}
             onClose={() => {
               setDeleteModal(false);
-              setDetailModal(true);
             }}
             onConfirm={() => {
               setDeleteModal(false);
@@ -196,17 +201,17 @@ export const UserList = () => {
           />
         </Modal>
 
-        <Modal show={editModal} onClose={() => setEditModal(false)}>
+        <Modal
+          width="600px"
+          blur
+          open={editModal}
+          onClose={() => setEditModal(false)}
+        >
           <EditModal
             type="users"
             id={selectedUser}
-            onClose={() => {
-              setEditModal(false);
-              setDetailModal(true);
-            }}
           />
         </Modal>
-
       </div>
     </div>
   );

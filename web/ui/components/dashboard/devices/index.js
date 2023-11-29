@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Modal from "../modal";
-import { Table } from "@nextui-org/react";
+import { Table, Modal } from "@nextui-org/react";
 import DeleteIcon from "@/assets/icons/thin/delete.svg";
 import EditIcon from "@/assets/icons/thin/edit.svg";
 import EyeIcon from "@/assets/icons/thin/eye.svg";
 import Image from "next/image";
 import { instanceCoreApi } from "@/services/setupAxios";
 import Notify from 'notiflix/build/notiflix-notify-aio';
+import DeleteModal from "../modal/delete-modal";
+import EditModal from "../modal/edit-modal";
+import DetailModal from "../modal/detail-modal";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
@@ -15,9 +17,10 @@ export const DeviceList = () => {
   const [stage, setStage] = useState(0);  // 0 - Loading
   // 1 - Loaded success
   // 2 - Failed
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [openDetailModal, setOpenDetailModal] = useState(false);
+  const [selectedDevice, setSelectedDevice] = useState("");
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
     instanceCoreApi.get(`${API}/devices`).then((res) => {
@@ -106,7 +109,10 @@ export const DeviceList = () => {
                   <Table.Cell>
                   <button
                       className="small-icon"
-                      onClick={() => setOpenEditModal(true)}
+                      onClick={() => {
+                        setDetailModal(true);
+                        setSelectedDevice(item._id);
+                      }}
                     >
                       <Image
                         src={EyeIcon}
@@ -115,7 +121,10 @@ export const DeviceList = () => {
                     </button>
                     <button
                       className="small-icon"
-                      onClick={() => setOpenEditModal(true)}
+                      onClick={() => {
+                        setEditModal(true);
+                        setSelectedDevice(item._id);
+                      }}
                     >
                       <Image
                         src={EditIcon}
@@ -124,7 +133,10 @@ export const DeviceList = () => {
                     </button>
                     <button
                       className="small-icon"
-                      onClick={() => setOpenDeleteModal(true)}
+                      onClick={() => {
+                        setDeleteModal(true);
+                        setSelectedDevice(item._id);
+                      }}
                     >
                       <Image
                         src={DeleteIcon}
@@ -152,16 +164,53 @@ export const DeviceList = () => {
           />
         </Table>
 
-        <Modal show={openEditModal} onClose={() => setOpenEditModal(false)}>
-          Hello
+        <Modal
+          blur
+          open={detailModal}
+          onClose={() => setDetailModal(false)}
+        >
+          <DetailModal
+            type="devices"
+            id={selectedDevice}
+            switchToEdit={() => {
+              setDetailModal(false);
+              setDeleteModal(true);
+            }}
+            switchToDelete={() => {
+              setDetailModal(false);
+              setDeleteModal(true);
+            }}
+          />
         </Modal>
 
-        <Modal show={openDetailModal} onClose={() => setOpenDetailModal(false)}>
-          Hello
+        <Modal
+          width="600px"
+          blur
+          open={deleteModal}
+          onClose={() => setDeleteModal(false)}
+        >
+          <DeleteModal
+            type="devices"
+            id={selectedDevice}
+            onClose={() => {
+              setDeleteModal(false);
+            }}
+            onConfirm={() => {
+              setDeleteModal(false);
+            }}
+          />
         </Modal>
 
-        <Modal show={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
-          Delete here
+        <Modal
+          width="600px"
+          blur
+          open={editModal}
+          onClose={() => setEditModal(false)}
+        >
+          <EditModal
+            type="devices"
+            id={selectedDevice}
+          />
         </Modal>
       </div>
     </div>
