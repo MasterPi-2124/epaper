@@ -4,6 +4,7 @@ import { DeviceList } from "@/components/dashboard/devices";
 import React, { useState, useEffect } from "react";
 import validToken from "@/services/validToken"
 import Cookies from "universal-cookie";
+import Link from "next/link";
 
 const DevicesDashboard = () => {
   const cookies = new Cookies();

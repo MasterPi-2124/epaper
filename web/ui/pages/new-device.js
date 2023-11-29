@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import validToken from "@/services/validToken";
 import NewDevice from "@/components/new-device"
+import Link from "next/link";
 
 function NewDevicePage() {
   const cookies = new Cookies();
