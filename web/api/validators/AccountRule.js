@@ -36,12 +36,6 @@ const registerRule = () => {
       .withMessage("Password is required")
       .isLength({ min: 8 })
       .withMessage("Password must be at least 8 characters long"),
-    body("accountName")
-      .trim()
-      .exists({ values: "false" })
-      .withMessage("Account's name is required")
-      .isLength({ min: 1 })
-      .withMessage("Account's name must be at least 8 characters long"),
   ];
 };
 
