@@ -8,6 +8,9 @@ exports.getAllDevices = async (filters = null) => {
       if ("active" in filters) {
         query.active = filters.active;
       }
+      if ("topic" in filters) {
+        query.topic = filters.topic;
+      }
     }
     return await DeviceModel.find(query);
   } catch (error) {

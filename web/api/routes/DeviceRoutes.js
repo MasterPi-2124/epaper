@@ -8,9 +8,13 @@ const {
   deleteDevice,
 } = require("../controllers/DeviceController");
 
+const { createRule } = require('../validators/DeviceRule');
+const { validate } = require('../validators/Validator');
+const auth = require("../auth/auth");
 const router = express.Router();
 
-router.route("/").get(getAllDevices).post(createDevice);
-router.route("/:id").get(getDeviceById).put(updateDevice).delete(deleteDevice);
+router.use(auth);
+router.route("/").get(getAllDevices).post(createRule(), validate, createDevice);
+router.route("/:id").get(getDeviceById).put(createRule(), validate, updateDevice).delete(deleteDevice);
 
 module.exports = router;

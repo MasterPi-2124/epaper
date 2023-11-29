@@ -4,7 +4,12 @@ const Schema = mongoose.Schema;
 const deviceSchema = new Schema({
     name: {
         type: String,
-        default: "epd#1"
+        default: "A very beautiful EPD device"
+    },
+    topic: {
+        type: String,
+        default: "a-very-beautiful-epd-device",
+        unique: true,
     },
     ssid: {
         type: String,
