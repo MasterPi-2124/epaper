@@ -5,9 +5,9 @@ const { body } = require("express-validator");
 // https://express-validator.github.io/docs/api/validation-chain
 
 // Cái này cần thì mới gọi
-// Đây là service cho đối tượng user
+// Đây là service cho đối tượng account
 // Mình gọi vì mình muốn kiểm tra xem email đã dùng chưa (bên dưới)
-const userService = require("../services/UserService");
+const accountService = require("../services/AccountService");
 
 // Đây là hàm sẽ trả về bộ quy tắc kiểm tra đầu vào 
 // Tên đặt tùy ý, miễn là dễ hiểu
@@ -25,23 +25,23 @@ const registerRule = () => {
       // Đây là quy tắc viết riêng trong trường hợp thư viện cho sẵn không có
       // Kiểm tra xem email đã tồn tại chưa
       .custom(async (email) => {
-        const user = await userService.findUserByEmail(email);
-        if (user) {
+        const account = await accountService.findAccountByEmail(email);
+        if (account) {
           throw new Error("Email already in use");
         }
       }),
     body("password")
       .trim()
-      .exists({ values: "falsy" })
+      .exists({ values: "false" })
       .withMessage("Password is required")
       .isLength({ min: 8 })
       .withMessage("Password must be at least 8 characters long"),
-    body("userName")
+    body("accountName")
       .trim()
-      .exists({ values: "falsy" })
-      .withMessage("User's name is required")
+      .exists({ values: "false" })
+      .withMessage("Account's name is required")
       .isLength({ min: 1 })
-      .withMessage("User's name must be at least 8 characters long"),
+      .withMessage("Account's name must be at least 8 characters long"),
   ];
 };
 
@@ -49,13 +49,13 @@ const loginRule = () => {
     return [
         body("email")
       .trim()
-      .exists({ values: "falsy" })
+      .exists({ values: "false" })
       .withMessage("Email is required")
       .isEmail()
       .withMessage("Invalid email"),
     body("password")
       .trim()
-      .exists({ values: "falsy" })
+      .exists({ values: "false" })
       .withMessage("Password is required")
       .isLength({ min: 8 })
       .withMessage("Password must be at least 8 characters long"),
