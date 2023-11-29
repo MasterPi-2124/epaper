@@ -1,13 +1,15 @@
-import Menu from "@/components/menu";
+import Menu from "@/components/dashboard/menu";
 import Layout from "@/components/layout";
-import { DeviceList } from "@/components/dashboard/devices";
 import React, { useState, useEffect } from "react";
-import validToken from "@/services/validToken"
+import Account from "@/components/account"
 import Cookies from "universal-cookie";
+import Link from "next/link";
+import validToken from "@/services/validToken";
 
-const DevicesDashboard = () => {
+function AccountPage() {
   const cookies = new Cookies();
   const [token, setToken] = useState(cookies.get("TOKEN"));
+
   useEffect(() => {
     const token = cookies.get("TOKEN");
     if (validToken(token)) {
@@ -19,13 +21,13 @@ const DevicesDashboard = () => {
   }, [token]);
 
   return (
-    <Layout pageTitle="Devices | Epaper">
+    <Layout pageTitle="Account | Dashboard">
       <div className="dashboard bg-[#212121] h-screen bg-center bg-cover bg-no-repeat flex items-center">
         {token ? (
           <>
-            <Menu currentPath={"Dashboard"} />
+            <Menu currentPath={"Account"} />
             <div className="main-container">
-              <DeviceList />
+                <Account cookies={cookies} setToken={setToken} />
             </div>
           </>
         ) : (
@@ -43,4 +45,4 @@ const DevicesDashboard = () => {
   );
 }
 
-export default DevicesDashboard;
+export default AccountPage;

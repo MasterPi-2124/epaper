@@ -49,11 +49,9 @@ const segoe = localFont({
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <ThemeProvider enableSystem={true} attribute="class">
-
       <div className={`${segoe.variable} font-segoe`}>
         <Component {...pageProps} />
       </div>
-
     </ThemeProvider>
   );
 }
