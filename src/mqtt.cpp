@@ -133,6 +133,7 @@ void MQTT_Connect(const char * id, UBYTE *BlackImage) {
                 EPD_2IN9_V2_Display_Partial(BlackImage);
                 Serial.println(" connected");
                 client.onMessage(onMessage);
+                Serial.println(id);
                 client.subscribe(id);
             } else {
                 Serial.print("failed, rc=");
@@ -142,22 +143,11 @@ void MQTT_Connect(const char * id, UBYTE *BlackImage) {
                 delay(5000);
             }
         }
-    }
-}
+    }}
 
-void MQTT_Loop(UBYTE *BlackImage)
+void MQTT_Loop(const char * id, UBYTE *BlackImage)
 {
-    UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
-    if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
-    {
-        printf("Failed to apply for black memory...\r\n");
-        while (1)
-            ;
-    }
-    printf("Paint_NewImage\r\n");
-    Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
-    EPD_2IN9_V2_Init();
-    Paint_Clear(0xff);
+    printf("loop done\r\n");
 
     client.poll();
     if (length) {
@@ -165,6 +155,7 @@ void MQTT_Loop(UBYTE *BlackImage)
         EPD_2IN9_V2_Display(BlackImage);
         length = 0;
         delete [] data;
+        client.beginMessage(id);
     }
     DEV_Delay_ms(5000);
 }

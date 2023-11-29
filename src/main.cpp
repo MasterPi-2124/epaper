@@ -307,7 +307,10 @@ void loop()
         String password = preferences.getString("pass", "");
         String id = preferences.getString("id", "");
         MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str(), BlackImage);
+        MQTT_Loop(id.c_str(), BlackImage);
         updated = false;
+    } else {
+        String id = preferences.getString("id", "");
+        MQTT_Loop(id.c_str(), BlackImage);
     }
-    MQTT_Loop(BlackImage);
 }
