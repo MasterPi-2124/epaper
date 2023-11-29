@@ -10,7 +10,7 @@ Preferences preferences;
 UBYTE *BlackImage;
 UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
 
-/* Entry point ----------------------------------------------------------------*/
+
 void setup()
 {
     DEV_Delay_ms(1000);
@@ -309,4 +309,5 @@ void loop()
         MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str(), BlackImage);
         updated = false;
     }
+    MQTT_Loop(BlackImage);
 }

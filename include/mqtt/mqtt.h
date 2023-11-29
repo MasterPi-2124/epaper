@@ -16,7 +16,8 @@
 
 void MQTT_Client_Init(const char * ssid, const char * password, const char * id, UBYTE *Image);
 void MQTT_Connect(const char * id, UBYTE *Image);
-void MQTT_Loop(void);
+void MQTT_Loop(UBYTE *Image);
+
 // void MQTT_Publish(char *data, char *topic);
 // void MQTT_Subscribe(char* topc);
 
