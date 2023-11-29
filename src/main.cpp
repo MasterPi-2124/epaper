@@ -54,19 +54,19 @@ void setup()
     // Get Preferences local data
     String ssid = preferences.getString("ssid", "");
     String password = preferences.getString("pass", "");
-    String id = preferences.getString("id", "");
+    String topic = preferences.getString("topic", "");
     String active = preferences.getString("active", "false");
     String userID = preferences.getString("userID", "");
     Serial.println(ssid);
     Serial.println(password);
-    Serial.println(id);
+    Serial.println(topic);
     Serial.println(active);
     Serial.println(userID);
 
     if (!ssid.isEmpty() && !password.isEmpty()) {
         // If SSID and password are available in Preferences, use them to connect to Wi-Fi
-        MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str(), BlackImage);
-        MQTT_Connect(id.c_str(), BlackImage);
+        MQTT_Client_Init(ssid.c_str(), password.c_str(), topic.c_str(), BlackImage);
+        MQTT_Connect(topic.c_str(), BlackImage);
     }
 #endif
 
@@ -305,9 +305,9 @@ void loop()
     if (updated) {
         String ssid = preferences.getString("ssid", "");
         String password = preferences.getString("pass", "");
-        String id = preferences.getString("id", "");
-        MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str(), BlackImage);
-        MQTT_Loop(id.c_str(), BlackImage);
+        String topic = preferences.getString("topic", "");
+        MQTT_Client_Init(ssid.c_str(), password.c_str(), topic.c_str(), BlackImage);
+        MQTT_Loop(topic.c_str(), BlackImage);
         updated = false;
     } else {
         String id = preferences.getString("id", "");

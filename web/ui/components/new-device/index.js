@@ -9,6 +9,7 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 const NewDevice = () => {
     const [deviceCreated, setDeviceCreated] = useState({
         name: "",
+        topic: "",
         ssid: "",
         pass: "",
         active: false,
@@ -28,13 +29,13 @@ const NewDevice = () => {
             console.error(error);
             setSubmitted(false);
             Notify.Notify.failure(`Error updating new device info: ${error}`);
-
         })
     };
 
     const handleReset = () => {
         setDeviceCreated({
             name: "",
+            topic: "",
             ssid: "",
             pass: "",
             active: false,

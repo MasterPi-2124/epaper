@@ -59,7 +59,7 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
     const handleChange = (param, e) => {
         let userTyped = {};
         if (param === "name") {
-            userTyped[param] = e.target.value.toString()
+            userTyped["topic"] = e.target.value.toString()
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase()
@@ -67,6 +67,7 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
                 .replace(/\s+/g, '-')
                 .replace(/[^\w-]+/g, '')
                 .replace(/--+/g, '-');
+            userTyped[param] = e.target.value;
         } else {
             userTyped[param] = e.target.value;
         }
