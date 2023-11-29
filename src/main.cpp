@@ -7,6 +7,8 @@
 #include <Preferences.h>
 
 Preferences preferences;
+UBYTE *BlackImage;
+UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
 
 /* Entry point ----------------------------------------------------------------*/
 void setup()
@@ -20,9 +22,7 @@ void setup()
     DEV_Delay_ms(500);
 
     // Create a new image cache
-    UBYTE *BlackImage;
     /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
-    UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
     if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
     {
         printf("Failed to apply for black memory...\r\n");
@@ -34,8 +34,24 @@ void setup()
 
     preferences.begin("my-app", false);
 
+#if 1
+    Paint_Clear(0xff);
+    char16_t * text = u"Initializing ....";
+    const char16_t * Welcome = u"Pi's Epaper Project";
+    Paint_DrawString_custom(80, 50, Welcome, &Segoe12, BLACK, WHITE);
+    EPD_2IN9_V2_Display(BlackImage);
+
+    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(80, 70, text, &Segoe12, BLACK, WHITE);
+    EPD_2IN9_V2_Display_Partial(BlackImage);
+    DEV_Delay_ms(3000);
+
+    text = u"Getting local data ...";
+    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(80, 70, text, &Segoe12, BLACK, WHITE);
+    EPD_2IN9_V2_Display_Partial(BlackImage);
+
     // Get Preferences local data
-    Serial.println("Getting local data");
     String ssid = preferences.getString("ssid", "");
     String password = preferences.getString("pass", "");
     String id = preferences.getString("id", "");
@@ -49,11 +65,11 @@ void setup()
 
     if (!ssid.isEmpty() && !password.isEmpty()) {
         // If SSID and password are available in Preferences, use them to connect to Wi-Fi
-        MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str());
-        MQTT_Connect(id.c_str());
+        MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str(), BlackImage);
+        MQTT_Connect(id.c_str(), BlackImage);
     }
+#endif
 
-    // MQTT_Loop();
 
     // printf("e-Paper Init and Clear...\r\n");
 
@@ -103,8 +119,6 @@ void setup()
     //     DEV_Delay_ms(2000);
     // #endif
 
-#if 1
-    Serial.print("Show custom data");
     // EPD_2IN9_V2_Init();
     // Paint_SetRotate(90);
     // Paint_DrawString(100, 20, "!", &Segoe12, WHITE, BLACK);
@@ -116,26 +130,20 @@ void setup()
     // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
     // Paint_SelectImage(BlackImage);
     // Paint_SetScale(4);
-    Paint_Clear(0xff);
 
     // Paint_DrawString_custom(150, 10, "你好abc", &Font12CN, GRAY4, GRAY1);
     // Paint_DrawString_custom(150, 30, "你 好 树 莓派", &Font12CN, GRAY3, GRAY2);
-    const char16_t * Welcome = u"WELCOME";
     // const char16_t * Line2 = u"Addr: DHBK, Hai Bà Trưng, Hà Nội, Việt Nam";
     // const char16_t * Line3 = u"Tel: (+84) 796 045 129";
     // const char16_t * Line4 = u"Email: minh.vln140501@gmail.com";
-    Paint_DrawString_custom(20, 30, Welcome, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
     // Paint_DrawString_custom(10, 50, Line2, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
     // Paint_DrawString_custom(10, 70, Line3, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
     // Paint_DrawString_custom(50, 90, Line4, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
     // Paint_DrawString_custom(10, 70, "Vũ Lê Nhật Minh", &Segoe12, WHITE, BLACK);
     // Paint_DrawString_custom(150, 60, "微雪电子Ả", &Font12CN, GRAY1, GRAY4);
     // Paint_DrawString_custom(10, 20, "微雪电子", &Font12CN, GRAY1, GRAY4);
-    EPD_2IN9_V2_Display(BlackImage);
     // Paint_Clear(0xff);
     // EPD_2IN9_V2_4GrayDisplay(BlackImage);
-    DEV_Delay_ms(2000);
-#endif
 
 // #if 1
 //     free(BlackImage);
@@ -298,7 +306,7 @@ void loop()
         String ssid = preferences.getString("ssid", "");
         String password = preferences.getString("pass", "");
         String id = preferences.getString("id", "");
-        MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str());
+        MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str(), BlackImage);
         updated = false;
     }
 }
