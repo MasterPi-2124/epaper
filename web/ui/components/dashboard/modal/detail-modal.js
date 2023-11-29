@@ -3,7 +3,7 @@ import DeleteIcon from "@/assets/icons/thin/delete.svg";
 import Image from "next/image";
 import { Table, useAsyncList } from "@nextui-org/react";
 
-const ItemDetailModal = ({ type, data, responses, switchToDelete }) => {
+const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
   if (type === "class") {
     const load = () => {
       return {
@@ -217,4 +217,4 @@ const ItemDetailModal = ({ type, data, responses, switchToDelete }) => {
   }
 }
 
-export default ItemDetailModal
+export default DetailModal

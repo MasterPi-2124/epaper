@@ -662,8 +662,6 @@ void Paint_DrawString_custom(UWORD Xstart, UWORD Ystart, const char16_t * pStrin
 
     /* Send the string character by character on EPD */
     while (*p_text != 0) {
-        Serial.print("character: ");
-        Serial.println(*p_text);
         uint8_t width;
         for(Num = 0; Num < font->size; Num++) {
             if(*p_text == font->table[Num].index[0]) {

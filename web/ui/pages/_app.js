@@ -8,6 +8,7 @@ import "@/styles/button.css";
 import "@/styles/main-container.css";
 import "@/styles/modal.css";
 import "@/styles/dashboard.css";
+import "@/styles/wheelpicker.css";
 
 import localFont from 'next/font/local';
 import { ThemeProvider } from "next-themes";

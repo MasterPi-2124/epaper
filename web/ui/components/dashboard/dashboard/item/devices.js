@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useBoards } from "../../context";
-import Modal from "../../modal";
-import ItemDetailModal from "../../modal/item-detail";
-import UserIcon from "@/assets/icons/thick/human.svg";
-import SubjectIcon from "@/assets/icons/thick/subject.svg";
-import DateIcon from "@/assets/icons/thick/date.svg";
-import Image from "next/image";
-import DeleteItemModal from "../../modal/delete-item";
+// import Modal from "../../modal";
+// import ItemDetailModal from "../../modal/item-detail";
+// import UserIcon from "@/assets/icons/thick/human.svg";
+// import SubjectIcon from "@/assets/icons/thick/subject.svg";
+// import DateIcon from "@/assets/icons/thick/date.svg";
+// import Image from "next/image";
+// import DeleteItemModal from "../../modal/delete-item";
 
 const ClassItem = ({ data }) => {
     const [openItemModal, setOpenItemModal] = useState(false);
@@ -15,7 +15,7 @@ const ClassItem = ({ data }) => {
 
     return (
         <>
-            <li className="items-group select-none px-4 py-6 rounded-lg cursor-pointer"
+            {/* <li className="items-group select-none px-4 py-6 rounded-lg cursor-pointer"
                 onClick={() => setOpenItemModal(true)}>
                 <div className="item-title">
                     <p className="heading-md mb-2 group-hover:text-mainPurple">Class #{data?.codename}</p>
@@ -67,7 +67,7 @@ const ClassItem = ({ data }) => {
                         deleteItem(data._id)
                         setDeleteModal(false);
                     }} />
-            </Modal>
+            </Modal> */}
         </>
     )
 }

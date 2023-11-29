@@ -14,9 +14,10 @@
 #define MQTT_USERNAME   "masterpi"
 #define MQTT_PASSWORD   "masterpi"
 
-void MQTT_Client_Init(void);
-void MQTT_Connect(void);
-void MQTT_Loop(uint8_t *BlackImage);
+void MQTT_Client_Init(const char * ssid, const char * password, const char * id, UBYTE *Image);
+void MQTT_Connect(const char * id, UBYTE *Image);
+void MQTT_Loop(UBYTE *Image);
+
 // void MQTT_Publish(char *data, char *topic);
 // void MQTT_Subscribe(char* topc);
 

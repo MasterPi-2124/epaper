@@ -4,28 +4,25 @@
 #include "GUI_Paint/GUI_Paint.h"
 #include "mqtt/mqtt.h"
 #include <stdlib.h>
+#include <Preferences.h>
 
-/* Entry point ----------------------------------------------------------------*/
+Preferences preferences;
 UBYTE *BlackImage;
+UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
+
 
 void setup()
 {
-    printf("EPD_2IN9_V2_test Demo\r\n");
-    delay(1000);
+    DEV_Delay_ms(1000);
+    Serial.begin(115200);
+
     DEV_Module_Init();
-
-    // MQTT Client init and connect
-    MQTT_Client_Init();
-    MQTT_Connect();
-
-    printf("e-Paper Init and Clear...\r\n");
     EPD_2IN9_V2_Init();
     EPD_2IN9_V2_Clear();
     DEV_Delay_ms(500);
 
     // Create a new image cache
     /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
-    UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
     if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
     {
         printf("Failed to apply for black memory...\r\n");
@@ -34,6 +31,48 @@ void setup()
     }
     printf("Paint_NewImage\r\n");
     Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
+
+    preferences.begin("my-app", false);
+
+#if 1
+    Paint_Clear(0xff);
+    char16_t * text = u"Initializing ....";
+    const char16_t * Welcome = u"Pi's Epaper Project";
+    Paint_DrawString_custom(80, 50, Welcome, &Segoe12, BLACK, WHITE);
+    EPD_2IN9_V2_Display(BlackImage);
+
+    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(80, 70, text, &Segoe12, BLACK, WHITE);
+    EPD_2IN9_V2_Display_Partial(BlackImage);
+    DEV_Delay_ms(3000);
+
+    text = u"Getting local data ...";
+    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(80, 70, text, &Segoe12, BLACK, WHITE);
+    EPD_2IN9_V2_Display_Partial(BlackImage);
+
+    // Get Preferences local data
+    String ssid = preferences.getString("ssid", "");
+    String password = preferences.getString("pass", "");
+    String id = preferences.getString("id", "");
+    String active = preferences.getString("active", "false");
+    String userID = preferences.getString("userID", "");
+    Serial.println(ssid);
+    Serial.println(password);
+    Serial.println(id);
+    Serial.println(active);
+    Serial.println(userID);
+
+    if (!ssid.isEmpty() && !password.isEmpty()) {
+        // If SSID and password are available in Preferences, use them to connect to Wi-Fi
+        MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str(), BlackImage);
+        MQTT_Connect(id.c_str(), BlackImage);
+    }
+#endif
+
+
+    // printf("e-Paper Init and Clear...\r\n");
+
 
     // #if 1   //show image for array
     // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 270, WHITE);
@@ -80,33 +119,31 @@ void setup()
     //     DEV_Delay_ms(2000);
     // #endif
 
-// #if 1
-//     Serial.print("Show custom data");
-//     EPD_2IN9_V2_Init();
-//     // Paint_SetRotate(90);
-//     // Paint_DrawString(100, 20, "!", &Segoe12, WHITE, BLACK);
-//     //     Imagesize = ((EPD_2IN9_V2_WIDTH % 4 == 0)? (EPD_2IN9_V2_WIDTH / 4 ): (EPD_2IN9_V2_WIDTH / 4 + 1)) * EPD_2IN9_V2_HEIGHT;
-//     // if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
-//     //     printf("Failed to apply for black memory...\r\n");
-//     //     while(1);
-//     // }
-//     // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
-//     // Paint_SelectImage(BlackImage);
-//     // Paint_SetScale(4);
-//     Paint_Clear(0xff);
+    // EPD_2IN9_V2_Init();
+    // Paint_SetRotate(90);
+    // Paint_DrawString(100, 20, "!", &Segoe12, WHITE, BLACK);
+    //     Imagesize = ((EPD_2IN9_V2_WIDTH % 4 == 0)? (EPD_2IN9_V2_WIDTH / 4 ): (EPD_2IN9_V2_WIDTH / 4 + 1)) * EPD_2IN9_V2_HEIGHT;
+    // if((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL) {
+    //     printf("Failed to apply for black memory...\r\n");
+    //     while(1);
+    // }
+    // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
+    // Paint_SelectImage(BlackImage);
+    // Paint_SetScale(4);
 
-    const char16_t * Line1 = u"Name: Vũ Lê Nhật Minh";
-//     const char16_t * Line2 = u"Addr: DHBK, Hai Bà Trưng, Hà Nội, Việt Nam";
-//     const char16_t * Line3 = u"Tel: (+84) 796 045 129";
-//     const char16_t * Line4 = u"Email: minh.vln140501@gmail.com";
-    // Paint_DrawString_custom(10, 30, Line1, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
-//     Paint_DrawString_custom(10, 50, Line2, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
-//     Paint_DrawString_custom(10, 70, Line3, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
-//     Paint_DrawString_custom(50, 90, Line4, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
-//     EPD_2IN9_V2_Display(BlackImage);
-//     // Paint_Clear(0xff);
-//     DEV_Delay_ms(2000);
-// #endif
+    // Paint_DrawString_custom(150, 10, "你好abc", &Font12CN, GRAY4, GRAY1);
+    // Paint_DrawString_custom(150, 30, "你 好 树 莓派", &Font12CN, GRAY3, GRAY2);
+    // const char16_t * Line2 = u"Addr: DHBK, Hai Bà Trưng, Hà Nội, Việt Nam";
+    // const char16_t * Line3 = u"Tel: (+84) 796 045 129";
+    // const char16_t * Line4 = u"Email: minh.vln140501@gmail.com";
+    // Paint_DrawString_custom(10, 50, Line2, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    // Paint_DrawString_custom(10, 70, Line3, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    // Paint_DrawString_custom(50, 90, Line4, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
+    // Paint_DrawString_custom(10, 70, "Vũ Lê Nhật Minh", &Segoe12, WHITE, BLACK);
+    // Paint_DrawString_custom(150, 60, "微雪电子Ả", &Font12CN, GRAY1, GRAY4);
+    // Paint_DrawString_custom(10, 20, "微雪电子", &Font12CN, GRAY1, GRAY4);
+    // Paint_Clear(0xff);
+    // EPD_2IN9_V2_4GrayDisplay(BlackImage);
 
 // #if 1
 //     free(BlackImage);
@@ -235,26 +272,42 @@ void setup()
     // BlackImage = NULL;
 }
 
-/* The main loop -------------------------------------------------------------*/
 void loop()
 {
-    // UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD_2IN9_V2_WIDTH / 8 + 1)) * EPD_2IN9_V2_HEIGHT;
-    // if ((BlackImage = (UBYTE *)malloc(Imagesize)) == NULL)
-    // {
-    //     printf("Failed to apply for black memory...\r\n");
-    //     while (1)
-    //         ;
-    // }
-    // printf("Paint_NewImage\r\n");
-    // Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
-    //
-     MQTT_Loop(BlackImage);
+    static String key = "";
+    static String value = "";
+    static bool isKey = true;
+    static bool updated = false;
+    while (Serial.available()) { // Check if data is available to read
+        char c = Serial.read();
+        if (c == ':') {
+            isKey = false;
+        } else if (c == '\n') {
+            Serial.print("Received ");
+            Serial.print(key);
+            Serial.print(":");
+            Serial.println(value);
+            preferences.putString(key.c_str(), value);
+            updated = true;
+            key = "";
+            value = "";
+            isKey = true;
+        } else {
+            if (isKey) {
+                key += c;
+            } else {
+                value += c;
+            }
+        }
+    }
 
-    // EPD_2IN9_V2_Init();
-    // // Serial.println(data);
-    // Paint_Clear(0xff);
-    // Paint_DrawString_custom(50, 90, data, &Segoe12, BLACK, WHITE); // ẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬẠĂẰẮẲẴẶÂẦẤẨẪẬ
-    // EPD_2IN9_V2_Display(BlackImage);
-    // DEV_Delay_ms(2000);
-
+    // Reconfig after Preferences update
+    if (updated) {
+        String ssid = preferences.getString("ssid", "");
+        String password = preferences.getString("pass", "");
+        String id = preferences.getString("id", "");
+        MQTT_Client_Init(ssid.c_str(), password.c_str(), id.c_str(), BlackImage);
+        updated = false;
+    }
+    MQTT_Loop(BlackImage);
 }

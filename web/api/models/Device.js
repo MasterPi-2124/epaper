@@ -6,6 +6,12 @@ const deviceSchema = new Schema({
         type: String,
         default: "epd#1"
     },
+    ssid: {
+        type: String,
+    },
+    pass: {
+        type: String,
+    },
     userID: {
         type: String,
         unique: false,

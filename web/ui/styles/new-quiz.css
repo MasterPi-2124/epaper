@@ -47,7 +47,9 @@
 }
 
 div.nextui-popover-content {
-    backdrop-filter: blur(88px) !important;
+    backdrop-filter: blur(8px);
+    background-color: rgb(47, 47, 47) !important;
+    border: 1px solid rgb(79,79,79);
 }
 
 ul.nextui-c-clSMyX, ul.nextui-c-ltVxD {

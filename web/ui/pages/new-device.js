@@ -1,4 +1,4 @@
-import Menu from "@/components/dashboard/menu";
+import Menu from "@/components/menu";
 import Layout from "@/components/layout";
 import React, { useState, useEffect } from "react";
 import NewDevice from "@/components/new-device"
