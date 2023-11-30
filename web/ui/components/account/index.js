@@ -12,10 +12,10 @@ const Account = ({ cookies, setToken }) => {
         const token = cookies.get("TOKEN");
         const payload = token.split(".")[1];
         const decodedToken = atob(payload);
-        const { userId } = JSON.parse(decodedToken);
-        instanceCoreApi.get(`${API}/users/${userId}`).then((res) => {
+        const { accountId } = JSON.parse(decodedToken);
+        instanceCoreApi.get(`${API}/account/${accountId}`).then((res) => {
             setUser({
-                "id": userId,
+                "id": accountId,
                 "email": res.data.data.email,
                 "name": res.data.data.name,
                 "gender": res.data.data.gender === 1 ? "Male" : "Female",
