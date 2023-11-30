@@ -20,7 +20,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const user = await userService.createUser(req.body, req.acccount.accountId);
+    const user = await userService.createUser(req.body, req.account.accountId);
     res.json({ data: user, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -47,7 +47,7 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const user = await classService.deleteUser(req.params.id, req.acccount.accountId);
+    const user = await classService.deleteUser(req.params.id, req.account.accountId);
     res.json({ data: user, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
