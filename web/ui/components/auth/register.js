@@ -31,7 +31,7 @@ const RegisterForm = ({ currentPath }) => {
 
             console.log(data);
 
-            instanceCoreApi.post(`${API}/accounts/register`, data).then(response => {
+            instanceCoreApi.post(`${API}/account/register`, data).then(response => {
                 console.log(response);
                 setEmail("");
                 setPassword("");
