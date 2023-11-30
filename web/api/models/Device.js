@@ -26,6 +26,11 @@ const deviceSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: "Account",
+        default: null
     }
 });
 
