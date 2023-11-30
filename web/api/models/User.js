@@ -44,6 +44,11 @@ const userSchema = new Schema({
         type: String,
         required: false,
         default: ""
+    },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: "Account",
+        default: null
     }
 });
 

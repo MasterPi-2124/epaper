@@ -20,6 +20,9 @@ exports.getAllUsers = async (filters = null) => {
       if ("active" in filters) {
         query.active = filters.active;
       }
+      if ("accountId" in filters) {
+        query.createdBy = filters.accountId;
+      }
     }
     return await UserModel.find(query);
   } catch (error) {
@@ -31,23 +34,24 @@ exports.getUserById = async (id) => {
   return await UserModel.findById(id);
 }
 
-exports.createUser = async (user) => {
+exports.createUser = async (user, accountId = null) => {
   console.log(user);
+  user.createdBy = accountId;
   if (user.active) {
     const displayDevice = await DeviceModel.findById(user.deviceID)
     client.on('connect', () => {
       console.log("Connected to MQTT Broker!");
-      client.publish(displayDevice.name, user.fontStyle);
-      client.publish(displayDevice.name, user.designSchema);
-      client.publish(displayDevice.name, user.name);
-      client.publish(displayDevice.name, user.email);
-      client.publish(displayDevice.name, user.address);
-      client.publish(displayDevice.name, user._id);
-      client.subscribe(displayDevice.name, { qos: 0 }, (err) => {
+      client.publish(displayDevice.topic, user.fontStyle);
+      client.publish(displayDevice.topic, user.designSchema);
+      client.publish(displayDevice.topic, user.name);
+      client.publish(displayDevice.topic, user.email);
+      client.publish(displayDevice.topic, user.address);
+      client.publish(displayDevice.topic, user._id);
+      client.subscribe(displayDevice.topic, { qos: 0 }, (err) => {
         if (err) {
-          console.log(`Error subscribing to topic ${displayDevice.name}`);
+          console.log(`Error subscribing to topic ${displayDevice.topic}`);
         } else {
-          console.log(`Subscribed to topic ${displayDevice.name} successfully!`);
+          console.log(`Subscribed to topic ${displayDevice.topic} successfully!`);
         }
       });
     })
@@ -56,7 +60,7 @@ exports.createUser = async (user) => {
       const data = message.toString();
       const regex = /^writeOK\|(.+)$/;
       const match = data.match(regex);
-      if (match && topic === displayDevice.name) {
+      if (match && topic === displayDevice.topic) {
         const oldUserID = match[1];
         const oldUser = await UserModel.findById(oldUserID);
         oldUser["active"] = false;
@@ -77,6 +81,10 @@ exports.updateUser = async (id, user) => {
   return await UserModel.findByIdAndUpdate(id, user);
 }
 
-exports.deleteUser = async (id) => {
+exports.deleteUser = async (id, accountId = null) => {
+  let user = this.getUserById(id, accountId);
+  if (user === null) {
+    return null;
+  }
   return await UserModel.findByIdAndDelete(id);
 };
