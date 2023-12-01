@@ -1,11 +1,6 @@
 const UserModel = require("../models/User");
 const DeviceModel = require("../models/Device");
-const mqtt = require("mqtt");
-
-const client = mqtt.connect("mqtt://95.217.121.243:1883", {
-  username: "masterpi",
-  password: "masterpi"
-});
+const mqttClient = require("../mqtt/mqtt");
 
 exports.findUserByEmail = async (email) => {
   email = email.trim().toLowerCase();
@@ -38,20 +33,21 @@ exports.createUser = async (user, accountId = null) => {
   console.log(user);
   user.createdBy = accountId;
   if (user.active) {
+    client = mqttClient.connect();
     const displayDevice = await DeviceModel.findById(user.deviceID)
     client.on('connect', () => {
       console.log("Connected to MQTT Broker!");
-      client.publish(displayDevice.topic, user.fontStyle);
-      client.publish(displayDevice.topic, user.designSchema);
-      client.publish(displayDevice.topic, user.name);
-      client.publish(displayDevice.topic, user.email);
-      client.publish(displayDevice.topic, user.address);
-      client.publish(displayDevice.topic, user._id);
-      client.subscribe(displayDevice.topic, { qos: 0 }, (err) => {
+      client.publish(displayDevice._id, user.fontStyle);
+      client.publish(displayDevice._id, user.designSchema);
+      client.publish(displayDevice._id, user.name);
+      client.publish(displayDevice._id, user.email);
+      client.publish(displayDevice._id, user.address);
+      client.publish(displayDevice._id, user._id);
+      client.subscribe(displayDevice._id, { qos: 0 }, (err) => {
         if (err) {
-          console.log(`Error subscribing to topic ${displayDevice.topic}`);
+          console.log(`Error subscribing to topic ${displayDevice._id}`);
         } else {
-          console.log(`Subscribed to topic ${displayDevice.topic} successfully!`);
+          console.log(`Subscribed to topic ${displayDevice._id} successfully!`);
         }
       });
     })
@@ -60,7 +56,7 @@ exports.createUser = async (user, accountId = null) => {
       const data = message.toString();
       const regex = /^writeOK\|(.+)$/;
       const match = data.match(regex);
-      if (match && topic === displayDevice.topic) {
+      if (match && topic === displayDevice._id) {
         const oldUserID = match[1];
         const oldUser = await UserModel.findById(oldUserID);
         oldUser["active"] = false;

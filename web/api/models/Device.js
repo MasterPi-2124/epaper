@@ -6,11 +6,6 @@ const deviceSchema = new Schema({
         type: String,
         default: "A very beautiful EPD device"
     },
-    topic: {
-        type: String,
-        default: "a-very-beautiful-epd-device",
-        unique: true,
-    },
     ssid: {
         type: String,
     },

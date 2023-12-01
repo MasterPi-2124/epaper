@@ -11,11 +11,11 @@ const accountService = require("../services/AccountService");
 
 // Đây là hàm sẽ trả về bộ quy tắc kiểm tra đầu vào 
 // Tên đặt tùy ý, miễn là dễ hiểu
-const registerRule = () => { 
+const registerRule = () => {
   return [
     // Lấy dữ liệu của trường "email" trong body 
     // Các hàm sau đó sẽ chạy từ trên xuống / trái sang phải
-    body("email") 
+    body("email")
       .trim() // Xóa khoảng trắng trước và sau
       .toLowerCase()
       .exists({ values: "false" }) // Kiểm tra null, undefined, ""
@@ -40,8 +40,8 @@ const registerRule = () => {
 };
 
 const loginRule = () => {
-    return [
-        body("email")
+  return [
+    body("email")
       .trim()
       .exists({ values: "false" })
       .withMessage("Email is required")
@@ -53,7 +53,7 @@ const loginRule = () => {
       .withMessage("Password is required")
       .isLength({ min: 8 })
       .withMessage("Password must be at least 8 characters long"),
-    ]
+  ]
 }
 
 module.exports = {
