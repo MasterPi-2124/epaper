@@ -145,7 +145,7 @@ void MQTT_Connect(const char * id, UBYTE *BlackImage) {
         }
     }}
 
-void MQTT_Loop(const char * id, UBYTE *BlackImage)
+void MQTT_Loop(const char * topic, UBYTE *BlackImage)
 {
     printf("loop done\r\n");
 
@@ -155,7 +155,7 @@ void MQTT_Loop(const char * id, UBYTE *BlackImage)
         EPD_2IN9_V2_Display(BlackImage);
         length = 0;
         delete [] data;
-        client.beginMessage(id);
+        client.beginMessage(topic);
     }
     DEV_Delay_ms(5000);
 }

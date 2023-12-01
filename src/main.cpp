@@ -54,7 +54,7 @@ void setup()
     // Get Preferences local data
     String ssid = preferences.getString("ssid", "");
     String password = preferences.getString("pass", "");
-    String topic = preferences.getString("topic", "");
+    String topic = preferences.getString("_id", "");
     String active = preferences.getString("active", "false");
     String userID = preferences.getString("userID", "");
     Serial.println(ssid);
@@ -305,12 +305,12 @@ void loop()
     if (updated) {
         String ssid = preferences.getString("ssid", "");
         String password = preferences.getString("pass", "");
-        String topic = preferences.getString("topic", "");
+        String topic = preferences.getString("_id", "");
         MQTT_Client_Init(ssid.c_str(), password.c_str(), topic.c_str(), BlackImage);
         MQTT_Loop(topic.c_str(), BlackImage);
         updated = false;
     } else {
-        String id = preferences.getString("id", "");
-        MQTT_Loop(id.c_str(), BlackImage);
+        String topic = preferences.getString("_id", "");
+        MQTT_Loop(topic.c_str(), BlackImage);
     }
 }
