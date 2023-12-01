@@ -2,31 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Notify from 'notiflix/build/notiflix-notify-aio';
 import { Input } from "@nextui-org/react";
 
-const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
-    const [port, setPort] = useState(null);
-
-    useEffect(() => {
-        const handleConnect = (e) => {
-            Notify.Notify.info("A new device is connected!");
-            setPort(e.port);
-        }
-
-        const handleDisconnect = (e) => {
-            Notify.Notify.info("A device is disconnected!");
-            if (port && e.port === port) {
-                setPort(null);
-            }
-        }
-        navigator.serial.addEventListener("connect", handleConnect);
-
-        navigator.serial.addEventListener("disconnect", handleDisconnect);
-
-        return () => {
-            navigator.serial.removeEventListener("connect", handleConnect);
-            navigator.serial.removeEventListener("disconnect", handleDisconnect);
-        };
-    }, [port]);
-
+const GetUSBDevice = ({ deviceCreated, setDeviceCreated, port, setPort, handleSubmit }) => {
     const connectESP = async () => {
         if ("serial" in navigator) {
             try {
@@ -42,35 +18,9 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
         }
     }
 
-    const sendData = async (deviceInfo) => {
-        if (port) {
-            const writer = port.writable.getWriter();
-            for (const [key, value] of Object.entries(deviceInfo)) {
-                const keyValue = `${key}:${value}\n`;
-                console.log(keyValue);
-                const data = new TextEncoder().encode(keyValue);
-                await writer.write(data);
-            }
-            writer.releaseLock();
-            Notify.Notify.success(`Write device info to device successfully!`);
-        }
-    }
-
     const handleChange = (param, e) => {
         let userTyped = {};
-        if (param === "name") {
-            userTyped["topic"] = e.target.value.toString()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '')
-                .toLowerCase()
-                .trim()
-                .replace(/\s+/g, '-')
-                .replace(/[^\w-]+/g, '')
-                .replace(/--+/g, '-');
-            userTyped[param] = e.target.value;
-        } else {
-            userTyped[param] = e.target.value;
-        }
+        userTyped[param] = e.target.value;
         setDeviceCreated(deviceCreated => ({
             ...deviceCreated,
             ...userTyped
@@ -115,7 +65,7 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, handleSubmit }) => {
                         {console.log(`active: `, deviceCreated.active)}
                         {console.log(`userID: `, deviceCreated.userID)}
 
-                        <button onClick={() => sendData(deviceCreated)}>
+                        <button>
                             Write and Publish
                         </button>
                     </form>
