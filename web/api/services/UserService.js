@@ -37,24 +37,73 @@ exports.createUser = async (user, accountId = null) => {
     const displayDevice = await DeviceModel.findById(user.deviceID)
     client.on('connect', () => {
       console.log("Connected to MQTT Broker!");
-      client.publish(displayDevice._id, user.fontStyle);
-      client.publish(displayDevice._id, user.designSchema);
-      client.publish(displayDevice._id, user.name);
-      client.publish(displayDevice._id, user.email);
-      client.publish(displayDevice._id, user.address);
-      client.publish(displayDevice._id, user._id);
-      client.subscribe(displayDevice._id, { qos: 0 }, (err) => {
+      console.log(displayDevice, user);
+      client.subscribe(`${displayDevice._id}`, { qos: 2 }, (err) => {
         if (err) {
-          console.log(`Error subscribing to topic ${displayDevice._id}`);
+          console.log(`Error subscribing to topic ${displayDevice._id}: ${err}`);
         } else {
           console.log(`Subscribed to topic ${displayDevice._id} successfully!`);
         }
       });
+      let payload = "write1|";
+      switch (user.fontStyle) {
+        case "Monospace 8pt":
+          payload = "F8|" + payload;
+          break;
+        case "Monospace 12pt":
+          payload = "F12|" + payload;
+          break;
+        case "Monospace 16pt":
+          payload = "F16|" + payload;
+          break;
+        case "Monospace 24pt":
+          payload = "F20|" + payload;
+          break;
+        case "Segoe UI 8pt":
+          payload = "F24|" + payload;
+          break;
+        case "Segoe UI 12pt":
+          payload = "S12|" + payload;
+          break;
+        case "Segoe UI 16pt":
+          payload = "S16|" + payload;
+          break;
+        case "Segoe UI 20pt":
+          payload = "S20|" + payload;
+          break;
+        default:
+          payload = "Segoe12|" + payload;
+      }
+
+      switch (user.designSchema) {
+        case "Theme 1":
+          payload = "1|" + payload;
+          break;
+        case "Theme 2":
+          payload = "2|" + payload;
+          break;
+        case "Theme 3":
+          payload = "3|" + payload;
+          break;
+        case "Theme 4":
+          payload = "4|" + payload;
+          break;
+        default:
+          payload = "1|" + payload;
+      }
+
+      payload = `${user.name}|` + payload;
+      payload = `${user.email}|` + payload;
+      payload = `${user.address}|` + payload;
+      payload = `${user._id}|` + payload;
+
+      console.log(payload);
+      client.publish(`${displayDevice._id}`, payload);
     })
-    
+
     client.on("message", async (topic, message) => {
       const data = message.toString();
-      const regex = /^writeOK\|(.+)$/;
+      const regex = /^replyOK\|(.+)$/;
       const match = data.match(regex);
       if (match && topic === displayDevice._id) {
         const oldUserID = match[1];

@@ -11,6 +11,7 @@ exports.connect = () => {
         username: USER,
         password: PASS
     })
+
     return client;
 };
 
