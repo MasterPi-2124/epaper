@@ -76,8 +76,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "EPD_2in9.h"
-#include "Debug/Debug.h"
+#include <EPD_2in9.h>
 
 const unsigned char EPD_2IN9_lut_full_update[] = {
     0x50, 0xAA, 0x55, 0xAA, 0x11, 0x00,
@@ -142,12 +141,12 @@ parameter:
 ******************************************************************************/
 void EPD_2IN9_ReadBusy(void)
 {
-    Debug("e-Paper busy\r\n");
+    Serial.print("e-Paper busy\r\n");
     DEV_Delay_ms(100);
     while(DEV_Digital_Read(EPD_BUSY_PIN) == 1) {      //LOW: idle, HIGH: busy
         DEV_Delay_ms(100);
     }
-    Debug("e-Paper busy release\r\n");
+    Serial.print("e-Paper busy release\r\n");
 }
 
 /******************************************************************************
@@ -238,7 +237,7 @@ void EPD_2IN9_Init(UBYTE Mode)
                 EPD_2IN9_SendData(EPD_2IN9_lut_partial_update[i]);
         }
     }else{
-        Debug("error, the Mode is EPD_2IN9_FULL or EPD_2IN9_PART");
+        Serial.print("error, the Mode is EPD_2IN9_FULL or EPD_2IN9_PART");
     }
 }
 

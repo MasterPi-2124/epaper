@@ -75,11 +75,10 @@
 * THE SOFTWARE.
 *
 ******************************************************************************/
-#ifndef __GUI_PAINT_H
-#define __GUI_PAINT_H
+#ifndef __PAINT_H
+#define __PAINT_H
 
-#include "Debug/Debug.h"
-#include "DEV_Config/DEV_Config.h"
+#include <DEV_Config.h>
 #include <fonts.h>
 
 /**

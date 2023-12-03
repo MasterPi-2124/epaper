@@ -1,10 +1,11 @@
 /* Includes ------------------------------------------------------------------*/
-#include "DEV_Config/DEV_Config.h"
-#include "epd/EPD.h"
-#include "GUI_Paint/GUI_Paint.h"
-#include "mqtt/mqtt.h"
+#include <DEV_Config.h>
+#include <EPD.h>
+#include <Paint.h>
+#include <MQTT.h>
+#include <Display.h>
 #include <stdlib.h>
-#include <Preferences.h>
+// #include <Preferences.h>
 
 Preferences preferences;
 UBYTE *BlackImage;
@@ -57,6 +58,7 @@ void setup()
     String topic = preferences.getString("_id", "");
     String active = preferences.getString("active", "false");
     String userID = preferences.getString("userID", "");
+    
     Serial.println(ssid);
     Serial.println(password);
     Serial.println(topic);
@@ -67,6 +69,10 @@ void setup()
         // If SSID and password are available in Preferences, use them to connect to Wi-Fi
         MQTT_Client_Init(ssid.c_str(), password.c_str(), topic.c_str(), BlackImage);
         MQTT_Connect(topic.c_str(), BlackImage);
+    }
+
+    if (!userID.isEmpty()) {
+        displayWrite1(BlackImage);
     }
 #endif
 
@@ -307,6 +313,7 @@ void loop()
         String password = preferences.getString("pass", "");
         String topic = preferences.getString("_id", "");
         MQTT_Client_Init(ssid.c_str(), password.c_str(), topic.c_str(), BlackImage);
+        MQTT_Connect(topic.c_str(), BlackImage);
         MQTT_Loop(topic.c_str(), BlackImage);
         updated = false;
     } else {

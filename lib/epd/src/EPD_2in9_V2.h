@@ -31,7 +31,7 @@
 #ifndef __EPD_2IN9_V2_H_
 #define __EPD_2IN9_V2_H_
 
-#include "DEV_Config/DEV_Config.h"
+#include <DEV_Config.h>
 
 // Display resolution
 #define EPD_2IN9_V2_WIDTH       128

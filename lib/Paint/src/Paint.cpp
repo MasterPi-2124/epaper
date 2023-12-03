@@ -75,9 +75,8 @@
 * THE SOFTWARE.
 *
 ******************************************************************************/
-#include "GUI_Paint/GUI_Paint.h"
-#include "DEV_Config/DEV_Config.h"
-#include "Debug/Debug.h"
+#include <Paint.h>
+#include <DEV_Config.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h> //memset()
@@ -140,10 +139,10 @@ parameter:
 void Paint_SetRotate(UWORD Rotate)
 {
     if(Rotate == ROTATE_0 || Rotate == ROTATE_90 || Rotate == ROTATE_180 || Rotate == ROTATE_270) {
-        // Debug("Set image Rotate %d\r\n", Rotate);
+        // Serial.print("Set image Rotate %d\r\n", Rotate);
         Paint.Rotate = Rotate;
     } else {
-        Debug("rotate = 0, 90, 180, 270\r\n");
+        Serial.print("rotate = 0, 90, 180, 270\r\n");
     }
 }
 
@@ -156,10 +155,10 @@ void Paint_SetMirroring(UBYTE mirror)
 {
     if(mirror == MIRROR_NONE || mirror == MIRROR_HORIZONTAL || 
         mirror == MIRROR_VERTICAL || mirror == MIRROR_ORIGIN) {
-        // Debug("mirror image x:%s, y:%s\r\n",(mirror & 0x01)? "mirror":"none", ((mirror >> 1) & 0x01)? "mirror":"none");
+        // Serial.print("mirror image x:%s, y:%s\r\n",(mirror & 0x01)? "mirror":"none", ((mirror >> 1) & 0x01)? "mirror":"none");
         Paint.Mirror = mirror;
     } else {
-        Debug("mirror should be MIRROR_NONE, MIRROR_HORIZONTAL, \
+        Serial.print("mirror should be MIRROR_NONE, MIRROR_HORIZONTAL, \
         MIRROR_VERTICAL or MIRROR_ORIGIN\r\n");
     }    
 }
@@ -179,8 +178,8 @@ void Paint_SetScale(UBYTE scale)
 		Paint.WidthByte = (Paint.WidthMemory % 2 == 0)? (Paint.WidthMemory / 2 ): (Paint.WidthMemory / 2 + 1);
 	}
 	else {
-        Debug("Set Scale Input parameter error\r\n");
-        Debug("Scale Only support: 2 4 7\r\n");
+        Serial.print("Set Scale Input parameter error\r\n");
+        Serial.print("Scale Only support: 2 4 7\r\n");
     }
 }
 /******************************************************************************
@@ -193,7 +192,7 @@ parameter:
 void Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
 {
     if(Xpoint > Paint.Width || Ypoint > Paint.Height){
-        Debug("Exceeding display boundaries\r\n");
+        Serial.print("Exceeding display boundaries\r\n");
         return;
     }      
     UWORD X, Y;
@@ -236,7 +235,7 @@ void Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
     }
 
     if(X > Paint.WidthMemory || Y > Paint.HeightMemory){
-        Debug("Exceeding display boundaries\r\n");
+        Serial.print("Exceeding display boundaries\r\n");
         return;
     }
     
@@ -375,7 +374,7 @@ void Paint_DrawPoint(UWORD Xpoint, UWORD Ypoint, UWORD Color,
                      DOT_PIXEL Dot_Pixel, DOT_STYLE Dot_Style)
 {
     if (Xpoint > Paint.Width || Ypoint > Paint.Height) {
-        Debug("Paint_DrawPoint Input exceeds the normal display range\r\n");
+        Serial.print("Paint_DrawPoint Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -414,7 +413,7 @@ void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend,
 {
     if (Xstart > Paint.Width || Ystart > Paint.Height ||
         Xend > Paint.Width || Yend > Paint.Height) {
-        Debug("Paint_DrawLine Input exceeds the normal display range\r\n");
+        Serial.print("Paint_DrawLine Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -435,7 +434,7 @@ void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend,
         Dotted_Len++;
         //Painted dotted line, 2 point is really virtual
         if (Line_Style == LINE_STYLE_DOTTED && Dotted_Len % 3 == 0) {
-            //Debug("LINE_DOTTED\r\n");
+            //Serial.print("LINE_DOTTED\r\n");
             Paint_DrawPoint(Xpoint, Ypoint, IMAGE_BACKGROUND, Line_width, DOT_STYLE_DFT);
             Dotted_Len = 0;
         } else {
@@ -472,7 +471,7 @@ void Paint_DrawRectangle(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend,
 {
     if (Xstart > Paint.Width || Ystart > Paint.Height ||
         Xend > Paint.Width || Yend > Paint.Height) {
-        Debug("Input exceeds the normal display range\r\n");
+        Serial.print("Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -504,7 +503,7 @@ void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius,
                       UWORD Color, DOT_PIXEL Line_width, DRAW_FILL Draw_Fill)
 {
     if (X_Center > Paint.Width || Y_Center >= Paint.Height) {
-        Debug("Paint_DrawCircle Input exceeds the normal display range\r\n");
+        Serial.print("Paint_DrawCircle Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -575,7 +574,7 @@ void Paint_DrawChar(UWORD Xpoint, UWORD Ypoint, const char Acsii_Char,
     UWORD Page, Column;
 
     if (Xpoint > Paint.Width || Ypoint > Paint.Height) {
-        Debug("Paint_DrawChar Input exceeds the normal display range\r\n");
+        Serial.print("Paint_DrawChar Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -627,7 +626,7 @@ void Paint_DrawString(UWORD Xstart, UWORD Ystart, const char * pString,
     Serial.print(Font->Height);
 
     if (Xstart > Paint.Width || Ystart > Paint.Height) {
-        Debug("Paint_DrawString Input exceeds the normal display range\r\n");
+        Serial.print("Paint_DrawString Input exceeds the normal display range\r\n");
         return;
     }
 

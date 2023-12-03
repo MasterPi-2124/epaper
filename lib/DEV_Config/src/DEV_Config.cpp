@@ -27,7 +27,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "DEV_Config/DEV_Config.h"
+#include <DEV_Config.h>
 
 /******************************************************************************
 function:	Module Initialize, the BCM2835 library and initialize the pins, SPI protocol

@@ -28,8 +28,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "epd/EPD_2in9_V2.h"
-#include "Debug/Debug.h"
+#include <EPD_2in9_V2.h>
 
 UBYTE _WF_PARTIAL_2IN9[159] =
 {
@@ -146,7 +145,7 @@ parameter:
 ******************************************************************************/
 void EPD_2IN9_V2_ReadBusy(void)
 {
-    Debug("e-Paper busy\r\n");
+    Serial.print("e-Paper busy\r\n");
 	while(1)
 	{	 //=1 BUSY
 		if(DEV_Digital_Read(EPD_BUSY_PIN)==0) 
@@ -154,7 +153,7 @@ void EPD_2IN9_V2_ReadBusy(void)
 		DEV_Delay_ms(50);
 	}
 	DEV_Delay_ms(50);
-    Debug("e-Paper busy release\r\n");
+    Serial.print("e-Paper busy release\r\n");
 }
 
 static void EPD_2IN9_V2_LUT(UBYTE *lut)
