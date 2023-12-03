@@ -33,6 +33,7 @@ exports.createUser = async (user, accountId = null) => {
   console.log(user);
   user.createdBy = accountId;
   if (user.active) {
+    const createdUser = await UserModel.create(user);
     client = mqttClient.connect();
     const displayDevice = await DeviceModel.findById(user.deviceID)
     client.on('connect', () => {
@@ -48,54 +49,54 @@ exports.createUser = async (user, accountId = null) => {
       let payload = "write1|";
       switch (user.fontStyle) {
         case "Monospace 8pt":
-          payload = "F8|" + payload;
+          payload = payload + "F8|";
           break;
         case "Monospace 12pt":
-          payload = "F12|" + payload;
+          payload = payload + "F12|";
           break;
         case "Monospace 16pt":
-          payload = "F16|" + payload;
+          payload = payload + "F16|";
           break;
         case "Monospace 24pt":
-          payload = "F20|" + payload;
+          payload = payload + "F20|";
           break;
         case "Segoe UI 8pt":
-          payload = "F24|" + payload;
+          payload = payload + "F24|";
           break;
         case "Segoe UI 12pt":
-          payload = "S12|" + payload;
+          payload = payload + "S12|";
           break;
         case "Segoe UI 16pt":
-          payload = "S16|" + payload;
+          payload = payload + "S16|";
           break;
         case "Segoe UI 20pt":
-          payload = "S20|" + payload;
+          payload = payload + "S20|";
           break;
         default:
-          payload = "Segoe12|" + payload;
+          payload = payload + "Segoe12|";
       }
 
       switch (user.designSchema) {
         case "Theme 1":
-          payload = "1|" + payload;
+          payload = payload + "1|";
           break;
         case "Theme 2":
-          payload = "2|" + payload;
+          payload = payload + "2|";
           break;
         case "Theme 3":
-          payload = "3|" + payload;
+          payload = payload + "3|";
           break;
         case "Theme 4":
-          payload = "4|" + payload;
+          payload = payload + "4|";
           break;
         default:
-          payload = "1|" + payload;
+          payload = payload + "1|";
       }
 
-      payload = `${user.name}|` + payload;
-      payload = `${user.email}|` + payload;
-      payload = `${user.address}|` + payload;
-      payload = `${user._id}|` + payload;
+      payload = payload + `${user.name}|`;
+      payload = payload + `${user.email}|`;
+      payload = payload + `${user.address}|`;
+      payload = payload + `${createdUser._id}|`;
 
       console.log(payload);
       client.publish(`${displayDevice._id}`, payload);
@@ -116,7 +117,7 @@ exports.createUser = async (user, accountId = null) => {
         await UserModel.findByIdAndUpdate(oldUserID, oldUser);
       }
     })
-    await UserModel.create(user);
+    return createdUser;
   } else {
     return await UserModel.create(user);
   }
