@@ -39,7 +39,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                         </div>
 
                         <div className="back-flip">
-                            <h3>Product's name, type and prices</h3>
+                            <h3>Product&apos;s name, type and prices</h3>
                             <p>{"(Storage, Markets, ...)"}</p>
                             <button className="ok" onClick={() => handleChange("type", "Product")}>Choose</button>
                         </div>
@@ -55,7 +55,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                         </div>
 
                         <div className="back-flip">
-                            <h3>Student's name, ID and class</h3>
+                            <h3>Student&apos;s name, ID and class</h3>
                             <p>{"(Schools, Universities, ...)"}</p>
                             <button className="ok" onClick={() => handleChange("type", "Student")}>Choose</button>
                         </div>
@@ -70,7 +70,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                         </div>
 
                         <div className="back-flip">
-                            <h3>Employee's name, ID and deparment</h3>
+                            <h3>Employee&apos;s name, ID and deparment</h3>
                             <p>{"(Business, Companies, ...)"}</p>
                             <button className="ok" onClick={() => handleChange("type", "Employee")}>Choose</button>
                         </div>
