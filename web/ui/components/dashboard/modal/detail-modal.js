@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
+import Link from "next/link";
 import Notify from 'notiflix/build/notiflix-notify-aio';
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
@@ -78,7 +79,7 @@ const DetailModal = ({ type, id, switchToEdit, switchToDelete }) => {
               </>
             ) : (
               <>
-                The device currently has no data to display. Go to <a href="/dashboard/users"> user dashboard</a> to select user to display, or create a new user <a href="/new-user">here</a>.
+                The device currently has no data to display. Go to <Link href="/dashboard/users"> user dashboard</Link> to select user to display, or create a new user <Link href="/new-user">here</Link>.
               </>
             )}
           </div>

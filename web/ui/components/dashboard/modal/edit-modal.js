@@ -4,6 +4,7 @@ import Image from "next/image";
 import Notify from 'notiflix/build/notiflix-notify-aio';
 import { Table, Input, Switch, Popover } from "@nextui-org/react";
 import { WheelPicker } from "@/components/new-user/WheelPicker";
+import { Dropdown } from "@nextui-org/react";
 import dayjs from "dayjs";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";

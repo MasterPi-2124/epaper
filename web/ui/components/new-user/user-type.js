@@ -34,7 +34,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Product} />
+                            <Image className="user-type-image" src={Product} alt="product" />
                             <p>Product</p>
                         </div>
 
@@ -50,7 +50,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Student} />
+                            <Image className="user-type-image" src={Student} alt="student" />
                             <p>Student</p>
                         </div>
 
@@ -65,7 +65,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Employee} />
+                            <Image className="user-type-image" src={Employee} alt="employee" />
                             <p>Employee</p>
                         </div>
 
@@ -80,7 +80,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Client} />
+                            <Image className="user-type-image" src={Client} alt="client" />
                             <p>Client</p>
                         </div>
 
@@ -95,7 +95,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Room} />
+                            <Image className="user-type-image" src={Room} alt="room" />
                             <p>Room</p>
                         </div>
 
