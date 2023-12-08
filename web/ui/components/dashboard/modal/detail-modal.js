@@ -1,218 +1,138 @@
-import * as XLSX from "xlsx";
-import DeleteIcon from "@/assets/icons/thin/delete.svg";
-import Image from "next/image";
-import { Table, useAsyncList } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { instanceCoreApi } from "@/services/setupAxios";
+import Notify from 'notiflix/build/notiflix-notify-aio';
 
-const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
-  if (type === "class") {
-    const load = () => {
-      return {
-        items: data.quizzes,
-      }
+const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
+
+const DetailModal = ({ type, id, switchToEdit, switchToDelete }) => {
+  const [device, setDevice] = useState();
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    if (type === "devices") {
+      instanceCoreApi.get(`${API}/devices/${id}`).then((res) => {
+        setDevice(res.data.data);
+        if (res.data.data.userID) {
+          instanceCoreApi.get(`${API}/users/${res.data.data.userID}`).then((res) => {
+            setUser(res.data.data);
+          }).catch((error) => {
+            Notify.Notify.failure(`Error fetching data data: ${error}`);
+            console.log(error)
+            setUser();
+          })
+        }
+      }).catch((error) => {
+        Notify.Notify.failure(`Error fetching data data: ${error}`);
+        console.log(error)
+        setDevice();
+      })
+    } else {
+      instanceCoreApi.get(`${API}/users/${id}`).then((res) => {
+        setUser(res.data.data);
+        if (res.data.data.deviceID) {
+          instanceCoreApi.get(`${API}/devices/${res.data.data.deviceID}`).then((res) => {
+            setDevice(res.data.data);
+          }).catch((error) => {
+            Notify.Notify.failure(`Error fetching data data: ${error}`);
+            console.log(error)
+            setDevice();
+          })
+        }
+      }).catch((error) => {
+        Notify.Notify.failure(`Error fetching data data: ${error}`);
+        console.log(error)
+        setUser();
+      })
     }
+  }, []);
 
-    const ahihi = useAsyncList({ load }) // eslint-disable-next-line react-hooks/rules-of-hooks
-    console.log(ahihi.items)
-
+  if (type === "devices") {
     return (
-      <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
-        <div className="flex items-center justify-between gap-4 mb-6">
-          <h1 className="heading-lg">Class #{data.codename}</h1>
-          <button className="h-8 w-8 delete" onClick={() => switchToDelete()}>
-            <Image
-              src={DeleteIcon}
-              alt="vertical ellipsis"
-            />
-          </button>
-        </div>
-        <div className="stats">
-          <p className="body-lg text-mediumGrey">
-            Class ID: {data.codename}
-          </p>
-          <p className="body-lg text-mediumGrey">
-            Subject: {data.subject}
-          </p>
+      (device) ? (
+        <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
+          <div className="modal-heading flex items-left justify-between mb-6 flex-row">
+            <div>
+              <h1 className="heading-lg">{device.name}</h1>
+              <p className="heading-lg">{device._id}</p>
+            </div>
+            <div>
+              <h1 className="heading-lg">{device.active ? "Active" : "Inactive"}</h1>
+              <p>{device.active ? device.ssid : "Not connected to a network"}</p>
+            </div>
+          </div>
 
-          <p className="body-lg text-mediumGrey">
-            Semester: {data.semester}
-          </p>
+          <div className="stats">
+            <h1>User</h1>
+            {device.userID ? (
+              <>
+                <p className="body-lg text-mediumGrey">
+                  Name: {user.name}
+                </p>
+                <p className="body-lg">
+                  Email: {user.email}
+                </p>
 
-          <p className="body-lg text-mediumGrey">
-            Total Student: {data.studentCount}
-          </p>
-
-          <p className="body-lg text-mediumGrey">
-            Note: {data.note}
-          </p>
-        </div>
-        <div className="responses">
-          <h2>Quizzes:</h2>
-          <Table headerLined>
-            <Table.Header>
-              <Table.Column width={270}>Quiz ID</Table.Column>
-              <Table.Column width={100}>Status</Table.Column>
-              <Table.Column width={"auto"}>Form</Table.Column>
-            </Table.Header>
-            {console.log(ahihi.items[0])}
-            {ahihi.items.length > 0 ? (
-              <Table.Body
-                items={ahihi.items}
-                loadingState={ahihi.loadingState}
-                onLoadMore={ahihi.loadMore}>
-                {(item) => (
-                  <Table.Row key={item._id}>
-                    <Table.Cell >
-                      <p className="name">
-                        {item._id}
-                      </p>
-                      <p className="id">
-                      {new Date(item.startTime).toLocaleString()}
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      {item.status}
-                    </Table.Cell>
-                    <Table.Cell>{item.formLink}</Table.Cell>
-                  </Table.Row>
-                )}
-              </Table.Body>
+                <p className="body-lg text-mediumGrey">
+                  Address: {user.address}
+                </p>
+              </>
             ) : (
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell className="empty">No quizzes yet</Table.Cell>
-                  <Table.Cell className="empty"></Table.Cell>
-                  <Table.Cell className="empty"></Table.Cell>
-                </Table.Row>
-              </Table.Body>
+              <>
+                The device currently has no data to display. Go to <a href="/dashboard/users"> user dashboard</a> to select user to display, or create a new user <a href="/new-user">here</a>.
+              </>
             )}
-          </Table>
+          </div>
+
+          <div className="flex gap-4">
+            <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200" onClick={() => switchToEdit()}>
+              Edit
+            </button>
+            <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200" onClick={() => switchToDelete()}>
+              Delete
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <>Failed to get data!</>
+      )
     )
   } else {
-    const exportResponse = () => {
-      const worksheet = XLSX.utils.json_to_sheet(responses);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
-
-      const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      const payload = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-      const downloadUrl = URL.createObjectURL(payload);
-
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = `${data._id}.xlsx`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    const load = () => {
-      return {
-        items: responses,
-      }
-    }
-
-    const ahihi = useAsyncList({ load }) // eslint-disable-next-line react-hooks/rules-of-hooks
-    console.log(ahihi.items)
-
     return (
-      <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
-        <div className="flex items-center justify-between gap-4 mb-6">
-          <h1 className="heading-lg">Quiz #{data._id.substring(0, 5)}</h1>
-          <button className="h-8 w-8 delete" onClick={() => switchToDelete()}>
-            <Image
-              src={DeleteIcon}
-              alt="vertical ellipsis"
-            />
-          </button>
-        </div>
-        <div className="stats">
-          <p className="body-lg text-mediumGrey">
-            Start Time: {new Date(data.startTime).toLocaleString()}
-          </p>
-          <p className="body-lg text-mediumGrey">
-            End Time: {new Date(data.endTime).toLocaleString()}
-          </p>
-          <p className="body-lg text-mediumGrey">
-            Class: {data._class.codename}
-          </p>
-          <p className="body-lg text-mediumGrey">
-            Subject: {data._class.subject}
-          </p>
-          <p className="body-lg text-mediumGrey">
-            Responses: {responses.length} / {data._class.studentCount}
-          </p>
-          <p className="body-lg text-mediumGrey">
-            Interval: {(new Date(data.endTime) - new Date(data.startTime)) / 1000 / 60} mins
-          </p>
-        </div>
-        <div className="responses">
-          <h2>Responses:</h2>
-          <Table headerLined>
-            <Table.Header>
-              <Table.Column width={270}>Student</Table.Column>
-              <Table.Column width={100}>Status</Table.Column>
-              <Table.Column width={"auto"}>IP Address</Table.Column>
-            </Table.Header>
-            {console.log(ahihi.items[0])}
-            {ahihi.items.length > 0 ? (
-              <Table.Body
-                items={ahihi.items}
-                loadingState={ahihi.loadingState}
-                onLoadMore={ahihi.loadMore}>
-                {(item) => (
-                  <Table.Row key={item._id}>
-                    <Table.Cell >
-                      <p className="name">
-                        {item.studentName}
-                      </p>
-                      <p className="id">
-                        {item.studentId}
-                      </p>
-                    </Table.Cell>
-                    <Table.Cell>
-                      {item.isValid ? (
-                        <p className="name">
-                          Success
-                        </p>
-                      ) : (
-                        <>
-                          <p className="name">
-                            Fail
-                          </p>
-                          <p className="id">
-                            {item.note}
-                          </p>
-                        </>
-                      )}
-                    </Table.Cell>
-                    <Table.Cell>{item.ipAddress}</Table.Cell>
-                  </Table.Row>
-                )}
-              </Table.Body>
-            ) : (
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell className="empty">No responses yet</Table.Cell>
-                  <Table.Cell className="empty"></Table.Cell>
-                  <Table.Cell className="empty"></Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            )}
-          </Table>
-        </div>
+      (user) ? (
+        <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
+          <div className="modal-heading flex items-center justify-between gap-4 mb-6">
+            <h1 className="heading-lg">User Information</h1>
 
-        {data.status === "Finished" ? (
-          <button onClick={exportResponse} className="export-button">
-            Export
-          </button>
-        ) : (
-          <></>
-        )
-        }
-
-      </div>
+          </div>
+          <div className="stats">
+            <p className="body-lg text-mediumGrey">
+              {/* Type: {user.type} */}
+            </p>
+            <p className="body-lg text-mediumGrey">
+              Name: {user.name}
+            </p>
+            <p className="body-lg text-mediumGrey">
+              Email: {user.email}
+            </p>
+            <p className="body-lg text-mediumGrey">
+              Address: {user.address}
+            </p>
+            <p className="body-lg text-mediumGrey">
+              {/* Displayed Device: {device.name} */}
+            </p>
+          </div>
+          <div className="flex gap-4">
+            <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200" onClick={() => switchToDelete()}>
+              Delete
+            </button>
+            <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200" onClick={() => switchToEdit()}>
+              Edit
+            </button>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )
     )
   }
 }

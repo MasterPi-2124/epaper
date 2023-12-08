@@ -15,8 +15,8 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 export const DeviceList = () => {
   const [devices, setDevices] = useState([]);
   const [stage, setStage] = useState(0);  // 0 - Loading
-  // 1 - Loaded success
-  // 2 - Failed
+                                          // 1 - Loaded success
+                                          // 2 - Failed
   const [selectedDevice, setSelectedDevice] = useState("");
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -35,8 +35,9 @@ export const DeviceList = () => {
 
   return (
     <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-col gap-3">
         <h1 className="text-2xl">Devices</h1>
+        <p>See the list of your EPD devices and make changes.</p>
       </div>
 
       <div className="responses">
@@ -110,8 +111,9 @@ export const DeviceList = () => {
                   <button
                       className="small-icon"
                       onClick={() => {
+                        setSelectedDevice(`${item._id}`);
                         setDetailModal(true);
-                        setSelectedDevice(item._id);
+                        console.log(item._id)
                       }}
                     >
                       <Image
@@ -122,8 +124,8 @@ export const DeviceList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
+                        setSelectedDevice(`${item._id}`);
                         setEditModal(true);
-                        setSelectedDevice(item._id);
                       }}
                     >
                       <Image
@@ -134,8 +136,8 @@ export const DeviceList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
+                        setSelectedDevice(`${item._id}`);
                         setDeleteModal(true);
-                        setSelectedDevice(item._id);
                       }}
                     >
                       <Image
@@ -174,7 +176,7 @@ export const DeviceList = () => {
             id={selectedDevice}
             switchToEdit={() => {
               setDetailModal(false);
-              setDeleteModal(true);
+              setEditModal(true);
             }}
             switchToDelete={() => {
               setDetailModal(false);
@@ -210,6 +212,9 @@ export const DeviceList = () => {
           <EditModal
             type="devices"
             id={selectedDevice}
+            onClose={() => {
+              setEditModal(false);
+            }}
           />
         </Modal>
       </div>

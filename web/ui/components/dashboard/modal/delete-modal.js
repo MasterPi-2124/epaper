@@ -9,7 +9,8 @@ const DeleteModal = ({ type, id, onConfirm, onClose }) => {
         instanceCoreApi.get(`${API}/${type}/${id}`).then((res) => {
             setItem(res.data.data);
         })
-    })
+    }, []);
+    
     const deleteItem = () => {
         try {
             instanceCoreApi.delete(`${API}/${type}/${id}`);

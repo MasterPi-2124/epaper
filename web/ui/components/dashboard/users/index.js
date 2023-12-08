@@ -103,7 +103,7 @@ export const UserList = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                    {item.userID ? item.userID : "Not found"}
+                    {item.deviceID ? item.deviceID : "Not found"}
                   </Table.Cell>
 
                   <Table.Cell>

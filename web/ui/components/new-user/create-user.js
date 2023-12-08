@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react"
 import { Input, Switch, Popover } from "@nextui-org/react";
 import Image from "next/image";
 import Logo from "@/public/logo/epaper.svg";
-import Link from "next/link";
 import { WheelPicker } from "./WheelPicker";
 import dayjs from "dayjs";
+import Link from "next/link";
 
-const CreateUser = ({ userCreated, setUserCreated, stage, handleStage, handleReset, handleSubmit }) => {
+const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage, handleReset, handleSubmit }) => {
     const handleChange = (param, e) => {
         let userTyped = {};
         if (param === "active") {
@@ -88,22 +88,121 @@ const CreateUser = ({ userCreated, setUserCreated, stage, handleStage, handleRes
                         type="text"
                         onChange={(e) => handleChange("name", e)}
                     />
+                    {userCreated.type === "Client" ? (
+                        <>
+                            <Input
+                                className="input"
+                                label="Email"
+                                required
+                                type="email"
+                                onChange={(e) => handleChange("email", e)}
+                            />
 
-                    <Input
-                        className="input"
-                        label="Email"
-                        required
-                        type="email"
-                        onChange={(e) => handleChange("email", e)}
-                    />
+                            <Input
+                                className="input"
+                                label="Address"
+                                required
+                                type="text"
+                                onChange={(e) => handleChange("input2", e)}
+                            />
+                        </>
+                    ) : userCreated.type === "Student" ? (
+                        <>
+                            <Input
+                                className="input"
+                                required
+                                label="Email"
+                                type="email"
+                                onChange={(e) => handleChange("email", e)}
+                            />
 
-                    <Input
-                        className="input"
-                        label="Address"
-                        required
-                        type="text"
-                        onChange={(e) => handleChange("address", e)}
-                    />
+                            <Input
+                                className="input"
+                                label="Student ID"
+                                required
+                                type="text"
+                                onChange={(e) => handleChange("input2", e)}
+                            />
+
+                            <Input
+                                className="input"
+                                label="Class"
+                                required
+                                type="text"
+                                onChange={(e) => handleChange("input3", e)}
+                            />
+                        </>
+                    ) : userCreated.type === "Product" ? (
+                        <>
+                            <Input
+                                className="input"
+                                label="Category"
+                                required
+                                type="text"
+                                onChange={(e) => handleChange("input2", e)}
+                            />
+
+                            <Input
+                                className="input"
+                                label="Price"
+                                required
+                                type="text"
+                                onChange={(e) => handleChange("input3", e)}
+                            />
+                        </>
+                    ) : userCreated.type === "Employee" ? (
+                        <>
+                            <Input
+                                className="input"
+                                label="Email"
+                                required
+                                type="email"
+                                onChange={(e) => handleChange("email", e)}
+                            />
+
+                            <Input
+                                className="input"
+                                label="Employee ID"
+                                required
+                                type="text"
+                                onChange={(e) => handleChange("input2", e)}
+                            />
+
+                            <Input
+                                className="input"
+                                label="Department"
+                                required
+                                type="text"
+                                onChange={(e) => handleChange("input3", e)}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <Input
+                                className="input"
+                                required
+                                label="Purpose"
+                                type="text"
+                                onChange={(e) => handleChange("input2", e)}
+                            />
+
+                            <Input
+                                className="input"
+                                required
+                                label="Manager"
+                                type="text"
+                                onChange={(e) => handleChange("input3", e)}
+                            />
+
+                            <Input
+                                className="input"
+                                label="Status"
+                                required
+                                type="text"
+                                onChange={(e) => handleChange("input4", e)}
+                            />
+                        </>
+                    )}
 
                     <div className="switch">
                         <label style={{
@@ -120,7 +219,6 @@ const CreateUser = ({ userCreated, setUserCreated, stage, handleStage, handleRes
                         />
                     </div>
 
-
                     {userCreated.active ? (
                         <div>
                             <label style={{
@@ -128,14 +226,14 @@ const CreateUser = ({ userCreated, setUserCreated, stage, handleStage, handleRes
                             }}
                             >
                                 Active start time
-                                </label>
+                            </label>
                             <Popover placement="bottom" showArrow>
                                 <Popover.Trigger>
                                     <a style={{
                                         width: "100%",
                                         height: "40px",
                                         paddingLeft: "10px",
-                                        lineHeight:"40px",
+                                        lineHeight: "40px",
                                         borderRadius: "14px",
                                         backgroundColor: "#7c7c7c44",
                                         fontWeight: "200",
@@ -168,12 +266,6 @@ const CreateUser = ({ userCreated, setUserCreated, stage, handleStage, handleRes
                         <></>
                     )}
 
-                    {console.log(`Name: `, userCreated.name)}
-                    {console.log(`Email: `, userCreated.email)}
-                    {console.log(`Address: `, userCreated.address)}
-                    {console.log(`Write on EPD?: `, userCreated.active)}
-                    {console.log(`Active start time: `, userCreated.activeStartTime)}
-
                     {userCreated.active ? (
                         <button type="button" onClick={handleStage}>
                             Continue
@@ -183,6 +275,11 @@ const CreateUser = ({ userCreated, setUserCreated, stage, handleStage, handleRes
                             Submit
                         </button>
                     )}
+                    <button onClick={() => {
+                        setStage(-1);
+                        handleReset();
+                    }}>Back</button>
+
                 </form>
             </>
         ) : (
@@ -190,7 +287,10 @@ const CreateUser = ({ userCreated, setUserCreated, stage, handleStage, handleRes
                 <h1>Your information is successfully submitted!</h1>
                 <br />
                 <p> Your personnal information is saved in our database, but you chose not to display it on EPD device yet.</p>
-                <button className="ok" onClick={() => handleReset()}>
+                <button className="ok" onClick={() => {
+                    setStage(-1);
+                    handleReset();
+                }}>
                     <Link href="/dashboard/users">Let&apos;s go!</Link>
                 </button>
             </div>

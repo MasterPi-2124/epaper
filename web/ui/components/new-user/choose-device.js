@@ -1,29 +1,32 @@
 import { instanceCoreApi } from "@/services/setupAxios";
-import React, { useState, useEffect } from "react"
-import { Input, Switch } from "@nextui-org/react";
+import React, { useState, useEffect, useRef } from "react"
 import { Dropdown } from "@nextui-org/react";
-import Image from "next/image";
-import Logo from "@/public/logo/epaper.svg";
 import Link from "next/link";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
-const ChooseDevice = ({ userCreated, setUserCreated, stage, handleReset, handleSubmit }) => {
+const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleReset, handleSubmit }) => {
     const [devices, setDevices] = useState();
-    const fonts = [ "Monospace 8pt",
-                    "Monospace 12pt",
-                    "Monospace 16pt",
-                    "Monospace 24pt",
-                    "Segoe UI 8pt",
-                    "Segoe UI 12pt",
-                    "Segoe UI 16pt",
-                    "Segoe UI 20pt",
-                  ]
-    const themes = [ "Theme 1",
-                     "Theme 2",
-                     "Theme 3",
-                     "Theme 4",
-                   ]
+    const fonts = ["Monospace 8pt",
+        "Monospace 12pt",
+        "Monospace 16pt",
+        "Monospace 24pt",
+        "Segoe UI 8pt",
+        "Segoe UI 12pt",
+        "Segoe UI 16pt",
+        "Segoe UI 20pt",
+    ]
+    const themes = ["Theme 1",
+        "Theme 2",
+        "Theme 3",
+        "Theme 4",
+    ]
+    const canvaRef = useRef(null);
+
+    const style = {
+        font: "",
+        color: "",
+    };
 
     const handleChange = (param, value) => {
         let userTyped = {};
@@ -49,14 +52,55 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, handleReset, handleS
         getDevices();
     }, []);
 
+    useEffect(() => {
+        if (stage === 2) {
+            const canva = canvaRef.current;
+            const ctx = canva.getContext("2d");
+
+            ctx.clearRect(0, 0, canva.width, canva.height);
+
+            if (userCreated.designSchema === "Theme 1") {
+                style["color"] = "red";
+            } else if (userCreated.designSchema === "Theme 2") {
+                style["color"] = "blue";
+            } else if (userCreated.designSchema === "Theme 3") {
+                style["color"] = "yellow";
+            } else {
+                style["color"] = "orange";
+            }
+
+            if (userCreated.fontStyle === "Monospace 8pt") {
+                style["font"] = "8px Times New Roman";
+            } else if (userCreated.fontStyle === "Monospace 12pt") {
+                style["font"] = "12px Segoe UI";
+            } else if (userCreated.fontStyle === "Monospace 16pt") {
+                style["font"] = "16px";
+            } else if (userCreated.fontStyle === "Monospace 24pt") {
+                style["font"] = "24px";
+            } else if (userCreated.fontStyle === "Segoe UI 8pt") {
+                style["font"] = "28px";
+            } else if (userCreated.fontStyle === "Segoe UI 12pt") {
+                style["font"] = "32px";
+            } else if (userCreated.fontStyle === "Segoe UI 16pt") {
+                style["font"] = "36px";
+            } else {
+                style["font"] = "40px Segoe UI";
+            }
+
+            ctx.font = style.font;
+            ctx.fillStyle = style.color;
+            ctx.fillText(`Name: ${userCreated.name}`, 10, 30);
+            ctx.fillText(`Email: ${userCreated.email}`, 10, 60);
+        }
+    }, [style, userCreated, stage])
+
     return (
         (stage === 2) ? (
             <>
                 <h1>Hi</h1>
-                <Image alt="logo" src={Logo}></Image>
-                <p> rendered text will be displayed above</p>
+                <canvas className="render-canvas" ref={canvaRef} width="340" height="150" />
                 <form className="form" onSubmit={handleSubmit}>
-                    <label className="dark:text-dark-text text-light-text">Choose a device to display</label>
+                    <label className="dark:text-dark-text text-light-text">Choose a device, and theme to display. Example view will be displayed above.</label>
                     <Dropdown>
                         <Dropdown.Button flat className="devices-choices">
                             {(userCreated.deviceID !== "") ? userCreated.deviceID : 'Choose a device'}
@@ -178,14 +222,21 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, handleReset, handleS
                     {console.log(`Theme: `, userCreated.designSchema)}
 
                     <button type="submit">Submit</button>
-                    <button onClick={handleReset}>Back</button>
+                    <button onClick={() => {
+                        setStage(0);
+                        handleReset();
+                    }}>Back</button>
                 </form>
             </>
         ) : (
             <div className="content text-light-text dark:text-dark-text">
-                <h1>Your information is successfully submitted and displayed on the EPD device!</h1>
+                <h1>User information is submitted successfully! </h1>
+                <p> and displayed on the EPD device! You can go to Dashboard/Users to see and manage your user information.</p>
                 <br />
-                <button className="ok" onClick={() => handleReset()}>
+                <button className="ok" onClick={() => {
+                    setStage(-1);
+                    handleReset();
+                }}>
                     <Link href="/dashboard/users">Let&apos;s go!</Link>
                 </button>
             </div>
