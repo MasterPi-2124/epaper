@@ -1,4 +1,5 @@
 const DeviceModel = require("../models/Device");
+const mqttClient = require("../mqtt/mqtt");
 
 exports.getAllDevices = async (filters = null) => {
   try {
