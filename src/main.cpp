@@ -57,13 +57,15 @@ void setup()
     String password = preferences.getString("pass", "");
     String topic = preferences.getString("_id", "");
     String active = preferences.getString("active", "false");
-    String userID = preferences.getString("userID", "");
-    
+    String dataID = preferences.getString("dataID", "");
+    int dataType = preferences.getInt("dataType", 0);
+
     Serial.println(ssid);
     Serial.println(password);
     Serial.println(topic);
     Serial.println(active);
-    Serial.println(userID);
+    Serial.println(dataID);
+    Serial.println(dataType);
 
     if (!ssid.isEmpty() && !password.isEmpty()) {
         // If SSID and password are available in Preferences, use them to connect to Wi-Fi
@@ -71,8 +73,18 @@ void setup()
         MQTT_Connect(topic.c_str(), BlackImage);
     }
 
-    if (!userID.isEmpty()) {
-        displayWrite1(BlackImage);
+    if (!dataID.isEmpty()) {
+        if (dataType == 1) {
+            displayWrite1(BlackImage);
+        } else if (dataType == 2) {
+            displayWrite2(BlackImage);
+        } else if (dataType == 3) {
+            displayWrite3(BlackImage);
+        } else if (dataType == 4) {
+            displayWrite4(BlackImage);
+        } else if (dataType == 5) {
+            displayWrite5(BlackImage);
+        }
     }
 #endif
 
@@ -309,11 +321,30 @@ void loop()
 
     // Reconfig after Preferences update
     if (updated) {
+
         String ssid = preferences.getString("ssid", "");
         String password = preferences.getString("pass", "");
         String topic = preferences.getString("_id", "");
+        String dataID = preferences.getString("dataID", "");
+        int dataType = preferences.getInt("dataType", 0);
+
+        EPD_2IN9_V2_Init();
         MQTT_Client_Init(ssid.c_str(), password.c_str(), topic.c_str(), BlackImage);
         MQTT_Connect(topic.c_str(), BlackImage);
+
+        if (!dataID.isEmpty()) {
+            if (dataType == 1) {
+                displayWrite1(BlackImage);
+            } else if (dataType == 2) {
+                displayWrite2(BlackImage);
+            } else if (dataType == 3) {
+                displayWrite3(BlackImage);
+            } else if (dataType == 4) {
+                displayWrite4(BlackImage);
+            } else if (dataType == 5) {
+                displayWrite5(BlackImage);
+            }
+        }
         MQTT_Loop(topic.c_str(), BlackImage);
         updated = false;
     } else {

@@ -96,8 +96,8 @@ int compareStrings(const char *str1, const char *str2)
 
 void displayWrite1(UBYTE * BlackImage) {
     String name = preferences.getString("name", "");
-    String email = preferences.getString("email", "");
-    String address = preferences.getString("address", "");
+    String email = preferences.getString("input2", "");
+    String address = preferences.getString("input3", "");
     String font = preferences.getString("font", "");
     String schema = preferences.getString("schema", "");
 
@@ -122,6 +122,149 @@ void displayWrite1(UBYTE * BlackImage) {
         Paint_DrawString_custom(10, 30, name16, &Segoe12, BLACK, WHITE);
         Paint_DrawString_custom(10, 50, email16, &Segoe12, BLACK, WHITE);
         Paint_DrawString_custom(10, 70, address16, &Segoe12, BLACK, WHITE);
+        EPD_2IN9_V2_Display(BlackImage);
+    }
+}
+
+void displayWrite2(UBYTE * BlackImage) {
+    String name = preferences.getString("name", "");
+    String email = preferences.getString("input2", "");
+    String studentID = preferences.getString("input3", "");
+    String _class = preferences.getString("input4", "");
+    String font = preferences.getString("font", "");
+    String schema = preferences.getString("schema", "");
+
+    Serial.print(" -- name: ");
+    Serial.println(name.c_str());
+    Serial.print(" -- email: ");
+    Serial.println(email.c_str());
+    Serial.print(" -- studentID: ");
+    Serial.println(studentID.c_str());
+    Serial.print(" -- class: ");
+    Serial.println(_class.c_str());
+    Serial.print(" -- font: ");
+    Serial.println(font.c_str());
+    Serial.print(" -- schema: ");
+    Serial.println(schema.c_str());
+
+    char16_t * name16 = utf8ToUtf16(name.c_str(), length);
+    char16_t * email16 = utf8ToUtf16(email.c_str(), length);
+    char16_t * studentID16 = utf8ToUtf16(studentID.c_str(), length);
+    char16_t * class16 = utf8ToUtf16(_class.c_str(), length);
+
+    if (compareStrings(schema.c_str(), "1")) {
+        EPD_2IN9_V2_Init();
+        Paint_Clear(0xff);
+        Paint_DrawString_custom(10, 30, name16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 50, email16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 70, studentID16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 90, class16, &Segoe12, BLACK, WHITE);
+        EPD_2IN9_V2_Display(BlackImage);
+    }
+}
+
+void displayWrite3(UBYTE * BlackImage) {
+    String name = preferences.getString("name", "");
+    String email = preferences.getString("input2", "");
+    String employeeID = preferences.getString("input3", "");
+    String department = preferences.getString("input4", "");
+    String font = preferences.getString("font", "");
+    String schema = preferences.getString("schema", "");
+
+    Serial.print(" -- name: ");
+    Serial.println(name.c_str());
+    Serial.print(" -- email: ");
+    Serial.println(email.c_str());
+    Serial.print(" -- employeeID: ");
+    Serial.println(employeeID.c_str());
+    Serial.print(" -- department: ");
+    Serial.println(department.c_str());
+    Serial.print(" -- font: ");
+    Serial.println(font.c_str());
+    Serial.print(" -- schema: ");
+    Serial.println(schema.c_str());
+
+    char16_t * name16 = utf8ToUtf16(name.c_str(), length);
+    char16_t * email16 = utf8ToUtf16(email.c_str(), length);
+    char16_t * employeeID16 = utf8ToUtf16(employeeID.c_str(), length);
+    char16_t * department16 = utf8ToUtf16(department.c_str(), length);
+
+    if (compareStrings(schema.c_str(), "1")) {
+        EPD_2IN9_V2_Init();
+        Paint_Clear(0xff);
+        Paint_DrawString_custom(10, 30, name16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 50, email16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 70, employeeID16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 90, department16, &Segoe12, BLACK, WHITE);
+        EPD_2IN9_V2_Display(BlackImage);
+    }
+}
+
+void displayWrite4(UBYTE * BlackImage) {
+    String name = preferences.getString("name", "");
+    String category = preferences.getString("input2", "");
+    String price = preferences.getString("input3", "");
+    String font = preferences.getString("font", "");
+    String schema = preferences.getString("schema", "");
+
+    Serial.print(" -- name: ");
+    Serial.println(name.c_str());
+    Serial.print(" -- category: ");
+    Serial.println(category.c_str());
+    Serial.print(" -- price: ");
+    Serial.println(price.c_str());
+    Serial.print(" -- font: ");
+    Serial.println(font.c_str());
+    Serial.print(" -- schema: ");
+    Serial.println(schema.c_str());
+
+    char16_t * name16 = utf8ToUtf16(name.c_str(), length);
+    char16_t * category16 = utf8ToUtf16(category.c_str(), length);
+    char16_t * price16 = utf8ToUtf16(price.c_str(), length);
+
+    if (compareStrings(schema.c_str(), "1")) {
+        EPD_2IN9_V2_Init();
+        Paint_Clear(0xff);
+        Paint_DrawString_custom(10, 30, name16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 50, category16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 70, price16, &Segoe12, BLACK, WHITE);
+        EPD_2IN9_V2_Display(BlackImage);
+    }
+}
+
+void displayWrite5(UBYTE * BlackImage) {
+    String name = preferences.getString("name", "");
+    String purpose = preferences.getString("input2", "");
+    String manager = preferences.getString("input3", "");
+    String status = preferences.getString("input4", "");
+    String font = preferences.getString("font", "");
+    String schema = preferences.getString("schema", "");
+
+    Serial.print(" -- name: ");
+    Serial.println(name.c_str());
+    Serial.print(" -- purpose: ");
+    Serial.println(purpose.c_str());
+    Serial.print(" -- manager: ");
+    Serial.println(manager.c_str());
+    Serial.print(" -- status: ");
+    Serial.println(status.c_str());
+    Serial.print(" -- font: ");
+    Serial.println(font.c_str());
+    Serial.print(" -- schema: ");
+    Serial.println(schema.c_str());
+
+    char16_t * name16 = utf8ToUtf16(name.c_str(), length);
+    char16_t * purpose16 = utf8ToUtf16(purpose.c_str(), length);
+    char16_t * manager16 = utf8ToUtf16(manager.c_str(), length);
+    char16_t * status16 = utf8ToUtf16(status.c_str(), length);
+
+    if (compareStrings(schema.c_str(), "1")) {
+        EPD_2IN9_V2_Init();
+        Paint_Clear(0xff);
+        Paint_DrawString_custom(10, 30, name16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 50, purpose16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 70, manager16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 90, status16, &Segoe12, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
 }

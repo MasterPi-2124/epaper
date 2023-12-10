@@ -14,7 +14,9 @@ size_t update;  // 0 - no update
                 // 1 - write1 update
                 // 2 - write2 update
                 // 3 - write3 update
-                // 4 - ping update
+                // 4 - write4 update
+                // 5 - write5 update
+                // 6 - ping update
 const long connectTimeout = 20000;
 
 void onMessage(int messageSize);
@@ -108,8 +110,12 @@ void handleMessage(char *message)
     char *chr = message;
     size_t count = 0;
     int type = 0; // 0 - not defined
-                  // 1 - write
-                  // 2 - ping
+                  // 1 - write1
+                  // 2 - write2
+                  // 3 - write3
+                  // 4 - write4
+                  // 5 - write5
+                  // 6 - ping
     while (*chr != '\0')
     {
         if (*chr == '|')
@@ -123,82 +129,117 @@ void handleMessage(char *message)
             case 1:
                 if (compareStrings(msg.c_str(), "write1"))
                 {
+                    preferences.putInt("dataType", 1);
                     type = 1;
+                }
+                else if (compareStrings(msg.c_str(), "write2"))
+                {
+                    preferences.putInt("dataType", 2);
+                    type = 2;
+                }
+                else if (compareStrings(msg.c_str(), "write3"))
+                {
+                    preferences.putInt("dataType", 3);
+                    type = 3;
+                }
+                else if (compareStrings(msg.c_str(), "write4"))
+                {
+                    preferences.putInt("dataType", 4);
+                    type = 4;
+                }
+                else if (compareStrings(msg.c_str(), "write5"))
+                {
+                    preferences.putInt("dataType", 5);
+                    type = 5;
                 }
                 else if (compareStrings(msg.c_str(), "ping"))
                 {
-                    type = 2;
-                } else {
+                    type = 6;
+                    update = 6;
+                    printf("----- update = %d\r\n", update);
+                }
+                else
+                {
                     msg = "";
                     return;
                 }
                 break;
             case 2:
-                if (type == 1)
+                if (compareStrings(msg.c_str(), "F8"))
                 {
-                    if (compareStrings(msg.c_str(), "F8"))
-                    {
-                        preferences.putString("font", "Font8");
-                    }
-                    else if (compareStrings(msg.c_str(), "F12"))
-                    {
-                        preferences.putString("font", "Font12");
-                    }
-                    else if (compareStrings(msg.c_str(), "F16"))
-                    {
-                        preferences.putString("font", "Font16");
-                    }
-                    else if (compareStrings(msg.c_str(), "F20"))
-                    {
-                        preferences.putString("font", "Font20");
-                    }
-                    else if (compareStrings(msg.c_str(), "F24"))
-                    {
-                        preferences.putString("font", "Font24");
-                    }
-                    else if (compareStrings(msg.c_str(), "S12"))
-                    {
-                        preferences.putString("font", "Segoe12");
-                    }
-                    else if (compareStrings(msg.c_str(), "S16"))
-                    {
-                        preferences.putString("font", "Segoe16");
-                    }
-                    else if (compareStrings(msg.c_str(), "S20"))
-                    {
-                        preferences.putString("font", "Segoe20");
-                    }
+                    preferences.putString("font", "Font8");
+                }
+                else if (compareStrings(msg.c_str(), "F12"))
+                {
+                    preferences.putString("font", "Font12");
+                }
+                else if (compareStrings(msg.c_str(), "F16"))
+                {
+                    preferences.putString("font", "Font16");
+                }
+                else if (compareStrings(msg.c_str(), "F20"))
+                {
+                    preferences.putString("font", "Font20");
+                }
+                else if (compareStrings(msg.c_str(), "F24"))
+                {
+                    preferences.putString("font", "Font24");
+                }
+                else if (compareStrings(msg.c_str(), "S12"))
+                {
+                    preferences.putString("font", "Segoe12");
+                }
+                else if (compareStrings(msg.c_str(), "S16"))
+                {
+                    preferences.putString("font", "Segoe16");
+                }
+                else if (compareStrings(msg.c_str(), "S20"))
+                {
+                    preferences.putString("font", "Segoe20");
                 }
                 break;
             case 3:
-                if (type == 1)
-                {
-                    preferences.putString("schema", msg);
-                }
+                preferences.putString("schema", msg);
                 break;
             case 4:
-                if (type == 1)
-                {
-                    preferences.putString("name", msg);
-                }
+                preferences.putString("name", msg);
                 break;
             case 5:
-                if (type == 1)
-                {
-                    preferences.putString("email", msg);
-                }
+                preferences.putString("input2", msg);
                 break;
-            case 6:
-                if (type == 1)
-                {
-                    preferences.putString("address", msg);
-                }
+            case 6: 
+                preferences.putString("input3", msg);
                 break;
             case 7:
-                if (type == 1)
-                {
-                    preferences.putString("userID", msg);
+                if (type == 1) {
+                    String oldData = preferences.getString("dataID", "");
+                    preferences.putString("dataID", msg);
+                    preferences.putString("oldData", oldData);
                     update = 1;
+                    printf("----- update = %d\r\n", update);
+                } else if (type == 4) {
+                    String oldData = preferences.getString("dataID", "");
+                    preferences.putString("dataID", msg);
+                    preferences.putString("oldData", oldData);
+                    update = 4;
+                    printf("----- update = %d\r\n", update);
+                } else {
+                    preferences.putString("input4", msg);
+                }
+                break;
+            case 8:
+                String oldData = preferences.getString("dataID", "");
+                preferences.putString("dataID", msg);
+                preferences.putString("oldData", oldData);
+
+                if (type == 2) {
+                    update = 2;
+                    printf("----- update = %d\r\n", update);
+                }else if (type == 3) {
+                    update = 3;
+                    printf("----- update = %d\r\n", update);
+                } else if (type == 5) {
+                    update = 5;
                     printf("----- update = %d\r\n", update);
                 }
                 break;
@@ -247,11 +288,11 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
     client.poll();
     if (update == 1)
     {
-        String userID = preferences.getString("userID", "");
+        String oldData = preferences.getString("oldData", "");
         displayWrite1(BlackImage);
 
         String writeOK = "replyOK|";
-        writeOK += userID;
+        writeOK += oldData;
         Serial.println(writeOK.c_str());
 
         Serial.println(topic);
@@ -261,7 +302,72 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         
         update = 0;
     } else if (update == 2) {
+        String oldData = preferences.getString("oldData", "");
+        displayWrite2(BlackImage);
+
+        String writeOK = "replyOK|";
+        writeOK += oldData;
+        Serial.println(writeOK.c_str());
+
+        Serial.println(topic);
+        client.beginMessage(topic);
+        client.print(writeOK.c_str());
+        client.endMessage();
         
+        update = 0;
+    } else if (update == 3) {
+        String oldData = preferences.getString("oldData", "");
+        displayWrite3(BlackImage);
+
+        String writeOK = "replyOK|";
+        writeOK += oldData;
+        Serial.println(writeOK.c_str());
+
+        Serial.println(topic);
+        client.beginMessage(topic);
+        client.print(writeOK.c_str());
+        client.endMessage();
+        
+        update = 0;
+    } else if (update == 4) {
+        String oldData = preferences.getString("oldData", "");
+        displayWrite4(BlackImage);
+
+        String writeOK = "replyOK|";
+        writeOK += oldData;
+        Serial.println(writeOK.c_str());
+
+        Serial.println(topic);
+        client.beginMessage(topic);
+        client.print(writeOK.c_str());
+        client.endMessage();
+        
+        update = 0;
+    } else if (update == 5) {
+        String oldData = preferences.getString("oldData", "");
+        displayWrite5(BlackImage);
+
+        String writeOK = "replyOK|";
+        writeOK += oldData;
+        Serial.println(writeOK.c_str());
+
+        Serial.println(topic);
+        client.beginMessage(topic);
+        client.print(writeOK.c_str());
+        client.endMessage();
+        
+        update = 0;
+    } else if (update == 6) {
+        String dataID = preferences.getString("dataID", "");
+        String writeOK = "pingOK|";
+        writeOK += dataID;
+        Serial.println(writeOK.c_str());
+
+        Serial.println(topic);
+        client.beginMessage(topic);
+        client.print(writeOK.c_str());
+        client.endMessage();
+        update = 0;
     }
     DEV_Delay_ms(5000);
 }
