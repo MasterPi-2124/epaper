@@ -43,26 +43,21 @@ const userSchema = new Schema({
     },
     activeStartTime: {
         type: Number,
-        required: true,
         default: -1,
     },
     deviceID: {
         type: String,
-        required: true,
         default: ""
     },
     activeTimestamp: {
         type: [String],
-        required: true,
     },
     fontStyle: {
         type: String,
-        required: true,
         default: ""
     },
     designSchema: {
         type: String,
-        required: true,
         default: ""
     },
     createdBy: {

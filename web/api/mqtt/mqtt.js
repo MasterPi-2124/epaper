@@ -199,13 +199,15 @@ exports.writeDevice = async (client, user) => {
       const oldUserID = match[1];
       const oldUser = await UserModel.findById(oldUserID);
       const device = await DeviceModel.findById(user.deviceID);
-
       const now = Math.floor(new Date().getTime() / 1000);
-      oldUser["active"] = false;
-      oldUser["deviceID"] = "";
-      oldUser["activeTimestamp"].push(`${oldUser["activeStartTime"]}-${now}`)
-      oldUser["activeStartTime"] = -1;
-      await UserModel.findByIdAndUpdate(oldUserID, oldUser);
+      
+      if (oldUser) {
+        oldUser["active"] = false;
+        oldUser["deviceID"] = "";
+        oldUser["activeTimestamp"].push(`${oldUser["activeStartTime"]}-${now}`)
+        oldUser["activeStartTime"] = -1;
+        await UserModel.findByIdAndUpdate(oldUserID, oldUser);
+      }
 
       user["activeStartTime"] = `${now}`;
       user["activeTimestamp"] = [];
