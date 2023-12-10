@@ -30,8 +30,8 @@ exports.getUserById = async (id) => {
 
 exports.createUser = async (user, accountId = null) => {
   user.createdBy = accountId;
+  console.log(user);
   if (user.active) {
-    console.log(user);
     const createdUser = await UserModel.create(user);
     client = mqttClient.connect();
     mqttClient.writeDevice(client, createdUser);
