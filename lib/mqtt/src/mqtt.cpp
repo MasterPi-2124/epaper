@@ -10,13 +10,15 @@
 
 WiFiClient espClient;
 MqttClient client(espClient);
-size_t update;  // 0 - no update
-                // 1 - write1 update
-                // 2 - write2 update
-                // 3 - write3 update
-                // 4 - write4 update
-                // 5 - write5 update
-                // 6 - ping update
+size_t update; // 0 - no update
+               // 1 - write1 update
+               // 2 - write2 update
+               // 3 - write3 update
+               // 4 - write4 update
+               // 5 - write5 update
+               // 6 - ping update
+               // 7 - device update
+               // 8 - remove update
 const long connectTimeout = 20000;
 
 void onMessage(int messageSize);
@@ -116,6 +118,7 @@ void handleMessage(char *message)
                   // 4 - write4
                   // 5 - write5
                   // 6 - ping
+                  // 7 - update
     while (*chr != '\0')
     {
         if (*chr == '|')
@@ -158,6 +161,10 @@ void handleMessage(char *message)
                     update = 6;
                     printf("----- update = %d\r\n", update);
                 }
+                else if (compareStrings(msg.c_str(), "update"))
+                {
+                    type = 7;
+                }
                 else
                 {
                     msg = "";
@@ -165,41 +172,65 @@ void handleMessage(char *message)
                 }
                 break;
             case 2:
-                if (compareStrings(msg.c_str(), "F8"))
+                if (type != 7)
                 {
-                    preferences.putString("font", "Font8");
+                    if (compareStrings(msg.c_str(), "F8"))
+                    {
+                        preferences.putString("font", "Font8");
+                    }
+                    else if (compareStrings(msg.c_str(), "F12"))
+                    {
+                        preferences.putString("font", "Font12");
+                    }
+                    else if (compareStrings(msg.c_str(), "F16"))
+                    {
+                        preferences.putString("font", "Font16");
+                    }
+                    else if (compareStrings(msg.c_str(), "F20"))
+                    {
+                        preferences.putString("font", "Font20");
+                    }
+                    else if (compareStrings(msg.c_str(), "F24"))
+                    {
+                        preferences.putString("font", "Font24");
+                    }
+                    else if (compareStrings(msg.c_str(), "S12"))
+                    {
+                        preferences.putString("font", "Segoe12");
+                    }
+                    else if (compareStrings(msg.c_str(), "S16"))
+                    {
+                        preferences.putString("font", "Segoe16");
+                    }
+                    else if (compareStrings(msg.c_str(), "S20"))
+                    {
+                        preferences.putString("font", "Segoe20");
+                    }
                 }
-                else if (compareStrings(msg.c_str(), "F12"))
+                else
                 {
-                    preferences.putString("font", "Font12");
-                }
-                else if (compareStrings(msg.c_str(), "F16"))
-                {
-                    preferences.putString("font", "Font16");
-                }
-                else if (compareStrings(msg.c_str(), "F20"))
-                {
-                    preferences.putString("font", "Font20");
-                }
-                else if (compareStrings(msg.c_str(), "F24"))
-                {
-                    preferences.putString("font", "Font24");
-                }
-                else if (compareStrings(msg.c_str(), "S12"))
-                {
-                    preferences.putString("font", "Segoe12");
-                }
-                else if (compareStrings(msg.c_str(), "S16"))
-                {
-                    preferences.putString("font", "Segoe16");
-                }
-                else if (compareStrings(msg.c_str(), "S20"))
-                {
-                    preferences.putString("font", "Segoe20");
+                    if (compareStrings(msg.c_str(), "removeUser"))
+                    {
+                        update = 8;
+                        printf("----- update = %d\r\n", update);
+                    }
+                    else
+                    {
+                        preferences.putString("ssid", msg);
+                    }
                 }
                 break;
             case 3:
-                preferences.putString("schema", msg);
+                if (type != 7)
+                {
+                    preferences.putString("schema", msg);
+                }
+                else
+                {
+                    preferences.putString("pass", msg);
+                    update = 7;
+                    printf("----- update = %d\r\n", update);
+                }
                 break;
             case 4:
                 preferences.putString("name", msg);
@@ -207,23 +238,28 @@ void handleMessage(char *message)
             case 5:
                 preferences.putString("input2", msg);
                 break;
-            case 6: 
+            case 6:
                 preferences.putString("input3", msg);
                 break;
             case 7:
-                if (type == 1) {
+                if (type == 1)
+                {
                     String oldData = preferences.getString("dataID", "");
                     preferences.putString("dataID", msg);
                     preferences.putString("oldData", oldData);
                     update = 1;
                     printf("----- update = %d\r\n", update);
-                } else if (type == 4) {
+                }
+                else if (type == 4)
+                {
                     String oldData = preferences.getString("dataID", "");
                     preferences.putString("dataID", msg);
                     preferences.putString("oldData", oldData);
                     update = 4;
                     printf("----- update = %d\r\n", update);
-                } else {
+                }
+                else
+                {
                     preferences.putString("input4", msg);
                 }
                 break;
@@ -232,13 +268,18 @@ void handleMessage(char *message)
                 preferences.putString("dataID", msg);
                 preferences.putString("oldData", oldData);
 
-                if (type == 2) {
+                if (type == 2)
+                {
                     update = 2;
                     printf("----- update = %d\r\n", update);
-                }else if (type == 3) {
+                }
+                else if (type == 3)
+                {
                     update = 3;
                     printf("----- update = %d\r\n", update);
-                } else if (type == 5) {
+                }
+                else if (type == 5)
+                {
                     update = 5;
                     printf("----- update = %d\r\n", update);
                 }
@@ -291,7 +332,7 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         String oldData = preferences.getString("oldData", "");
         displayWrite1(BlackImage);
 
-        String writeOK = "replyOK|";
+        String writeOK = "writeOK|";
         writeOK += oldData;
         Serial.println(writeOK.c_str());
 
@@ -299,13 +340,15 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         client.beginMessage(topic);
         client.print(writeOK.c_str());
         client.endMessage();
-        
+
         update = 0;
-    } else if (update == 2) {
+    }
+    else if (update == 2)
+    {
         String oldData = preferences.getString("oldData", "");
         displayWrite2(BlackImage);
 
-        String writeOK = "replyOK|";
+        String writeOK = "writeOK|";
         writeOK += oldData;
         Serial.println(writeOK.c_str());
 
@@ -313,13 +356,15 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         client.beginMessage(topic);
         client.print(writeOK.c_str());
         client.endMessage();
-        
+
         update = 0;
-    } else if (update == 3) {
+    }
+    else if (update == 3)
+    {
         String oldData = preferences.getString("oldData", "");
         displayWrite3(BlackImage);
 
-        String writeOK = "replyOK|";
+        String writeOK = "writeOK|";
         writeOK += oldData;
         Serial.println(writeOK.c_str());
 
@@ -327,13 +372,15 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         client.beginMessage(topic);
         client.print(writeOK.c_str());
         client.endMessage();
-        
+
         update = 0;
-    } else if (update == 4) {
+    }
+    else if (update == 4)
+    {
         String oldData = preferences.getString("oldData", "");
         displayWrite4(BlackImage);
 
-        String writeOK = "replyOK|";
+        String writeOK = "writeOK|";
         writeOK += oldData;
         Serial.println(writeOK.c_str());
 
@@ -341,13 +388,15 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         client.beginMessage(topic);
         client.print(writeOK.c_str());
         client.endMessage();
-        
+
         update = 0;
-    } else if (update == 5) {
+    }
+    else if (update == 5)
+    {
         String oldData = preferences.getString("oldData", "");
         displayWrite5(BlackImage);
 
-        String writeOK = "replyOK|";
+        String writeOK = "writeOK|";
         writeOK += oldData;
         Serial.println(writeOK.c_str());
 
@@ -355,9 +404,11 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         client.beginMessage(topic);
         client.print(writeOK.c_str());
         client.endMessage();
-        
+
         update = 0;
-    } else if (update == 6) {
+    }
+    else if (update == 6)
+    {
         String dataID = preferences.getString("dataID", "");
         String writeOK = "pingOK|";
         writeOK += dataID;
@@ -366,6 +417,59 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         Serial.println(topic);
         client.beginMessage(topic);
         client.print(writeOK.c_str());
+        client.endMessage();
+        update = 0;
+    }
+    else if (update == 7)
+    {
+        String ssid = preferences.getString("ssid", "");
+        String password = preferences.getString("pass", "");
+        String dataID = preferences.getString("dataID", "");
+        int dataType = preferences.getInt("dataType", 0);
+
+        EPD_2IN9_V2_Init();
+        MQTT_Client_Init(ssid.c_str(), password.c_str(), topic, BlackImage);
+        MQTT_Connect(topic, BlackImage);
+
+        if (!dataID.isEmpty()) {
+            if (dataType == 1) {
+                displayWrite1(BlackImage);
+            } else if (dataType == 2) {
+                displayWrite2(BlackImage);
+            } else if (dataType == 3) {
+                displayWrite3(BlackImage);
+            } else if (dataType == 4) {
+                displayWrite4(BlackImage);
+            } else if (dataType == 5) {
+                displayWrite5(BlackImage);
+            }
+        }
+        String updateOK = "updateOK|";
+        Serial.println(updateOK.c_str());
+
+        Serial.println(topic);
+        client.beginMessage(topic);
+        client.print(updateOK.c_str());
+        client.endMessage();
+        update = 0;
+    }
+    else if (update == 8)
+    {
+        preferences.putString("font", "");
+        preferences.putString("schema", "");
+        preferences.putString("name", "");
+        preferences.putString("input2", "");
+        preferences.putString("input3", "");
+        preferences.putString("input4", "");
+        String dataID = preferences.getString("dataID", "");
+        String removeOK = "removeOK|";
+        removeOK += dataID;
+        Serial.println(removeOK.c_str());
+        preferences.putString("dataID", "");
+
+        Serial.println(topic);
+        client.beginMessage(topic);
+        client.print(removeOK.c_str());
         client.endMessage();
         update = 0;
     }

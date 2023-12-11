@@ -51,11 +51,10 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, port, setPort, handleSu
                             onChange={(e) => handleChange("ssid", e)}
                         />
 
-                        <Input
+                        <Input.Password
                             className="input"
                             label="Network password"
                             required
-                            type="password"
                             onChange={(e) => handleChange("pass", e)}
                         />
 

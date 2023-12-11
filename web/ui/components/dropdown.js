@@ -20,22 +20,19 @@ const DropDown = ({ minimized, isShow, buttonList }) => {
         >
           {buttonList.map((button, index) => {
             return (
-              <li
-                key={index}
-                style={{
-                  margin: "10px 0",
-                  gap: "10px",
-                }}
-                className="p-2 flex flex-row"
-              >
-                <Image alt="" src={button.img} />
-                <Link
-                  href={button.path}
-                  className="nav-button"
+              <Link href={button.path}>
+                <li
+                  key={index}
+                  style={{
+                    margin: "10px 0",
+                    gap: "10px",
+                  }}
+                  className="p-2 flex flex-row"
                 >
+                  <Image alt="" src={button.img} />
                   {button.text}
-                </Link>
-              </li>
+                </li>
+              </Link>
             );
           })}
         </ul>

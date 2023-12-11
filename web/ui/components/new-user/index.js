@@ -19,6 +19,7 @@ const NewUser = () => {
         activeTimestamp: [],
         activeStartTime: -1,
         deviceID: "",
+        deviceName: "",
         fontStyle: "",
         designSchema: ""
     });
@@ -52,7 +53,8 @@ const NewUser = () => {
             activeTimestamp: [],
             activeStartTime: -1,
             deviceID: "",
-            fontStyle: "",
+        deviceName: "",
+        fontStyle: "",
             designSchema: ""
         })
     }

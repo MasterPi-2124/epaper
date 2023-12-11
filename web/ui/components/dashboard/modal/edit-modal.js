@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
 import Image from "next/image";
 import Notify from 'notiflix/build/notiflix-notify-aio';
@@ -9,11 +9,12 @@ import dayjs from "dayjs";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
-const EditModal = ({ type, id, onClose }) => {
+const EditModal = ({ type, id }) => {
   const [port, setPort] = useState(null);
   const [item, setItem] = useState({});
   const [itemUpdated, setItemUpdated] = useState({});
   const [userStage, setUserStage] = useState(0);
+  const canvaRef = useRef(null);
   const [devices, setDevices] = useState();
   const fonts = [
     "Monospace 8pt",
@@ -31,7 +32,6 @@ const EditModal = ({ type, id, onClose }) => {
     "Theme 3",
     "Theme 4",
   ]
-  const canvaRef = useRef(null);
 
   const style = {
     font: "",
@@ -59,51 +59,6 @@ const EditModal = ({ type, id, onClose }) => {
   }
 
   useEffect(() => {
-    getDevices();
-  }, []);
-
-  useEffect(() => {
-    const canva = canvaRef.current;
-    const ctx = canva.getContext("2d");
-
-    ctx.clearRect(0, 0, canva.width, canva.height);
-
-    if (userCreated.designSchema === "Theme 1") {
-      style["color"] = "red";
-    } else if (userCreated.designSchema === "Theme 2") {
-      style["color"] = "blue";
-    } else if (userCreated.designSchema === "Theme 3") {
-      style["color"] = "yellow";
-    } else {
-      style["color"] = "orange";
-    }
-
-    if (userCreated.fontStyle === "Monospace 8pt") {
-      style["font"] = "8px Times New Roman";
-    } else if (userCreated.fontStyle === "Monospace 12pt") {
-      style["font"] = "12px Segoe UI";
-    } else if (userCreated.fontStyle === "Monospace 16pt") {
-      style["font"] = "16px";
-    } else if (userCreated.fontStyle === "Monospace 24pt") {
-      style["font"] = "24px";
-    } else if (userCreated.fontStyle === "Segoe UI 8pt") {
-      style["font"] = "28px";
-    } else if (userCreated.fontStyle === "Segoe UI 12pt") {
-      style["font"] = "32px";
-    } else if (userCreated.fontStyle === "Segoe UI 16pt") {
-      style["font"] = "36px";
-    } else {
-      style["font"] = "40px Segoe UI";
-    }
-
-    ctx.font = style.font;
-    ctx.fillStyle = style.color;
-    ctx.fillText(`Name: ${userCreated.name}`, 10, 30);
-    ctx.fillText(`Email: ${userCreated.email}`, 10, 60);
-
-  }, [style, userCreated])
-
-  useEffect(() => {
     instanceCoreApi.get(`${API}/${type}/${id}`).then((res) => {
       setItem(res.data.data);
     }).catch((error) => {
@@ -114,25 +69,77 @@ const EditModal = ({ type, id, onClose }) => {
   }, []);
 
   useEffect(() => {
-    const handleConnect = (e) => {
-      Notify.Notify.info("A new device is connected!");
-      setPort(e.port);
+    if (type === "users") {
+      getDevices();
     }
+  }, []);
 
-    const handleDisconnect = (e) => {
-      Notify.Notify.info("A device is disconnected!");
-      if (port && e.port === port) {
-        setPort(null);
+  useEffect(() => {
+    if (type === "users") {
+      const canva = canvaRef.current;
+      const ctx = canva.getContext("2d");
+  
+      ctx.clearRect(0, 0, canva.width, canva.height);
+  
+      if (itemUpdated.designSchema === "Theme 1") {
+        style["color"] = "red";
+      } else if (itemUpdated.designSchema === "Theme 2") {
+        style["color"] = "blue";
+      } else if (itemUpdated.designSchema === "Theme 3") {
+        style["color"] = "yellow";
+      } else {
+        style["color"] = "orange";
       }
+  
+      if (itemUpdated.fontStyle === "Monospace 8pt") {
+        style["font"] = "8px Times New Roman";
+      } else if (itemUpdated.fontStyle === "Monospace 12pt") {
+        style["font"] = "12px Segoe UI";
+      } else if (itemUpdated.fontStyle === "Monospace 16pt") {
+        style["font"] = "16px";
+      } else if (itemUpdated.fontStyle === "Monospace 24pt") {
+        style["font"] = "24px";
+      } else if (itemUpdated.fontStyle === "Segoe UI 8pt") {
+        style["font"] = "28px";
+      } else if (itemUpdated.fontStyle === "Segoe UI 12pt") {
+        style["font"] = "32px";
+      } else if (itemUpdated.fontStyle === "Segoe UI 16pt") {
+        style["font"] = "36px";
+      } else {
+        style["font"] = "40px Segoe UI";
+      }
+  
+      ctx.font = style.font;
+      ctx.fillStyle = style.color;
+      ctx.fillText(`Name: ${itemUpdated.name}`, 10, 30);
+      ctx.fillText(`Email: ${itemUpdated.email}`, 10, 60);
     }
-    navigator.serial.addEventListener("connect", handleConnect);
 
-    navigator.serial.addEventListener("disconnect", handleDisconnect);
+  }, [style, itemUpdated])
 
-    return () => {
-      navigator.serial.removeEventListener("connect", handleConnect);
-      navigator.serial.removeEventListener("disconnect", handleDisconnect);
-    };
+
+  useEffect(() => {
+    if (type === "devices") {
+      const handleConnect = (e) => {
+        Notify.Notify.info("A new device is connected!");
+        setPort(e.port);
+      }
+  
+      const handleDisconnect = (e) => {
+        Notify.Notify.info("A device is disconnected!");
+        if (port && e.port === port) {
+          setPort(null);
+        }
+      }
+      navigator.serial.addEventListener("connect", handleConnect);
+  
+      navigator.serial.addEventListener("disconnect", handleDisconnect);
+  
+      return () => {
+        navigator.serial.removeEventListener("connect", handleConnect);
+        navigator.serial.removeEventListener("disconnect", handleDisconnect);
+      };
+    }
   }, [port]);
 
   const handleSubmit = (event) => {
@@ -141,9 +148,9 @@ const EditModal = ({ type, id, onClose }) => {
     instanceCoreApi.put(`${API}/${type}/${id}`, itemUpdated).then(async (response) => {
       console.log(response.data);
       Notify.Notify.success(`Device info updated successfully!`);
-      if (port) {
+      if (type === "devices" && port) {
         const writer = port.writable.getWriter();
-        for (const [key, value] of Object.entries(response.data.data)) {
+        for (const [key, value] of Object.entries(itemUpdated)) {
           if (key !== "_v" && key !== "createdBy" && key !== "name" && key !== "active") {
             const keyValue = `${key}:${value}\n`;
             console.log(keyValue);
@@ -179,10 +186,12 @@ const EditModal = ({ type, id, onClose }) => {
   if (type === "devices") {
     return (
       <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
+        {console.log(item)}
         <div className="flex items-center justify-between gap-4 mb-6">
           <h1 className="heading-lg">{item.name}</h1>
         </div>
-        {item.active || (!item.active && port) ? (
+        {/* {item.active || (!item.active && port) ? ( */}
+        {(port) ? (
           <form className="form flex flex-col" onSubmit={handleSubmit}>
             <label className="dark:text-dark-text text-light-text">Fill your device information to continue</label>
             <Input

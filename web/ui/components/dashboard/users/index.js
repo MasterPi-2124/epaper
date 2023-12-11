@@ -25,6 +25,7 @@ export const UserList = () => {
   useEffect(() => {
     instanceCoreApi.get(`${API}/users`).then((res) => {
       setStage(1);
+      console.log(res.data.data);
       setUsers(res.data.data);
     }).catch((err) => {
       Notify.Notify.failure(`Error fetching users data: ${err}`);
@@ -35,16 +36,18 @@ export const UserList = () => {
 
   return (
     <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-col gap-3">
         <h1 className="text-2xl">Users</h1>
+        <p>See the list of your EPD devices and make changes.</p>
       </div>
 
       <div className="responses">
         <Table headerLined>
           <Table.Header>
             <Table.Column width={"auto"}>Name</Table.Column>
+            <Table.Column width={"auto"}>Type</Table.Column>
             <Table.Column width={"auto"}>Status</Table.Column>
-            <Table.Column width={"auto"}>UserID</Table.Column>
+            <Table.Column width={"auto"}>Device</Table.Column>
             <Table.Column width={"auto"}></Table.Column>
           </Table.Header>
           {stage === 0 ? (
@@ -54,12 +57,14 @@ export const UserList = () => {
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
+                <Table.Cell className="empty" />
               </Table.Row>
             </Table.Body>
           ) : stage === 2 ? (
             <Table.Body>
               <Table.Row>
                 <Table.Cell className="empty">Fetching failed with errors!</Table.Cell>
+                <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
@@ -78,6 +83,17 @@ export const UserList = () => {
                     <p className="id">
                       {item._id}
                     </p>
+                  </Table.Cell>
+
+                  <Table.Cell>
+                      <span style={{
+                        padding: "2px 14px",
+                        borderRadius: "15px",
+                        fontWeight: "600",
+                        backgroundColor: "green"
+                      }}>
+                        {item.type}
+                      </span>
                   </Table.Cell>
 
                   <Table.Cell>
@@ -151,6 +167,7 @@ export const UserList = () => {
             <Table.Body>
               <Table.Row>
                 <Table.Cell className="empty">No users yet</Table.Cell>
+                <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />

@@ -19,13 +19,13 @@ const DetailModal = ({ type, id, switchToEdit, switchToDelete }) => {
           }).catch((error) => {
             Notify.Notify.failure(`Error fetching data data: ${error}`);
             console.log(error)
-            setUser();
+            setDevice();
           })
         }
       }).catch((error) => {
         Notify.Notify.failure(`Error fetching data data: ${error}`);
         console.log(error)
-        setDevice();
+        setUser();
       })
     } else {
       instanceCoreApi.get(`${API}/users/${id}`).then((res) => {
@@ -51,6 +51,7 @@ const DetailModal = ({ type, id, switchToEdit, switchToDelete }) => {
     return (
       (device) ? (
         <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
+          {console.log(device, user)}
           <div className="modal-heading flex items-left justify-between mb-6 flex-row">
             <div>
               <h1 className="heading-lg">{device.name}</h1>
@@ -64,7 +65,7 @@ const DetailModal = ({ type, id, switchToEdit, switchToDelete }) => {
 
           <div className="stats">
             <h1>User</h1>
-            {device.userID ? (
+            {user ? (
               <>
                 <p className="body-lg text-mediumGrey">
                   Name: {user.name}

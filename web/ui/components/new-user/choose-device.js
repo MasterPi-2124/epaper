@@ -2,10 +2,13 @@ import { instanceCoreApi } from "@/services/setupAxios";
 import React, { useState, useEffect, useRef } from "react"
 import { Dropdown } from "@nextui-org/react";
 import Link from "next/link";
+// import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleReset, handleSubmit }) => {
+    const [deviceLoading, setDeviceLoading] = useState(0);
     const [devices, setDevices] = useState();
     const fonts = ["Monospace 8pt",
         "Monospace 12pt",
@@ -37,19 +40,24 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
         }))
     }
 
-    const getDevices = async () => {
+    const getActiveDevices = async () => {
         try {
-            await instanceCoreApi.get(`${API}/devices`).then((res) => {
-                setDevices(res.data.data)
+            await instanceCoreApi.get(`${API}/devices?active=true`).then((res) => {
+                setDevices(res.data.data);
+                console.log(res.data.data);
+                Notify.failure(`Error fetching active devices data:`);
+                setDeviceLoading(1);
             })
         }
         catch (err) {
             console.error(err);
+            setDeviceLoading(-1);
+            Notify.failure(`Error fetching active devices data: ${err}`);
         }
     }
 
     useEffect(() => {
-        getDevices();
+        getActiveDevices();
     }, []);
 
     useEffect(() => {
@@ -113,33 +121,50 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
                             selectionMode="single"
                             selectedKeys={userCreated.deviceID}
                         >
-                            {devices?.map((device) => {
-                                return <Dropdown.Item key={device._id}>
-                                    <button
-                                        onClick={(e) => handleChange("deviceID", device._id)}
-                                        style={{
-                                            padding: "10px 0px"
-                                        }}
-                                        className="w-full dropdown-item"
-                                    >
-                                        <p style={{
-                                            textAlign: "left",
-                                            color: "white"
-                                        }}
-                                        >
-                                            {device.name}
-                                        </p>
-                                        <p style={{
-                                            textAlign: "left",
-                                            color: "rgb(177, 177, 177)",
-                                            fontSize: "10px"
-                                        }}
-                                        >
-                                            Device ID: {device._id}
-                                        </p>
-                                    </button>
+                            {(deviceLoading && devices.length) ? (
+                                <>
+                                {console.log(devices)}
+                                    {devices?.map((device) => {
+                                        return <Dropdown.Item key={`${device._id}`}>
+                                            <button
+                                                onClick={(e) => {
+                                                    handleChange("deviceID", `${device._id}`);
+                                                    handleChange("deviceName", device.name);
+                                                }}
+                                                style={{
+                                                    padding: "10px 0px"
+                                                }}
+                                                className="w-full dropdown-item"
+                                            >
+                                                <p style={{
+                                                    textAlign: "left",
+                                                    color: "white"
+                                                }}
+                                                >
+                                                    {device.name}
+                                                </p>
+                                                <p style={{
+                                                    textAlign: "left",
+                                                    color: "rgb(177, 177, 177)",
+                                                    fontSize: "10px"
+                                                }}
+                                                >
+                                                    Device ID: {`${device._id}`}
+                                                </p>
+                                            </button>
+                                        </Dropdown.Item>
+                                    })}
+                                </>
+                            ) : deviceLoading === 0 ? (
+                                <Dropdown.Item style={{color: "white"}} >
+                                    Getting active devices ...
                                 </Dropdown.Item>
-                            })}
+                            ) : (
+                                <Dropdown.Item>
+                                    No active devices are found!
+                                </Dropdown.Item>
+                            )}
+
                         </Dropdown.Menu>
                     </Dropdown>
 
