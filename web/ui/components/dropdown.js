@@ -20,7 +20,7 @@ const DropDown = ({ minimized, isShow, buttonList }) => {
         >
           {buttonList.map((button, index) => {
             return (
-              <Link href={button.path}>
+              <Link href={button.path} key={index}>
                 <li
                   key={index}
                   style={{
