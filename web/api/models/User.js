@@ -16,7 +16,6 @@ const userSchema = new Schema({
         trim: true,
         lowercase: true
     },
-
     input2: { 
         // Client:   Address
         // Student:  Student ID
@@ -36,7 +35,6 @@ const userSchema = new Schema({
         // Room:     Status
         type: String,
     },
-
     active: {
         type: Boolean,
         required: true,
@@ -46,6 +44,10 @@ const userSchema = new Schema({
         default: -1,
     },
     deviceID: {
+        type: String,
+        default: ""
+    },
+    deviceName: {
         type: String,
         default: ""
     },

@@ -1,231 +1,275 @@
 const mqtt = require("mqtt");
-require('dotenv').config();
 const DeviceModel = require("../models/Device");
 const UserModel = require("../models/User");
-const DeviceService = require("../services/DeviceService");
+const cron = require("node-cron");
 
+require('dotenv').config();
 const BROKER = process.env.BROKER;
 const USER = process.env.USER;
 const PASS = process.env.PASS;
+let client = null;
+const responseTimeout = 5000;
+
+// cron.schedule('*/5 * * * *', async () => {
+//   const devices = await DeviceModel.find();
+//   const deviceIds = devices.map(device => `${device._id}`);
+//   console.log(deviceIds)
+
+//   client = this.connect();
+//   this.getAllDevicesStatuses(deviceIds);
+// });
 
 exports.connect = () => {
-  const client = mqtt.connect(BROKER, {
-    username: USER,
-    password: PASS,
-    clientId: "backend-client"
-  })
+  if (!client || !client.connected) {
+    console.log("client not connected")
+    client = mqtt.connect(BROKER, {
+      username: USER,
+      password: PASS,
+      clientId: "backend-client"
+    })
 
-  return client;
+    client.on("connect", async () => {
+      console.log("Connected to MQTT Broker!");
+      const devices = await DeviceModel.find();
+      const deviceIds = devices.map(device => `${device._id}`);
+      console.log(`Found existed devices: ${deviceIds}`);
+      deviceIds.forEach(topic => this.subscribe(topic))
+    })
+
+    client.on('error', (err) => {
+      console.error('MQTT Error:', err);
+    });
+  }
 };
 
-// exports.getAllDevicesStatuses = async (client, accountId) => {
-//   console.log(accountId);
-//   let updates = 0;
-//   const devices = await DeviceModel.find({
-//     createdBy: accountId
-//   })
-//   console.log(devices);
+exports.subscribe = (topic) => {
+  client.subscribe(topic, { qos: 0, retain: false }, (error) => {
+    if (error) {
+      console.log(`Error subscribing to topic ${topic}: ${error}`);
+    } else {
+      console.log(`Subscribed to topic ${topic} successfully!`);
+    }
+  })
+}
 
-//   client.on('connect', () => {
-//     console.log("Connected to MQTT Broker!");
-//     for (const device of devices) {
-//       client.subscribe(`${device._id}`, { qos: 0 }, (err) => {
-//         if (err) {
-//           console.log(`Error subscribing to topic ${device._id}`);
-//         } else {
-//           console.log(`Subscribed to topic ${device._id} successfully!`);
-//           client.publish(`${device._id}`, "ping|", (err) => {
-//             if (err) {
-//               console.log(`Error publishing to topic ${device._id}: ${err}`);
-//             } else {
-//               console.log(`Published to topic ${device._id} successfully!`);
-//             }
-//           });
-//         }
-//       });
-//     }
-//   });
+exports.unsubscribe = (topic) => {
+  client.unsubscribe(topic, (error) => {
+    if (error) {
+      console.log(`Error unsubscribing from topic ${topic}: ${error}`);
+    } else {
+      console.log(`Unsubscribed from topic ${topic} successfully!`);
+    }
+  })
+}
 
-//   client.on("message", async (topic, message) => {
-//     console.log(topic, message.toString());
-//     const data = message.toString();
-//     const regex = /^pingOK\|(.+)$/;
-//     const match = data.match(regex);
-//     if (match) {
-//       let device = await DeviceModel.findById(topic);
-//       if (device) {
-//         device["active"] = true;
-//         await DeviceModel.findByIdAndUpdate(device._id, device);
-//         updates++;
-//         if (updates == devices.length) {
-//           client.end();
-//         }
-//       }
-//     }
-//   })
+exports.getAllDevicesStatuses = async (topics) => {
 
-//   client.on('error', (err) => {
-//     console.error('MQTT Error:', err);
-//   });
+  const updateStatus = async (topic, status) => {
+    let device = await DeviceModel.findById(topic);
+    device["active"] = status;
+    await DeviceModel.findByIdAndUpdate(topic, device);
+  }
 
-//   // Handle disconnect event
-//   client.on('close', () => {
-//     console.log('Disconnected from MQTT broker');
-//   });
-// }
+  return new Promise((resolve) => {
+    const deviceTimeouts = new Map();
 
+    topics.forEach(topic => {
+      this.subscribe(topic);
+      client.publish(`${topic}`, "ping|");
+      deviceTimeouts.set(topic, setTimeout(() => {
+        console.log(`No response from device ${topic}, setting status to false`);
+        updateStatus(topic, false); // Implement this function to update the device status in your storage
+        this.unsubscribe(topic);
+      }, responseTimeout));
+    })
 
-exports.writeDevice = async (client, user) => {
-  console.log("writing to device...");
-  client.on("connect", () => {
-    console.log("Connected to MQTT Broker!");
-    client.subscribe(`${user.deviceID}`, { qos: 0 }, (err) => {
-      if (err) {
-        console.log(`Error subscribing to topic ${user.deviceID}: ${err}`);
-      } else {
-        console.log(`Subscribed to topic ${user.deviceID} successfully!`);
-        let payload = "";
-
-        if (user.type === "Client") {
-          payload = payload + "write1|";
-        } else if (user.type === "Student") {
-          payload = payload + "write2|";
-        } else if (user.type === "Employee") {
-          payload = payload + "write3|";
-        } else if (user.type === "Product") {
-          payload = payload + "write4|";
-        } else if (user.type === "Room") {
-          payload = payload + "write5|";
-        }
-
-        switch (user.fontStyle) {
-          case "Monospace 8pt":
-            payload = payload + "F8|";
-            break;
-          case "Monospace 12pt":
-            payload = payload + "F12|";
-            break;
-          case "Monospace 16pt":
-            payload = payload + "F16|";
-            break;
-          case "Monospace 24pt":
-            payload = payload + "F20|";
-            break;
-          case "Segoe UI 8pt":
-            payload = payload + "F24|";
-            break;
-          case "Segoe UI 12pt":
-            payload = payload + "S12|";
-            break;
-          case "Segoe UI 16pt":
-            payload = payload + "S16|";
-            break;
-          case "Segoe UI 20pt":
-            payload = payload + "S20|";
-            break;
-          default:
-            payload = payload + "Segoe12|";
-        }
-
-        switch (user.designSchema) {
-          case "Theme 1":
-            payload = payload + "1|";
-            break;
-          case "Theme 2":
-            payload = payload + "2|";
-            break;
-          case "Theme 3":
-            payload = payload + "3|";
-            break;
-          case "Theme 4":
-            payload = payload + "4|";
-            break;
-          default:
-            payload = payload + "1|";
-        }
-
-        payload = payload + `${user.name}|`;
-
-        switch (user.type) {
-          case "Client":
-            payload = payload + `${user.email}|`;
-            payload = payload + `${user.input2}|`;
-            break;
-          case "Student":
-            payload = payload + `${user.email}|`;
-            payload = payload + `${user.input2}|`;
-            payload = payload + `${user.input3}|`;
-            break;
-          case "Employee":
-            payload = payload + `${user.email}|`;
-            payload = payload + `${user.input2}|`;
-            payload = payload + `${user.input3}|`;
-            break;
-          case "Product":
-            payload = payload + `${user.input2}|`;
-            payload = payload + `${user.input3}|`;
-            break;
-          case "Room":
-            payload = payload + `${user.input2}|`;
-            payload = payload + `${user.input3}|`;
-            payload = payload + `${user.input4}|`;
-            break;
-
-        }
-        payload = payload + `${user._id}|`;
-
-        console.log(payload);
-        client.publish(`${user.deviceID}`, payload, (err) => {
-          if (err) {
-            console.log(`Error publishing to topic ${user.deviceID}: ${err}`);
-          } else {
-            console.log(`Published to topic ${user.deviceID} successfully!`);
+    client.on("message", async (topic, message) => {
+      console.log(topic, message.toString());
+      const data = message.toString();
+      if (data.startsWith('pingOK|')) {
+        if (topics.includes(topic)) {
+          console.log(`Received ping response from ${topic}`);
+          if (deviceTimeouts.has(topic)) {
+            clearTimeout(deviceTimeouts.get(topic));
+            deviceTimeouts.delete(topic);
           }
-        });
+          updateStatus(topic, true);
+          this.unsubscribe(topic);
+        }
       }
-    });
+    })
 
     setTimeout(() => {
-      client.end();
-    }, 10000);
+      resolve();
+    }, responseTimeout + 1000);
+  })
+}
+
+exports.writeDevice = async (user) => {
+
+  console.log("writing to device...");
+
+  let payload = "";
+
+  if (user.type === "Client") {
+    payload = payload + "write1|";
+  } else if (user.type === "Student") {
+    payload = payload + "write2|";
+  } else if (user.type === "Employee") {
+    payload = payload + "write3|";
+  } else if (user.type === "Product") {
+    payload = payload + "write4|";
+  } else if (user.type === "Room") {
+    payload = payload + "write5|";
+  }
+
+  switch (user.fontStyle) {
+    case "Monospace 8pt":
+      payload = payload + "F8|";
+      break;
+    case "Monospace 12pt":
+      payload = payload + "F12|";
+      break;
+    case "Monospace 16pt":
+      payload = payload + "F16|";
+      break;
+    case "Monospace 24pt":
+      payload = payload + "F20|";
+      break;
+    case "Segoe UI 8pt":
+      payload = payload + "F24|";
+      break;
+    case "Segoe UI 12pt":
+      payload = payload + "S12|";
+      break;
+    case "Segoe UI 16pt":
+      payload = payload + "S16|";
+      break;
+    case "Segoe UI 20pt":
+      payload = payload + "S20|";
+      break;
+    default:
+      payload = payload + "Segoe12|";
+  }
+
+  switch (user.designSchema) {
+    case "Theme 1":
+      payload = payload + "1|";
+      break;
+    case "Theme 2":
+      payload = payload + "2|";
+      break;
+    case "Theme 3":
+      payload = payload + "3|";
+      break;
+    case "Theme 4":
+      payload = payload + "4|";
+      break;
+    default:
+      payload = payload + "1|";
+  }
+
+  payload = payload + `${user.name}|`;
+
+  switch (user.type) {
+    case "Client":
+      payload = payload + `${user.email}|`;
+      payload = payload + `${user.input2}|`;
+      break;
+    case "Student":
+      payload = payload + `${user.email}|`;
+      payload = payload + `${user.input2}|`;
+      payload = payload + `${user.input3}|`;
+      break;
+    case "Employee":
+      payload = payload + `${user.email}|`;
+      payload = payload + `${user.input2}|`;
+      payload = payload + `${user.input3}|`;
+      break;
+    case "Product":
+      payload = payload + `${user.input2}|`;
+      payload = payload + `${user.input3}|`;
+      break;
+    case "Room":
+      payload = payload + `${user.input2}|`;
+      payload = payload + `${user.input3}|`;
+      payload = payload + `${user.input4}|`;
+      break;
+
+  }
+  payload = payload + `${user._id}|`;
+
+  console.log(payload);
+  client.publish(`${user.deviceID}`, payload, (err) => {
+    if (err) {
+      console.log(`Error publishing to topic ${user.deviceID}: ${err}`);
+    } else {
+      console.log(`Published to topic ${user.deviceID} successfully!`);
+    }
   });
 
   client.on("message", async (topic, message) => {
     console.log(topic, message.toString());
     const data = message.toString();
-    const regex = /^replyOK\|(.+)$/;
+    const regex = /^writeOK\|(.+)$/;
     const match = data.match(regex);
     if (match && topic === user.deviceID) {
       const oldUserID = match[1];
-      const oldUser = await UserModel.findById(oldUserID);
-      const device = await DeviceModel.findById(user.deviceID);
-      const now = Math.floor(new Date().getTime() / 1000);
-      
-      if (oldUser) {
-        oldUser["active"] = false;
-        oldUser["deviceID"] = "";
-        oldUser["activeTimestamp"].push(`${oldUser["activeStartTime"]}-${now}`)
-        oldUser["activeStartTime"] = -1;
-        await UserModel.findByIdAndUpdate(oldUserID, oldUser);
+      if (oldUserID !== user._id) {
+        const oldUser = await UserModel.findById(oldUserID);
+        const device = await DeviceModel.findById(user.deviceID);
+        const now = Math.floor(new Date().getTime() / 1000);
+
+        if (oldUser) {
+          oldUser["active"] = false;
+          oldUser["deviceID"] = "";
+          oldUser["activeTimestamp"].push(`${oldUser["activeStartTime"]}-${now}`)
+          oldUser["activeStartTime"] = -1;
+          await UserModel.findByIdAndUpdate(oldUserID, oldUser);
+        }
+
+        user["activeStartTime"] = `${now}`;
+        user["activeTimestamp"] = [];
+        await UserModel.findByIdAndUpdate(user._id, user);
+
+        device["active"] = true;
+        device["userID"] = user._id;
+        await DeviceModel.findByIdAndUpdate(user.deviceID, device);
       }
+    }
+  });
+}
 
-      user["activeStartTime"] = `${now}`;
-      user["activeTimestamp"] = [];
-      await UserModel.findByIdAndUpdate(user._id, user);
+exports.updateDevice = async (id, data) => {
 
-      device["active"] = true;
-      device["userID"] = user._id;
-      await DeviceModel.findByIdAndUpdate(user.deviceID, device);
+  console.log("updating to device...");
+  let payload = "update|";
+  if (data.ssid) {  // update device data
+    payload = payload + `${data.ssid}|`;
+    payload = payload + `${data.pass}|`;
+    // payload = payload + `${data.userID}|`;
+  } else {          // update user data
+    payload = payload + "removeUser|";
+  }
 
-      client.end();
+  console.log(payload);
+  client.publish(`${id}`, payload, (err) => {
+    if (err) {
+      console.log(`Error publishing to topic ${id}: ${err}`);
+    } else {
+      console.log(`Published to topic ${id} successfully!`);
     }
   });
 
-  client.on('error', (err) => {
-    console.error('MQTT Error:', err);
-  });
-
-  client.on('close', () => {
-    console.log('Disconnected from MQTT broker');
+  client.on("message", async (topic, message) => {
+    console.log(topic, message.toString());
+    const data = message.toString();
+    const regex2 = /^removeOK\|(.+)$/;
+    const match2 = data.match(regex2);
+    if (match2 && topic === id) {
+      const device = await DeviceModel.findById(id);
+      device["userID"] = "";
+      await DeviceModel.findByIdAndUpdate(id, device);
+    }
   });
 }
