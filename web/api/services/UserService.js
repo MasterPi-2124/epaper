@@ -59,10 +59,11 @@ exports.updateUser = async (id, user) => {
 }
 
 exports.deleteUser = async (id, accountId = null) => {
-  let user = this.getUserById(id, accountId);
+  let user = await this.getUserById(id, accountId);
   if (user === null) {
     return null;
   }
+  console.log(user)
   if (user.active) {
     mqttClient.updateDevice(user.deviceID, {});
   }

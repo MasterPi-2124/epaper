@@ -16,13 +16,9 @@ exports.getAllDevices = async (filters = null) => {
 
     await mqttClient.getAllDevicesStatuses(deviceIds)
     console.log("get status done")
-    if (filters) {
-      if ("active" in filters) {
+    if (filters && "active" in filters) {
         query.active = filters.active === "true" ? true : false;
       }
-    }
-    console.log(query)
-    console.log("old devices: ", devices)
     return await DeviceModel.find(query);
   } catch (error) {
     console.log(error);

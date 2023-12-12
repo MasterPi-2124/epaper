@@ -1,7 +1,6 @@
 const mqtt = require("mqtt");
 const DeviceModel = require("../models/Device");
 const UserModel = require("../models/User");
-const cron = require("node-cron");
 
 require('dotenv').config();
 const BROKER = process.env.BROKER;
@@ -9,15 +8,61 @@ const USER = process.env.USER;
 const PASS = process.env.PASS;
 let client = null;
 const responseTimeout = 5000;
+let globalMessageHandlers = new Map();
 
-// cron.schedule('*/5 * * * *', async () => {
-//   const devices = await DeviceModel.find();
-//   const deviceIds = devices.map(device => `${device._id}`);
-//   console.log(deviceIds)
+const writeDeviceHandler = (user) => {
+  return async (topic, oldUserID) => {
+    if (topic === user.deviceID) {
+      if (oldUserID !== user._id) {
+        const oldUser = await UserModel.findById(oldUserID);
+        const device = await DeviceModel.findById(user.deviceID);
+        const now = Math.floor(new Date().getTime() / 1000);
 
-//   client = this.connect();
-//   this.getAllDevicesStatuses(deviceIds);
-// });
+        if (oldUser) {
+          oldUser["active"] = false;
+          oldUser["deviceID"] = "";
+          oldUser["activeTimestamp"].push(`${oldUser["activeStartTime"]}-${now}`)
+          oldUser["activeStartTime"] = -1;
+          await UserModel.findByIdAndUpdate(oldUserID, oldUser);
+        }
+
+        user["activeStartTime"] = `${now}`;
+        user["activeTimestamp"] = [];
+        await UserModel.findByIdAndUpdate(user._id, user);
+
+        device["active"] = true;
+        device["userID"] = user._id;
+        await DeviceModel.findByIdAndUpdate(user.deviceID, device);
+      }
+      this.unsubscribe(topic);
+    }
+  }
+}
+
+const getStatusHandler = (topics, deviceTimeouts, updateStatus) => {
+  return async (topic) => {
+    if (topics.includes(topic)) {
+      console.log(`Received ping response from ${topic}`);
+      if (deviceTimeouts.has(topic)) {
+        clearTimeout(deviceTimeouts.get(topic));
+        deviceTimeouts.delete(topic);
+      }
+      updateStatus(topic, true);
+      this.unsubscribe(topic);
+    }
+  }
+}
+
+const removeHandler = (id) => {
+  return async (topic) => {
+    if (topic === id) {
+      const device = await DeviceModel.findById(id);
+      device["userID"] = "";
+      await DeviceModel.findByIdAndUpdate(id, device);
+      this.unsubscribe(topic);
+    }
+  }
+}
 
 exports.connect = () => {
   if (!client || !client.connected) {
@@ -39,6 +84,29 @@ exports.connect = () => {
     client.on('error', (err) => {
       console.error('MQTT Error:', err);
     });
+
+    client.on("message", (topic, message) => {
+      console.log(topic, message.toString());
+      const data = message.toString();
+      const regex = /^writeOK\|(.+)$/;
+      const regex2 = /^removeOK\|(.+)$/;
+      const match = data.match(regex);
+      const match2 = data.match(regex2);
+      if (data.startsWith("writeOK")) {
+        if (globalMessageHandlers.has("writeOK")) {
+          const handler = globalMessageHandlers.get("writeOK");
+          handler(topic, match[1]);
+        }
+      } else if (data.startsWith("pingOK")) {
+        if (globalMessageHandlers.has("pingOK")) {
+          const handler = globalMessageHandlers.get("pingOK");
+          handler(topic);
+        }
+      } else if (data.startsWith("removeOK")) {
+        const handler = globalMessageHandlers.get("removeOK");
+        handler(topic);
+      }
+    })
   }
 };
 
@@ -63,7 +131,6 @@ exports.unsubscribe = (topic) => {
 }
 
 exports.getAllDevicesStatuses = async (topics) => {
-
   const updateStatus = async (topic, status) => {
     let device = await DeviceModel.findById(topic);
     device["active"] = status;
@@ -72,6 +139,9 @@ exports.getAllDevicesStatuses = async (topics) => {
 
   return new Promise((resolve) => {
     const deviceTimeouts = new Map();
+
+    const handler = getStatusHandler(topics, deviceTimeouts, updateStatus);
+    globalMessageHandlers.set("pingOK", handler);
 
     topics.forEach(topic => {
       this.subscribe(topic);
@@ -83,32 +153,15 @@ exports.getAllDevicesStatuses = async (topics) => {
       }, responseTimeout));
     })
 
-    client.on("message", async (topic, message) => {
-      console.log(topic, message.toString());
-      const data = message.toString();
-      if (data.startsWith('pingOK|')) {
-        if (topics.includes(topic)) {
-          console.log(`Received ping response from ${topic}`);
-          if (deviceTimeouts.has(topic)) {
-            clearTimeout(deviceTimeouts.get(topic));
-            deviceTimeouts.delete(topic);
-          }
-          updateStatus(topic, true);
-          this.unsubscribe(topic);
-        }
-      }
-    })
-
     setTimeout(() => {
       resolve();
+      globalMessageHandlers.delete("pingOK");
     }, responseTimeout + 1000);
   })
 }
 
 exports.writeDevice = async (user) => {
-
   console.log("writing to device...");
-
   let payload = "";
 
   if (user.type === "Client") {
@@ -200,6 +253,11 @@ exports.writeDevice = async (user) => {
   payload = payload + `${user._id}|`;
 
   console.log(payload);
+
+  this.subscribe(user.deviceID);
+  const handler = writeDeviceHandler(user);
+  globalMessageHandlers.set("writeOK", handler);
+
   client.publish(`${user.deviceID}`, payload, (err) => {
     if (err) {
       console.log(`Error publishing to topic ${user.deviceID}: ${err}`);
@@ -208,36 +266,9 @@ exports.writeDevice = async (user) => {
     }
   });
 
-  client.on("message", async (topic, message) => {
-    console.log(topic, message.toString());
-    const data = message.toString();
-    const regex = /^writeOK\|(.+)$/;
-    const match = data.match(regex);
-    if (match && topic === user.deviceID) {
-      const oldUserID = match[1];
-      if (oldUserID !== user._id) {
-        const oldUser = await UserModel.findById(oldUserID);
-        const device = await DeviceModel.findById(user.deviceID);
-        const now = Math.floor(new Date().getTime() / 1000);
-
-        if (oldUser) {
-          oldUser["active"] = false;
-          oldUser["deviceID"] = "";
-          oldUser["activeTimestamp"].push(`${oldUser["activeStartTime"]}-${now}`)
-          oldUser["activeStartTime"] = -1;
-          await UserModel.findByIdAndUpdate(oldUserID, oldUser);
-        }
-
-        user["activeStartTime"] = `${now}`;
-        user["activeTimestamp"] = [];
-        await UserModel.findByIdAndUpdate(user._id, user);
-
-        device["active"] = true;
-        device["userID"] = user._id;
-        await DeviceModel.findByIdAndUpdate(user.deviceID, device);
-      }
-    }
-  });
+  setTimeout(() => {
+    globalMessageHandlers.delete("writeOK");
+  }, responseTimeout + 1000);
 }
 
 exports.updateDevice = async (id, data) => {
@@ -253,6 +284,10 @@ exports.updateDevice = async (id, data) => {
   }
 
   console.log(payload);
+  this.subscribe(`${id}`);
+  const handler = removeHandler(id);
+  globalMessageHandlers.set("removeOK", handler);
+
   client.publish(`${id}`, payload, (err) => {
     if (err) {
       console.log(`Error publishing to topic ${id}: ${err}`);
@@ -261,15 +296,7 @@ exports.updateDevice = async (id, data) => {
     }
   });
 
-  client.on("message", async (topic, message) => {
-    console.log(topic, message.toString());
-    const data = message.toString();
-    const regex2 = /^removeOK\|(.+)$/;
-    const match2 = data.match(regex2);
-    if (match2 && topic === id) {
-      const device = await DeviceModel.findById(id);
-      device["userID"] = "";
-      await DeviceModel.findByIdAndUpdate(id, device);
-    }
-  });
+  setTimeout(() => {
+    globalMessageHandlers.delete("removeOK");
+  }, responseTimeout + 1000);
 }

@@ -17,7 +17,6 @@ exports.getAllDevices = async (req, res) => {
 
   try {
     const devices = await deviceService.getAllDevices(filters);
-    console.log(devices)
     res.json({ data: devices, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
