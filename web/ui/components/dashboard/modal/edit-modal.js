@@ -190,8 +190,8 @@ const EditModal = ({ type, id }) => {
         <div className="flex items-center justify-between gap-4 mb-6">
           <h1 className="heading-lg">{item.name}</h1>
         </div>
-        {/* {item.active || (!item.active && port) ? ( */}
-        {(port) ? (
+        {item.active || (!item.active && port) ? (
+        // {(port) ? (
           <form className="form flex flex-col" onSubmit={handleSubmit}>
             <label className="dark:text-dark-text text-light-text">Fill your device information to continue</label>
             <Input

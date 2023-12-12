@@ -44,7 +44,6 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
         try {
             await instanceCoreApi.get(`${API}/devices?active=true`).then((res) => {
                 setDevices(res.data.data);
-                console.log(res.data.data);
                 Notify.failure(`Error fetching active devices data:`);
                 setDeviceLoading(1);
             })
@@ -122,41 +121,38 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
                             selectedKeys={userCreated.deviceID}
                         >
                             {(deviceLoading && devices.length) ? (
-                                <>
-                                {console.log(devices)}
-                                    {devices?.map((device) => {
-                                        return <Dropdown.Item key={`${device._id}`}>
-                                            <button
-                                                onClick={(e) => {
-                                                    handleChange("deviceID", `${device._id}`);
-                                                    handleChange("deviceName", device.name);
-                                                }}
-                                                style={{
-                                                    padding: "10px 0px"
-                                                }}
-                                                className="w-full dropdown-item"
+                                devices?.map((device) =>
+                                    <Dropdown.Item key={device._id}>
+                                        <button
+                                            onClick={(e) => {
+                                                handleChange("deviceID", device._id);
+                                                handleChange("deviceName", device.name);
+                                            }}
+                                            style={{
+                                                padding: "10px 0px"
+                                            }}
+                                            className="w-full dropdown-item"
+                                        >
+                                            <p style={{
+                                                textAlign: "left",
+                                                color: "white"
+                                            }}
                                             >
-                                                <p style={{
-                                                    textAlign: "left",
-                                                    color: "white"
-                                                }}
-                                                >
-                                                    {device.name}
-                                                </p>
-                                                <p style={{
-                                                    textAlign: "left",
-                                                    color: "rgb(177, 177, 177)",
-                                                    fontSize: "10px"
-                                                }}
-                                                >
-                                                    Device ID: {`${device._id}`}
-                                                </p>
-                                            </button>
-                                        </Dropdown.Item>
-                                    })}
-                                </>
+                                                {device.name}
+                                            </p>
+                                            <p style={{
+                                                textAlign: "left",
+                                                color: "rgb(177, 177, 177)",
+                                                fontSize: "10px"
+                                            }}
+                                            >
+                                                Device ID: {device._id}
+                                            </p>
+                                        </button>
+                                    </Dropdown.Item>
+                                )
                             ) : deviceLoading === 0 ? (
-                                <Dropdown.Item style={{color: "white"}} >
+                                <Dropdown.Item style={{ color: "white" }} >
                                     Getting active devices ...
                                 </Dropdown.Item>
                             ) : (

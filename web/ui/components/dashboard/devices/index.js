@@ -23,7 +23,9 @@ export const DeviceList = () => {
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
+    (Notify.Notify.info("Getting devices information and status ..."))
     instanceCoreApi.get(`${API}/devices`).then((res) => {
+      Notify.Notify.success(`Getting devices data successfully!`);
       setStage(1);
       setDevices(res.data.data);
     }).catch((err) => {
@@ -51,7 +53,7 @@ export const DeviceList = () => {
           {stage === 0 ? (
             <Table.Body>
               <Table.Row>
-                <Table.Cell className="empty" col>Fetching data ...</Table.Cell>
+                <Table.Cell className="empty" col>Fetching devices data ...</Table.Cell>
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />

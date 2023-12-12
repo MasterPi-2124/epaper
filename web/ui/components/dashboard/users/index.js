@@ -86,14 +86,14 @@ export const UserList = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                      <span style={{
-                        padding: "2px 14px",
-                        borderRadius: "15px",
-                        fontWeight: "600",
-                        backgroundColor: "green"
-                      }}>
-                        {item.type}
-                      </span>
+                    <span style={{
+                      padding: "2px 14px",
+                      borderRadius: "15px",
+                      fontWeight: "600",
+                      backgroundColor: "green"
+                    }}>
+                      {item.type}
+                    </span>
                   </Table.Cell>
 
                   <Table.Cell>
@@ -119,7 +119,16 @@ export const UserList = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                    {item.deviceID ? item.deviceID : "Not found"}
+                    {item.deviceID ? 
+                    <>
+                      <p className="name">
+                        {item.deviceName}
+                      </p>
+                      <p className="id">
+                        {item.deviceID}
+                      </p>
+                    </> 
+                    : "Not found"}
                   </Table.Cell>
 
                   <Table.Cell>
