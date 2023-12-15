@@ -14,7 +14,8 @@ const NewDevice = () => {
         ssid: "",
         pass: "",
         active: false,
-        userID: ""
+        userID: "",
+        userName: ""
     });
 
     useEffect(() => {

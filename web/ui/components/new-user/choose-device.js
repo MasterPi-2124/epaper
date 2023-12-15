@@ -44,7 +44,7 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
         try {
             await instanceCoreApi.get(`${API}/devices?active=true`).then((res) => {
                 setDevices(res.data.data);
-                Notify.failure(`Error fetching active devices data:`);
+                Notify.success(`Fetched all active devices successfully!`);
                 setDeviceLoading(1);
             })
         }
@@ -104,13 +104,13 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
     return (
         (stage === 2) ? (
             <>
-                <h1>Hi</h1>
+                <h1>Create new User</h1>
                 <canvas className="render-canvas" ref={canvaRef} width="340" height="150" />
                 <form className="form" onSubmit={handleSubmit}>
                     <label className="dark:text-dark-text text-light-text">Choose a device, and theme to display. Example view will be displayed above.</label>
                     <Dropdown>
                         <Dropdown.Button flat className="devices-choices">
-                            {(userCreated.deviceID !== "") ? userCreated.deviceID : 'Choose a device'}
+                            {(userCreated.deviceID !== "") ? userCreated.deviceName : 'Choose a device'}
                         </Dropdown.Button>
                         <Dropdown.Menu
                             aria-label="Single selection actions"

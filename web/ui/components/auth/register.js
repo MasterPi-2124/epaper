@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
 import { useRouter } from 'next/router';
+import { Notify } from "notiflix";
 
 const API = process.env.NEXT_PUBLIC_API;
 
-const RegisterForm = ({ currentPath }) => {
+const RegisterForm = () => {
     const router = useRouter();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -18,9 +19,8 @@ const RegisterForm = ({ currentPath }) => {
             setRegister(false);
             setPassword("");
             setPasswordConfirm("");
-            alert("passwords not match!");
+            Notify.failure("Passwords are not match!");
         } else {
-
             const data = {
                 email: email,
                 password: password,
@@ -28,9 +28,6 @@ const RegisterForm = ({ currentPath }) => {
                 name: name,
                 gender: 1
             }
-
-            console.log(data);
-
             instanceCoreApi.post(`${API}/account/register`, data).then(response => {
                 console.log(response);
                 setEmail("");
@@ -39,7 +36,7 @@ const RegisterForm = ({ currentPath }) => {
                 setName("");
                 setRegister(true);
             }).catch(error => {
-                alert("This email was already in used!");
+                Notify.failure(`Register failed with error!\n${error}`);
                 console.log(error);
                 setRegister(false);
                 setPassword("");

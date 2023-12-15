@@ -17,7 +17,7 @@ export const DeviceList = () => {
   const [stage, setStage] = useState(0);  // 0 - Loading
                                           // 1 - Loaded success
                                           // 2 - Failed
-  const [selectedDevice, setSelectedDevice] = useState("");
+  const [selectedDevice, setSelectedDevice] = useState();
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
@@ -113,9 +113,8 @@ export const DeviceList = () => {
                   <button
                       className="small-icon"
                       onClick={() => {
-                        setSelectedDevice(`${item._id}`);
+                        setSelectedDevice(item);
                         setDetailModal(true);
-                        console.log(item._id)
                       }}
                     >
                       <Image
@@ -126,7 +125,7 @@ export const DeviceList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
-                        setSelectedDevice(`${item._id}`);
+                        setSelectedDevice(item);
                         setEditModal(true);
                       }}
                     >
@@ -138,7 +137,7 @@ export const DeviceList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
-                        setSelectedDevice(`${item._id}`);
+                        setSelectedDevice(item);
                         setDeleteModal(true);
                       }}
                     >
@@ -175,7 +174,7 @@ export const DeviceList = () => {
         >
           <DetailModal
             type="devices"
-            id={selectedDevice}
+            data={selectedDevice}
             switchToEdit={() => {
               setDetailModal(false);
               setEditModal(true);
@@ -195,7 +194,7 @@ export const DeviceList = () => {
         >
           <DeleteModal
             type="devices"
-            id={selectedDevice}
+            data={selectedDevice}
             onClose={() => {
               setDeleteModal(false);
             }}
@@ -213,10 +212,7 @@ export const DeviceList = () => {
         >
           <EditModal
             type="devices"
-            id={selectedDevice}
-            onClose={() => {
-              setEditModal(false);
-            }}
+            data={selectedDevice}
           />
         </Modal>
       </div>
