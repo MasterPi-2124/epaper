@@ -777,6 +777,7 @@ const FT_IDX Segoe12_Table[] =
 		0x00, //       
 	}, { 
 		u"@", // @714 '@' (13 pixels wide)
+		13,
 		0x00, 0x00, //              
 		0x00, 0x00, //              
 		0x00, 0x00, //              
@@ -1328,6 +1329,7 @@ const FT_IDX Segoe12_Table[] =
 		0x00, 0x00, //           
 	}, { 
 		u"W", // @1407 'W' (14 pixels wide)
+		14,
 		0x00, 0x00, //               
 		0x00, 0x00, //               
 		0x00, 0x00, //               
@@ -4277,13 +4279,14 @@ const FT_IDX Segoe12_Table[] =
 		0x00, //        
 		0x00, //        
 		0x00, //         
-	}, { 
-		u"ệ", // @4515 'ệ' (7 pixels wide)
-		7,
+	}, {
+		u"Đ", // @4515 'Đ' (10 pixels wide)
+		10,
 		0x00, 0x00, //        
 		0x00, 0x00, //        
 		0x00, 0x00, //        
 		0x00, 0x00, //        
+		0x00, 0x00, //         
 		0x00, 0x00, //           
 		0x7E, 0x00, //  ######   
 		0x41, 0x80, //  #     ## 
@@ -5479,11 +5482,10 @@ const FT_IDX Segoe12_Table[] =
 	}
 };
 
-
 // Font information for Segoe UI Light 12pt
 cFONT Segoe12 =
 {
 	Segoe12_Table,
-  	sizeof(Segoe12_Table)/sizeof(FT_IDX),  /*size of table*/
+  	sizeof(Segoe12_Table)/sizeof(FT_IDX),  // table size
 	21, //  Height, in pixels, of space character
 };
