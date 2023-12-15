@@ -15,9 +15,10 @@ const writeDeviceHandler = (user) => {
     if (topic === user.deviceID) {
       const device = await DeviceModel.findById(user.deviceID);
       console.log(oldUserID, user._id);
+      const now = Math.floor(new Date().getTime() / 1000);
+      
       if (oldUserID !== "" && oldUserID !== `${user._id}`) {
         const oldUser = await UserModel.findById(oldUserID);
-        const now = Math.floor(new Date().getTime() / 1000);
 
         if (oldUser) {
           oldUser["active"] = false;
