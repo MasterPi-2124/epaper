@@ -2,27 +2,43 @@
     background: none !important;
 }
 
+.nextui-backdrop {
+    background-color: rgba(0, 0, 0, 0.484);
+    filter: none;
+    cursor: default;
+    z-index: 200 !important;
+}
+
+.nextui-backdrop .nextui-c-grJsex-ikUaMfZ-css {
+    width: auto;
+    max-width: 700px;
+}
+
+.nextui-backdrop .nextui-backdrop-content {
+    width: auto !important;
+}
+
 .modal {
     background: rgba(46,46,46,255);
-    /* backdrop-filter: blur(15px); */
-    border: rgba(86, 86, 86, 0.736) !important;
+    border: 1px solid rgba(106, 106, 106, 0.863) !important;
+    border-radius: 15px;
+    color: white;
 }
 
 .modal .modal-heading {
-    border: 1px solid red;
     text-align: left;
     color: white;
 }
 
 .modal .modal-heading h1 {
     font-weight: 700;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .modal .modal-heading p {
     font-weight: 200;
-    font-size: 10px;
-
+    font-size: 15px;
+    color: rgb(168, 168, 168);
 }
 
 .modal .stats {
@@ -30,6 +46,69 @@
     border-radius: 20px;
     border: 1px solid rgba(86, 86, 86, 0.736);
     padding: 15px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.stats h1 {
+    font-weight: 700;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.stats p {
+    /* font-weight: 200;
+    font-size: 10px; */
+    text-align: left;
+}
+
+.stats hr {
+    margin: 15px 0px;
+}
+
+.stats .separator {
+    width: 100%;
+    height: 1px;
+    margin: 15px 0px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #fbfbfb96 25%, #fbfbfb 50%, #fbfbfb96 75%, rgba(0, 0, 0, 0) 100%);
+}
+
+.modal form {
+    text-align: justify;
+}
+
+.modal .modal-footer {
+    /* border: 1px solid red; */
+}
+
+.modal-footer button {
+    /* border: 1px solid red; */
+    color: white;
+}
+
+.modal-footer button.delete-button {
+    color: rgb(255, 215, 215);
+    background-color: #4d2b2b !important;
+    border: 1px solid rgb(121, 70, 70);
+}
+
+.modal-footer button.delete-button:hover {
+    color: rgb(254, 192, 192);
+    /* background-color: #d18080 !important; */
+    box-shadow: 6px 6px 10px #411e1e, -6px -6px 10px #623636;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal form > div {
+    margin: 10px 0px;
+}
+
+.modal form > button {
+    margin: 10px 0px;
 }
 
 .modal .responses {
@@ -79,7 +158,7 @@ tbody tr {
 td {
     font-weight: 100 !important;    
     white-space:nowrap;
-    width: 200px;
+    width:200px;
     font-size: 14px;
     height: 50px;
     color: white;
@@ -116,19 +195,6 @@ tfoot tr th nav button {
     border: 1px solid red;
         background-color: #53535371 !important;
     color: white !important;
-}
-
-.modal svg {
-    width: 100%;
-    height: 100%;
-}
-
-.modal .qr-wrapper {
-    padding: 10px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 10px;
-    border: 1px solid white;
-    box-shadow: 0px 0px 46px 3px rgba(97, 97, 97, 0.77);
 }
 
 .modal .time-left {

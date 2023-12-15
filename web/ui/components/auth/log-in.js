@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from 'next/router';
 import { instanceCoreApi } from "@/services/setupAxios";
 import Cookies from "universal-cookie";
+import { Notify } from "notiflix";
 
 const API = process.env.NEXT_PUBLIC_API;
 const cookies = new Cookies();
 
-const LogInForm = ({ currentPath }) => {
+const LogInForm = () => {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    const [signedIn, setSignedIn] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -27,16 +27,14 @@ const LogInForm = ({ currentPath }) => {
             setEmail("");
             setPassword("");
             setRememberMe(false);
-            setSignedIn(true);
             cookies.set("TOKEN", response.data.data.token, {
                 path: "/"
             })
             router.push('/dashboard');
         }).catch(error => {
             console.log(error);
-            setSignedIn(false);
             setPassword("");
-            alert("Email or password is incorrect!");
+            Notify.failure("Email or password is incorrect!");
         })
     };
     return (

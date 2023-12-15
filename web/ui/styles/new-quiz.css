@@ -194,12 +194,6 @@ ul.nextui-c-ltVxD {
     border-radius: 10px;
 }
 
-ul.nextui-c-clSMyX,
-ul.nextui-c-ltVxD::after,
-::before {
-    border: 1px solid rgb(79, 79, 79);
-}
-
 .nextui-c-kpzpMf-kIthQh-isFocused-true {
     background-color: rgba(255, 255, 255, 0.06) !important;
 }

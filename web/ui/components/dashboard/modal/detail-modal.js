@@ -5,136 +5,269 @@ import Notify from 'notiflix/build/notiflix-notify-aio';
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
-const DetailModal = ({ type, id, switchToEdit, switchToDelete }) => {
-  const [device, setDevice] = useState();
-  const [user, setUser] = useState();
+const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
+  const [data1, setData1] = useState();
 
   useEffect(() => {
-    if (type === "devices") {
-      instanceCoreApi.get(`${API}/devices/${id}`).then((res) => {
-        setDevice(res.data.data);
-        if (res.data.data.userID) {
-          instanceCoreApi.get(`${API}/users/${res.data.data.userID}`).then((res) => {
-            setUser(res.data.data);
-          }).catch((error) => {
-            Notify.Notify.failure(`Error fetching data data: ${error}`);
-            console.log(error)
-            setDevice();
-          })
-        }
+    console.log(type, data)
+    if (type === "devices" && data.userID) {
+      instanceCoreApi.get(`${API}/users/${data.userID}`).then((res) => {
+        setData1(res.data.data);
       }).catch((error) => {
-        Notify.Notify.failure(`Error fetching data data: ${error}`);
+        Notify.Notify.failure(`Error fetching user data: ${error}`);
         console.log(error)
-        setUser();
+        setData1();
       })
-    } else {
-      instanceCoreApi.get(`${API}/users/${id}`).then((res) => {
-        setUser(res.data.data);
-        if (res.data.data.deviceID) {
-          instanceCoreApi.get(`${API}/devices/${res.data.data.deviceID}`).then((res) => {
-            setDevice(res.data.data);
-          }).catch((error) => {
-            Notify.Notify.failure(`Error fetching data data: ${error}`);
-            console.log(error)
-            setDevice();
-          })
-        }
+    } else if (type === "users" && data.deviceID) {
+      console.log("asdasd")
+      instanceCoreApi.get(`${API}/devices/${data.deviceID}`).then((res) => {
+        console.log(res.data.data)
+        setData1(res.data.data);
       }).catch((error) => {
-        Notify.Notify.failure(`Error fetching data data: ${error}`);
+        Notify.Notify.failure(`Error fetching device data: ${error}`);
         console.log(error)
-        setUser();
+        setData1();
       })
     }
   }, []);
 
   if (type === "devices") {
     return (
-      (device) ? (
-        <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
-          {console.log(device, user)}
-          <div className="modal-heading flex items-left justify-between mb-6 flex-row">
-            <div>
-              <h1 className="heading-lg">{device.name}</h1>
-              <p className="heading-lg">{device._id}</p>
-            </div>
-            <div>
-              <h1 className="heading-lg">{device.active ? "Active" : "Inactive"}</h1>
-              <p>{device.active ? device.ssid : "Not connected to a network"}</p>
-            </div>
+      <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8" style={{ width: "700px" }}>
+        {console.log(data, data1)}
+        <div className="modal-heading flex items-left justify-between mb-6 flex-row" >
+          <div>
+            <h1 className="heading-lg">{data.name}</h1>
+            <p className="heading-lg">{data._id}</p>
           </div>
+          <div>
+            <h1
+              className="heading-lg"
+              style={{
+                textAlign: "right"
+              }}
+            >
+              {data.active ? "Active" : "Inactive"}
+            </h1>
+            <p style={{
+              textAlign: "right"
+            }}
+            >
+              {data.active ? data.ssid : "Not connected to a network"}
+            </p>
+          </div>
+        </div>
 
-          <div className="stats">
-            <h1>User</h1>
-            {user ? (
+        <div className="stats">
+          <h1>User information</h1>
+          {data1 ? (
+            <>
+              <p style={{ marginBottom: "10px" }}>Here is the user information displayed on the device:</p>
+              <p className="body-lg text-mediumGrey">
+                - Name: <strong>{data1.name}</strong>
+              </p>
+              <p className="body-lg">
+                - Type: <strong>{data1.type}</strong>
+              </p>
+              {data1.type === "Client" ? (
+                <>
+                  <p>
+                    - Email: <strong>{data1.email}</strong>
+                  </p>
+                  <p>
+                    - Address: <strong>{data1.input2}</strong>
+                  </p>
+                </>
+              ) : data1.type === "Student" ? (
+                <>
+                  <p>
+                    - Email: <strong>{data1.email}</strong>
+                  </p>
+                  <p>
+                    - Student ID: <strong>{data1.input2}</strong>
+                  </p>
+                  <p>
+                    - Class: <strong>{data1.input3}</strong>
+                  </p>
+                </>
+              ) : data1.type === "Product" ? (
+                <>
+                  <p>
+                    - Category: <strong>{data1.input2}</strong>
+                  </p>
+                  <p>
+                    - Price: <strong>{data1.input3}</strong>
+                  </p>
+                </>
+              ) : data1.type === "Employee" ? (
+                <>
+                  <p>
+                    - Email: <strong></strong>{data1.email}
+                  </p>
+                  <p>
+                    - Employee ID: <strong>{data1.input2}</strong>
+                  </p>
+                  <p>
+                    - Department: <strong>{data1.input3}</strong>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    - Purpose: <strong>{data1.input2}</strong>
+                  </p>
+                  <p>
+                    - Manager: <strong>{data1.input3}</strong>
+                  </p>
+                  <p>
+                    - Status: <strong>{data1.input4}</strong>
+                  </p>
+                </>
+              )}
+              <div className="separator" />
+              <p>
+                Start Time: {data1.activeStartTime}
+              </p>
+              <p>
+                TimeStamp: {data1.activeTimestamp}
+              </p>
+            </>
+          ) : (
+            <>
+              The device currently has no data to display. Go to <Link href="/dashboard/users"> user dashboard</Link> to select user to display, or create a new user <Link href="/new-user">here</Link>.
+            </>
+          )}
+        </div>
+
+        <div className="flex gap-4 modal-footer">
+          <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200 edit-button ok" onClick={() => switchToEdit()}>
+            Edit
+          </button>
+          <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200 delete-button ok" onClick={() => switchToDelete()}>
+            Delete
+          </button>
+        </div>
+      </div>
+    )
+  } else {
+    return (
+      <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8" style={{ width: "700px" }}>
+        <div className="modal-heading flex items-left justify-between mb-6 flex-row">
+          <div>
+            <h1 className="heading-lg">{data.name}</h1>
+            <p className="heading-lg">{data._id}</p>
+          </div>
+          <div>
+            <h1
+              className="heading-lg"
+              style={{
+                textAlign: "right"
+              }}
+            >
+              {data.active ? "Displaying" : "Not currently displayed"}
+            </h1>
+            <p style={{
+              textAlign: "right"
+            }}
+            >
+              {data.active && data.deviceName}
+            </p>
+          </div>
+        </div>
+
+        <div className="stats">
+          <>
+            <p style={{ marginBottom: "10px" }}>Here is the user information:</p>
+            <p className="body-lg text-mediumGrey">
+              - Name: <strong>{data.name}</strong>
+            </p>
+            <p className="body-lg">
+              - Type: <strong>{data.type}</strong>
+            </p>
+            {data.type === "Client" ? (
               <>
-                <p className="body-lg text-mediumGrey">
-                  Name: {user.name}
+                <p>
+                  - Email: <strong>{data.email}</strong>
                 </p>
-                <p className="body-lg">
-                  Email: {user.email}
+                <p>
+                  - Address: <strong>{data.input2}</strong>
                 </p>
-
-                <p className="body-lg text-mediumGrey">
-                  Address: {user.address}
+              </>
+            ) : data.type === "Student" ? (
+              <>
+                <p>
+                  - Email: <strong>{data.email}</strong>
+                </p>
+                <p>
+                  - Student ID: <strong>{data.input2}</strong>
+                </p>
+                <p>
+                  - Class: <strong>{data.input3}</strong>
+                </p>
+              </>
+            ) : data.type === "Product" ? (
+              <>
+                <p>
+                  - Category: <strong>{data.input2}</strong>
+                </p>
+                <p>
+                  - Price: <strong>{data.input3}</strong>
+                </p>
+              </>
+            ) : data.type === "Employee" ? (
+              <>
+                <p>
+                  - Email: <strong></strong>{data.email}
+                </p>
+                <p>
+                  - Employee ID: <strong>{data.input2}</strong>
+                </p>
+                <p>
+                  - Department: <strong>{data.input3}</strong>
                 </p>
               </>
             ) : (
               <>
-                The device currently has no data to display. Go to <Link href="/dashboard/users"> user dashboard</Link> to select user to display, or create a new user <Link href="/new-user">here</Link>.
+                <p>
+                  - Purpose: <strong>{data.input2}</strong>
+                </p>
+                <p>
+                  - Manager: <strong>{data.input3}</strong>
+                </p>
+                <p>
+                  - Status: <strong>{data.input4}</strong>
+                </p>
               </>
             )}
-          </div>
-
-          <div className="flex gap-4">
-            <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200" onClick={() => switchToEdit()}>
-              Edit
-            </button>
-            <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200" onClick={() => switchToDelete()}>
-              Delete
-            </button>
-          </div>
+            <div className="separator" />
+            <h1>Display Status</h1>
+            {data1 ? (
+              <>
+                <p>Device: {data1.name}</p>
+                <p>Device ID: {data1._id}</p>
+                <p>Device Status: {data1.active ? "connected" : "disconnected"}</p>
+              </>
+            ) : (
+              <></>
+            )}
+            {console.log(data1)}
+            <p>
+              Start Time: {data.activeStartTime}
+            </p>
+            <p>
+              TimeStamp: {data.activeTimestamp}
+            </p>
+          </>
         </div>
-      ) : (
-        <>Failed to get data!</>
-      )
-    )
-  } else {
-    return (
-      (user) ? (
-        <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
-          <div className="modal-heading flex items-center justify-between gap-4 mb-6">
-            <h1 className="heading-lg">User Information</h1>
-
-          </div>
-          <div className="stats">
-            <p className="body-lg text-mediumGrey">
-              {/* Type: {user.type} */}
-            </p>
-            <p className="body-lg text-mediumGrey">
-              Name: {user.name}
-            </p>
-            <p className="body-lg text-mediumGrey">
-              Email: {user.email}
-            </p>
-            <p className="body-lg text-mediumGrey">
-              Address: {user.address}
-            </p>
-            <p className="body-lg text-mediumGrey">
-              {/* Displayed Device: {device.name} */}
-            </p>
-          </div>
-          <div className="flex gap-4">
-            <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200" onClick={() => switchToDelete()}>
-              Delete
-            </button>
-            <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200" onClick={() => switchToEdit()}>
-              Edit
-            </button>
-          </div>
+        <div className="flex gap-4 modal-footer">
+          <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200 edit-button ok" onClick={() => switchToEdit()}>
+            Edit
+          </button>
+          <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200 delete-button ok" onClick={() => switchToDelete()}>
+            Delete
+          </button>
         </div>
-      ) : (
-        <></>
-      )
+      </div>
     )
   }
 }

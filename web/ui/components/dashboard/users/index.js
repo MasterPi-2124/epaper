@@ -15,14 +15,15 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 export const UserList = () => {
   const [users, setUsers] = useState([]);
   const [stage, setStage] = useState(0);  // 0 - Loading
-  // 1 - Loaded success
-  // 2 - Failed
-  const [selectedUser, setSelectedUser] = useState("");
+                                          // 1 - Loaded success
+                                          // 2 - Failed
+  const [selectedUser, setSelectedUser] = useState();
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
+    (Notify.Notify.info("Getting users information and status ..."))
     instanceCoreApi.get(`${API}/users`).then((res) => {
       setStage(1);
       console.log(res.data.data);
@@ -135,8 +136,8 @@ export const UserList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
+                        setSelectedUser(item);
                         setDetailModal(true);
-                        setSelectedUser(item._id);
                       }}
                     >
                       <Image
@@ -147,8 +148,8 @@ export const UserList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
+                        setSelectedUser(item);
                         setEditModal(true);
-                        setSelectedUser(item._id);
                       }}
                     >
                       <Image
@@ -159,8 +160,8 @@ export const UserList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
+                        setSelectedUser(item);
                         setDeleteModal(true);
-                        setSelectedUser(item._id);
                       }}
                     >
                       <Image
@@ -197,10 +198,10 @@ export const UserList = () => {
         >
           <DetailModal
             type="users"
-            id={selectedUser}
+            data={selectedUser}
             switchToEdit={() => {
               setDetailModal(false);
-              setDeleteModal(true);
+              setEditModal(true);
             }}
             switchToDelete={() => {
               setDetailModal(false);
@@ -217,7 +218,7 @@ export const UserList = () => {
         >
           <DeleteModal
             type="users"
-            id={selectedUser}
+            data={selectedUser}
             onClose={() => {
               setDeleteModal(false);
             }}
@@ -235,7 +236,7 @@ export const UserList = () => {
         >
           <EditModal
             type="users"
-            id={selectedUser}
+            data={selectedUser}
           />
         </Modal>
       </div>
