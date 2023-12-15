@@ -13,28 +13,30 @@ let globalMessageHandlers = new Map();
 const writeDeviceHandler = (user) => {
   return async (topic, oldUserID) => {
     if (topic === user.deviceID) {
-      if (oldUserID !== user._id) {
+      const device = await DeviceModel.findById(user.deviceID);
+      console.log(oldUserID, user._id);
+      if (oldUserID !== "" && oldUserID !== `${user._id}`) {
         const oldUser = await UserModel.findById(oldUserID);
-        const device = await DeviceModel.findById(user.deviceID);
         const now = Math.floor(new Date().getTime() / 1000);
 
         if (oldUser) {
           oldUser["active"] = false;
           oldUser["deviceID"] = "";
+          oldUser["deviceName"] = "";
           oldUser["activeTimestamp"].push(`${oldUser["activeStartTime"]}-${now}`)
           oldUser["activeStartTime"] = -1;
           await UserModel.findByIdAndUpdate(oldUserID, oldUser);
         }
-
-        user["activeStartTime"] = `${now}`;
-        user["activeTimestamp"] = [];
-        await UserModel.findByIdAndUpdate(user._id, user);
-
-        device["active"] = true;
-        device["userID"] = user._id;
-        await DeviceModel.findByIdAndUpdate(user.deviceID, device);
       }
-      this.unsubscribe(topic);
+      user["activeStartTime"] = `${now}`;
+      user["activeTimestamp"] = [];
+      await UserModel.findByIdAndUpdate(`${user._id}`, user);
+
+      device["active"] = true;
+      device["userID"] = `${user._id}`;
+      device["userName"] = `${user.name}`;
+      await DeviceModel.findByIdAndUpdate(user.deviceID, device);
+      // this.unsubscribe(topic);
     }
   }
 }
@@ -48,7 +50,7 @@ const getStatusHandler = (topics, deviceTimeouts, updateStatus) => {
         deviceTimeouts.delete(topic);
       }
       updateStatus(topic, true);
-      this.unsubscribe(topic);
+      // this.unsubscribe(topic);
     }
   }
 }
@@ -58,8 +60,9 @@ const removeHandler = (id) => {
     if (topic === id) {
       const device = await DeviceModel.findById(id);
       device["userID"] = "";
+      device["userName"] = "";
       await DeviceModel.findByIdAndUpdate(id, device);
-      this.unsubscribe(topic);
+      // this.unsubscribe(topic);
     }
   }
 }
@@ -88,11 +91,10 @@ exports.connect = () => {
     client.on("message", (topic, message) => {
       console.log(topic, message.toString());
       const data = message.toString();
-      const regex = /^writeOK\|(.+)$/;
-      const regex2 = /^removeOK\|(.+)$/;
+      const regex = /^writeOK\|(.*)$/;
       const match = data.match(regex);
-      const match2 = data.match(regex2);
       if (data.startsWith("writeOK")) {
+        console.log("found writeOK, ", match)
         if (globalMessageHandlers.has("writeOK")) {
           const handler = globalMessageHandlers.get("writeOK");
           handler(topic, match[1]);
@@ -149,7 +151,7 @@ exports.getAllDevicesStatuses = async (topics) => {
       deviceTimeouts.set(topic, setTimeout(() => {
         console.log(`No response from device ${topic}, setting status to false`);
         updateStatus(topic, false); // Implement this function to update the device status in your storage
-        this.unsubscribe(topic);
+        // this.unsubscribe(topic);
       }, responseTimeout));
     })
 

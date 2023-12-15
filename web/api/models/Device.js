@@ -17,6 +17,9 @@ const deviceSchema = new Schema({
         unique: false,
         sparse: true
     },
+    userName: {
+        type: String
+    },
     active: {
         type: Boolean,
         required: true,
