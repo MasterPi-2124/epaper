@@ -13,27 +13,27 @@ const EditModal = ({ type, data }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(itemUpdated);
-    // instanceCoreApi.put(`${API}/${type}/${data._id}`, itemUpdated).then(async (response) => {
-    //   console.log(response.data);
-    //   Notify.Notify.success(`Device info updated successfully!`);
-    //   if (type === "devices" && port) {
-    //     const writer = port.writable.getWriter();
-    //     for (const [key, value] of Object.entries(itemUpdated)) {
-    //       if (key !== "_v" && key !== "createdBy" && key !== "name" && key !== "active") {
-    //         const keyValue = `${key}:${value}\n`;
-    //         console.log(keyValue);
-    //         const data = new TextEncoder().encode(keyValue);
-    //         await writer.write(data);
-    //       }
-    //     }
-    //     writer.releaseLock();
-    //     Notify.Notify.success(`Write info to device successfully!`);
-    //   }
-    // }).catch(error => {
-    //   console.error(error);
-    //   setSubmitted(false);
-    //   Notify.Notify.failure(`Error updating new device info: ${error}`);
-    // })
+    instanceCoreApi.put(`${API}/${type}/${data._id}`, itemUpdated).then(async (response) => {
+      console.log(response.data);
+      Notify.Notify.success(`Device info updated successfully!`);
+      if (type === "devices" && port) {
+        const writer = port.writable.getWriter();
+        for (const [key, value] of Object.entries(itemUpdated)) {
+          if (key !== "_v" && key !== "createdBy" && key !== "name" && key !== "active") {
+            const keyValue = `${key}:${value}\n`;
+            console.log(keyValue);
+            const data = new TextEncoder().encode(keyValue);
+            await writer.write(data);
+          }
+        }
+        writer.releaseLock();
+        Notify.Notify.success(`Write info to device successfully!`);
+      }
+    }).catch(error => {
+      console.error(error);
+      setSubmitted(false);
+      Notify.Notify.failure(`Error updating new device info: ${error}`);
+    })
   };
 
   const handleChange = (param, value) => {
