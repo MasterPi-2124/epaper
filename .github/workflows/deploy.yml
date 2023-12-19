@@ -1,0 +1,66 @@
+name: Epaper deploy
+on:
+  push:
+    branches:
+      - main
+      - ui
+      
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Update the repo from web server
+      uses: appleboy/ssh-action@v0.1.7
+      env:
+        NODE_OPTIONS: --openssl-legacy-provider
+        CI: false
+        ANALYZE: true
+      with:
+        host: ${{ secrets.WEB_SERVER_2 }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIV_KEY }}
+        envs: CI, NODE_OPTIONS
+        script: |
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/github@web-server-2
+          export PATH=/root/.nvm/versions/node/v21.0.0/bin/:$PATH
+          cd ~/epaper/
+          git stash save --keep-index --include-untracked
+          git pull
+          if ! [ $? -eq 0 ]; then
+              echo "git pull failed with errors."
+              exit 1
+          fi
+          
+          cp web/api/epaper-backend.service /etc/systemd/system/epaper-backend.service
+          cp web/ui/epaper.service /etc/systemd/system/epaper.service
+          systemctl stop epaper-backend.service epaper.service
+          systemctl daemon-reload
+          echo "Service files copied!"
+          
+          cd web/api
+          npm install
+
+          if [ $? -eq 0 ]; then
+              systemctl restart epaper-backend.service
+              systemctl is-active --quiet epaper-backend.service && echo "Epaper backend server restarted successfully." || (echo "Epaper backend server failed to restart." && exit 1)
+          else
+              echo "npm install failed with error. Stopped restarting the epaper server."
+              exit 1
+          fi
+
+          cd ../ui
+          npm install
+          npm run build
+
+          if [ $? -eq 0 ]; then
+              systemctl restart epaper.service
+              systemctl is-active --quiet epaper.service && echo "Epaper UI server restarted successfully." || (echo "Epaper UI server failed to restart." && exit 1)
+          else
+              echo "npm run build failed with error. Stopped restarting the epaper server."
+              exit 1
+          fi

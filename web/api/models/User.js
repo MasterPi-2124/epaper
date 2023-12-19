@@ -2,20 +2,38 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+    type: {
+        type: String,
+        default: "Client"
+    },
     name: {
         type: String,
+        required: true,
         default: "Nguyễn Văn A"
     },
     email: {
         type: String,
-        unique: true,
-        required: true,
         trim: true,
         lowercase: true
     },
-    address: {
+    input2: { 
+        // Client:   Address
+        // Student:  Student ID
+        // Product:  Category
+        // Employee: Employee ID
+        // Room:     Purpose
         type: String,
-        required: true,
+    },
+    input3: {
+        // Student:  Class
+        // Product:  Price
+        // Employee: Department
+        // Room:     Manager
+        type: String,
+    },
+    input4: {
+        // Room:     Status
+        type: String,
     },
     active: {
         type: Boolean,
@@ -23,27 +41,31 @@ const userSchema = new Schema({
     },
     activeStartTime: {
         type: Number,
-        required: false,
         default: -1,
     },
     deviceID: {
         type: String,
-        required: false,
+        default: ""
+    },
+    deviceName: {
+        type: String,
         default: ""
     },
     activeTimestamp: {
         type: [String],
-        required: false,
     },
     fontStyle: {
         type: String,
-        required: false,
         default: ""
     },
     designSchema: {
         type: String,
-        required: false,
         default: ""
+    },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: "Account",
+        default: null
     }
 });
 

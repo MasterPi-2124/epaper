@@ -1,0 +1,9 @@
+[Unit]
+Description=Epaper UI Service
+
+[Service]
+WorkingDirectory=/root/epaper/web/ui
+ExecStart=/bin/bash -c "PORT=3002 PATH=/root/.nvm/versions/node/v21.0.0/bin/:$PATH /root/.nvm/versions/node/v21.0.0/bin/npm start"
+
+[Install]
+WantedBy=multi-user.target

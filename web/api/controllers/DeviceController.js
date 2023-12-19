@@ -7,6 +7,14 @@ exports.getAllDevices = async (req, res) => {
     filters.groupBy = req.query.groupBy;
   }
 
+  if (req.query.active) {
+    filters.active = req.query.active;
+  }
+
+  if (req.account.accountId) {
+    filters.accountId = req.account.accountId;
+  }
+
   try {
     const devices = await deviceService.getAllDevices(filters);
     res.json({ data: devices, status: "success" });
@@ -17,7 +25,7 @@ exports.getAllDevices = async (req, res) => {
 
 exports.createDevice = async (req, res) => {
   try {
-    const device = await deviceService.createDevice(req.body);
+    const device = await deviceService.createDevice(req.body, req.account.accountId);
     res.json({ data: device, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -35,7 +43,7 @@ exports.getDeviceById = async (req, res) => {
 
 exports.updateDevice = async (req, res) => {
   try {
-    const device = await classService.updateDevice(req.params.id, req.body);
+    const device = await deviceService.updateDevice(req.params.id, req.body);
     res.json({ data: device, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -44,7 +52,7 @@ exports.updateDevice = async (req, res) => {
 
 exports.deleteDevice = async (req, res) => {
   try {
-    const device = await classService.deleteDevice(req.params.id);
+    const device = await deviceService.deleteDevice(req.params.id, req.account.accountId);
     res.json({ data: device, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -777,6 +777,7 @@ const FT_IDX Segoe12_Table[] =
 		0x00, //       
 	}, { 
 		u"@", // @714 '@' (13 pixels wide)
+		13,
 		0x00, 0x00, //              
 		0x00, 0x00, //              
 		0x00, 0x00, //              
@@ -1328,6 +1329,7 @@ const FT_IDX Segoe12_Table[] =
 		0x00, 0x00, //           
 	}, { 
 		u"W", // @1407 'W' (14 pixels wide)
+		14,
 		0x00, 0x00, //               
 		0x00, 0x00, //               
 		0x00, 0x00, //               
@@ -4254,6 +4256,54 @@ const FT_IDX Segoe12_Table[] =
 		0x00, //        
 		0x00, //         
 	}, { 
+		u"đ", // @4515 'đ' (8 pixels wide)
+		8,
+		0x00, //        
+		0x00, //        
+		0x00, //        
+		0x00, //        
+		0x00, //        
+		0x02, //       # 
+		0x02, //       # 
+		0x1F, //    #####
+		0x02, //       # 
+		0x3A, //   ### # 
+		0x46, //  #   ## 
+		0x82, // #     # 
+		0x82, // #     # 
+		0x82, // #     # 
+		0x82, // #     # 
+		0x46, //  #   ## 
+		0x7A, //  #### # 
+		0x00, //        
+		0x00, //        
+		0x00, //        
+		0x00, //         
+	}, {
+		u"Đ", // @4515 'Đ' (10 pixels wide)
+		10,
+		0x00, 0x00, //        
+		0x00, 0x00, //        
+		0x00, 0x00, //        
+		0x00, 0x00, //        
+		0x00, 0x00, //         
+		0x00, 0x00, //           
+		0x7E, 0x00, //  ######   
+		0x41, 0x80, //  #     ## 
+		0x40, 0x80, //  #      # 
+		0x40, 0x40, //  #       #
+		0x40, 0x40, //  #       #
+		0xF8, 0x40, // #####    #
+		0x40, 0x40, //  #       #
+		0x40, 0x40, //  #       #
+		0x40, 0x80, //  #      # 
+		0x41, 0x00, //  #     #  
+		0x7E, 0x00, //  ######   
+		0x00, 0x00, //        
+		0x00, 0x00, //        
+		0x00, 0x00, //        
+		0x00, 0x00, //         
+	}, { 
 		u"Ỉ", // @4536 'Ỉ' (2 pixels wide)
 		2,
 		0x00, //   
@@ -5432,11 +5482,10 @@ const FT_IDX Segoe12_Table[] =
 	}
 };
 
-
 // Font information for Segoe UI Light 12pt
 cFONT Segoe12 =
 {
 	Segoe12_Table,
-  	sizeof(Segoe12_Table)/sizeof(FT_IDX),  /*size of table*/
+  	sizeof(Segoe12_Table)/sizeof(FT_IDX),  // table size
 	21, //  Height, in pixels, of space character
 };

@@ -13,7 +13,7 @@ import Project from "@/assets/imgs/github-project.png";
 export default function Home() {
   return (
     <ParallaxProvider>
-      <Layout pageTitle="Home | CNWeb">
+      <Layout pageTitle="Home | Epaper">
         <Header currentPath={"Home"} />
         <main className="bg-[#111111] min-h-screen items-center justify-between homepage">
           <div className='heading'>
