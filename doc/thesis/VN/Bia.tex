@@ -1,0 +1,44 @@
+\documentclass[DoAn.tex]{subfiles}
+\newcommand{\underwrite}[3][]{% \underwrite[<thickness>]{<numerator>}{<denominator>}
+  \genfrac{}{}{#1}{}{\textstyle #2}{\scriptstyle #3}
+}
+\begin{document}
+\begin{titlepage}
+\thispagestyle{empty}
+% \thisfancypage{
+% \setlength{\fboxsep}{3pt}
+% \fbox}{} 
+\begin{center}
+
+{\textbf{\large{ĐẠI HỌC BÁCH KHOA HÀ NỘI}}}\\[4cm]
+
+{\textbf{\huge{ ĐỒ ÁN TỐT NGHIỆP}}}\\[1cm]
+{\textbf{\Large{Xây dựng bảng thông tin sử dụng giấy điện tử ePaperboard}}\\[1cm]
+
+{\textbf{\large{VŨ LÊ NHẬT MINH}}}\\
+{\large{minh.vln194333@sis.hust.edu.vn}}\\[0.5cm]
+
+{\textbf{\large{Ngành Công nghệ thông tin và truyền thông}}}\\
+
+\vspace{2cm}
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ll}
+\multicolumn{1}{c}{\textbf{Giảng viên hướng dẫn:}} & TS. Nguyễn Đức Tiến \hspace{0.5cm} \underline{\hspace{3cm}}  \\[0.5cm]
+  & \multicolumn{1}{r}{Chữ kí GVHD}     \\[0.5cm]
+\textbf{Khoa:} & Kỹ thuật máy tính                 \\[0.5cm]
+\textbf{Trường:} & Công nghệ Thông tin và Truyền thông \\[5cm]
+\multicolumn{2}{c}{\textbf{HÀ NỘI, 12/2023}}                                            
+\end{tabular}%
+}
+\end{table}}
+\end{center}
+
+
+
+\end{titlepage}
+
+\end{document}
