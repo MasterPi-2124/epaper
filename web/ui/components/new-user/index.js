@@ -2,20 +2,24 @@ import { instanceCoreApi } from "@/services/setupAxios";
 import { useEffect, useState } from "react"
 import CreateUser from "./create-user";
 import ChooseDevice from "./choose-device";
+import UserType from "./user-type";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 const NewUser = () => {
-    const [stage, setStage] = useState(0);  // 0 - not submitted
-                                            // 1 - submitted but not active
-                                            // 2 - not submitted and active
-                                            // 3 - submitted and active
+    const [stage, setStage] = useState(-1); // -1 - Choose user type
+    //  0 - not submitted
+    //  1 - submitted but not active
+    //  2 - not submitted and active
+    //  3 - submitted and active
     const [userCreated, setUserCreated] = useState({
+        type: "",
         name: "",
-        email: "",
-        address: "",
         active: false,
+        activeTimestamp: [],
+        activeStartTime: -1,
         deviceID: "",
+        deviceName: "",
         fontStyle: "",
         designSchema: ""
     });
@@ -23,9 +27,9 @@ const NewUser = () => {
     const handleStage = (event) => {
         event.preventDefault();
         console.log(userCreated)
-        if (userCreated.email !== "") {
+        if (userCreated.name && userCreated.name !== "") {
             localStorage.setItem("userCreated", JSON.stringify(userCreated));
-            if (userCreated.active === true) {
+            if (userCreated.active && userCreated.active === true) {
                 if (userCreated.deviceID !== "") {
                     setStage(3);
                 } else {
@@ -34,20 +38,23 @@ const NewUser = () => {
             } else {
                 setStage(1);
             }
-        } else {
+        } else if (userCreated.type !== "") {
             setStage(0);
+        } else {
+            setStage(-1);
         }
     };
 
     const handleReset = () => {
-        setStage(0);
         setUserCreated({
+            type: "",
             name: "",
-            email: "",
-            address: "",
             active: false,
+            activeTimestamp: [],
+            activeStartTime: -1,
             deviceID: "",
-            fontStyle: "",
+        deviceName: "",
+        fontStyle: "",
             designSchema: ""
         })
     }
@@ -64,12 +71,21 @@ const NewUser = () => {
     }
 
     return (
-        (stage === 0 || stage === 1) ? (
+        (stage === -1) ? (
+            <div className="content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
+                <UserType
+                    userCreated={userCreated}
+                    setUserCreated={setUserCreated}
+                    handleStage={handleStage}
+                />
+            </div>
+        ) : (stage === 0 || stage === 1) ? (
             <div className="content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
                 <CreateUser
                     userCreated={userCreated}
                     setUserCreated={setUserCreated}
                     stage={stage}
+                    setStage={setStage}
                     handleStage={handleStage}
                     handleReset={handleReset}
                     handleSubmit={handleSubmit}
@@ -81,6 +97,7 @@ const NewUser = () => {
                     userCreated={userCreated}
                     setUserCreated={setUserCreated}
                     stage={stage}
+                    setStage={setStage}
                     handleReset={handleReset}
                     handleSubmit={handleSubmit}
                 />

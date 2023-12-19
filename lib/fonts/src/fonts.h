@@ -47,8 +47,10 @@ extern mFont Font24;
 
 // extern cFONT Segoe8;
 extern cFONT Segoe12;
-// extern mFont Segoe16;
-// extern mFont Segoe20;
+extern cFONT Segoe16;
+
+extern cFONT Segoe12Bold;
+extern cFONT Segoe16Bold;
 
 #ifdef __cplusplus
 }

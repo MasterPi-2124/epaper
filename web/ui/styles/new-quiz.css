@@ -16,6 +16,10 @@
     font-weight: 200;
 }
 
+.content canvas.render-canvas {
+    border: 1px solid red;
+}
+
 .content img {
     height: 160px;
     width: 160px;
@@ -31,6 +35,138 @@
     gap: 20px;
 }
 
+.content .user-types {
+    margin: 50px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 30px;
+}
+
+.user-types .type-flip-container:nth-child(-1n + 3) {
+    grid-column: span 4;
+}
+
+.user-types .type-flip-container:nth-last-child(2) {
+    grid-row-start: 2;
+    grid-column: 3 / span 4;
+}
+
+.user-types .type-flip-container:nth-last-child(1) {
+    grid-row-start: 2;
+    grid-column: 7 / span 4;
+}
+
+.user-types .type-flip-container {
+    text-align: center;
+
+    perspective: 1000px;
+    width: 200px;
+    height: 230px;
+}
+
+.type-flip-container .type-flip {
+    width: inherit;
+    height: inherit;
+  
+    position: relative;
+    transform-style: preserve-3d;
+    transition: .6s .1s;
+}
+
+.type-flip-container:hover .type-flip,
+.type-flip-container:focus-within .type-flip {
+    transform: rotateY(180deg);
+}
+
+.type-flip-container:focus-within .type-flip .back-flip {
+    border: 1px solid white;
+    box-shadow: 7px  7px 22px #242424,
+               -7px -7px 22px #383838;
+}
+
+.type-flip .front-flip,
+.type-flip .back-flip {
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+    
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(86, 86, 86, 0.736);
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    
+    backface-visibility: hidden;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.type-flip .front-flip {
+    transform: rotateY(0deg);
+    z-index: 2;
+}
+
+.front-flip p {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.type-flip .back-flip {
+    transform: rotateY(180deg);
+    z-index: 1;
+}
+
+.back-flip h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.back-flip p {
+    font-size: 13px;
+    font-weight: 200;
+    margin-top: 5px;
+    color: rgb(194, 194, 194);
+}
+
+.back-flip button {
+    margin-top: 20px;
+    font-family: inherit;
+    font-weight: bold;
+    color: white;
+
+    letter-spacing: 2px;
+
+    padding: 9px 20px;
+    border: 1px solid grey;
+    border-radius: 1000px;
+    background: transparent;
+    transition: .3s;
+
+    cursor: pointer;
+}
+
+.back-flip button:hover,
+.back-flip button:focus {
+    color: hsl(150, 50%, 50%);
+    background: hsla(150, 25%, 10%, .2);
+    border-color: currentColor;
+}
+
+.back-flip button:active {
+    transform: translate(2px);
+}
+
+.user-types img {
+    margin: 0px;
+    height: 100px;
+    width: 100px;
+}
 
 .devices-choices {
     justify-content: space-between !important;
@@ -47,16 +183,15 @@
 }
 
 div.nextui-popover-content {
-    backdrop-filter: blur(88px) !important;
+    backdrop-filter: blur(8px);
+    background-color: rgb(47, 47, 47) !important;
+    border: 1px solid rgb(79, 79, 79);
 }
 
-ul.nextui-c-clSMyX, ul.nextui-c-ltVxD {
+ul.nextui-c-clSMyX,
+ul.nextui-c-ltVxD {
     background-color: rgb(46, 46, 46) !important;
     border-radius: 10px;
-}
-
-ul.nextui-c-clSMyX, ul.nextui-c-ltVxD::after, ::before {
-    border: 1px solid rgb(79, 79, 79);
 }
 
 .nextui-c-kpzpMf-kIthQh-isFocused-true {

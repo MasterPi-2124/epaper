@@ -8,6 +8,7 @@ import "@/styles/button.css";
 import "@/styles/main-container.css";
 import "@/styles/modal.css";
 import "@/styles/dashboard.css";
+import "@/styles/wheelpicker.css";
 
 import localFont from 'next/font/local';
 import { ThemeProvider } from "next-themes";
@@ -48,11 +49,9 @@ const segoe = localFont({
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <ThemeProvider enableSystem={true} attribute="class">
-
       <div className={`${segoe.variable} font-segoe`}>
         <Component {...pageProps} />
       </div>
-
     </ThemeProvider>
   );
 }

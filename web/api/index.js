@@ -3,19 +3,23 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const compression = require("compression");
-require('dotenv').config();
 
+const mqttClient = require("./mqtt/mqtt");
 const swaggerRouter = require("./resources/swaggerRoutes");
 const userRouter = require("./routes/UserRoutes");
 const deviceRouter = require("./routes/DeviceRoutes");
+const accountRouter = require("./routes/AccountRoutes");
+
+
+mqttClient.connect();
 
 //configure mongoose
+require('dotenv').config();
 mongoose.set('strictQuery', false);
 mongoose.connect(
   process.env.MONGODB_URI,
   {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    ssl: true
   });
 
 //middleware
@@ -30,6 +34,7 @@ app.use(
 app.use("/api/swagger", swaggerRouter);
 app.use("/api/users", userRouter);
 app.use("/api/devices", deviceRouter);
+app.use("/api/account", accountRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}...`);

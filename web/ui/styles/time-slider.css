@@ -1,0 +1,29 @@
+.slider {
+    position: relative;
+    width: 600px;
+    height: 5px;
+    background-color: #ddd;
+  }
+  
+  .range {
+    position: absolute;
+    height: 5px;
+    background-color: black;
+  }
+  
+  .active {
+    background-color: blue; /* Active color */
+  }
+  
+  .popup {
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #d3d3d3;
+    padding: 5px;
+    z-index: 100;
+  }
+  
+  .range:hover {
+    height: 10px;
+  }
+  

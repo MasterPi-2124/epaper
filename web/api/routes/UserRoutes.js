@@ -8,12 +8,11 @@ const {
   deleteUser,
 } = require("../controllers/UserController");
 
-const { createRule } = require("../validators/UserRule");
-const { validate } = require("../validators/Validator");
-
+const auth = require("../auth/auth");
 const router = express.Router();
 
-router.route("/").get(getAllUsers).post(createRule(), validate, createUser);
+router.use(auth);
+router.route("/").get(getAllUsers).post(createUser);
 router.route("/:id").get(getUserById).put(updateUser).delete(deleteUser);
 
 module.exports = router;
