@@ -1,17 +1,24 @@
 \documentclass[../Main.tex]{subfiles}
 \begin{document}
+Based on the real-life surveyed situation and the detailed system analysis in Chapter 2, Chapter 3 will center on the technologies used to develop the Data Management System. This system comprises three main components, namely, the Management Frontend, Backend, and the EPD Devices that are part of the system. The Management UI is built using NextJS and TailwindCSS to provide an easy-to-use dashboard for managing multiple devices and data efficiently. The UI also incorporates protocols to connect to HTTP, MQTT servers, and EPD devices via a Serial port. All data is processed and stored on the server using MongoDB and ExpressJS. The server communicates with EPD devices through the MQTT protocol, with RabbitMQ acting as a broker and SSL/TLS ensuring a secure connection. The EPD devices connect to the broker and subscribe to a specific topic to receive and handle any information requested by users from the front-end side, as well as send the status back to the broker.
 
-Chương này có độ dài không quá 10 trang. Nếu cần trình bày dài hơn, sinh viên đưa vào phần phụ lục. Chú ý đây là kiến thức đã có sẵn; SV sau khi tìm hiểu được thì phân tích và tóm tắt lại. Sinh viên không trình bày dài dòng, chi tiết. 
+\section{Management UI (Front-end side)}
+\subsection{NextJS}
 
-Với đồ án ứng dụng, sinh viên để tên chương là “Công nghệ sử dụng”. Trong chương này, sinh viên giới thiệu về các công nghệ, nền tảng sử dụng trong đồ án. Sinh viên cũng có thể trình bày thêm nền tảng lý thuyết nào đó nếu cần dùng tới.
+Note: because of its ..., NextJS help reduce an enourmous amount of additional third-party components, which helps creating the UI in an efficient way and also help speeding up the UI's overall responsive time.
+\subsection{TailwindCSS}
 
-Với đồ án nghiên cứu, sinh viên đổi tên chương thành “Cơ sở lý thuyết”. Khi đó, nội dung cần trình bày bao gồm: Kiến thức nền tảng, cơ sở lý thuyết, các thuật toán, phương pháp nghiên cứu, v.v.
+because of its strength, TailwindCSS helps reducing a lot of redundant css syntax by implement it right into class, which minify JS packets when the website is rendering
 
-Với từng công nghệ/nền tảng/lý thuyết được trình bày, sinh viên phải phân tích rõ công nghệ/nền tảng/lý thuyết đó dùng để để giải quyết vấn đề/yêu cầu cụ thể nào ở Chương 2. Hơn nữa, với từng vấn đề/yêu cầu, sinh viên phải liệt kê danh sách các công nghệ/hướng tiếp cận tương tự có thể dùng làm lựa chọn thay thế, rồi giải thích rõ sự lựa chọn của mình.
+\section{Server (Back-end side)}
+Because of the complexity of the system that needs both processing data from client side, and also communicating with EPD devices, this Server section is divided into 2 main parts, ExpressJS server handling user's requests and storing data in MongoDB; and RabbitMQ broker communicating with devices and sending data back to ExpressJS server to process. The server used is a dedicated server hosted in Hetzner, which is a server company located in Europe, with quality is ensured to be among of the best in the world. This dedicated server also ensures the privacy, security and durable span.
 
-Lưu ý: Nội dung ĐATN phải có tính chất liên kết, liền mạch, và nhất quán. Vì vậy, các công nghệ/thuật toán trình bày trong chương này phải khớp với nội dung giới thiệu của sinh viên ở phần trước đó. 
-
-Trong chương này, để tăng tính khoa học và độ tin cậy, sinh viên nên chỉ rõ nguồn kiến thức mình thu thập được ở tài liệu nào, đồng thời đưa tài liệu đó vào trong danh sách tài liệu tham khảo rồi tạo các tham chiếu chéo (xem hướng dẫn ở phụ lục A.7).
-
+\subsection{ExpressJS Server}
+This part of back-end server takes reponsibilities to receive user's requests, handling to MQTT Server and store data in the system. MongoDb is used to store all data of the system
 
 \end{document}
+
+
+
+
+% obey shell ski task neglect bring stable crunch stable all offer rely
