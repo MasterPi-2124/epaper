@@ -1,6 +1,6 @@
 import Menu from "@/components/menu";
 import Layout from "@/components/layout";
-import { UserList } from "@/components/dashboard/data";
+import { DataList } from "@/components/dashboard/data";
 import validToken from "@/services/validToken";
 import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
@@ -27,7 +27,7 @@ const DataDashboard = () => {
           <>
             <Menu currentPath={"Dashboard"} />
             <div className="main-container">
-              <UserList />
+              <DataList />
             </div>
           </>
         ) : (

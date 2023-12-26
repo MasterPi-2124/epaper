@@ -22,7 +22,7 @@ const router = express.Router();
 const auth = require("../auth/auth");
 
 // router.use(registerRule(), validate);
-// Khi api là http://localhost:3005/api/users/register -> "/register"
+// Khi api là http://localhost:3005/api/user/register -> "/register"
 // Khi method là POST -> post()
 // Lúc này, router sẽ lần lượt gọi từng hàm ở trong post()
 // Bộ quy tắc registerRule() -> validate trả kết quả (nếu có lỗi)
