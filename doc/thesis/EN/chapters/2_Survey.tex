@@ -15,36 +15,33 @@ Sinh viên cần tiến hành phân tích, so sánh, đánh giá chi tiết ưu 
 \label{subsection:2.2.1}
 The general use case diagram of Data and EPD Devices Management System is illustrated in Figure 1. As per the diagram, the system involves three main agents, namely The Manager, The Administrator, and the EPD devices. The Manager has the ability to manage EPD devices, data and their own accounts. The Administrator inherits the functions of the Manager and can also manage and test the devices more advanced. On the other hand, the EPD devices act as end-users and receive and display data on the screen. They also interact with the system via MQTT protocol.
 \begin{figure}[htbp]
-  \centering
-\begin{tikzpicture}
-    % Define system boundary
-    \umlactor[x=0, y=0]{Administrator}
-  \umlactor[x=0, y=-4]{Manager}
-  \umlactor[x=11.5, y=0]{EPD Devices}
-
-  \begin{umlsystem}[x=4, y=0]{System}
-
-    % Define the use cases
-    \umlusecase[x=2, y=0, name=usecase1]{Manage personal accounts}
-    \umlusecase[x=2, y=-2, name=usecase2]{Manage devices}
-    \umlusecase[x=2, y=-4, name=usecase3]{Manage data}
-  \end{umlsystem}
-  
-  % Draw associations
-  \umlassoc{Administrator}{usecase1}
-  \umlassoc{Administrator}{usecase2}
-  \umlassoc{Manager}{usecase2}
-  \umlassoc{Manager}{usecase3}
-  \umlassoc{Manager}{usecase1}
-  \umlassoc{EPD Devices}{usecase1}
-  \umlinherit{Administrator}{Manager} 
-
-  \draw (-1.5, 2.5) rectangle (13, -6);
-  % \node at (1, 2.7) {uc General use case diagram};
-
-\end{tikzpicture}
-\caption{General use case diagram of the data management system}
-\label{fig:usecasediagram}
+    \centering
+    \begin{tikzpicture}
+        % Define system boundary
+        \umlactor[x=0, y=0]{Administrator}
+        \umlactor[x=0, y=-4]{Manager}
+        \umlactor[x=11.5, y=0]{EPD Devices}
+        
+        \begin{umlsystem}[x=4, y=0]{System}
+            % Define the use cases
+            \umlusecase[x=2, y=0, name=usecase1]{Manage personal accounts}
+            \umlusecase[x=2, y=-2, name=usecase2]{Manage devices}
+            \umlusecase[x=2, y=-4, name=usecase3]{Manage data}
+        \end{umlsystem}
+        
+        % Draw associations
+        \umlassoc{Administrator}{usecase1}
+        \umlassoc{Administrator}{usecase2}
+        \umlassoc{Manager}{usecase2}
+        \umlassoc{Manager}{usecase3}
+        \umlassoc{Manager}{usecase1}
+        \umlassoc{EPD Devices}{usecase1}
+        \umlinherit{Administrator}{Manager} 
+        
+        \draw (-1.5, 2.5) rectangle (13, -6);
+    \end{tikzpicture}
+    \caption{General use case diagram of the data management system}
+    \label{fig:usecasediagram}
 \end{figure}
 
 \subsection{Detailed use case diagram}
@@ -55,67 +52,59 @@ The general use case diagram of Data and EPD Devices Management System is illust
 Figure 2 below describes the detailed use case diagram of the User's Account Management function, including the Manager and Administrator. Users can create a new account, log in, and modify personal information.
 
 \begin{figure}[htbp]
-  \centering
-\begin{tikzpicture}
-    % Define system boundary
-    \umlactor[x=0, y=0]{Administrator}
-  \umlactor[x=0, y=-4]{Manager}
-
-  \begin{umlsystem}[x=4, y=0]{System}
-
-    % Define the use cases
-    \umlusecase[x=2, y=0, name=usecase1]{Register}
-    \umlusecase[x=2, y=-2, name=usecase2]{Log in}
-    \umlusecase[x=2, y=-4, width=3cm, name=usecase3]{Manage personal information}
-  \end{umlsystem}
-  
-  % Draw associations
-  \umlassoc{Manager}{usecase1}
-  \umlassoc{Manager}{usecase2}
-  \umlassoc{Manager}{usecase3}
-  \umlinherit{Administrator}{Manager} 
-
-  \draw (-1.5, 2.5) rectangle (13, -6);
-  % \node at (1, 2.7) {uc General use case diagram};
-
-\end{tikzpicture}
-\caption{Detailed use case of User's Account Management function}
-\label{fig:usecasediagram}
+    \centering
+    \begin{tikzpicture}
+        \umlactor[x=0, y=0]{Administrator}
+        \umlactor[x=0, y=-4]{Manager}
+    
+        \begin{umlsystem}[x=4, y=0]{System}
+            % Define the use cases
+            \umlusecase[x=2, y=0, name=usecase1]{Register}
+            \umlusecase[x=2, y=-2, name=usecase2]{Log in}
+            \umlusecase[x=2, y=-4, width=3cm, name=usecase3]{Manage personal information}
+        \end{umlsystem}
+        
+        % Draw associations
+        \umlassoc{Manager}{usecase1}
+        \umlassoc{Manager}{usecase2}
+        \umlassoc{Manager}{usecase3}
+        \umlinherit{Administrator}{Manager} 
+        
+        \draw (-1.5, 2.5) rectangle (13, -6);
+    \end{tikzpicture}
+    \caption{Detailed use case of User's Account Management function}
+    \label{fig:usecasediagram}
 \end{figure}
 
 \subsubsection{Detailed use case of Data Management function}
 A detailed use case diagram of the Data Management function of the Manager is displayed in Figure 3. This function enables the Manager to view a list of data, add, modify, or remove data information, and choose whether to display the data on the device or not.
 
 \begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}
-    % Define system boundary
-    \umlactor[x=0, y=-2]{Manager}
-    \umlactor[x=11.5, y=-1]{EPD Devices}
-
-    \begin{umlsystem}[x=4, y=0]{System}
-
-      % Define the use cases
-      \umlusecase[x=2, y=0, name=usecase1]{Add displaying data}
-      \umlusecase[x=2, y=-2, name=usecase2]{Modify data information}
-      \umlusecase[x=2, y=-4, width=3cm, name=usecase3]{Display data on device}
-      \umlusecase[x=2, y=-6, width=3cm, name=usecase4]{Remove data}
-    \end{umlsystem}
-    
-    % Draw associations
-    \umlassoc{Manager}{usecase1}
-    \umlassoc{Manager}{usecase2}
-    \umlassoc{Manager}{usecase3}
-    \umlassoc{Manager}{usecase4}
-    \umlassoc{EPD Devices}{usecase2}
-    \umlassoc{EPD Devices}{usecase3}
-
-    \draw (-1.5, 2.5) rectangle (13, -8);
-    % \node at (1, 2.7) {uc General use case diagram};
-
-  \end{tikzpicture}
-  \caption{Detailed use case of Data Management function}
-  \label{fig:usecasediagram}
+    \centering
+    \begin{tikzpicture}
+        \umlactor[x=0, y=-2]{Manager}
+        \umlactor[x=11.5, y=-1]{EPD Devices}
+        
+        \begin{umlsystem}[x=4, y=0]{System}
+            % Define the use cases
+            \umlusecase[x=2, y=0, name=usecase1]{Add displaying data}
+            \umlusecase[x=2, y=-2, name=usecase2]{Modify data information}
+            \umlusecase[x=2, y=-4, width=3cm, name=usecase3]{Display data on device}
+            \umlusecase[x=2, y=-6, width=3cm, name=usecase4]{Remove data}
+        \end{umlsystem}
+        
+        % Draw associations
+        \umlassoc{Manager}{usecase1}
+        \umlassoc{Manager}{usecase2}
+        \umlassoc{Manager}{usecase3}
+        \umlassoc{Manager}{usecase4}
+        \umlassoc{EPD Devices}{usecase2}
+        \umlassoc{EPD Devices}{usecase3}
+        
+        \draw (-1.5, 2.5) rectangle (13, -8);
+    \end{tikzpicture}
+    \caption{Detailed use case of Data Management function}
+    \label{fig:usecasediagram}
 \end{figure}
 
 \subsection{Business process}
