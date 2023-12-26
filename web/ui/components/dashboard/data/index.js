@@ -12,25 +12,25 @@ import DetailModal from "../modal/detail-modal";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
-export const UserList = () => {
-  const [users, setUsers] = useState([]);
+export const DataList = () => {
+  const [data, setData] = useState([]);
   const [stage, setStage] = useState(0);  // 0 - Loading
                                           // 1 - Loaded success
                                           // 2 - Failed
-  const [selectedUser, setSelectedUser] = useState();
+  const [selectedData, setSelectedData] = useState();
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
-    (Notify.Notify.info("Getting users information and status ..."))
-    instanceCoreApi.get(`${API}/users`).then((res) => {
+    (Notify.Notify.info("Getting data information and status ..."))
+    instanceCoreApi.get(`${API}/data`).then((res) => {
       setStage(1);
       console.log(res.data.data);
-      setUsers(res.data.data);
+      setData(res.data.data);
     }).catch((err) => {
-      Notify.Notify.failure(`Error fetching users data: ${err}`);
-      setUsers([]);
+      Notify.Notify.failure(`Error fetching data: ${err}`);
+      setData([]);
       setStage(2);
     })
   }, []);
@@ -38,7 +38,7 @@ export const UserList = () => {
   return (
     <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
       <div className="flex justify-between items-center flex-col gap-3">
-        <h1 className="text-2xl">Users</h1>
+        <h1 className="text-2xl">Data</h1>
         <p>See the list of your EPD devices and make changes.</p>
       </div>
 
@@ -71,9 +71,9 @@ export const UserList = () => {
                 <Table.Cell className="empty" />
               </Table.Row>
             </Table.Body>
-          ) : users.length > 0 ? (
+          ) : data.length > 0 ? (
             <Table.Body
-              items={users}
+              items={data}
             >
               {(item) => (
                 <Table.Row key={item._id}>
@@ -136,7 +136,7 @@ export const UserList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
-                        setSelectedUser(item);
+                        setSelectedData(item);
                         setDetailModal(true);
                       }}
                     >
@@ -148,7 +148,7 @@ export const UserList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
-                        setSelectedUser(item);
+                        setSelectedData(item);
                         setEditModal(true);
                       }}
                     >
@@ -160,7 +160,7 @@ export const UserList = () => {
                     <button
                       className="small-icon"
                       onClick={() => {
-                        setSelectedUser(item);
+                        setSelectedData(item);
                         setDeleteModal(true);
                       }}
                     >
@@ -176,7 +176,7 @@ export const UserList = () => {
           ) : (
             <Table.Body>
               <Table.Row>
-                <Table.Cell className="empty">No users yet</Table.Cell>
+                <Table.Cell className="empty">No data yet</Table.Cell>
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
                 <Table.Cell className="empty" />
@@ -197,8 +197,8 @@ export const UserList = () => {
           onClose={() => setDetailModal(false)}
         >
           <DetailModal
-            type="users"
-            data={selectedUser}
+            type="data"
+            data={selectedData}
             switchToEdit={() => {
               setDetailModal(false);
               setEditModal(true);
@@ -217,8 +217,8 @@ export const UserList = () => {
           onClose={() => setDeleteModal(false)}
         >
           <DeleteModal
-            type="users"
-            data={selectedUser}
+            type="data"
+            data={selectedData}
             onClose={() => {
               setDeleteModal(false);
             }}
@@ -235,8 +235,8 @@ export const UserList = () => {
           onClose={() => setEditModal(false)}
         >
           <EditModal
-            type="users"
-            data={selectedUser}
+            type="data"
+            data={selectedData}
           />
         </Modal>
       </div>

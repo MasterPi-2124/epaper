@@ -15,8 +15,8 @@ import DeviceIcon from "@/assets/icons/thin/device.svg";
 
 const navButton = [
     {
-        text: "New User",
-        path: "/new-user",
+        text: "New Data",
+        path: "/new-data",
         img: UserIcon,
     },
     {
@@ -30,8 +30,8 @@ const navButton = [
         img: DashboardIcon,
         subNav: [
             {
-                text: "Users",
-                path: "/dashboard/users",
+                text: "Data",
+                path: "/dashboard/data",
                 img: UserIcon,
             },
             {
@@ -189,16 +189,16 @@ const Menu = ({ currentPath }) => {
                 </div>
                 <div className="menu-down flex items-center">
                     <Link 
-                    href="/account"
+                    href="/user"
                     className="menu-bar-item"
                     style={{
-                        background: currentPath === "Account" && "rgba(73, 73, 73, 0.595)",
+                        background: currentPath === "User" && "rgba(73, 73, 73, 0.595)",
                         marginBottom: "10px"
                     }}
                     >
                         <Image alt="an user icon" src={UserIcon} />
                         <p>
-                            Account
+                            User
                         </p>
                     </Link>
                     {renderThemeChanger()}

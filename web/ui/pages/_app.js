@@ -12,7 +12,6 @@ import "@/styles/wheelpicker.css";
 
 import localFont from 'next/font/local';
 import { ThemeProvider } from "next-themes";
-import { SessionProvider } from "next-auth/react";
 
 const segoe = localFont({
   src: [

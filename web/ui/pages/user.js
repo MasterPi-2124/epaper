@@ -1,12 +1,12 @@
 import Menu from "@/components/menu";
 import Layout from "@/components/layout";
 import React, { useState, useEffect } from "react";
-import Account from "@/components/account"
+import User from "@/components/user"
 import Cookies from "universal-cookie";
 import Link from "next/link";
 import validToken from "@/services/validToken";
 
-function AccountPage() {
+function UserPage() {
   const cookies = new Cookies();
   const [token, setToken] = useState(cookies.get("TOKEN"));
 
@@ -21,13 +21,13 @@ function AccountPage() {
   }, [token]);
 
   return (
-    <Layout pageTitle="Account | Dashboard">
+    <Layout pageTitle="User | Dashboard">
       <div className="dashboard bg-[#212121] h-screen bg-center bg-cover bg-no-repeat flex items-center">
         {token ? (
           <>
-            <Menu currentPath={"Account"} />
+            <Menu currentPath={"User"} />
             <div className="main-container">
-                <Account cookies={cookies} setToken={setToken} />
+                <User cookies={cookies} setToken={setToken} />
             </div>
           </>
         ) : (
@@ -45,4 +45,4 @@ function AccountPage() {
   );
 }
 
-export default AccountPage;
+export default UserPage;

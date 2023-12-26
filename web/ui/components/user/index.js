@@ -4,7 +4,7 @@ import { instanceCoreApi } from "@/services/setupAxios";
 
 const API = process.env.NEXT_PUBLIC_API;
 
-const Account = ({ cookies, setToken }) => {
+const User = ({ cookies, setToken }) => {
     const router = useRouter();
     const [user, setUser] = useState();
 
@@ -12,10 +12,10 @@ const Account = ({ cookies, setToken }) => {
         const token = cookies.get("TOKEN");
         const payload = token.split(".")[1];
         const decodedToken = atob(payload);
-        const { accountId } = JSON.parse(decodedToken);
-        instanceCoreApi.get(`${API}/account/${accountId}`).then((res) => {
+        const { userID } = JSON.parse(decodedToken);
+        instanceCoreApi.get(`${API}/user/${userID}`).then((res) => {
             setUser({
-                "id": accountId,
+                "id": userID,
                 "email": res.data.data.email,
                 "name": res.data.data.name,
                 "gender": res.data.data.gender === 1 ? "Male" : "Female",
@@ -65,4 +65,4 @@ const Account = ({ cookies, setToken }) => {
     )
 };
 
-export default Account;
+export default User;

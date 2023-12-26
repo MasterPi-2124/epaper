@@ -47,7 +47,7 @@ export const DeviceList = () => {
           <Table.Header>
             <Table.Column width={"auto"}>Name</Table.Column>
             <Table.Column width={"auto"}>Status</Table.Column>
-            <Table.Column width={"auto"}>UserID</Table.Column>
+            <Table.Column width={"auto"}>DataID</Table.Column>
             <Table.Column width={"auto"}></Table.Column>
           </Table.Header>
           {stage === 0 ? (
@@ -106,7 +106,7 @@ export const DeviceList = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                    {item.userID ? item.userID : "Not found"}
+                    {item.dataID ? item.dataID : "Not found"}
                   </Table.Cell>
 
                   <Table.Cell>

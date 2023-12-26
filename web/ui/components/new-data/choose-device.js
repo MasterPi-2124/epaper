@@ -7,7 +7,7 @@ import { Notify } from "notiflix";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
-const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleReset, handleSubmit }) => {
+const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleReset, handleSubmit }) => {
     const [deviceLoading, setDeviceLoading] = useState(0);
     const [devices, setDevices] = useState();
     const fonts = ["Monospace 8pt",
@@ -34,8 +34,8 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
     const handleChange = (param, value) => {
         let userTyped = {};
         userTyped[param] = value;
-        setUserCreated(userCreated => ({
-            ...userCreated,
+        setDataCreated(dataCreated => ({
+            ...dataCreated,
             ...userTyped
         }))
     }
@@ -66,29 +66,29 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
 
             ctx.clearRect(0, 0, canva.width, canva.height);
 
-            if (userCreated.designSchema === "Theme 1") {
+            if (dataCreated.designSchema === "Theme 1") {
                 style["color"] = "red";
-            } else if (userCreated.designSchema === "Theme 2") {
+            } else if (dataCreated.designSchema === "Theme 2") {
                 style["color"] = "blue";
-            } else if (userCreated.designSchema === "Theme 3") {
+            } else if (dataCreated.designSchema === "Theme 3") {
                 style["color"] = "yellow";
             } else {
                 style["color"] = "orange";
             }
 
-            if (userCreated.fontStyle === "Monospace 8pt") {
+            if (dataCreated.fontStyle === "Monospace 8pt") {
                 style["font"] = "8px Times New Roman";
-            } else if (userCreated.fontStyle === "Monospace 12pt") {
+            } else if (dataCreated.fontStyle === "Monospace 12pt") {
                 style["font"] = "12px Segoe UI";
-            } else if (userCreated.fontStyle === "Monospace 16pt") {
+            } else if (dataCreated.fontStyle === "Monospace 16pt") {
                 style["font"] = "16px";
-            } else if (userCreated.fontStyle === "Monospace 24pt") {
+            } else if (dataCreated.fontStyle === "Monospace 24pt") {
                 style["font"] = "24px";
-            } else if (userCreated.fontStyle === "Segoe UI 8pt") {
+            } else if (dataCreated.fontStyle === "Segoe UI 8pt") {
                 style["font"] = "28px";
-            } else if (userCreated.fontStyle === "Segoe UI 12pt") {
+            } else if (dataCreated.fontStyle === "Segoe UI 12pt") {
                 style["font"] = "32px";
-            } else if (userCreated.fontStyle === "Segoe UI 16pt") {
+            } else if (dataCreated.fontStyle === "Segoe UI 16pt") {
                 style["font"] = "36px";
             } else {
                 style["font"] = "40px Segoe UI";
@@ -96,21 +96,21 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
 
             ctx.font = style.font;
             ctx.fillStyle = style.color;
-            ctx.fillText(`Name: ${userCreated.name}`, 10, 30);
-            ctx.fillText(`Email: ${userCreated.email}`, 10, 60);
+            ctx.fillText(`Name: ${dataCreated.name}`, 10, 30);
+            ctx.fillText(`Email: ${dataCreated.email}`, 10, 60);
         }
-    }, [style, userCreated, stage])
+    }, [style, dataCreated, stage])
 
     return (
         (stage === 2) ? (
             <>
-                <h1>Create new User</h1>
+                <h1>Create new Data</h1>
                 <canvas className="render-canvas" ref={canvaRef} width="340" height="150" />
                 <form className="form" onSubmit={handleSubmit}>
                     <label className="dark:text-dark-text text-light-text">Choose a device, and theme to display. Example view will be displayed above.</label>
                     <Dropdown>
                         <Dropdown.Button flat className="devices-choices">
-                            {(userCreated.deviceID !== "") ? userCreated.deviceName : 'Choose a device'}
+                            {(dataCreated.deviceID !== "") ? dataCreated.deviceName : 'Choose a device'}
                         </Dropdown.Button>
                         <Dropdown.Menu
                             aria-label="Single selection actions"
@@ -118,7 +118,7 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
                             items={devices}
                             disallowEmptySelection
                             selectionMode="single"
-                            selectedKeys={userCreated.deviceID}
+                            selectedKeys={dataCreated.deviceID}
                         >
                             {(deviceLoading && devices.length) ? (
                                 devices?.map((device) =>
@@ -166,7 +166,7 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
 
                     <Dropdown>
                         <Dropdown.Button flat className="devices-choices">
-                            {(userCreated.fontStyle !== "") ? userCreated.fontStyle : 'Choose a font'}
+                            {(dataCreated.fontStyle !== "") ? dataCreated.fontStyle : 'Choose a font'}
                         </Dropdown.Button>
                         <Dropdown.Menu
                             aria-label="Single selection actions"
@@ -174,7 +174,7 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
                             items={fonts}
                             disallowEmptySelection
                             selectionMode="single"
-                            selectedKeys={userCreated.fontStyle}
+                            selectedKeys={dataCreated.fontStyle}
                         >
                             {fonts?.map((font) => {
                                 return <Dropdown.Item key={font}>
@@ -200,7 +200,7 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
 
                     <Dropdown>
                         <Dropdown.Button flat className="devices-choices">
-                            {(userCreated.designSchema !== "") ? userCreated.designSchema : 'Choose a theme'}
+                            {(dataCreated.designSchema !== "") ? dataCreated.designSchema : 'Choose a theme'}
                         </Dropdown.Button>
                         <Dropdown.Menu
                             aria-label="Single selection actions"
@@ -208,7 +208,7 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
                             items={themes}
                             disallowEmptySelection
                             selectionMode="single"
-                            selectedKeys={userCreated.designSchema}
+                            selectedKeys={dataCreated.designSchema}
                         >
                             {themes?.map((theme) => {
                                 return <Dropdown.Item key={theme}>
@@ -234,13 +234,13 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
                     </Dropdown>
 
 
-                    {console.log(`Name: `, userCreated.name)}
-                    {console.log(`Email: `, userCreated.email)}
-                    {console.log(`Address: `, userCreated.address)}
-                    {console.log(`Write on EPD?: `, userCreated.active)}
-                    {console.log(`Device: `, userCreated.deviceID)}
-                    {console.log(`Font: `, userCreated.fontStyle)}
-                    {console.log(`Theme: `, userCreated.designSchema)}
+                    {console.log(`Name: `, dataCreated.name)}
+                    {console.log(`Email: `, dataCreated.email)}
+                    {console.log(`Address: `, dataCreated.address)}
+                    {console.log(`Write on EPD?: `, dataCreated.active)}
+                    {console.log(`Device: `, dataCreated.deviceID)}
+                    {console.log(`Font: `, dataCreated.fontStyle)}
+                    {console.log(`Theme: `, dataCreated.designSchema)}
 
                     <button type="submit">Submit</button>
                     <button onClick={() => {
@@ -251,14 +251,14 @@ const ChooseDevice = ({ userCreated, setUserCreated, stage, setStage, handleRese
             </>
         ) : (
             <div className="content text-light-text dark:text-dark-text">
-                <h1>User information is submitted successfully! </h1>
-                <p> and displayed on the EPD device! You can go to Dashboard/Users to see and manage your user information.</p>
+                <h1>Data information is submitted successfully! </h1>
+                <p> and displayed on the EPD device! You can go to Dashboard/Data to see and manage your data information.</p>
                 <br />
                 <button className="ok" onClick={() => {
                     setStage(-1);
                     handleReset();
                 }}>
-                    <Link href="/dashboard/users">Let&apos;s go!</Link>
+                    <Link href="/dashboard/data">Let&apos;s go!</Link>
                 </button>
             </div>
         )

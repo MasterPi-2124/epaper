@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
 import { Input, Switch, Popover } from "@nextui-org/react";
-import { WheelPicker } from "@/components/new-user/WheelPicker";
+import { WheelPicker } from "@/components/new-data/WheelPicker";
 import { Dropdown } from "@nextui-org/react";
 import { Notify } from "notiflix";
 import dayjs from "dayjs";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
-const User = ({ userUpdated, handleSubmit, handleChange }) => {
+const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
   const [deviceLoading, setDeviceLoading] = useState(0);
-  const [userStage, setUserStage] = useState(0);
+  const [dataStage, setDataStage] = useState(0);
   const canvaRef = useRef(null);
   const [devices, setDevices] = useState();
   const fonts = [
@@ -79,13 +79,13 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
   }
 
   useEffect(() => {
-    if (userStage === 1) {
+    if (dataStage === 1) {
       getActiveDevices();
     }
-  }, [userStage]);
+  }, [dataStage]);
 
   useEffect(() => {
-    if (userUpdated["active"]) {
+    if (dataUpdated["active"]) {
       let hr = "";
       if (ampm === "AM") {
         if (hour === "12") {
@@ -106,35 +106,35 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
   }, [date, hour, minute, ampm]);
 
   useEffect(() => {
-    if (userStage === 1) {
+    if (dataStage === 1) {
       const canva = canvaRef.current;
       const ctx = canva.getContext("2d");
 
       ctx.clearRect(0, 0, canva.width, canva.height);
 
-      if (userUpdated.designSchema === "Theme 1") {
+      if (dataUpdated.designSchema === "Theme 1") {
         style["color"] = "red";
-      } else if (userUpdated.designSchema === "Theme 2") {
+      } else if (dataUpdated.designSchema === "Theme 2") {
         style["color"] = "blue";
-      } else if (userUpdated.designSchema === "Theme 3") {
+      } else if (dataUpdated.designSchema === "Theme 3") {
         style["color"] = "yellow";
       } else {
         style["color"] = "orange";
       }
 
-      if (userUpdated.fontStyle === "Monospace 8pt") {
+      if (dataUpdated.fontStyle === "Monospace 8pt") {
         style["font"] = "8px Times New Roman";
-      } else if (userUpdated.fontStyle === "Monospace 12pt") {
+      } else if (dataUpdated.fontStyle === "Monospace 12pt") {
         style["font"] = "12px Segoe UI";
-      } else if (userUpdated.fontStyle === "Monospace 16pt") {
+      } else if (dataUpdated.fontStyle === "Monospace 16pt") {
         style["font"] = "16px";
-      } else if (userUpdated.fontStyle === "Monospace 24pt") {
+      } else if (dataUpdated.fontStyle === "Monospace 24pt") {
         style["font"] = "24px";
-      } else if (userUpdated.fontStyle === "Segoe UI 8pt") {
+      } else if (dataUpdated.fontStyle === "Segoe UI 8pt") {
         style["font"] = "28px";
-      } else if (userUpdated.fontStyle === "Segoe UI 12pt") {
+      } else if (dataUpdated.fontStyle === "Segoe UI 12pt") {
         style["font"] = "32px";
-      } else if (userUpdated.fontStyle === "Segoe UI 16pt") {
+      } else if (dataUpdated.fontStyle === "Segoe UI 16pt") {
         style["font"] = "36px";
       } else {
         style["font"] = "40px Segoe UI";
@@ -142,20 +142,20 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
 
       ctx.font = style.font;
       ctx.fillStyle = style.color;
-      ctx.fillText(`Name: ${userUpdated.name}`, 10, 30);
-      ctx.fillText(`Email: ${userUpdated.email}`, 10, 60);
+      ctx.fillText(`Name: ${dataUpdated.name}`, 10, 30);
+      ctx.fillText(`Email: ${dataUpdated.email}`, 10, 60);
     }
-  }, [style, userUpdated, userStage])
+  }, [style, dataUpdated, dataStage])
 
   return (
-    (userStage ? (
+    (dataStage ? (
       <>
         <canvas className="render-canvas" ref={canvaRef} width="340" height="150" />
         <form className="form" onSubmit={handleSubmit}>
           <label className="dark:text-dark-text text-light-text">Choose a device, and theme to display. Example view will be displayed above.</label>
           <Dropdown>
             <Dropdown.Button flat className="devices-choices">
-              {(userUpdated.deviceID !== "") ? userUpdated.deviceName : 'Choose a device'}
+              {(dataUpdated.deviceID !== "") ? dataUpdated.deviceName : 'Choose a device'}
             </Dropdown.Button>
             <Dropdown.Menu
               aria-label="Single selection actions"
@@ -163,7 +163,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               items={devices}
               disallowEmptySelection
               selectionMode="single"
-              selectedKeys={userUpdated.deviceID}
+              selectedKeys={dataUpdated.deviceID}
             >
               {(deviceLoading && devices.length) ? (
                 devices?.map((device) =>
@@ -210,7 +210,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
 
           <Dropdown>
             <Dropdown.Button flat className="devices-choices">
-              {(userUpdated.fontStyle !== "") ? userUpdated.fontStyle : 'Choose a font'}
+              {(dataUpdated.fontStyle !== "") ? dataUpdated.fontStyle : 'Choose a font'}
             </Dropdown.Button>
             <Dropdown.Menu
               aria-label="Single selection actions"
@@ -218,7 +218,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               items={fonts}
               disallowEmptySelection
               selectionMode="single"
-              selectedKeys={userUpdated.fontStyle}
+              selectedKeys={dataUpdated.fontStyle}
             >
               {fonts?.map((font) => {
                 return <Dropdown.Item key={font}>
@@ -244,7 +244,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
 
           <Dropdown>
             <Dropdown.Button flat className="devices-choices">
-              {(userUpdated.designSchema !== "") ? userUpdated.designSchema : 'Choose a theme'}
+              {(dataUpdated.designSchema !== "") ? dataUpdated.designSchema : 'Choose a theme'}
             </Dropdown.Button>
             <Dropdown.Menu
               aria-label="Single selection actions"
@@ -252,7 +252,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               items={themes}
               disallowEmptySelection
               selectionMode="single"
-              selectedKeys={userUpdated.designSchema}
+              selectedKeys={dataUpdated.designSchema}
             >
               {themes?.map((theme) => {
                 return <Dropdown.Item key={theme}>
@@ -278,16 +278,16 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
           </Dropdown>
 
 
-          {console.log(`Name: `, userUpdated.name)}
-          {console.log(`Email: `, userUpdated.email)}
-          {console.log(`Address: `, userUpdated.address)}
-          {console.log(`Write on EPD?: `, userUpdated.active)}
-          {console.log(`Device: `, userUpdated.deviceID)}
-          {console.log(`Font: `, userUpdated.fontStyle)}
-          {console.log(`Theme: `, userUpdated.designSchema)}
+          {console.log(`Name: `, dataUpdated.name)}
+          {console.log(`Email: `, dataUpdated.email)}
+          {console.log(`Address: `, dataUpdated.address)}
+          {console.log(`Write on EPD?: `, dataUpdated.active)}
+          {console.log(`Device: `, dataUpdated.deviceID)}
+          {console.log(`Font: `, dataUpdated.fontStyle)}
+          {console.log(`Theme: `, dataUpdated.designSchema)}
 
           <button type="submit">Submit</button>
-          <button onClick={() => setUserStage(0)}>Back</button>
+          <button onClick={() => setDataStage(0)}>Back</button>
         </form>
       </>
     ) : (
@@ -297,16 +297,16 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
           required
           label="Name"
           type="text"
-          initialValue={userUpdated.name}
+          initialValue={dataUpdated.name}
           onChange={(e) => handleChange("name", e.target.value)}
         />
-        {userUpdated.type === "Client" ? (
+        {dataUpdated.type === "Client" ? (
           <>
             <Input
               className="input"
               label="Email"
               required
-              initialValue={userUpdated.email}
+              initialValue={dataUpdated.email}
               type="email"
               onChange={(e) => handleChange("email", e.target.value)}
             />
@@ -315,19 +315,19 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               className="input"
               label="Address"
               required
-              initialValue={userUpdated.input2}
+              initialValue={dataUpdated.input2}
               type="text"
               onChange={(e) => handleChange("input2", e.target.value)}
             />
           </>
-        ) : userUpdated.type === "Student" ? (
+        ) : dataUpdated.type === "Student" ? (
           <>
             <Input
               className="input"
               required
               label="Email"
               type="email"
-              initialValue={userUpdated.email}
+              initialValue={dataUpdated.email}
               onChange={(e) => handleChange("email", e.target.value)}
             />
 
@@ -336,7 +336,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               label="Student ID"
               required
               type="text"
-              initialValue={userUpdated.input2}
+              initialValue={dataUpdated.input2}
               onChange={(e) => handleChange("input2", e.target.value)}
             />
 
@@ -345,18 +345,18 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               label="Class"
               required
               type="text"
-              initialValue={userUpdated.input3}
+              initialValue={dataUpdated.input3}
               onChange={(e) => handleChange("input3", e.target.value)}
             />
           </>
-        ) : userUpdated.type === "Product" ? (
+        ) : dataUpdated.type === "Product" ? (
           <>
             <Input
               className="input"
               label="Category"
               required
               type="text"
-              initialValue={userUpdated.input2}
+              initialValue={dataUpdated.input2}
               onChange={(e) => handleChange("input2", e.target.value)}
             />
 
@@ -365,18 +365,18 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               label="Price"
               required
               type="text"
-              initialValue={userUpdated.input3}
+              initialValue={dataUpdated.input3}
               onChange={(e) => handleChange("input3", e.target.value)}
             />
           </>
-        ) : userUpdated.type === "Employee" ? (
+        ) : dataUpdated.type === "Employee" ? (
           <>
             <Input
               className="input"
               label="Email"
               required
               type="email"
-              initialValue={userUpdated.email}
+              initialValue={dataUpdated.email}
               onChange={(e) => handleChange("email", e.target.value)}
             />
 
@@ -385,7 +385,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               label="Employee ID"
               required
               type="text"
-              initialValue={userUpdated.input2}
+              initialValue={dataUpdated.input2}
               onChange={(e) => handleChange("input2", e.target.value)}
             />
 
@@ -394,7 +394,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               label="Department"
               required
               type="text"
-              initialValue={userUpdated.input3}
+              initialValue={dataUpdated.input3}
               onChange={(e) => handleChange("input3", e.target.value)}
             />
           </>
@@ -405,7 +405,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               required
               label="Purpose"
               type="text"
-              initialValue={userUpdated.input2}
+              initialValue={dataUpdated.input2}
               onChange={(e) => handleChange("input2", e.target.value)}
             />
 
@@ -414,7 +414,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               required
               label="Manager"
               type="text"
-              initialValue={userUpdated.input3}
+              initialValue={dataUpdated.input3}
               onChange={(e) => handleChange("input3", e.target.value)}
             />
 
@@ -423,7 +423,7 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
               label="Status"
               required
               type="text"
-              initialValue={userUpdated.input4}
+              initialValue={dataUpdated.input4}
               onChange={(e) => handleChange("input4", e.target.value)}
             />
           </>
@@ -440,12 +440,12 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
             className="input"
             bordered
             label="EPD display?"
-            initialChecked={userUpdated.active}
+            initialChecked={dataUpdated.active}
             onChange={(e) => handleChange("active", e.target.checked)}
           />
         </div>
 
-        {userUpdated.active &&
+        {dataUpdated.active &&
           <div>
             <p style={{
               fontSize: "14px",
@@ -490,9 +490,9 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
           </div>
         }
         <br />
-        {userUpdated.active ? (
+        {dataUpdated.active ? (
           <button className="ok" type="button" onClick={() => {
-            setUserStage(1);
+            setDataStage(1);
           }}>
             Continue
           </button>
@@ -506,4 +506,4 @@ const User = ({ userUpdated, handleSubmit, handleChange }) => {
   )
 }
 
-export default User;
+export default Data;
