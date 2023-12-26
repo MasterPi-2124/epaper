@@ -12,12 +12,12 @@ const deviceSchema = new Schema({
     pass: {
         type: String,
     },
-    userID: {
+    dataID: {
         type: String,
         unique: false,
         sparse: true
     },
-    userName: {
+    dataName: {
         type: String
     },
     active: {
@@ -27,7 +27,7 @@ const deviceSchema = new Schema({
     },
     createdBy: {
         type: Schema.Types.ObjectId,
-        ref: "Account",
+        ref: "User",
         default: null
     }
 });
