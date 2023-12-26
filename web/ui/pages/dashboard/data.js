@@ -1,12 +1,12 @@
 import Menu from "@/components/menu";
 import Layout from "@/components/layout";
-import React, { useState, useEffect } from "react";
-import NewUser from "@/components/new-user"
-import Cookies from "universal-cookie";
+import { UserList } from "@/components/dashboard/data";
 import validToken from "@/services/validToken";
+import React, { useState, useEffect } from "react";
+import Cookies from "universal-cookie";
 import Link from "next/link";
 
-function NewUserPage() {
+const DataDashboard = () => {
   const cookies = new Cookies();
   const [token, setToken] = useState(cookies.get("TOKEN"));
 
@@ -21,13 +21,13 @@ function NewUserPage() {
   }, [token]);
 
   return (
-    <Layout pageTitle="New User | Dashboard">
-      <div className="dashboard dark:bg-[#212121] bg-[#e0e0e0] dark:text-white text-black h-screen bg-center bg-cover bg-no-repeat flex items-center">
+    <Layout pageTitle="Data | Epaper">
+      <div className="dashboard bg-[#212121] h-screen bg-center bg-cover bg-no-repeat flex items-center">
         {token ? (
           <>
-            <Menu currentPath={"New User"} />
+            <Menu currentPath={"Dashboard"} />
             <div className="main-container">
-              <NewUser />
+              <UserList />
             </div>
           </>
         ) : (
@@ -45,4 +45,4 @@ function NewUserPage() {
   );
 }
 
-export default NewUserPage;
+export default DataDashboard;

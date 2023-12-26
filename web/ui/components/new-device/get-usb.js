@@ -62,7 +62,7 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, port, setPort, handleSu
                         {console.log(`SSID: `, deviceCreated.ssid)}
                         {console.log(`Password: `, deviceCreated.pass)}
                         {console.log(`active: `, deviceCreated.active)}
-                        {console.log(`userID: `, deviceCreated.userID)}
+                        {console.log(`dataID: `, deviceCreated.dataID)}
 
                         <button>
                             Write and Publish

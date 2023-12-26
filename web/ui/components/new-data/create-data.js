@@ -6,7 +6,7 @@ import { WheelPicker } from "./WheelPicker";
 import dayjs from "dayjs";
 import Link from "next/link";
 
-const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage, handleReset, handleSubmit }) => {
+const CreateData = ({ dataCreated, setDataCreated, stage, setStage, handleStage, handleReset, handleSubmit }) => {
     const handleChange = (param, e) => {
         let userTyped = {};
         if (param === "active") {
@@ -14,8 +14,8 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
         } else {
             userTyped[param] = e.target.value;
         }
-        setUserCreated(userCreated => ({
-            ...userCreated,
+        setDataCreated(dataCreated => ({
+            ...dataCreated,
             ...userTyped
         }))
     }
@@ -49,7 +49,7 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
     const [ampm, setAmpm] = useState(new Date().getHours() > 12 ? "PM" : "AM");
 
     useEffect(() => {
-        if (userCreated["active"] === true) {
+        if (dataCreated["active"] === true) {
             let userTyped = {};
             let hr = "";
             if (ampm === "AM") {
@@ -67,8 +67,8 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
             }
             const dd = new Date(`${date} ${hr}:${minute}`);
             userTyped["activeStartTime"] = Math.floor(dd.getTime() / 1000);
-            setUserCreated(userCreated => ({
-                ...userCreated,
+            setDataCreated(dataCreated => ({
+                ...dataCreated,
                 ...userTyped
             }))
         }
@@ -88,7 +88,7 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
                         type="text"
                         onChange={(e) => handleChange("name", e)}
                     />
-                    {userCreated.type === "Client" ? (
+                    {dataCreated.type === "Client" ? (
                         <>
                             <Input
                                 className="input"
@@ -106,7 +106,7 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
                                 onChange={(e) => handleChange("input2", e)}
                             />
                         </>
-                    ) : userCreated.type === "Student" ? (
+                    ) : dataCreated.type === "Student" ? (
                         <>
                             <Input
                                 className="input"
@@ -132,7 +132,7 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
                                 onChange={(e) => handleChange("input3", e)}
                             />
                         </>
-                    ) : userCreated.type === "Product" ? (
+                    ) : dataCreated.type === "Product" ? (
                         <>
                             <Input
                                 className="input"
@@ -150,7 +150,7 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
                                 onChange={(e) => handleChange("input3", e)}
                             />
                         </>
-                    ) : userCreated.type === "Employee" ? (
+                    ) : dataCreated.type === "Employee" ? (
                         <>
                             <Input
                                 className="input"
@@ -219,7 +219,7 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
                         />
                     </div>
 
-                    {userCreated.active ? (
+                    {dataCreated.active ? (
                         <div>
                             <label style={{
                                 fontSize: "14px",
@@ -266,7 +266,7 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
                         <></>
                     )}
 
-                    {userCreated.active ? (
+                    {dataCreated.active ? (
                         <button type="button" onClick={handleStage}>
                             Continue
                         </button>
@@ -291,11 +291,11 @@ const CreateUser = ({ userCreated, setUserCreated, stage, setStage, handleStage,
                     setStage(-1);
                     handleReset();
                 }}>
-                    <Link href="/dashboard/users">Let&apos;s go!</Link>
+                    <Link href="/dashboard/data">Let&apos;s go!</Link>
                 </button>
             </div>
         )
     );
 };
 
-export default CreateUser;
+export default CreateData;

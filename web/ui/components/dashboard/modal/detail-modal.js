@@ -10,15 +10,15 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
 
   useEffect(() => {
     console.log(type, data)
-    if (type === "devices" && data.userID) {
-      instanceCoreApi.get(`${API}/users/${data.userID}`).then((res) => {
+    if (type === "devices" && data.dataID) {
+      instanceCoreApi.get(`${API}/data/${data.dataID}`).then((res) => {
         setData1(res.data.data);
       }).catch((error) => {
-        Notify.Notify.failure(`Error fetching user data: ${error}`);
+        Notify.Notify.failure(`Error fetching data: ${error}`);
         console.log(error)
         setData1();
       })
-    } else if (type === "users" && data.deviceID) {
+    } else if (type === "data" && data.deviceID) {
       console.log("asdasd")
       instanceCoreApi.get(`${API}/devices/${data.deviceID}`).then((res) => {
         console.log(res.data.data)
@@ -59,10 +59,10 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
         </div>
 
         <div className="stats">
-          <h1>User information</h1>
+          <h1>Data information</h1>
           {data1 ? (
             <>
-              <p style={{ marginBottom: "10px" }}>Here is the user information displayed on the device:</p>
+              <p style={{ marginBottom: "10px" }}>Here is the data information displayed on the device:</p>
               <p className="body-lg text-mediumGrey">
                 - Name: <strong>{data1.name}</strong>
               </p>
@@ -134,7 +134,7 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
             </>
           ) : (
             <>
-              The device currently has no data to display. Go to <Link href="/dashboard/users"> user dashboard</Link> to select user to display, or create a new user <Link href="/new-user">here</Link>.
+              The device currently has no data to display. Go to <Link href="/dashboard/data"> data dashboard</Link> to select data to display, or create a new data <Link href="/new-data">here</Link>.
             </>
           )}
         </div>
@@ -177,7 +177,7 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
 
         <div className="stats">
           <>
-            <p style={{ marginBottom: "10px" }}>Here is the user information:</p>
+            <p style={{ marginBottom: "10px" }}>Here is the data information:</p>
             <p className="body-lg text-mediumGrey">
               - Name: <strong>{data.name}</strong>
             </p>

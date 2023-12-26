@@ -14,7 +14,7 @@ because of its strength, TailwindCSS helps reducing a lot of redundant css synta
 Because of the complexity of the system that needs both processing data from client side, and also communicating with EPD devices, this Server section is divided into 2 main parts, ExpressJS server handling user's requests and storing data in MongoDB; and RabbitMQ broker communicating with devices and sending data back to ExpressJS server to process. The server used is a dedicated server hosted in Hetzner, which is a server company located in Europe, with quality is ensured to be among of the best in the world. This dedicated server also ensures the privacy, security and durable span.
 
 \subsection{ExpressJS Server}
-This part of back-end server takes reponsibilities to receive user's requests, handling to MQTT Server and store data in the system. MongoDb is used to store all data of the system
+This part of back-end server takes reponsibilities to receive user's requests, handling to MQTT Server and store data in the system. The server is written in ExpressJS, using MVC model MongoDB is used to store all data of the system
 
 \end{document}
 

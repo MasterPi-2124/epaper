@@ -24,11 +24,10 @@ const RegisterForm = () => {
             const data = {
                 email: email,
                 password: password,
-                userName: "11",
                 name: name,
                 gender: 1
             }
-            instanceCoreApi.post(`${API}/account/register`, data).then(response => {
+            instanceCoreApi.post(`${API}/user/register`, data).then(response => {
                 console.log(response);
                 setEmail("");
                 setPassword("");

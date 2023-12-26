@@ -209,7 +209,7 @@ void handleMessage(char *message)
                 }
                 else
                 {
-                    if (compareStrings(msg.c_str(), "removeUser"))
+                    if (compareStrings(msg.c_str(), "removeData"))
                     {
                         update = 8;
                         printf("----- update = %d\r\n", update);

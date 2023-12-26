@@ -1,6 +1,6 @@
 import RegisterForm from "@/components/auth/register";
 import Layout from "@/components/layout";
-import React, { useEffect } from "react";
+import React from "react";
 
 function RegisterPage() {
   return (

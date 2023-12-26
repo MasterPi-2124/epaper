@@ -7,34 +7,34 @@ import Room from "@/assets/icons//thin/room.svg";
 import Student from "@/assets/icons//thin/student.svg";
 import Notify from 'notiflix/build/notiflix-notify-aio';
 
-const UserType = ({ userCreated, setUserCreated, handleStage }) => {
+const DataType = ({ dataCreated, setDataCreated, handleStage }) => {
     const handleChange = (param, value) => {
         let userTyped = {};
         userTyped[param] = value;
         console.log(userTyped)
-        setUserCreated(userCreated => ({
-            ...userCreated,
+        setDataCreated(dataCreated => ({
+            ...dataCreated,
             ...userTyped
         }))
-        console.log(userCreated)
+        console.log(dataCreated)
     }
 
     const handleContinue = (e) => {
-        if (userCreated.type !== "") {
+        if (dataCreated.type !== "") {
             handleStage(e);
         } else {
-            Notify.Notify.failure("You have to choose an user type to continue.")
+            Notify.Notify.failure("You have to choose an data type to continue.")
         }
     }
 
     return (
         <>
-            <h1>What is your user type?</h1>
-            <div className="user-types">
+            <h1>What is your data type?</h1>
+            <div className="data-types">
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Product} alt="product" />
+                            <Image className="data-type-image" src={Product} alt="product" />
                             <p>Product</p>
                         </div>
 
@@ -50,7 +50,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Student} alt="student" />
+                            <Image className="data-type-image" src={Student} alt="student" />
                             <p>Student</p>
                         </div>
 
@@ -65,7 +65,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Employee} alt="employee" />
+                            <Image className="data-type-image" src={Employee} alt="employee" />
                             <p>Employee</p>
                         </div>
 
@@ -80,7 +80,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Client} alt="client" />
+                            <Image className="data-type-image" src={Client} alt="client" />
                             <p>Client</p>
                         </div>
 
@@ -95,7 +95,7 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
                 <div className="type-flip-container">
                     <div className="type-flip">
                         <div className="front-flip">
-                            <Image className="user-type-image" src={Room} alt="room" />
+                            <Image className="data-type-image" src={Room} alt="room" />
                             <p>Room</p>
                         </div>
 
@@ -112,4 +112,4 @@ const UserType = ({ userCreated, setUserCreated, handleStage }) => {
     );
 };
 
-export default UserType;
+export default DataType;

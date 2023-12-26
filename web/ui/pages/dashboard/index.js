@@ -27,9 +27,9 @@ function Dashboard() {
             <Menu currentPath={"Dashboard"} />
             <div className="main-container">
               <div className="content">
-                <Link href="/dashboard/users">
+                <Link href="/dashboard/data">
                   <div className="item-dashboard">
-                    Users Dashboard
+                    Data Dashboard
                   </div>
                 </Link>
                 <Link href="/dashboard/devices">
