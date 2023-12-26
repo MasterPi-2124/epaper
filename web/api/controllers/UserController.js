@@ -1,27 +1,70 @@
-const userService = require("../services/UserService");
+const userService = require("../services/DataService");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-exports.getAllUsers = async (req, res) => {
-  //filter
-  let filters = {};
-  if (req.query.groupBy) {
-    filters.groupBy = req.query.groupBy;
-  }
-  if (req.account.accountId) {
-    filters.accountId = req.account.accountId;
-  }
-
+exports.register = async (req, res) => {
   try {
-    const users = await userService.getAllUsers(filters);
-    res.json({ data: users, status: "success" });
+    const user = req.body;
+    let existUser = await userService.findUserByEmail(user.email);
+    if (existUser == null) {
+      bcrypt
+        .hash(user.password, 10)
+        .then((hashedPassword) => {
+          const newUser = {
+            ...user,
+            password: hashedPassword,
+          };
+          userService.createUser(newUser).then((result) => {
+            const { password: password, ...returnUser } = result._doc;
+            res.json({ data: returnUser, status: "success" });
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err.message });
+        });
+    } else {
+      res.status(409).json({ message: "Email has been used" });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-}
+};
 
-exports.createUser = async (req, res) => {
+exports.login = async (req, res) => {
   try {
-    const user = await userService.createUser(req.body, req.account.accountId);
-    res.json({ data: user, status: "success" });
+    const user = req.body;
+    userService
+      .findUserByEmail(user.email)
+      .then((result) => {
+        const existUser = result._doc;
+        bcrypt
+          .compare(user.password, existUser.password)
+          .then((passwordCheck) => {
+            if (!passwordCheck) {
+              res.status(401).json({ message: "Email and password incorrect" });
+            } else {
+              const token = jwt.sign(
+                {
+                  userID: existUser._id,
+                  userEmail: existUser.email,
+                },
+                userService.secretKey,
+                {
+                  expiresIn: "24h",
+                }
+              );
+
+              const { password: password, ...returnUser } = existUser;
+              res.json({ data: { token, ...returnUser }, status: "success" });
+            }
+          })
+          .catch((err) => {
+            res.status(500).json({ error: err.message });
+          });
+      })
+      .catch(() => {
+        res.status(401).json({ message: "Email and password incorrect" });
+      });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -29,8 +72,13 @@ exports.createUser = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
   try {
-    const user = await userService.getUserById(req.params.id);
-    res.json({ data: user, status: "success" });
+    if (req.params.id === req.user.userID) {  
+      const user = await userService.getUserById(req.params.id);
+      const {password: password, ...returnData} = user._doc;
+      res.json({ data: returnData, status: "success" });
+    } else {
+      res.json({ data: null, status: "success" });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -38,18 +86,14 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const user = userService.updateUser(req.params.id, req.body);
-    res.json({ data: user, status: "success" });
+    if (req.params.id === req.user.userID) {  
+      const user = await userService.updateUser(req.params.id, req.body);
+      const {password: password, ...returnData} = user._doc;
+      res.json({ data: returnData, status: "success" });
+    } else {
+      res.json({ data: null, status: "success" });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
-
-exports.deleteUser = async (req, res) => {
-  try {
-    const user = await userService.deleteUser(req.params.id, req.account.accountId);
-    res.json({ data: user, status: "success" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+}

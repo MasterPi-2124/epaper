@@ -6,9 +6,9 @@ const compression = require("compression");
 
 const mqttClient = require("./mqtt/mqtt");
 const swaggerRouter = require("./resources/swaggerRoutes");
-const userRouter = require("./routes/UserRoutes");
+const dataRouter = require("./routes/DataRoutes");
 const deviceRouter = require("./routes/DeviceRoutes");
-const accountRouter = require("./routes/AccountRoutes");
+const userRouter = require("./routes/UserRoutes");
 
 
 mqttClient.connect();
@@ -32,9 +32,9 @@ app.use(
   })
 );
 app.use("/api/swagger", swaggerRouter);
-app.use("/api/users", userRouter);
+app.use("/api/data", dataRouter);
 app.use("/api/devices", deviceRouter);
-app.use("/api/account", accountRouter);
+app.use("/api/user", userRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}...`);
