@@ -14,7 +14,7 @@ Given the distinctive characteristics of the system discussed in Chapter 3, it i
 
 Microservices architecture is a software development method that structures an application as a collection of loosely coupled services. In this architecture, each service can be developed, deployed, and scaled independently, allowing greater scalability, flexibility, and agility than monolithic architectures, as teams can update or fix individual components without impacting the entire system in case of failure. Thanks to its ability to accommodate the dynamic and distributed natures of IoT applications, microservice architecture is frequently used in various IoT projects. It allows organizations to build more agile and adaptive applications to handle the complex demands of modern business environments.
 
-On the other hand, the Model-View-Controller-Service (MVCS) architecture is an extension of the traditional Model-View-Controller (MVC) pattern. It introduces a service layer sitting between the controller and the model, which is responsible for containing business logic and rules. This layer abstracts complex business operations, allowing Controllers to focus on handling incoming requests and delegating the heavy lifting to Services. This design pattern is well-suited to many web applications and provides a structured and organized approach to developing complex applications, making it easier to manage, maintain, and scale the system over time.
+On the other hand, the Model-View-Controller-Service (MVCS) architecture is an extension of the traditional Model-View-Controller (MVC) pattern. It introduces a service layer sitting between the Controller and the Model, responsible for containing business logic and rules. This layer abstracts complex business operations, allowing Controllers to focus on handling incoming requests and delegating the heavy lifting to Services. This design pattern is well-suited to many web applications and provides a structured and organized approach to developing complex applications, making it easier to manage, maintain, and scale the system over time.
 
 By combining these two architectures, the system is better equipped to handle the dynamic and distributed nature of IoT applications. It also enables organizations to build more agile and adaptive applications to address the complex demands of modern business environments while ensuring scalability, reliability, and seamless communication between different components.
 
@@ -39,17 +39,617 @@ This service in the system acts as an intermediary, managing the state of all MQ
 \end{figure}
 
 \subsection{Detailed package design}
-Sinh viên thiết kế và lần lượt vẽ biểu đồ thiết kế cho từng package, hoặc một nhóm các package liên quan để giải quyết một vấn đề gì đó. Khi vẽ thiết kế gói, sinh viên chỉ cần đưa tên lớp, không cần chỉ ra các thành viên phương thức và thuộc tính. SV tham khảo ví dụ minh họa trong Hình \ref{fig:Fig2}.
+\subsubsection{Models}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[]
+         \begin{umlpackage}{Models}
+            \umlclass[x = 3, y = 8, scale = 0.6]{UserModel}{
+                email: string \\
+                password: string \\
+                name: string \\
+                gender: string \\
+                \_id: ObjectId \\
+                createdAt: time \\
+                updatedAt: time
+            }{
+                \umlvirt{UserModel(userModel: dict): UserModel} \\
+                findByIdAndUpdate(id: string): UserModel \\
+                findById(id: string): UserModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): UserModel \\
+                findOne(filter: dict): UserModel
+            }
 
-Sinh viên cần vẽ rõ ràng quan hệ giữa các lớp trong biểu đồ. Các quan hệ bao gồm: phụ thuộc (dependency), kết hợp (association), kết tập (aggregation), hợp thành (composition), kế thừa (inheritance), và thực thi (implementation). Các quan hệ này đều đã được minh họa trong \ref{fig:Fig2}.
+            \umlclass[x = 0, y = 0, scale = 0.6]{DeviceModel}{
+                \_id: ObjectId \\
+                name: string \\
+                ssid: string \\
+                pass: string \\
+                dataID: ObjectId \\
+                dataName: string \\
+                active: boolean \\
+                createdBy: ObjectId \\
+            }{
+                \umlvirt{DeviceModel(deviceModel: dict): DeviceModel} \\
+                findByIdAndUpdate(id: string): DeviceModel \\
+                findById(id: string): DeviceModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): DeviceModel \\
+                findOne(filter: dict): DeviceModel \\
+                find(filter: dict): Array(DeviceModel)
+            }
+            
+            \umlclass[x = 7, y = 0, scale = 0.6]{DataModel}{
+                \_id: ObjectId \\
+                type: string \\
+                name: string \\
+                input2: string \\
+                input3: string \\
+                active: boolean \\
+                activeStartTime: uint \\
+                deviceID: ObjectId \\
+                deviceName: string \\
+                activeTimestamp: Array \\
+                fontStyle: string \\
+                designSchema: string \\
+                createdBy: ObjectId
+            }{
+                \umlvirt{DataModel(deviceModel: dict): DataModel} \\
+                findByIdAndUpdate(id: string): DataModel \\
+                findById(id: string): DataModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): DataModel \\
+                findOne(filter: dict): DataModel
+            }
+            
+            \umlassoc[mult1=1, mult2=*, pos1=0.03, pos2=0.8, align1=left, align2=left]{UserModel}{DeviceModel}
+            \umlassoc[mult1=1, mult2=*, pos1=0.03, pos2=0.8, align1=right, align2=right]{UserModel}{DataModel}
+
+            % Bidirectional Dependency
+            \umldashedline{DeviceModel}{DataModel}
+            \umldep[arg=updates, pos=0.5]{DeviceModel}{DataModel}
+            \umldep[pos=0.5]{DataModel}{DeviceModel}
+         \end{umlpackage}
+    \end{tikzpicture}
+    \caption{General use case diagram of the data management system}
+    \label{fig:ModelClassDiagram}
+\end{figure}
+\subsubsection{Services}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[]
+         \begin{umlpackage}{Services}
+            \umlclass[x = 3, y = 3, scale = 0.6]{UserService}{}{
+                findUserByEmail(email: string): UserModel \\
+                createUser(user: dict): UserModel \\
+                getUserById(id: string): UserModel \\
+                updateUser(id: string, user: dict): UserModel \\
+            }
+
+            \umlclass[x = 0, y = 0, scale = 0.6]{DeviceService}{}{
+                getAllDevices(filter: dict): Array(DeviceModel) \\
+                getDeviceById(id: string): DeviceModel \\
+                createDevice(data: dict, userId: string): DeviceModel \\
+                updateDevice(id: string, data: dict): DeviceModel \\
+                deleteDevice(id: string, userId: string): void
+            }
+            
+            \umlclass[x = 6, y = 0, scale = 0.6]{DataService}{}{
+                findDataByEmail(email: string): DataModel \\
+                getAllDatas(filter: dict): Array(DataModel) \\
+                getDataById(id: string): DataModel \\
+                createData(data: dict, userId: string): DataModel \\
+                updateData(id: string, data: dict): DataModel \\
+                deleteData(id: string, userId: string): void
+            }
+         \end{umlpackage}
+    \end{tikzpicture}
+    \caption{General use case diagram of the data management system}
+    \label{fig:ServiceClassDiagram}
+\end{figure}
+
+\subsubsection{Controllers}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[]
+         \begin{umlpackage}{Controllers}
+            \umlclass[x = 3, y = 3, scale = 0.6]{UserController}{
+                userService: UserService
+            }{
+                register(): void \\
+                login(id: string): void \\
+                getAccountById(): UserModel \\
+                updateAccount(): UserModel
+            }
+
+            \umlclass[x = 0, y = 0, scale = 0.6]{DeviceController}{
+                deviceService: DeviceService
+            }{
+                
+                getAllDevices(): Array(DeviceModel) \\
+                createDevice(): DeviceModel \\
+                getDeviceById(): DeviceModel \\
+                updateDevice(): DeviceModel \\
+                deleteDevice(): void
+            }
+            
+            \umlclass[x = 5, y = 0, scale = 0.6]{DataController}{
+                dataService: DataService
+            }{
+                getAllData(): Array(DataModel) \\
+                createData(): DataModel \\
+                getDataById(): DataModel \\
+                updateData(): DataModel \\
+                deleteData(): void
+            }
+            
+         \end{umlpackage}
+    \end{tikzpicture}
+    \caption{General use case diagram of the data management system}
+    \label{fig:DataClassDiagram}
+\end{figure}
+
+\subsubsection{Views}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[]
+         \begin{umlpackage}{Views}
+            \umlclass[x = -1, y = 3, scale = 0.6]{AccountView}{}{
+                handleSubmit(e: event): void \\
+            }
+            
+            \umlclass[x = 2.6, y = 3, scale = 0.6]{NewDeviceView}{}{
+                connectESP(): void \\
+                handleSubmit(e: event): void \\
+                handleReset(): void
+            }
+
+            \umlclass[x = 6.2, y = 3, scale = 0.6]{DeviceView}{}{
+                connectESP(): void \\
+                deleteItem(): void \\
+                handleSubmit(e: event): void \\
+                handleReset(): void
+            }
+            
+            \umlclass[x = 0, y = 0.7, scale = 0.6]{NewDataView}{}{
+                handleStage(e: event): void \\
+                handleSubmit(e: event): void \\
+                handleReset(): void \\
+                getActiveDevices(): Array(DeviceModel)
+            }
+
+            \umlclass[x = 5, y = 1, scale = 0.6]{DataView}{}{
+                handleSubmit(e: event): void \\
+                getActiveDevices(): Array(DeviceModel)
+            }
+         \end{umlpackage}
+    \end{tikzpicture}
+    \caption{General use case diagram of the data management system}
+    \label{fig:DataClassDiagram}
+\end{figure}
+
 
 \section{Detailed design}
 \subsection{User interface design}
-Phần này có độ dài từ hai đến ba trang. Sinh viên đặc tả thông tin về màn hình mà ứng dụng của mình hướng tới, bao gồm độ phân giải màn hình, kích thước màn hình, số lượng màu sắc hỗ trợ, v.v. Tiếp đến, sinh viên đưa ra các thống nhất/chuẩn hóa của mình khi thiết kế giao diện như thiết kế nút, điều khiển, vị trí hiển thị thông điệp phản hồi, phối màu, v.v. Sau cùng sinh viên đưa ra một số hình ảnh minh họa thiết kế giao diện cho các chức năng quan trọng nhất. Lưu ý, sinh viên không nhầm lẫn giao diện thiết kế với giao diện của sản phẩm sau cùng.
-\subsection{Layer design}
-Phần này có độ dài từ ba đến bốn trang. Sinh viên trình bày thiết kế chi tiết các thuộc tính và phương thức cho một số lớp chủ đạo/quan trọng nhất của ứng dụng (từ 2-4 lớp). Thiết kế chi tiết cho các lớp khác, nếu muốn trình bày, sinh viên đưa vào phần phụ lục.
+The architecture and user interface of this system are meticulously tailored for computer displays, ensuring optimal functionality and visual experience on larger screens. The design is customized to leverage the expansive real estate of computer monitors, facilitating ease of use and comprehensive display of information. This focus on computer-targeted design means that the system is not intended for mobile use, and as such, it may not provide an ideal user experience or full functionality on smaller, mobile device screens. The decision to specialize in computer displays stems from a commitment to delivering a high-quality, immersive experience that fully utilizes the capabilities and advantages of larger screens typically associated with desktop or laptop computers.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.35]{doc/thesis/EN/imgs/mockup1.png}
+    \caption{Mockup display of authentication page}
+    \label{fig:Mockup1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.35]{doc/thesis/EN/imgs/mockup2.png}
+    \caption{Mockup display of dashboard page}
+    \label{fig:Mockup2}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.35]{doc/thesis/EN/imgs/mockup3.png}
+    \caption{Mockup display of modal component}
+    \label{fig:Mockup3}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.35]{doc/thesis/EN/imgs/mockup4.png}
+    \caption{Mockup display of creation page}
+    \label{fig:Mockup4}
+\end{figure}
 
-Để minh họa thiết kế lớp, sinh viên thiết kế luồng truyền thông điệp giữa các đối tượng tham gia cho 2 đến 3 use case quan trọng nào đó bằng biểu đồ trình tự (hoặc biểu đồ giao tiếp).
+\subsection{Layer design}
+Each sub-section below demonstrates the workflow of each class participating in each use case in form of class diagram, and a responding sequence diagram.
+\subsubsection{Class and sequence diagram of use case "Register a new device"}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+        % \draw (-1.5, 2.5) rectangle (13, -8);
+    
+        % Define system boundary
+        \umlactor[x = -0.5, y = 4, scale = 0.8]{Manager}
+        \umlactor[x = 2.5, y = 5, scale = 0.8]{EPD Devices}
+        
+        \begin{umlpackage}{pkg}
+            \umlclass[x = 0, y = 8, scale = 0.5]{NewDeviceView}{}{
+                connectESP(): void \\
+                handleSubmit(e: event): void \\
+                handleReset(): void
+            }
+            
+            \umlclass[x = 5, y = 8, scale = 0.5]{DeviceController}{
+                deviceService: DeviceService
+            }{
+                getAllDevices(): Array(DeviceModel) \\
+                createDevice(): DeviceModel \\
+                getDeviceById(): DeviceModel \\
+                updateDevice(): DeviceModel \\
+                deleteDevice(): void
+            }
+
+            \umlclass[x = 5, y = 2, scale = 0.5]{DeviceService}{}{
+                getAllDevices(filter: dict): Array(DeviceModel) \\
+                getDeviceById(id: string): DeviceModel \\
+                createDevice(data: dict, userId: string): DeviceModel \\
+                updateDevice(id: string, data: dict): DeviceModel \\
+                deleteDevice(id: string, userId: string): void
+            }
+
+            \umlclass[x = 10, y = 6, scale = 0.5]{DeviceModel}{
+                \_id: ObjectId \\
+                name: string \\
+                ssid: string \\
+                pass: string \\
+                dataID: ObjectId \\
+                dataName: string \\
+                active: boolean \\
+                createdBy: ObjectId \\
+            }{
+                \umlvirt{DeviceModel(deviceModel: dict): DeviceModel} \\
+                findByIdAndUpdate(id: string): DeviceModel \\
+                findById(id: string): DeviceModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): DeviceModel \\
+                findOne(filter: dict): DeviceModel \\
+                find(filter: dict): Array(DeviceModel)
+            }
+        \end{umlpackage}
+        
+        \umluniassoc[]{Manager}{NewDeviceView}
+        \umluniassoc[]{NewDeviceView}{EPD Devices}
+        \umluniassoc[geometry = |-, anchor1 = 100, anchor2 = 0]{DeviceService}{EPD Devices}
+        \umluniassoc[]{NewDeviceView}{DeviceController}
+        \umluniassoc[]{DeviceController}{DeviceService}
+        \umluniassoc[]{DeviceService}{DeviceModel}
+    \end{tikzpicture}
+    \caption{Detailed use case of Data Management function}
+    \label{fig:usecasediagram}
+\end{figure}
+
+\subsubsection{Class and sequence diagram of use case "Add a new data"}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+        % Define system boundary
+        \umlactor[x = 3, y = 10, scale = 0.7]{Manager}
+        \umlactor[x = 6, y = 5, scale = 0.7]{EPD Devices}
+        
+        \begin{umlpackage}{pkg}
+            \umlclass[x = 8, y = 10, scale = 0.5]{NewDataView}{}{
+                handleStage(e: event): void \\
+                handleSubmit(e: event): void \\
+                handleReset(): void \\
+                getActiveDevices(): Array(DeviceModel)
+            }
+
+            \umlclass[x = 4, y = 7, scale = 0.5]{DataController}{
+                dataService: DataService
+            }{
+                getAllData(): Array(DataModel) \\
+                createData(): DataModel \\
+                getDataById(): DataModel \\
+                updateData(): DataModel \\
+                deleteData(): void
+            }
+
+            \umlclass[x = 9, y = 7, scale = 0.5]{DeviceController}{
+                deviceService: DeviceService
+            }{
+                getAllDevices(): Array(DeviceModel) \\
+                createDevice(): DeviceModel \\
+                getDeviceById(): DeviceModel \\
+                updateDevice(): DeviceModel \\
+                deleteDevice(): void
+            }
+
+            \umlclass[x = 4, y = 2, scale = 0.5]{DataService}{}{
+                findDataByEmail(email: string): DataModel \\
+                getAllDatas(filter: dict): Array(DataModel) \\
+                getDataById(id: string): DataModel \\
+                createData(data: dict, userId: string): DataModel \\
+                updateData(id: string, data: dict): DataModel \\
+                deleteData(id: string, userId: string): void
+            }
+
+            \umlclass[x = 9, y = 2, scale = 0.5]{DeviceService}{}{
+                getAllDevices(filter: dict): Array(DeviceModel) \\
+                getDeviceById(id: string): DeviceModel \\
+                createDevice(data: dict, userId: string): DeviceModel \\
+                updateDevice(id: string, data: dict): DeviceModel \\
+                deleteDevice(id: string, userId: string): void
+            }
+
+            \umlclass[x = 14, y = 2, scale = 0.5]{DeviceModel}{
+                \_id: ObjectId \\
+                name: string \\
+                ssid: string \\
+                pass: string \\
+                dataID: ObjectId \\
+                dataName: string \\
+                active: boolean \\
+                createdBy: ObjectId \\
+            }{
+                \umlvirt{DeviceModel(deviceModel: dict): DeviceModel} \\
+                findByIdAndUpdate(id: string): DeviceModel \\
+                findById(id: string): DeviceModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): DeviceModel \\
+                findOne(filter: dict): DeviceModel \\
+                find(filter: dict): Array(DeviceModel)
+            }
+            
+            \umlclass[x = 14, y = 7.5, scale = 0.5]{DataModel}{
+                \_id: ObjectId \\
+                type: string \\
+                name: string \\
+                input2: string \\
+                input3: string \\
+                active: boolean \\
+                activeStartTime: uint \\
+                deviceID: ObjectId \\
+                deviceName: string \\
+                activeTimestamp: Array \\
+                fontStyle: string \\
+                designSchema: string \\
+                createdBy: ObjectId
+            }{
+                \umlvirt{DataModel(deviceModel: dict): DataModel} \\
+                findByIdAndUpdate(id: string): DataModel \\
+                findById(id: string): DataModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): DataModel \\
+                findOne(filter: dict): DataModel
+            }
+        \end{umlpackage}
+        
+        \umluniassoc[]{Manager}{NewDataView}
+        \umluniassoc[geometry = |-, anchor1 = 80, anchor2 = -180]{DataService}{EPD Devices}
+        \umluniassoc[geometry = |-, anchor1 = 100, anchor2 = 0]{DeviceService}{EPD Devices}
+        \umluniassoc[]{NewDataView}{DataController}
+        \umluniassoc[]{NewDataView}{DeviceController}
+        \umluniassoc[]{DataController}{DataService}
+        \umluniassoc[]{DeviceController}{DeviceService}
+        \umluniassoc[]{DataService}{DataModel}
+        \umluniassoc[geometry = |-, anchor1 = -90, anchor2 = -140]{DataService}{DeviceModel}
+        \umluniassoc[]{DeviceService}{DeviceModel}
+    \end{tikzpicture}
+    \caption{Detailed use case of Data Management function}
+    \label{fig:usecasediagram}
+\end{figure}
+
+\subsubsection{Class and sequence diagram of use case "Change a device information"}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+        % Define system boundary
+        \umlactor[x = 3, y = 10, scale = 0.7]{Manager}
+        \umlactor[x = 5.5, y = 5, scale = 0.7]{EPD Devices}
+
+        \begin{umlpackage}{pkg}
+            \umlclass[x = 8, y = 10, scale = 0.5]{DeviceView}{}{
+                connectESP(): void \\
+                deleteItem(): void \\
+                handleSubmit(e: event): void \\
+                handleReset(): void
+            }
+
+            \umlclass[x = 9, y = 7, scale = 0.5]{DeviceController}{
+                deviceService: DeviceService
+            }{
+                getAllDevices(): Array(DeviceModel) \\
+                createDevice(): DeviceModel \\
+                getDeviceById(): DeviceModel \\
+                updateDevice(): DeviceModel \\
+                deleteDevice(): void
+            }
+
+            \umlclass[x = 4, y = 2, scale = 0.5]{DataService}{}{
+                findDataByEmail(email: string): DataModel \\
+                getAllDatas(filter: dict): Array(DataModel) \\
+                getDataById(id: string): DataModel \\
+                createData(data: dict, userId: string): DataModel \\
+                updateData(id: string, data: dict): DataModel \\
+                deleteData(id: string, userId: string): void
+            }
+
+            \umlclass[x = 9, y = 2, scale = 0.5]{DeviceService}{}{
+                getAllDevices(filter: dict): Array(DeviceModel) \\
+                getDeviceById(id: string): DeviceModel \\
+                createDevice(data: dict, userId: string): DeviceModel \\
+                updateDevice(id: string, data: dict): DeviceModel \\
+                deleteDevice(id: string, userId: string): void
+            }
+
+            \umlclass[x = 14, y = 2, scale = 0.5]{DeviceModel}{
+                \_id: ObjectId \\
+                name: string \\
+                ssid: string \\
+                pass: string \\
+                dataID: ObjectId \\
+                dataName: string \\
+                active: boolean \\
+                createdBy: ObjectId \\
+            }{
+                \umlvirt{DeviceModel(deviceModel: dict): DeviceModel} \\
+                findByIdAndUpdate(id: string): DeviceModel \\
+                findById(id: string): DeviceModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): DeviceModel \\
+                findOne(filter: dict): DeviceModel \\
+                find(filter: dict): Array(DeviceModel)
+            }
+            
+            \umlclass[x = 14, y = 7.5, scale = 0.5]{DataModel}{
+                \_id: ObjectId \\
+                type: string \\
+                name: string \\
+                input2: string \\
+                input3: string \\
+                active: boolean \\
+                activeStartTime: uint \\
+                deviceID: ObjectId \\
+                deviceName: string \\
+                activeTimestamp: Array \\
+                fontStyle: string \\
+                designSchema: string \\
+                createdBy: ObjectId
+            }{
+                \umlvirt{DataModel(deviceModel: dict): DataModel} \\
+                findByIdAndUpdate(id: string): DataModel \\
+                findById(id: string): DataModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): DataModel \\
+                findOne(filter: dict): DataModel
+            }
+        \end{umlpackage}
+        
+        \umluniassoc[]{Manager}{DeviceView}
+        \umluniassoc[geometry = |-, anchor1 = 100, anchor2 = 0]{DeviceService}{EPD Devices}
+        \umluniassoc[]{DeviceView}{EPD Devices}
+        \umluniassoc[]{DeviceView}{DataController}
+        \umluniassoc[]{DeviceView}{DeviceController}
+        \umluniassoc[]{DataController}{DataService}
+        \umluniassoc[]{DeviceController}{DeviceService}
+        \umluniassoc[]{DataService}{DataModel}
+        \umluniassoc[geometry = |-, anchor1 = 80, anchor2 = -130]{DeviceService}{DataModel}
+        \umluniassoc[]{DeviceService}{DeviceModel}
+    \end{tikzpicture}
+    \caption{Detailed use case of Data Management function}
+    \label{fig:usecasediagram}
+\end{figure}
+\subsubsection{Class and sequence diagram of use case "Change data information"}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+        % Define system boundary
+        \umlactor[x = 3, y = 10, scale = 0.7]{Manager}
+        \umlactor[x = 5.5, y = 5, scale = 0.7]{EPD Devices}
+        
+        \begin{umlpackage}{pkg}
+            \umlclass[x = 8, y = 10, scale = 0.5]{DataView}{}{
+                handleSubmit(e: event): void \\
+                getActiveDevices(): Array(DeviceModel)
+            }
+
+            \umlclass[x = 4, y = 7, scale = 0.5]{DataController}{
+                dataService: DataService
+            }{
+                getAllData(): Array(DataModel) \\
+                createData(): DataModel \\
+                getDataById(): DataModel \\
+                updateData(): DataModel \\
+                deleteData(): void
+            }
+
+            \umlclass[x = 9, y = 7, scale = 0.5]{DeviceController}{
+                deviceService: DeviceService
+            }{
+                getAllDevices(): Array(DeviceModel) \\
+                createDevice(): DeviceModel \\
+                getDeviceById(): DeviceModel \\
+                updateDevice(): DeviceModel \\
+                deleteDevice(): void
+            }
+
+            \umlclass[x = 4, y = 2, scale = 0.5]{DataService}{}{
+                findDataByEmail(email: string): DataModel \\
+                getAllDatas(filter: dict): Array(DataModel) \\
+                getDataById(id: string): DataModel \\
+                createData(data: dict, userId: string): DataModel \\
+                updateData(id: string, data: dict): DataModel \\
+                deleteData(id: string, userId: string): void
+            }
+
+            \umlclass[x = 9, y = 2, scale = 0.5]{DeviceService}{}{
+                getAllDevices(filter: dict): Array(DeviceModel) \\
+                getDeviceById(id: string): DeviceModel \\
+                createDevice(data: dict, userId: string): DeviceModel \\
+                updateDevice(id: string, data: dict): DeviceModel \\
+                deleteDevice(id: string, userId: string): void
+            }
+
+            \umlclass[x = 14, y = 2, scale = 0.5]{DeviceModel}{
+                \_id: ObjectId \\
+                name: string \\
+                ssid: string \\
+                pass: string \\
+                dataID: ObjectId \\
+                dataName: string \\
+                active: boolean \\
+                createdBy: ObjectId \\
+            }{
+                \umlvirt{DeviceModel(deviceModel: dict): DeviceModel} \\
+                findByIdAndUpdate(id: string): DeviceModel \\
+                findById(id: string): DeviceModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): DeviceModel \\
+                findOne(filter: dict): DeviceModel \\
+                find(filter: dict): Array(DeviceModel)
+            }
+            
+            \umlclass[x = 14, y = 7.5, scale = 0.5]{DataModel}{
+                \_id: ObjectId \\
+                type: string \\
+                name: string \\
+                input2: string \\
+                input3: string \\
+                active: boolean \\
+                activeStartTime: uint \\
+                deviceID: ObjectId \\
+                deviceName: string \\
+                activeTimestamp: Array \\
+                fontStyle: string \\
+                designSchema: string \\
+                createdBy: ObjectId
+            }{
+                \umlvirt{DataModel(deviceModel: dict): DataModel} \\
+                findByIdAndUpdate(id: string): DataModel \\
+                findById(id: string): DataModel \\
+                findByIdAndRemove(id: string): void \\
+                create(data: dict): DataModel \\
+                findOne(filter: dict): DataModel
+            }
+        \end{umlpackage}
+        
+        \umluniassoc[]{Manager}{DataView}
+        \umluniassoc[geometry = |-, anchor1 = 80, anchor2 = -180]{DataService}{EPD Devices}
+        \umluniassoc[geometry = |-, anchor1 = 100, anchor2 = 0]{DeviceService}{EPD Devices}
+        \umluniassoc[]{DataView}{DataController}
+        \umluniassoc[]{DataView}{DeviceController}
+        \umluniassoc[]{DataController}{DataService}
+        \umluniassoc[]{DeviceController}{DeviceService}
+        \umluniassoc[]{DataService}{DataModel}
+        \umluniassoc[geometry = |-, anchor1 = -90, anchor2 = -140]{DataService}{DeviceModel}
+        \umluniassoc[]{DeviceService}{DeviceModel}
+    \end{tikzpicture}
+    \caption{Detailed use case of Data Management function}
+    \label{fig:usecasediagram}
+\end{figure}
+\subsubsection{Class and sequence diagram of use case "Remove a device"}
+\subsubsection{Class and sequence diagram of use case "Remove a data"}
+\subsubsection{Class and sequence diagram of use case "Register new account"}
+\subsubsection{Class and sequence diagram of use case "Sign in"}
+
 \subsection{Database design}
 Phần này có độ dài từ hai đến bốn trang. Sinh viên thiết kế, vẽ và giải thích biểu đồ thực thể liên kết (E-R diagram). Từ đó, sinh viên thiết kế cơ sở dữ liệu tùy theo hệ quản trị cơ sở dữ liệu mà mình sử dụng (SQL, NoSQL, Firebase, v.v.)
 
