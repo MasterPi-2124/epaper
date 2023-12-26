@@ -1,4 +1,4 @@
-const UserModel = require("../models/User");
+const DataModel = require("../models/Data");
 const DeviceModel = require("../models/Device");
 const mqttClient = require("../mqtt/mqtt");
 
@@ -7,8 +7,8 @@ exports.getAllDevices = async (filters = null) => {
     // Normal filter
     let query = {};
     if (filters) {
-      if ("accountId" in filters) {
-        query.createdBy = filters.accountId;
+      if ("userID" in filters) {
+        query.createdBy = filters.userID;
       }
     }
     const devices = await DeviceModel.find(query);
@@ -29,8 +29,8 @@ exports.getDeviceById = async (id) => {
   return await DeviceModel.findById(id);
 }
 
-exports.createDevice = async (device, userId = null) => {
-  device.createdBy = userId;
+exports.createDevice = async (device, userID = null) => {
+  device.createdBy = userID;
   const deviceCreated = await DeviceModel.create(device);
   mqttClient.subscribe(`${deviceCreated._id}`);
   return deviceCreated;
@@ -38,13 +38,19 @@ exports.createDevice = async (device, userId = null) => {
 
 exports.updateDevice = async (id, device) => {
   mqttClient.updateDevice(id, device);
+  if (device.dataID !== "") {
+    const data = await DataModel.findById(device.dataID);
+    data["deviceName"] = device.name;
+    await DataModel.findByIdAndUpdate(device.dataID, data);
+  }
+
   return await DeviceModel.findByIdAndUpdate(id, device);
 }
 
-exports.deleteDevice = async (id, accountId = null) => {
+exports.deleteDevice = async (id, userID = null) => {
   let device = await this.getDeviceById(id);
   if (device) {
-    if (device.createdBy != accountId) {
+    if (device.createdBy != userID) {
       return null;
     }
   } else {
@@ -52,14 +58,14 @@ exports.deleteDevice = async (id, accountId = null) => {
   }
   
   mqttClient.unsubscribe(device._id);
-  if (device.userID !== "") {
-    const user = await UserModel.findById(device.userID);
+  if (device.dataID !== "") {
+    const data = await DataModel.findById(device.dataID);
     const now = Math.floor(new Date().getTime() / 1000);
-    user["deviceID"] = "";
-    user["active"] = false;
-    user["activeTimestamp"].push(`${user["activeStartTime"]}-${now}`)
-    user["activeStartTime"] = -1;
-    await UserModel.findByIdAndUpdate(device.userID, user);
+    data["deviceID"] = "";
+    data["active"] = false;
+    data["activeTimestamp"].push(`${data["activeStartTime"]}-${now}`)
+    data["activeStartTime"] = -1;
+    await DataModel.findByIdAndUpdate(device.dataID, data);
   }
 
   return await DeviceModel.findByIdAndDelete(id);

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const accountService = require("../services/AccountService");
+const userService = require("../services/DataService");
 
 module.exports = async (request, response, next) => {
   try {
@@ -7,18 +7,18 @@ module.exports = async (request, response, next) => {
     const token = await request.headers.authorization.split(" ")[1];
 
     //check if the token matches the supposed origin
-    const decodedToken = await jwt.verify(token, accountService.secretKey);
+    const decodedToken = await jwt.verify(token, userService.secretKey);
 
     // retrieve the account details of the logged in account
-    const account = await decodedToken;
+    const user = await decodedToken;
 
     // pass the account down to the endpoints here
-    request.account = account;
+    request.user = user;
     // console.log(request.account);
     // =>
     // {
-    //   accountId: 
-    //   accountEmail: 
+    //   userID: 
+    //   userEmail: 
     //   iat: 
     //   exp: 
     // }

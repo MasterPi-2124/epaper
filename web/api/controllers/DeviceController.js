@@ -11,8 +11,8 @@ exports.getAllDevices = async (req, res) => {
     filters.active = req.query.active;
   }
 
-  if (req.account.accountId) {
-    filters.accountId = req.account.accountId;
+  if (req.user.userID) {
+    filters.userID = req.user.userID;
   }
 
   try {
@@ -25,7 +25,7 @@ exports.getAllDevices = async (req, res) => {
 
 exports.createDevice = async (req, res) => {
   try {
-    const device = await deviceService.createDevice(req.body, req.account.accountId);
+    const device = await deviceService.createDevice(req.body, req.user.userID);
     res.json({ data: device, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -52,7 +52,7 @@ exports.updateDevice = async (req, res) => {
 
 exports.deleteDevice = async (req, res) => {
   try {
-    const device = await deviceService.deleteDevice(req.params.id, req.account.accountId);
+    const device = await deviceService.deleteDevice(req.params.id, req.user.userID);
     res.json({ data: device, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });

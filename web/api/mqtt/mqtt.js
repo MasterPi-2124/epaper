@@ -1,6 +1,6 @@
 const mqtt = require("mqtt");
 const DeviceModel = require("../models/Device");
-const UserModel = require("../models/User");
+const DataModel = require("../models/Data");
 
 require('dotenv').config();
 const BROKER = process.env.BROKER;
@@ -10,33 +10,33 @@ let client = null;
 const responseTimeout = 5000;
 let globalMessageHandlers = new Map();
 
-const writeDeviceHandler = (user) => {
-  return async (topic, oldUserID) => {
-    if (topic === user.deviceID) {
-      const device = await DeviceModel.findById(user.deviceID);
-      console.log(oldUserID, user._id);
+const writeDeviceHandler = (data) => {
+  return async (topic, oldDataID) => {
+    if (topic === data.deviceID) {
+      const device = await DeviceModel.findById(data.deviceID);
+      console.log(oldDataID, data._id);
       const now = Math.floor(new Date().getTime() / 1000);
       
-      if (oldUserID !== "" && oldUserID !== `${user._id}`) {
-        const oldUser = await UserModel.findById(oldUserID);
+      if (oldDataID !== "" && oldDataID !== `${data._id}`) {
+        const oldData = await DataModel.findById(oldDataID);
 
-        if (oldUser) {
-          oldUser["active"] = false;
-          oldUser["deviceID"] = "";
-          oldUser["deviceName"] = "";
-          oldUser["activeTimestamp"].push(`${oldUser["activeStartTime"]}-${now}`)
-          oldUser["activeStartTime"] = -1;
-          await UserModel.findByIdAndUpdate(oldUserID, oldUser);
+        if (oldData) {
+          oldData["active"] = false;
+          oldData["deviceID"] = "";
+          oldData["deviceName"] = "";
+          oldData["activeTimestamp"].push(`${oldData["activeStartTime"]}-${now}`)
+          oldData["activeStartTime"] = -1;
+          await DataModel.findByIdAndUpdate(oldDataID, oldData);
         }
       }
-      user["activeStartTime"] = `${now}`;
-      user["activeTimestamp"] = [];
-      await UserModel.findByIdAndUpdate(`${user._id}`, user);
+      data["activeStartTime"] = `${now}`;
+      data["activeTimestamp"] = [];
+      await DataModel.findByIdAndUpdate(`${data._id}`, data);
 
       device["active"] = true;
-      device["userID"] = `${user._id}`;
-      device["userName"] = `${user.name}`;
-      await DeviceModel.findByIdAndUpdate(user.deviceID, device);
+      device["dataID"] = `${data._id}`;
+      device["dataName"] = `${data.name}`;
+      await DeviceModel.findByIdAndUpdate(data.deviceID, device);
       // this.unsubscribe(topic);
     }
   }
@@ -60,8 +60,8 @@ const removeHandler = (id) => {
   return async (topic) => {
     if (topic === id) {
       const device = await DeviceModel.findById(id);
-      device["userID"] = "";
-      device["userName"] = "";
+      device["dataID"] = "";
+      device["dataName"] = "";
       await DeviceModel.findByIdAndUpdate(id, device);
       // this.unsubscribe(topic);
     }
@@ -163,23 +163,23 @@ exports.getAllDevicesStatuses = async (topics) => {
   })
 }
 
-exports.writeDevice = async (user) => {
+exports.writeDevice = async (data) => {
   console.log("writing to device...");
   let payload = "";
 
-  if (user.type === "Client") {
+  if (data.type === "Client") {
     payload = payload + "write1|";
-  } else if (user.type === "Student") {
+  } else if (data.type === "Student") {
     payload = payload + "write2|";
-  } else if (user.type === "Employee") {
+  } else if (data.type === "Employee") {
     payload = payload + "write3|";
-  } else if (user.type === "Product") {
+  } else if (data.type === "Product") {
     payload = payload + "write4|";
-  } else if (user.type === "Room") {
+  } else if (data.type === "Room") {
     payload = payload + "write5|";
   }
 
-  switch (user.fontStyle) {
+  switch (data.fontStyle) {
     case "Monospace 8pt":
       payload = payload + "F8|";
       break;
@@ -208,7 +208,7 @@ exports.writeDevice = async (user) => {
       payload = payload + "Segoe12|";
   }
 
-  switch (user.designSchema) {
+  switch (data.designSchema) {
     case "Theme 1":
       payload = payload + "1|";
       break;
@@ -225,47 +225,47 @@ exports.writeDevice = async (user) => {
       payload = payload + "1|";
   }
 
-  payload = payload + `${user.name}|`;
+  payload = payload + `${data.name}|`;
 
-  switch (user.type) {
+  switch (data.type) {
     case "Client":
-      payload = payload + `${user.email}|`;
-      payload = payload + `${user.input2}|`;
+      payload = payload + `${data.email}|`;
+      payload = payload + `${data.input2}|`;
       break;
     case "Student":
-      payload = payload + `${user.email}|`;
-      payload = payload + `${user.input2}|`;
-      payload = payload + `${user.input3}|`;
+      payload = payload + `${data.email}|`;
+      payload = payload + `${data.input2}|`;
+      payload = payload + `${data.input3}|`;
       break;
     case "Employee":
-      payload = payload + `${user.email}|`;
-      payload = payload + `${user.input2}|`;
-      payload = payload + `${user.input3}|`;
+      payload = payload + `${data.email}|`;
+      payload = payload + `${data.input2}|`;
+      payload = payload + `${data.input3}|`;
       break;
     case "Product":
-      payload = payload + `${user.input2}|`;
-      payload = payload + `${user.input3}|`;
+      payload = payload + `${data.input2}|`;
+      payload = payload + `${data.input3}|`;
       break;
     case "Room":
-      payload = payload + `${user.input2}|`;
-      payload = payload + `${user.input3}|`;
-      payload = payload + `${user.input4}|`;
+      payload = payload + `${data.input2}|`;
+      payload = payload + `${data.input3}|`;
+      payload = payload + `${data.input4}|`;
       break;
 
   }
-  payload = payload + `${user._id}|`;
+  payload = payload + `${data._id}|`;
 
   console.log(payload);
 
-  this.subscribe(user.deviceID);
-  const handler = writeDeviceHandler(user);
+  this.subscribe(data.deviceID);
+  const handler = writeDeviceHandler(data);
   globalMessageHandlers.set("writeOK", handler);
 
-  client.publish(`${user.deviceID}`, payload, (err) => {
+  client.publish(`${data.deviceID}`, payload, (err) => {
     if (err) {
-      console.log(`Error publishing to topic ${user.deviceID}: ${err}`);
+      console.log(`Error publishing to topic ${data.deviceID}: ${err}`);
     } else {
-      console.log(`Published to topic ${user.deviceID} successfully!`);
+      console.log(`Published to topic ${data.deviceID} successfully!`);
     }
   });
 
@@ -281,9 +281,9 @@ exports.updateDevice = async (id, data) => {
   if (data.ssid) {  // update device data
     payload = payload + `${data.ssid}|`;
     payload = payload + `${data.pass}|`;
-    // payload = payload + `${data.userID}|`;
-  } else {          // update user data
-    payload = payload + "removeUser|";
+    // payload = payload + `${data.dataID}|`;
+  } else {          // update data info
+    payload = payload + "removeData|";
   }
 
   console.log(payload);
