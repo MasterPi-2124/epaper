@@ -13,6 +13,7 @@ let globalMessageHandlers = new Map();
 const writeDeviceHandler = (data) => {
   return async (topic, oldDataID) => {
     if (topic === data.deviceID) {
+      console.log(`Received writeOK response from ${topic}`);
       const device = await DeviceModel.findById(data.deviceID);
       console.log(oldDataID, data._id);
       const now = Math.floor(new Date().getTime() / 1000);
@@ -59,6 +60,7 @@ const getStatusHandler = (topics, deviceTimeouts, updateStatus) => {
 const removeHandler = (id) => {
   return async (topic) => {
     if (topic === id) {
+      console.log(`Received removeOK response from ${topic}`);
       const device = await DeviceModel.findById(id);
       device["dataID"] = "";
       device["dataName"] = "";
@@ -95,18 +97,20 @@ exports.connect = () => {
       const regex = /^writeOK\|(.*)$/;
       const match = data.match(regex);
       if (data.startsWith("writeOK")) {
-        console.log("found writeOK, ", match)
         if (globalMessageHandlers.has("writeOK")) {
+          console.log("found writeOK, ", match)
           const handler = globalMessageHandlers.get("writeOK");
           handler(topic, match[1]);
         }
       } else if (data.startsWith("pingOK")) {
         if (globalMessageHandlers.has("pingOK")) {
+          console.log("found pingOK, ")
           const handler = globalMessageHandlers.get("pingOK");
           handler(topic);
         }
       } else if (data.startsWith("removeOK")) {
-        const handler = globalMessageHandlers.get("removeOK");
+          console.log("found removeOK, ")
+          const handler = globalMessageHandlers.get("removeOK");
         handler(topic);
       }
     })
@@ -260,7 +264,7 @@ exports.writeDevice = async (data) => {
   this.subscribe(data.deviceID);
   const handler = writeDeviceHandler(data);
   globalMessageHandlers.set("writeOK", handler);
-
+console.log(globalMessageHandlers);
   client.publish(`${data.deviceID}`, payload, (err) => {
     if (err) {
       console.log(`Error publishing to topic ${data.deviceID}: ${err}`);
@@ -271,7 +275,7 @@ exports.writeDevice = async (data) => {
 
   setTimeout(() => {
     globalMessageHandlers.delete("writeOK");
-  }, responseTimeout + 1000);
+  }, responseTimeout + 6000);
 }
 
 exports.updateDevice = async (id, data) => {

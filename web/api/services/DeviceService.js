@@ -57,6 +57,7 @@ exports.deleteDevice = async (id, userID = null) => {
     return null;
   }
   
+  
   mqttClient.unsubscribe(device._id);
   if (device.dataID !== "") {
     const data = await DataModel.findById(device.dataID);
