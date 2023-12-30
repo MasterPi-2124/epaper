@@ -1170,13 +1170,44 @@ To manage EPD Devices and data, users need to log in with credentials as illustr
 
 When creating data/device, the user can easily follow on-screen instructions and fill in the required information. All the steps are annotated in detail, and the rendered display is showing in real-time, which helps improve user experience. 
 
-The device is running on battery, which can last for 5 - 6 hours before needing to recharge. in the scope of the project, this is still reasonable and acceptable as the product is still in the prototype stage, and not optimized for higher endurance in a real-life environment. 
+The EPD Device connects to MQTT Broker and subscribe to its ID as topic. The left side of the picture \ref{} belows indicates the device display when no data is stored, and the right side show the device display when a data is stored in the device. The d
+evice is running on battery, which can last for 5 - 6 hours before needing to recharge. in the scope of the project, this is still reasonable and acceptable as the product is still in the prototype stage, and not optimized for higher endurance in a real-life environment. 
+
 \section{Testing}
 Phần này có độ dài từ hai đến ba trang. Sinh viên thiết kế các trường hợp kiểm thử cho hai đến ba chức năng quan trọng nhất. Sinh viên cần chỉ rõ các kỹ thuật kiểm thử đã sử dụng. Chi tiết các trường hợp kiểm thử khác, nếu muốn trình bày, sinh viên đưa vào phần phụ lục.
 Sinh viên sau cùng tổng kết về số lượng các trường hợp kiểm thử và kết quả kiểm thử. Sinh viên cần phân tích lý do nếu kết quả kiểm thử không đạt.
+
 \section{Deployment}
- All of the project's source code is hosted and managed on Github, using Continuous Integration and Continuous Delivery (CI/CD) to automate the deployment. The 
- 
+\subsection{CI/CD}
+ All of the project's source code is hosted and managed on Github, using Continuous Integration and Continuous Delivery (CI/CD) to automate the deployment. When a new commit on main branch is created, a workflow is triggered to update both front-end and back-end in the hosting server. Detail and the log of the workflow can be monitored in Action setion in .
+
+ \subsection{Servers}
+
+The system uses two dedicated servers both running on Ubuntu 20.04 Jammy, with detail nand purpose are listed in the table below:
+\begin{table}[H]
+    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+    \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+    \renewcommand{\arraystretch}{2} % Adjust for row height
+    \centering{}
+    \fontsize{7pt}{8pt}\selectfont 
+    \begin{tabular}{| m(4cm) | m{4cm} | m{6cm} |}
+        \hline
+                   j         & \textbf{Back-end Server (web-server)} & \textbf{MQTT Broker (laboratory)} \\ \hline
+        IP address          & 65.108.79.164                         & 95.217.121.243                    \\ \hline
+        Operating System    & Ubuntu 20.04 LTS Jammy                & Ubuntu 20.04 LTS Jammy            \\ \hline
+        CPU                 & Intel                                 & Intel                             \\ \hline
+        RAM                 & 64GB                                  & 64GB                              \\ \hline
+        Storage             & 4TB                                   & 2TB                               \\ \hline
+        Service used        & Nginx, MongoDB, ManagementUI, Back-end, OpenSSL & Nginx, RabbitMQ, OpenSSL\\ \hline
+    \end{tabular}
+    \caption{Danh sách thư viện và công cụ sử dụng}
+    \label{fig:table_tools}
+\end{table}
+
+At "web-server" server, Management UI and API server are configured as system daemon, with two service files defined in epaper.service and epaper-backend.service. 
+
+\subsection{EPD Devices}
+
 Sinh viên trình bày mô hình và/hoặc cách thức triển khai thử nghiệm/thực tế. Ứng dụng của sinh viên được triển khai trên server/thiết bị gì, cấu hình như thế nào. Kết quả triển khai thử nghiệm nếu có (số lượng người dùng, số lượng truy cập, thời gian phản hồi, phản hồi người dùng, khả năng chịu tải, các thống kê, v.v.)
 
 \end{document}
