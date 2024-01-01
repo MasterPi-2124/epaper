@@ -900,6 +900,8 @@ Each sub-section below demonstrates the workflow of each class participating in 
 \end{figure}
 
 \subsubsection{Class and sequence diagram of use case "Register new account"}
+    \begin{landscape}
+
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
@@ -946,6 +948,50 @@ Each sub-section below demonstrates the workflow of each class participating in 
     \caption{Detailed use case of Data Management function}
     \label{fig:usecasediagram}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}[every node/.style={font=\tiny}]
+        \begin{umlseqdiag}
+            \umlactor[no ddots, scale = 1.6, x = -1]{Manager/ Administrator}
+            \umlboundary[no ddots, scale = 1.6, x = 2]{AccountView}
+            \umlcontrol[no ddots, scale = 1.6, x = 4.5]{UserController}
+            \umlcontrol[no ddots, scale = 1.6, x = 7.5]{UserService}
+            \umlentity[no ddots, scale = 1.6, x = 10]{UserModel}
+
+            \begin{umlcall}[op={HandleSubmit(): void}, dt = 5]{Manager/ Administrator}{AccountView}
+                \begin{umlcall}[op={register(): void}, dt = 5]{AccountView}{UserController}
+
+                    \begin{umlcall}[op={findUserByEmail(): void}, dt = 5, return = {user}]{UserController}{UserService}
+                        \begin{umlcall}[op={findOne(): UserModel}, dt = 5, return = {user}]{UserService}{UserModel}
+                        \end{umlcall}
+                    \end{umlcall}
+                
+                \begin{umlfragment}[type=alt, label={user is null}, inner xsep = 15]
+                    \begin{umlcall}[op={success},  type=return, padding = -2]{UserController}{AccountView}
+                    \end{umlcall}
+
+                    \begin{umlcall}[op={success},  type=return, dt = 3]{AccountView}{Manager/ Administrator}
+                    \end{umlcall}
+
+                    \umlfpart[user existed]
+                    \begin{umlcall}[op={email has been used},  type=return]{UserController}{AccountView}
+                    \end{umlcall}
+
+                    \begin{umlcall}[op={success},  type=return, dt=3]{AccountView}{Manager/ Administrator}
+                    \end{umlcall}
+                \end{umlfragment}
+                
+                \end{umlcall}
+            \end{umlcall}
+                
+        \end{umlseqdiag}
+    \end{tikzpicture}
+    
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
+    \end{landscape}
 
 \subsubsection{Class and sequence diagram of use case "Sign in"}
 \begin{figure}[H]
