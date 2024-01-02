@@ -148,7 +148,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \textbf{ID} & \textbf{Name}             \\ \hline
         UC01        & Create new device         \\ \hline
         UC02        & Modify device information \\ \hline
-        UC03        & Delete device             \\ \hline
+        UC03        & Remove device             \\ \hline
         UC04        & Add new data              \\ \hline
         UC05        & Modify data information   \\ \hline
         UC06        & Remove data               \\ \hline
@@ -166,8 +166,8 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
     \renewcommand{\arraystretch}{2.5} % Adjust for row height
     \begin{longtable}{|L{2cm}|L{1cm}|L{2cm}|L{7cm}|}
         \hline
-        \textbf{ID}             & UC01 & \textbf{Name} & Device Management \\ \hline
-        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, EPD device} \\ \hline
+        \textbf{ID}             & UC01 & \textbf{Name} & Create new device \\ \hline
+        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
         \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
         
         \hline
@@ -202,15 +202,15 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
     \end{longtable}
 }
 
-\subsection{Description of use case "Modify device's information"}
+\subsection{Description of use case "Modify device information"}
 {\fontsize{9pt}{8pt}\selectfont 
     \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
     \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
     \renewcommand{\arraystretch}{2.5} % Adjust for row height
     \begin{longtable}{|L{2cm}|L{1cm}|L{2cm}|L{7cm}|}
         \hline
-        \textbf{ID}             & UC01 & \textbf{Name} & Device Management \\ \hline
-        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, EPD device} \\ \hline
+        \textbf{ID}             & UC02 & \textbf{Name} & Modify device information \\ \hline
+        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
         \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
         
         \hline
@@ -255,8 +255,8 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
     \renewcommand{\arraystretch}{2.5} % Adjust for row height
     \begin{longtable}{|L{2cm}|L{1cm}|L{2cm}|L{7cm}|}
         \hline
-        \textbf{ID}             & UC01 & \textbf{Name} & Device Management \\ \hline
-        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, EPD device} \\ \hline
+        \textbf{ID}             & UC03 & \textbf{Name} & Remove a device \\ \hline
+        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
         \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
         
         \hline
@@ -267,17 +267,17 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
         \endhead
-        
-        & 1     & Manager               & Access the Dashboard, select Device \\ \cline{2-4}
-        & 2     & System                & Retrieve and display the list of registered devices \\ \cline{2-4}
-        & 3     & Manager               & Choose a device from the list and select Delete \\ \cline{2-4}
-        & 4     & System                & Display a warning asking the user to confirm deletion \\ \cline{2-4}
-        & 5     & Manager               & Confirm deletion of data \\ \cline{2-4}
-        & 6     & System                & Check the display status of the device \\ \cline{2-4}
-        & 6.1   & System                & If the device is not displaying data, remove the device from the system \\ \cline{2-4}
-        & 6.2   & System                & If the device is displaying data, send a request to delete data on the device via MQTT \\ \cline{2-4}
-        & 6.2.1 & Connected EPD Device  & Process the received information, delete the displaying data information \\ \cline{2-4}
-        & 6.2.3 & System                & Remove device display information from the data \\ \hline
+        & 1     & Manager       & Access the Dashboard, select Device \\ \cline{2-4}
+        & 2     & System        & Retrieve and display the list of registered devices \\ \cline{2-4}
+        & 3     & Manager       & Choose a device from the list and select Delete \\ \cline{2-4}
+        & 4     & System        & Display a warning asking the user to confirm deletion \\ \cline{2-4}
+        & 5     & Manager       & Confirm deletion of data \\ \cline{2-4}
+        & 6     & System        & Check the display status of the device \\ \cline{2-4}
+        & 6.1   & System        & If the device is not displaying data, remove the device from the system \\ \cline{2-4}
+        & 6.2   & System        & If the device is displaying data, send a request to delete data on the device via MQTT \\ \cline{2-4}
+        & 6.2.1 & EPD Device    & Process the received information, delete the displaying data information \\ \cline{2-4}
+        & 6.2.3 & System        & Remove device display information from the data \\ \hline
+        & 7     & System        & Notify successful remove \\ \cline{2-4}
     
         \multirow{0}{2cm}{\textbf{Extensions}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
@@ -294,8 +294,8 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
     \renewcommand{\arraystretch}{2.5} % Adjust for row height
     \begin{longtable}{|L{2cm}|L{1cm}|L{2cm}|L{7cm}|}
         \hline
-        \textbf{ID}             & UC01 & \textbf{Name} & Add new data \\ \hline
-        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, EPD device} \\ \hline
+        \textbf{ID}             & UC04 & \textbf{Name} & Add new data \\ \hline
+        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
         \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
         
         \hline
@@ -306,29 +306,166 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
         \endhead
-        & 1     & Manager               & Select "New Data" function \\ \cline{2-4}
-        & 2     & System                & Display the interface to choose data type to add \\ \cline{2-4}
-        & 3     & Manager               & Choose the type of data from the list \\ \cline{2-4}
-        & 4     & System                & Display the interface to enter data information \\ \cline{2-4}
-        & 5     & Manager               & Fill in the data information (described below *) \\ \cline{2-4}
-        & 6.1     & System                & If the user chooses to display on a device, show the interface to select device and design \\ \cline{2-4}
-        & 6.2     & Manager               & If the user doesn't allow to display the data, send a request to create new data \\ \cline{2-4}
-        & 7     & System                & Perform saving the data on the server and transmitting it to the connected device \\ \cline{2-4}
-        & 7.1   & System                & Save new device information on the server \\ \cline{2-4}
-        & 7.2   & System                & Transmit data to the connected EPD device \\ \cline{2-4}
-        & 7.2.1 & Connected EPD Device  & Process the received information \\ \cline{2-4}
-        & 7.2.2 & Connected EPD Device  & Connect to the Internet and MQTT Broker \\ \cline{2-4}
-        & 7.2.3 & Connected EPD Device  & Send status information to the server \\ \cline{2-4}
-        & 7.2.4 & System                & Receive and edit the new device information \\ \cline{2-4}
-        & 8     & System                & Notify successful creation of the device \\ \hline
-
-
-    
+        & 1     & Manager       & Select "New Data" function \\ \cline{2-4}
+        & 2     & System        & Display the interface to choose data type to add \\ \cline{2-4}
+        & 3     & Manager       & Choose the type of data from the list \\ \cline{2-4}
+        & 4     & System        & Display the interface to enter data information \\ \cline{2-4}
+        & 5     & Manager       & Fill in the data information (described below *) \\ \cline{2-4}
+        & 5.1   & System        & If the user chooses to display on a device, show the interface to select device and design \\ \cline{2-4}
+        & 5.2   & Manager       & Choose device to display, and choose the design \\ \cline{2-4}
+        & 6     & Manager       & Send a request to create new data \\ \cline{2-4}
+        & 7     & System        & Save new data information on the server \\ \cline{2-4}
+        & 7.1   & System        & If the user chooses to display data, transmit data to the connected EPD device \\ \cline{2-4}
+        & 7.2   & EPD Device    & Process the received information \\ \cline{2-4}
+        & 7.3   & EPD Device    & Display the data \\ \cline{2-4}
+        & 7.4   & EPD Device    & Send status information to the server \\ \cline{2-4}
+        & 7.5   & System        & Receive and update data information\\ \cline{2-4}
+        & 8     & System        & Notify successful creation of the data \\ \hline
+        
         \multirow{0}{2cm}{\textbf{Extensions}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
-        &4.2a.	& Hệ thống	& Thông báo lỗi: không thể kết nối đến thiết bị \\ \cline{2-4}
-        &7a.	& Hệ thống	& Thông báo lỗi: cần nhập đủ các trường thông tin cần thiết của thiết bị nếu Người quản lý nhập thiếu \\ \cline{2-4}
-        &10a.	& Hệ thống	& Không nhận được phản hồi cập nhật trạng thái từ thiết bị, lưu lại thông tin thiết bị \\ \hline
+        & 4a	& System        & Error: need to enter all required fields of the device if the Manager misses any \\ \cline{2-4}
+        & 5.1a  & System        & If there is no active devices, notify users and finish the use case \\ \cline{2-4}
+        & 7.1a	& System	    & Error: Can't write data to th device \\ \cline{2-4}
+    \end{longtable}
+}
+\subsection{Description of use case "Modify data information"}
+{\fontsize{9pt}{8pt}\selectfont 
+    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+    \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+    \renewcommand{\arraystretch}{2.5} % Adjust for row height
+    \begin{longtable}{|L{2cm}|L{1cm}|L{2cm}|L{7cm}|}
+        \hline
+        \textbf{ID}             & UC05 & \textbf{Name} & Modify data information \\ \hline
+        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        
+        \hline
+        \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        \endfirsthead
+        \hline
+        \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        \endhead
+        & 1     & Manager       & Access Dashboard, select Data \\ \cline{2-4}
+        & 2     & System        & Retrieve and display the list of data \\ \cline{2-4}
+        & 3     & Manager       & Choose a data from the list and select Edit \\ \cline{2-4}
+        & 4     & System        & Display the interface to enter data information \\ \cline{2-4}
+        & 5     & Manager       & Fill in the data information (described below *) \\ \cline{2-4}
+        & 5.1   & System        & If the user chooses to display on a device, show the interface to select device and design \\ \cline{2-4}
+        & 5.2   & Manager       & Choose device to display, and choose the design \\ \cline{2-4}
+        & 6     & Manager       & Send a request to update data \\ \cline{2-4}
+        & 7     & System        & Save the updated data on the server \\ \cline{2-4}
+        & 7.1   & System        & If the user chooses to display data, transmit data to the connected EPD device \\ \cline{2-4}
+        & 7.2   & EPD Device    & Process the received information \\ \cline{2-4}
+        & 7.3   & EPD Device    & Display the data \\ \cline{2-4}
+        & 7.4   & EPD Device    & Send status information to the server \\ \cline{2-4}
+        & 7.5   & System        & Receive and update data information\\ \cline{2-4}
+        & 8     & System        & Notify successful update \\ \hline
+        
+        \multirow{0}{2cm}{\textbf{Extensions}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        & 4a	& System    	& Error: need to enter all required fields of the device if the Manager misses any \\ \cline{2-4}
+        & 5.1a  & System        & If there is no active devices, notify users and finish the use case \\ \cline{2-4}
+        & 7.1a	& System	    & Error: Can't write data to th device \\ \cline{2-4}
+    \end{longtable}
+}
+
+\subsection{Description of use case "Remove data"}
+{\fontsize{9pt}{8pt}\selectfont 
+    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+    \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+    \renewcommand{\arraystretch}{2.5} % Adjust for row height
+    \begin{longtable}{|L{2cm}|L{1cm}|L{2cm}|L{7cm}|}
+        \hline
+        \textbf{ID}             & UC06 & \textbf{Name} & Remove data \\ \hline
+        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        
+        \hline
+        \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        \endfirsthead
+        \hline
+        \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        \endhead
+        & 1     & Manager       & Access Dashboard, select Data \\ \cline{2-4}
+        & 2     & System        & Retrieve and display the list of data \\ \cline{2-4}
+        & 3     & Manager       & Choose a data from the list and select Delete \\ \cline{2-4}
+        & 4     & System        & Display a warning asking the user to confirm deletion \\ \cline{2-4}
+        & 5     & Manager       & Confirm deletion of data \\ \cline{2-4}
+        & 6     & System        & Check the display status of the data \\ \cline{2-4}
+        & 6.1   & System        & If the data is being displayed, send a request to delete data on the device via MQTT \\ \cline{2-4}
+        & 6.2   & EPD Device    & Process the received information, delete the displaying data information \\ \cline{2-4}
+        & 6.3   & System        & Remove data information on the device \\ \cline{2-4}
+        & 7     & System        & Remove the data from the system \\ \cline{2-4}
+        & 8     & System        & Notify successful remove \\ \hline
+        
+        \multirow{0}{2cm}{\textbf{Extensions}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        & 6a    & System        & End the use case if the user confirms not to delete the data \\ \cline{2-4}
+        & 7a    & System        & Error message: unable to delete the device if an error occurs during deletion \\ \hline
+    \end{longtable}
+}
+
+\subsection{Description of use case "Create account"}
+{\fontsize{9pt}{8pt}\selectfont 
+    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+    \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+    \renewcommand{\arraystretch}{2.5} % Adjust for row height
+    \begin{longtable}{|L{2cm}|L{1cm}|L{2cm}|L{7cm}|}
+        \hline
+        \textbf{ID}             & UC07 & \textbf{Name} & Create account \\ \hline
+        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        
+        \hline
+        \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        \endfirsthead
+        \hline
+        \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        \endhead
+        & 1     & Manager   & Go to the sign-up page \\ \cline{2-4}
+        & 2     & System    & Display the interface to fill user information \\ \cline{2-4}
+        & 3     & Manager   & Fill in the user information (described below *) \\ \cline{2-4}
+        & 4     & Manager   & Send a request to create new account \\ \cline{2-4}
+        & 5     & System    & Save new user information on the server \\ \cline{2-4}
+        & 6     & System    & Notify successful creation of the user, and direct to log-in page \\ \hline
+    \end{longtable}
+}
+
+\subsection{Description of use case "Sign in"}
+{\fontsize{9pt}{8pt}\selectfont 
+    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+    \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+    \renewcommand{\arraystretch}{2.5} % Adjust for row height
+    \begin{longtable}{|L{2cm}|L{1cm}|L{2cm}|L{7cm}|}
+        \hline
+        \textbf{ID}             & UC08 & \textbf{Name} & Sign in \\ \hline
+        \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        
+        \hline
+        \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        \endfirsthead
+        \hline
+        \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        \endhead
+        & 1     & Manager   & Go to the sign-in page \\ \cline{2-4}
+        & 2     & System    & Display the interface to fill user email and password \\ \cline{2-4}
+        & 3     & Manager   & Fill in the user credentials \\ \cline{2-4}
+        & 4     & Manager   & Send a request to check account \\ \cline{2-4}
+        & 5     & System    & Notify successful log-in, and rederiect to dashboard page \\ \hline
+
+        \multirow{0}{2cm}{\textbf{Extensions}} & 
+        \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
+        & 5a    & System    & Error: User's credentials are incorrect \\ \hline
     \end{longtable}
 }
 \section{Non-functional requirement}
