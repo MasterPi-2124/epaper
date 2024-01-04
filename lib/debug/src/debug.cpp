@@ -5,6 +5,7 @@
 #include <Wire.h>
 #include <MQTT.h>
 #include <Display.h>
+#include <image.h>
 #include <ArduinoMqttClient.h>
 #include <cstdint>
 
@@ -33,6 +34,29 @@ void enterDebugMode()
 
     Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
 
+#if 1
+    const char16_t * Welcome = u"Pi's Epaper Project";
+    char16_t * text = u"Debug Mode";
+
+    Paint_DrawString_custom(50, 50, Welcome, &Segoe16Bold, BLACK, WHITE);
+    EPD_2IN9_V2_Display(BlackImage);
+
+    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(80, 70, text, &Segoe12, BLACK, WHITE);
+    EPD_2IN9_V2_Display_Partial(BlackImage);
+    DEV_Delay_ms(3000);
+#endif
+
+
+    #if 1   //show image for array    
+    printf("show image for array\r\n");
+    Paint_SelectImage(BlackImage);
+    Paint_Clear(WHITE);
+    Paint_DrawBitMap(image);
+
+    EPD_2IN9_V2_Display(BlackImage);
+    DEV_Delay_ms(30000);
+    #endif
 
     #if 1   // Drawing on the image
         printf("Drawing\r\n");
@@ -59,10 +83,10 @@ void enterDebugMode()
         Paint_DrawLine(105, 75, 105, 115, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
 
         // Paint_DrawString(10, 0, "waveshare", &Font16, BLACK, WHITE);
-        // Paint_DrawString(10, 20, "hello world", &Font12, WHITE, BLACK);
+        Paint_DrawString_segment(10, 20, "ÀẢàả !", &Segoe12_Segment, BLACK, WHITE);
 
         EPD_2IN9_V2_Display_Base(BlackImage);
-        DEV_Delay_ms(2000);
+        DEV_Delay_ms(5000);
     #endif
 
 
@@ -83,7 +107,8 @@ void enterDebugMode()
     Paint_SetScale(2);
     Paint_Clear(0xff);
 
-    Paint_DrawString(10, 0, "waveshare", &Font16, GRAY4, GRAY1);
+    // Paint_DrawString_custom_8(10, 0, "ahihihi", &Segoe12_8, GRAY4, GRAY1);
+    // Paint_DrawString(10, 0, "waveshare", &Font16, GRAY4, GRAY1);
     Paint_DrawString(10, 20, "hello world", &Font12, GRAY3, GRAY1);
     EPD_2IN9_V2_4GrayDisplay(BlackImage);
     DEV_Delay_ms(3000);

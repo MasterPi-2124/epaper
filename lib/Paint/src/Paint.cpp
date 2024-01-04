@@ -87,6 +87,32 @@
 
 PAINT Paint;
 
+int utf8ToUnicodePoint(const char *utf8) {
+    if (utf8 == NULL) return -1;
+
+    const unsigned char *bytes = (const unsigned char *)utf8;
+    int unicode = 0;
+
+    if ((bytes[0] & 0x80) == 0x00) {
+        // 1-byte UTF-8 (0xxxxxxx)
+        unicode = bytes[0];
+    } else if ((bytes[0] & 0xE0) == 0xC0) {
+        // 2-byte UTF-8 (110xxxxx 10xxxxxx)
+        unicode = ((bytes[0] & 0x1F) << 6) | (bytes[1] & 0x3F);
+    } else if ((bytes[0] & 0xF0) == 0xE0) {
+        // 3-byte UTF-8 (1110xxxx 10xxxxxx 10xxxxxx)
+        unicode = ((bytes[0] & 0x0F) << 12) | ((bytes[1] & 0x3F) << 6) | (bytes[2] & 0x3F);
+    } else if ((bytes[0] & 0xF8) == 0xF0) {
+        // 4-byte UTF-8 (11110xxx 10xxxxxx 10xxxxxx 10xxxxxx)
+        unicode = ((bytes[0] & 0x07) << 18) | ((bytes[1] & 0x3F) << 12) | ((bytes[2] & 0x3F) << 6) | (bytes[3] & 0x3F);
+    } else {
+        // Invalid UTF-8
+        return -1;
+    }
+
+    return unicode;
+}
+
 /******************************************************************************
 function: Create Image
 parameter:
@@ -697,6 +723,73 @@ void Paint_DrawString_custom(UWORD Xstart, UWORD Ystart, const char16_t * pStrin
         /* Point on the next character */
         p_text += 1;
         x += width + 2;
+    }
+}
+
+void Paint_DrawString_segment(UWORD Xstart, UWORD Ystart, const char * pString, cFONT_SEGMENT* font,
+                        UWORD Color_Foreground, UWORD Color_Background)
+{
+    const char * p_text = pString;
+    int x = Xstart, y = Ystart;
+    int i, j, Num;
+
+    /* Send the string character by character on EPD */
+    while (*p_text != 0) {
+        int unicodePoint = utf8ToUnicodePoint(p_text);
+        Serial.println(unicodePoint);
+        const FT_MAP * data = NULL;
+        if (unicodePoint >= 32 && unicodePoint <= 126) {                                // Threshold for Segment 1: ASCII range
+            data = font->binarySearchInSegment(unicodePoint, font->ASCII_table, 2);
+        } else if (unicodePoint <= 333) {                                               // Threshold for Segment 2: ASCII range
+            data = font->binarySearchInSegment(unicodePoint, font->VN_table, 2);
+        } else if (unicodePoint <= 9999) {                                              // Threshold for Segment 3: ASCII range  
+            data = font->binarySearchInSegment(unicodePoint, font->vn_table, 2);
+        }
+
+        uint8_t width;
+
+        if (data != NULL) {
+            width = data->width;
+            int index = data->index;
+
+            // Serial.print(x);
+            // Serial.print(" ");
+            // Serial.print(data->width);
+            // Serial.print(" ");
+            // Serial.println(data->index);
+
+            const char* ptr = &font->table[index];
+            for (j = 0; j < font->Height; j++) {
+                for (i = 0; i < width; i++) {
+                    if (FONT_BACKGROUND == Color_Background) { //this process is to speed up the scan
+                        if (*ptr & (0x80 >> (i % 8))) {
+                            Paint_SetPixel(x + i, y + j, Color_Foreground);
+                            // Paint_DrawPoint(x + i, y + j, Color_Foreground, DOT_PIXEL_DFT, DOT_STYLE_DFT);
+                        }
+                    } else {
+                        if (*ptr & (0x80 >> (i % 8))) {
+                            Paint_SetPixel(x + i, y + j, Color_Foreground);
+                            // Paint_DrawPoint(x + i, y + j, Color_Foreground, DOT_PIXEL_DFT, DOT_STYLE_DFT);
+                        } else {
+                            Paint_SetPixel(x + i, y + j, Color_Background);
+                            // Paint_DrawPoint(x + i, y + j, Color_Background, DOT_PIXEL_DFT, DOT_STYLE_DFT);
+                        }
+                    }
+                    if (i % 8 == 7) {
+                        ptr++;
+                    }
+                }
+                if (width % 8 != 0) {
+                    ptr++;
+                }
+            }
+
+        x += width + 2;
+        }
+
+        /* Point on the next character */
+        p_text += 1;
+
     }
 }
 
