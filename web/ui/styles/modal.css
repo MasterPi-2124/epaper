@@ -19,7 +19,7 @@
 }
 
 .modal {
-    background: rgba(46,46,46,255);
+    background: rgba(46, 46, 46, 255);
     border: 1px solid rgba(106, 106, 106, 0.863) !important;
     border-radius: 15px;
     color: white;
@@ -103,11 +103,11 @@
     flex-direction: column;
 }
 
-.modal form > div {
+.modal form>div {
     margin: 10px 0px;
 }
 
-.modal form > button {
+.modal form>button {
     margin: 10px 0px;
 }
 
@@ -116,7 +116,7 @@
 }
 
 .responses div.nextui-table-container {
-    border:none;
+    border: none;
     border-radius: 0px;
 }
 
@@ -156,9 +156,9 @@ tbody tr {
 
 
 td {
-    font-weight: 100 !important;    
-    white-space:nowrap;
-    width:200px;
+    font-weight: 100 !important;
+    white-space: nowrap;
+    width: 200px;
     font-size: 14px;
     height: 50px;
     color: white;
@@ -193,7 +193,7 @@ td.empty {
 
 tfoot tr th nav button {
     border: 1px solid red;
-        background-color: #53535371 !important;
+    background-color: #53535371 !important;
     color: white !important;
 }
 
@@ -211,7 +211,7 @@ tfoot tr th nav button {
 }
 
 .small-icon:hover {
-    box-shadow: none;    
+    box-shadow: none;
     background-color: transparent;
 }
 
@@ -223,4 +223,24 @@ tfoot tr th nav button {
 
 .small-icon:hover img {
     color: red;
+}
+
+.modal .separator {
+    margin: 20px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, #898989 50%, rgba(0, 0, 0, 0) 100%);
+}
+
+.modal .detail-left {
+    width: 300px;
+    height: 100%;
+}
+
+
+.modal .debug-right {
+    width: 800px;
+    display: flex;
+    margin: 0px;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
 }

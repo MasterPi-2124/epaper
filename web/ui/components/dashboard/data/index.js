@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Table, Modal } from "@nextui-org/react";
-import DeleteIcon from "@/assets/icons/thin/delete.svg";
-import EditIcon from "@/assets/icons/thin/edit.svg";
-import EyeIcon from "@/assets/icons/thin/eye.svg";
+import DeleteIcon from "@/assets/icons/thick/delete.svg";
+import EditIcon from "@/assets/icons/thick/edit.svg";
+import EyeIcon from "@/assets/icons/thick/eye.svg";
 import Image from "next/image";
 import { instanceCoreApi } from "@/services/setupAxios";
 import Notify from 'notiflix/build/notiflix-notify-aio';

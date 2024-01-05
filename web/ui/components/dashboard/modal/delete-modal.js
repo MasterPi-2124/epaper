@@ -14,7 +14,7 @@ const DeleteModal = ({ type, data, onConfirm, onClose }) => {
 
     if (type === "data") {
         return (
-            <div className="modal space-y-6 w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
+            <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
                 <div className="modal-heading flex items-center justify-between gap-4 mb-6 flex-col">
                     <h1 className="text-mainRed heading-lg" style={{ fontSize: '30px' }}>Delete this data?</h1>
                 </div>
@@ -35,7 +35,7 @@ const DeleteModal = ({ type, data, onConfirm, onClose }) => {
         )
     } else {
         return (
-            <div className="modal space-y-6 w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
+            <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
                 <div className="modal-heading flex items-center justify-between gap-4 mb-6 flex-col">
                 <h1 className="text-mainRed heading-lg">Delete this device?</h1>
                 </div>
