@@ -1,19 +1,51 @@
 
 \documentclass[../Main.tex]{subfiles}
 \begin{document}
-Based on the real-world problems discussed in Chapter 1, Chapter 2 aims to delve deeper into the existing products and solutions that can help address these issues. Specifically, it will also analyze some detailed use cases of the Data Management System, as outlined in Section 2.2.
+Based on the real-world problems discussed in Chapter \ref{chapter:Introduction}, Chapter \ref{chapter:Related_works} aims to delve deeper into the existing products and solutions that can help address these issues. Specifically, it will also analyze some detailed use cases of the EPD display system, as outlined in Section \ref{section:2.2}.
+
 \section{Status survey}
 \label{section:2.1}
-Thông thường, khảo sát chi tiết về hiện trạng và yêu cầu của phần mềm sẽ được lấy từ ba nguồn chính, đó là (i) người dùng/khách hàng, (ii) các hệ thống đã có, (iii) và các ứng dụng tương tự.
-Sinh viên cần tiến hành phân tích, so sánh, đánh giá chi tiết ưu nhược điểm của các sản phẩm/nghiên cứu hiện có. Sinh viên có thể lập bảng so sánh nếu cần thiết. Kết hợp với khảo sát người dùng/khách hàng (nếu có), sinh viên nêu và mô tả sơ lược các tính năng phần mềm quan trọng cần phát triển.
+There are several e-paper display manufacturers that take advantage of EPD technology to provide solutions to multiple different businesses. This section will focus on four main e-paper display providers: \textbf{E Ink}, \textbf{Seekink}, \textbf{Inkcase}, and \textbf{Pervasive Displays}.
+
+\textbf{E Ink} is a leader in electronic paper (e-paper) display technology, co-founded in 1997 by MIT undergraduates and a professor from the MIT Media Lab. They offer a variety of e-paper display modules suited for diverse applications. Their products are used in several sectors, including reading and writing, education, business and office, mobile and wearables, retail, logistics and factories, healthcare, transportation, automotive, and innovative design. They also showcase customer-specific applications and provide optimized solutions and system integration for businesses. Although they have quality products and solutions aimed at a wide customer segment spread across various fields, E Ink focuses only on core e-paper technology with a few key products such as eReaders, electronic shelf labels, and other low-power display needs. This specialization, while beneficial for brand recognition and expertise in a certain area, can limit market reach and diversification compared to companies with a broader product range. Also, the manufacturing process for E Ink displays is complex and costly, which can lead to higher product prices, impacting competitiveness, especially in price-sensitive markets. That's why E Ink's specialized technology might not be as widely recognized or preferred by the average consumer in many specific regions, including Vietnam.
+
+\textbf{Seekink} is recognized as a leading manufacturer in the electronic paper display (EPD) industry with 8 years of experience. Seekink operates its own automatic manufacturing base, capable of mass production, and emphasizes a high level of customization to meet diverse needs across markets. However, in Vietnam, Seekink is not widely recognized, primarily because their marketing and sales strategies are focused on large enterprises. This focus on big businesses typically involves offering high-priced, specialized products and services that might not cater to the broader consumer market or smaller businesses. This approach can limit their market presence and brand recognition among the general public and smaller enterprises. 
+
+\textbf{InkCase} is a product line from the Singapore-based consumer electronics design house Gajah. They specialize in offering protective cases for smartphones with added functionalities and are also involved in various innovative display solutions including smart information display, healthcare, and tracking. 
+
+\textbf{Pervasive Displays} is a leading manufacturer in the electronic paper display (EPD) industry, specializing in the design, manufacture, and marketing of e-paper displays. They have a manufacturing capacity of over 2 million pieces per week and are financially stable, being part of the world’s largest display company. Their products and services are tailored to industrial applications, with a focus on the design and manufacturing of ultra-low power displays, and are often ordered in large quantities by other major industrial clients.
+
+With the assessments mentioned above, the features of the three e-paper display manufacturers can be summarized in Table 2.1 below.
+
+\begin{table}[H]
+    \renewcommand{\arraystretch}{2} % Adjust for row height
+    \centering{}
+    \fontsize{9pt}{8pt}\selectfont 
+    \begin{tabular}{| m{2cm} | m{2.5cm} | m{2.5cm} | m{2.5cm} | m{2.5cm} |}
+        \hline
+        \textbf{Features}           & \textbf{E Ink}            & \textbf{Seekink}  & \textbf{InkCase} & \textbf{Pervasive Displays} \\ \hline
+        \textbf{Prices}             & Contact sale, EPD modules start from \$99              & Contact sale     & Not available & Contact sale                \\ \hline
+        \textbf{Client type}        & Business, commercial user & Business   & Commercial user & Business, commercial user   \\ \hline
+        \textbf{Management System}  & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
+        \textbf{Allow custom display}  & Customized for one customer & Customized for one customer & Not available & Customized for one customer \\ \hline
+        \textbf{Connectivities}     & RFID, Bluetooth, Internet   & RFID, Bluetooth, Internet  & RFID, Bluetooth, Internet  & RFID, Bluetooth, Internet  \\ \hline
+        \textbf{Other Products}     & Commercial e-paper electronic devices & E-paper display modules and devices  & E-paper protective phone cases & E-paper display modules and devices  \\ \hline
+        \textbf{Available in Vietnam}        &   \scalebox{0.85}[1]{$\times$}       &   \scalebox{0.85}[1]{$\times$}                    & \scalebox{0.85}[1]{$\times$} & \scalebox{0.85}[1]{$\times$}        \\ \hline
+    \end{tabular}
+    \caption{Comparison table of four EPD manufacturers in e-paper display solutions}
+    \label{fig:table_tools}
+\end{table}
+
+Having learned from the survey of the above four systems, this project has concluded some necessary and important features that should be included in the EPD display system:
+\begin{itemize}
+    \item[(i)] Manage EPD devices in a system via a central hub. It would be a cloud server or a dock installed in the center to communicate with the EPD devices. This could be done with an MQTT Broker, and EPD devices communicate with the center via the MQTT protocol
+\end{itemize}
 
 \section{Functional Overview}
 \label{section:2.2}
-% Phần \ref{section:2.2} này có nhiệm vụ tóm tắt các chức năng của phần mềm. Trong phần này, sinh viên lưu ý chỉ mô tả chức năng mức cao (tổng quan) mà không đặc tả chi tiết cho từng chức năng. Đặc tả chi tiết được trình bày trong phần \ref{section:2.3}.
-
 \subsection{General use case diagram}
 \label{subsection:2.2.1}
-The general use case diagram of Data and EPD Devices Management System is illustrated in Figure 1. As per the diagram, the system involves three main agents, namely The Manager, The Administrator, and the EPD devices. The Manager has the ability to manage EPD devices, data and their own accounts. The Administrator inherits the functions of the Manager and can also manage and test the devices more advanced. On the other hand, the EPD devices act as end-users and receive and display data on the screen. They also interact with the system via MQTT protocol.
+The general use case diagram of the EPD Display System is illustrated in Figure \ref{fig:uc_general}. As per the diagram, the system involves three main actors, namely The Manager, The Administrator, and the EPD devices. The Manager has the ability to manage EPD devices, data, and their own accounts. The Administrator inherits the functions of the Manager and can also manage and test the devices more advanced. On the other hand, the EPD devices act as end-users and receive and display data on the screen. They also interact with the system via the MQTT protocol.
 \begin{figure}[htbp]
     \centering
     \begin{tikzpicture}
@@ -24,9 +56,9 @@ The general use case diagram of Data and EPD Devices Management System is illust
         
         \begin{umlsystem}[x=4, y=0]{System}
             % Define the use cases
-            \umlusecase[x=2, y=0, name=usecase1, fill = white]{Manage personal accounts}
-            \umlusecase[x=2, y=-2, name=usecase2, fill = white]{Manage devices}
-            \umlusecase[x=2, y=-4, name=usecase3, fill = white]{Manage data}
+            \umlusecase[x=2, y=0, name=usecase1, fill = white]{Account Management}
+            \umlusecase[x=2, y=-2, name=usecase2, fill = white]{Device Management}
+            \umlusecase[x=2, y=-4, name=usecase3, fill = white]{Data Management}
         \end{umlsystem}
         
         % Draw associations
@@ -40,8 +72,8 @@ The general use case diagram of Data and EPD Devices Management System is illust
         
         \draw (-1.5, 2.5) rectangle (13, -6);
     \end{tikzpicture}
-    \caption{General use case diagram of the data management system}
-    \label{fig:usecasediagram}
+    \caption{General use case diagram of the EPD display system}
+    \label{fig:uc_general}
 \end{figure}
 
 \subsection{Detailed use case diagram}
@@ -49,9 +81,9 @@ The general use case diagram of Data and EPD Devices Management System is illust
 
 \subsubsection{Detailed use case of User's Account Management function}
 
-Figure 2 below describes the detailed use case diagram of the User's Account Management function, including the Manager and Administrator. Users can create a new account, log in, and modify personal information.
+Figure \ref{fig:uc_user} below describes the detailed use case diagram of the User's Account Management function, including the Manager and Administrator. Users can create a new account, log in, and modify personal information.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \umlactor[x=0, y=0]{Administrator}
@@ -61,7 +93,7 @@ Figure 2 below describes the detailed use case diagram of the User's Account Man
             % Define the use cases
             \umlusecase[x=2, y=0, name=usecase1, fill = white]{Register}
             \umlusecase[x=2, y=-2, name=usecase2, fill = white]{Log in}
-            \umlusecase[x=2, y=-4, width=3cm, name=usecase3]{Manage personal information}
+            \umlusecase[x=2, y=-4, width=3cm, name=usecase3, fill = white]{Manage personal information}
         \end{umlsystem}
         
         % Draw associations
@@ -73,27 +105,29 @@ Figure 2 below describes the detailed use case diagram of the User's Account Man
         \draw (-1.5, 2.5) rectangle (13, -6);
     \end{tikzpicture}
     \caption{Detailed use case of User's Account Management function}
-    \label{fig:usecasediagram}
+    \label{fig:uc_user}
 \end{figure}
 
 \subsubsection{Detailed use case of Data Management function}
-A detailed use case diagram of the Data Management function of the Manager is displayed in Figure 3. This function enables the Manager to view a list of data, add, modify, or remove data information, and choose whether to display the data on the device or not.
+A detailed use case diagram of the Data Management function of the Manager is displayed in Figure \ref{fig:uc_data}. This function enables the Manager to view, add, modify, remove data, and choose whether or not to display it on the EPD devices.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \umlactor[x=0, y=-2]{Manager}
-        \umlactor[x=11.5, y=-1]{EPD Devices}
+        \umlactor[x=11.5, y=-2]{EPD Devices}
         
         \begin{umlsystem}[x=4, y=0]{System}
             % Define the use cases
-            \umlusecase[x=2, y=0, name=usecase1]{Add displaying data}
-            \umlusecase[x=2, y=-2, name=usecase2]{Modify data information}
-            \umlusecase[x=2, y=-4, width=3cm, name=usecase3]{Display data on device}
-            \umlusecase[x=2, y=-6, width=3cm, name=usecase4]{Remove data}
+            \umlusecase[x=0, y=0, name=usecase0, fill = white]{Add displaying data}
+            \umlusecase[x=2, y=-1.5, width=3cm, name=usecase1, fill = white]{View the list of data}
+            \umlusecase[x=1, y=-3, name=usecase2, fill = white]{Modify data}
+            \umlusecase[x=2.5, y=-4.7, width=3cm, name=usecase3, fill = white]{Display data on device}
+            \umlusecase[x=0, y=-6, name=usecase4, fill = white]{Remove data}
         \end{umlsystem}
         
         % Draw associations
+        \umlassoc{Manager}{usecase0}
         \umlassoc{Manager}{usecase1}
         \umlassoc{Manager}{usecase2}
         \umlassoc{Manager}{usecase3}
@@ -104,45 +138,76 @@ A detailed use case diagram of the Data Management function of the Manager is di
         \draw (-1.5, 2.5) rectangle (13, -8);
     \end{tikzpicture}
     \caption{Detailed use case of Data Management function}
-    \label{fig:usecasediagram}
+    \label{fig:uc_data}
 \end{figure}
 
 \subsubsection{Detailed use case of Device Management function}
-Figure \ref{} illustrates the use case diagram of the Device Management function, showing 2 actors participating in the system. This function enables the Manager to view a list of devices add, modify, or remove device information. The Administrator, inheriting the functions of the Manager, can also debug the device after connecting it to the computer via a USB port. 
+Figure \ref{fig:uc_device} illustrates the use case diagram of the Device Management function, showing 2 actors participating in the system. This function enables the Manager to view a list of devices add, modify, or remove device information. The Administrator, inheriting the functions of the Manager, can also debug the device after connecting it to the computer via a USB port. 
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \umlactor[x=0, y=-2]{Manager}
+        \umlactor[x=0, y=-6]{Administrator}
+        \umlactor[x=11.5, y=-4]{EPD Devices}
+        
+        \begin{umlsystem}[x=4, y=0]{System}
+            % Define the use cases
+            \umlusecase[x=2, y=0, name=usecase1, fill = white]{View device list}
+            \umlusecase[x=2, y=-2, width=3cm, name=usecase4, fill = white]{Modify device}
+            \umlusecase[x=2, y=-3.5, name=usecase2, fill = white]{Add new device}
+            \umlusecase[x=1.5, y=-5.3, width=3cm, name=usecase3, fill = white]{Remove device}
+            \umlusecase[x=1, y=-7, width=3cm, name=usecase5, fill = white]{Debug, manage ESP}
+        \end{umlsystem}
+        % Draw associations
+        \umlassoc{Manager}{usecase1}
+        \umlassoc{Manager}{usecase2}
+        \umlassoc{Manager}{usecase3}
+        \umlassoc{Manager}{usecase4}
+        \umlassoc{EPD Devices}{usecase1}
+        \umlassoc{EPD Devices}{usecase2}
+        \umlassoc{EPD Devices}{usecase3}
+        \umlassoc{EPD Devices}{usecase4}
+        \umlassoc{EPD Devices}{usecase5}
+        \umlassoc{Administrator}{usecase5}
+        \umlinherit{Administrator}{Manager} 
+        
+        \draw (-1.5, 2.5) rectangle (13, -9);
+    \end{tikzpicture}
+    \caption{Detailed use case of Device Management function}
+    \label{fig:uc_device}
+\end{figure}
 
 \subsection{Business process}
 \label{subsection:2.2.3}
-In the system, there are many business processes, the most prominent are the process of adding data and displaying it on EPD devices, and the process of adding EPD devices to the system.  Each flow demonstrates how the system communicates with the device via USB and the MQTT protocol, and how the device receives and processes data.
+The system comprises several business processes, with the most prominent ones being the process of adding data and displaying it on EPD devices and the process of adding EPD devices to the system. Each flow showcases how the system communicates with the device via USB and the MQTT protocol and how the device receives and processes data.
 
 \subsubsection{"Creating new device" flow}
-Figure \ref{} below shows the business process when the Manager creates and registers a new device to the system. This process requires the users to connect the EPD device to the computer via a USB port, choose from the list of connected devices, and then fill in the information before submitting it to the system. After the system receives the submitted data, it sends the data write request to the device via Serial Port. The device will connect to the internet with the information received, and then connect to MQTT Broker before publishing its connection status to the system.
+Figure \ref{fig:act_new-device} below shows the business process when the Manager creates and registers a new device to the system. This process requires the users to connect the EPD device to the computer via a USB port, choose from the list of connected devices, and then fill in the required information before submitting it to the system. Upon receipt of the submitted data, the system sends a data write request to the device via Serial Port. The EPD device then connects to the internet with the received information and connects to the MQTT Broker before publishing its connection status to the system.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{doc/thesis/EN/imgs/act_new-device.png}
-    \caption{Quy trình tạo thiết bị mới.}
-    \label{fig:uc-general}
+    \includegraphics[scale=0.155]{doc/thesis/EN/imgs/act_new-device.png}
+    \caption{"Creating new device" business flow}
+    \label{fig:act_new-device}
 \end{figure}
+
 \subsubsection{"Creating and displaying new data" flow}
-Figure 6 below describes the business process when users add data to the system. First, the user will select the type of data they want to display, and then, based on the selected data type, the user will add the corresponding detailed information. Users can also choose whether to allow display on the EPD device or not. If allowed, the system will get a list of devices connecting to the MQTT Server for the user to choose from, and the user will fill in additional information about how to display on the device. After receiving information from the user, the system will send MQTT messages via MQTT Broker, and the selected device will receive and display the information and send back the status to the system via MQTT protocol.
+The following is a description of the business process that takes place when users add new data to the system, as depicted in Figure \ref{fig:act_new-data}. Firstly, the user selects the type of data they want to display. Based on the selected data type, the user then adds the corresponding detailed information. Users can also choose whether or not to allow display on the EPD device. If allowed, the system will provide a list of devices connected to the MQTT Broker for the user to choose from. The user will then fill in additional information about how to display the data on the selected device. Once the user has provided all necessary information, the system will send MQTT messages via the MQTT Broker. The selected device will receive and display the data and send the status back to the system via the MQTT protocol.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{doc/thesis/EN/imgs/act_new-data.png}
-    \caption{Quy trình tạo dữ liệu và hiển thị trên thiết bị.}
-    \label{fig:uc-general}
+    \includegraphics[scale=0.14]{doc/thesis/EN/imgs/act_new-data.png}
+    \caption{"Creating and displaying new data" business flow}
+    \label{fig:act_new-data}
 \end{figure}
 
 \section{Functional description}
 \label{section:2.3}
-Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ án để đặc tả chi tiết. Mỗi đặc tả bao gồm ít nhất các thông tin sau: (i) Tên use case, (ii) Luồng sự kiện (chính và phát sinh), (iii) Tiền điều kiện, và (iv) Hậu điều kiện. Sinh viên chỉ vẽ bổ sung biểu đồ hoạt động khi đặc tả use case phức tạp. ok kj ghj
-
 \begin{table}[H]
-    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
-    \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
     \renewcommand{\arraystretch}{2} % Adjust for row height
     \centering{}
-    \fontsize{7pt}{8pt}\selectfont 
+    \fontsize{9pt}{8pt}\selectfont 
     \begin{tabular}{| m{2cm} | m{4cm} |}
         \hline
         \textbf{ID} & \textbf{Name}             \\ \hline
@@ -155,8 +220,8 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         UC07        & Create account            \\ \hline
         UC08        & Sign in                   \\ \hline
     \end{tabular}
-    \caption{Danh sách thư viện và công cụ sử dụng}
-    \label{fig:table_tools}
+    \caption{List of use cases}
+    \label{fig:table_uc}
 \end{table}
 
 \subsection{Description of use case "Create new device"}
@@ -183,7 +248,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         & 3     & Manager               & Choose a device from the list \\ \cline{2-4}
         & 4	    & System                & Connect to the device via Serial Port \\ \cline{2-4}
         & 5	    & System	            & Display the interface to enter device information \\ \cline{2-4}
-        & 6     & Manager	            & Fill in the device information (described below *) \\ \cline{2-4}
+        & 6     & Manager	            & Fill in the device information \textit{(described below *)} \\ \cline{2-4}
         & 7     & Manager	            & Send a request to create a new device \\ \cline{2-4}
         & 8	    & System	            & Store device information at the server and transmit data to the connected device \\ \cline{2-4}
         & 8.1	& System	            & Store device information at the server \\ \cline{2-4}
@@ -196,9 +261,11 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
     
         \multirow{0}{2cm}{\textbf{Extensions}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
-        & 4a.	 & System	& Error message: unable to connect to the device\\ \cline{2-4}
-        & 8.1a	 & System	& Error message: need to enter all required fields of the device if the Manager misses any\\ \cline{2-4}
+        & 4a.	 & System	& Error message: Unable to connect to the device\\ \cline{2-4}
+        & 8.1a	 & System	& Error message: Need to enter all required fields of the device if the Manager misses any\\ \cline{2-4}
         & 8.2.2a & System	& If no update response is received from the device, save the device information\\ \hline
+
+        \textbf{Post-condition}  & \multicolumn{3}{p{12cm}|}{The system store new device information in database} \\ \hline
     \end{longtable}
 }
 
@@ -211,7 +278,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \hline
         \textbf{ID}             & UC02 & \textbf{Name} & Modify device information \\ \hline
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
-        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager, and the device is registered in the system. To modify a device that is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
         
         \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
@@ -227,7 +294,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         & 4     & System                & Check the status of the device \\ \cline{2-4}
         & 4.1   & System                & If the device is not connected to the system, display a message asking the user to connect the device via USB \\ \cline{2-4}
         & 4.2   & Manager               & Connect the device via USB and choose from the list of connected devices \\ \cline{2-4}
-        & 5     & System                & Display the interface to enter device information (described below *) \\ \cline{2-4}
+        & 5     & System                & Display the interface to enter device information \textit{(described below *)} \\ \cline{2-4}
         & 6     & Manager               & Fill in and send a request to change device information \\ \cline{2-4}
         & 7     & System                & Save the new updated information \\ \cline{2-4}
         & 7.1   & System                & If the device is connected via USB, transmit data to the connected EPD device \\ \cline{2-4}
@@ -241,10 +308,11 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
     
         \multirow{0}{2cm}{\textbf{Extensions}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
-        & 4.2a.  & System    & Error message: unable to connect to the device \\ \cline{2-4}
-        & 7a.    & System    & Error message: need to enter all required fields of the device if Manager misses any \\ \cline{2-4}
+        & 4.2a.  & System    & Error message: Unable to connect to the device \\ \cline{2-4}
+        & 7a.    & System    & Error message: Need to enter all required fields of the device if Manager misses any \\ \cline{2-4}
         & 10a.   & System    & If no update response is received from the device, save the device information \\ \hline
 
+        \textbf{Post-condition}  & \multicolumn{3}{p{12cm}|}{The system store new device updated information in database} \\ \hline
     \end{longtable}
 }
 
@@ -257,7 +325,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \hline
         \textbf{ID}             & UC03 & \textbf{Name} & Remove a device \\ \hline
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
-        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager, and the device is registered in the system.} \\ \hline
         
         \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
@@ -282,8 +350,9 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \multirow{0}{2cm}{\textbf{Extensions}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
         & 6a.    & System               & End the use case if the user confirms not to delete the device \\ \cline{2-4}
-        & 6.2.3a & System               & Error message: unable to delete the device if an error occurs during deletion \\ \hline
-
+        & 6.2.3a & System               & Error message: Unable to delete the device if an error occurs during deletion \\ \hline
+        
+        \textbf{Post-condition}  & \multicolumn{3}{p{12cm}|}{No} \\ \hline
     \end{longtable}
 }
 
@@ -296,7 +365,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \hline
         \textbf{ID}             & UC04 & \textbf{Name} & Add new data \\ \hline
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
-        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager.} \\ \hline
         
         \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
@@ -310,7 +379,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         & 2     & System        & Display the interface to choose data type to add \\ \cline{2-4}
         & 3     & Manager       & Choose the type of data from the list \\ \cline{2-4}
         & 4     & System        & Display the interface to enter data information \\ \cline{2-4}
-        & 5     & Manager       & Fill in the data information (described below *) \\ \cline{2-4}
+        & 5     & Manager       & Fill in the data information \textit{(described below **)} \\ \cline{2-4}
         & 5.1   & System        & If the user chooses to display on a device, show the interface to select device and design \\ \cline{2-4}
         & 5.2   & Manager       & Choose device to display, and choose the design \\ \cline{2-4}
         & 6     & Manager       & Send a request to create new data \\ \cline{2-4}
@@ -324,9 +393,11 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         
         \multirow{0}{2cm}{\textbf{Extensions}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
-        & 4a	& System        & Error: need to enter all required fields of the device if the Manager misses any \\ \cline{2-4}
-        & 5.1a  & System        & If there is no active devices, notify users and finish the use case \\ \cline{2-4}
-        & 7.1a	& System	    & Error: Can't write data to th device \\ \cline{2-4}
+        & 4a	& System        & Error: Need to enter all required fields of the device if the Manager misses any \\ \cline{2-4}
+        & 5.1a  & System        & If there are no active devices, notify users and finish the use case \\ \cline{2-4}
+        & 7.1a	& System	    & Error: Can't write data to the device \\ \hline
+        
+        \textbf{Post-condition}  & \multicolumn{3}{p{12cm}|}{The system store new data in database} \\ \hline
     \end{longtable}
 }
 \subsection{Description of use case "Modify data information"}
@@ -338,7 +409,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \hline
         \textbf{ID}             & UC05 & \textbf{Name} & Modify data information \\ \hline
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
-        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager, and the data is stored in the system.} \\ \hline
         
         \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
@@ -352,7 +423,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         & 2     & System        & Retrieve and display the list of data \\ \cline{2-4}
         & 3     & Manager       & Choose a data from the list and select Edit \\ \cline{2-4}
         & 4     & System        & Display the interface to enter data information \\ \cline{2-4}
-        & 5     & Manager       & Fill in the data information (described below *) \\ \cline{2-4}
+        & 5     & Manager       & Fill in the data information \textit{(described below **)} \\ \cline{2-4}
         & 5.1   & System        & If the user chooses to display on a device, show the interface to select device and design \\ \cline{2-4}
         & 5.2   & Manager       & Choose device to display, and choose the design \\ \cline{2-4}
         & 6     & Manager       & Send a request to update data \\ \cline{2-4}
@@ -366,9 +437,11 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         
         \multirow{0}{2cm}{\textbf{Extensions}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
-        & 4a	& System    	& Error: need to enter all required fields of the device if the Manager misses any \\ \cline{2-4}
-        & 5.1a  & System        & If there is no active devices, notify users and finish the use case \\ \cline{2-4}
-        & 7.1a	& System	    & Error: Can't write data to th device \\ \cline{2-4}
+        & 4a	& System    	& Error: Need to enter all required fields of the device if the Manager misses any \\ \cline{2-4}
+        & 5.1a  & System        & If there are no active devices, notify users and finish the use case \\ \cline{2-4}
+        & 7.1a	& System	    & Error: Can't write data to the device \\ \hline
+        
+        \textbf{Post-condition}  & \multicolumn{3}{p{12cm}|}{The system store new updated data in database} \\ \hline
     \end{longtable}
 }
 
@@ -381,7 +454,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \hline
         \textbf{ID}             & UC06 & \textbf{Name} & Remove data \\ \hline
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, EPD device} \\ \hline
-        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager, and the data is stored in the system.} \\ \hline
         
         \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
@@ -406,7 +479,9 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \multirow{0}{2cm}{\textbf{Extensions}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
         & 6a    & System        & End the use case if the user confirms not to delete the data \\ \cline{2-4}
-        & 7a    & System        & Error message: unable to delete the device if an error occurs during deletion \\ \hline
+        & 7a    & System        & Error message: Unable to delete the device if an error occurs during deletion \\ \hline
+        
+        \textbf{Post-condition}  & \multicolumn{3}{p{12cm}|}{No} \\ \hline
     \end{longtable}
 }
 
@@ -419,7 +494,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \hline
         \textbf{ID}             & UC07 & \textbf{Name} & Create account \\ \hline
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System} \\ \hline
-        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{No} \\ \hline
         
         \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
@@ -431,10 +506,13 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \endhead
         & 1     & Manager   & Go to the sign-up page \\ \cline{2-4}
         & 2     & System    & Display the interface to fill user information \\ \cline{2-4}
-        & 3     & Manager   & Fill in the user information (described below *) \\ \cline{2-4}
+        & 3     & Manager   & Fill in the user information \textit{(described below ***)} \\ \cline{2-4}
         & 4     & Manager   & Send a request to create new account \\ \cline{2-4}
         & 5     & System    & Save new user information on the server \\ \cline{2-4}
         & 6     & System    & Notify successful creation of the user, and direct to log-in page \\ \hline
+        
+        \textbf{Extensions}  & \multicolumn{3}{p{12cm}|}{No} \\ \hline
+        \textbf{Post-condition}  & \multicolumn{3}{p{12cm}|}{No} \\ \hline
     \end{longtable}
 }
 
@@ -447,7 +525,7 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         \hline
         \textbf{ID}             & UC08 & \textbf{Name} & Sign in \\ \hline
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System} \\ \hline
-        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager. To create a new device and edit device information in case the device is not connected to the Internet, users need to connect the device to the computer via a USB port.} \\ \hline
+        \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user have stored account.} \\ \hline
         
         \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
@@ -461,13 +539,70 @@ Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ
         & 2     & System    & Display the interface to fill user email and password \\ \cline{2-4}
         & 3     & Manager   & Fill in the user credentials \\ \cline{2-4}
         & 4     & Manager   & Send a request to check account \\ \cline{2-4}
-        & 5     & System    & Notify successful log-in, and rederiect to dashboard page \\ \hline
+        & 5     & System    & Notify successful log-in, and redirect to dashboard page \\ \hline
 
         \multirow{0}{2cm}{\textbf{Extensions}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
         & 5a    & System    & Error: User's credentials are incorrect \\ \hline
+        
+        \textbf{Post-condition}  & \multicolumn{3}{p{12cm}|}{No} \\ \hline
     \end{longtable}
 }
+
+(*) The input data of device:
+\begin{table}[H]
+    \renewcommand{\arraystretch}{2} % Adjust for row height
+    \centering{}
+    \fontsize{9pt}{8pt}\selectfont 
+    \begin{tabular}{| m{0.5cm} | m{2.5cm} | m{6cm} | m{2cm} |}
+        \hline
+        \textbf{No.}& \textbf{Name} & \textbf{Description}                          & \textbf{Required} \\ \hline
+        1           & Name          & Name of the device                            & \checkmark        \\ \hline
+        2           & SSID          & Name of the network the device connects to    & \checkmark        \\ \hline
+        3           & Password      & Password of the network the device connects to& \checkmark        \\ \hline
+    \end{tabular}
+\end{table}
+
+(**) The input data of data:
+\begin{table}[H]
+    \renewcommand{\arraystretch}{2} % Adjust for row height
+    \centering{}
+    \fontsize{9pt}{8pt}\selectfont 
+    \begin{tabular}{| m{0.5cm} | m{2.5cm} | m{6cm} | m{2cm} |}
+        \hline
+        \textbf{No.}& \textbf{Name}     & \textbf{Description}                          & \textbf{Required}             \\ \hline
+        1           & Name              & Name of the data                              & \checkmark                    \\ \hline
+        2           & Type              & Type of the data                              & \checkmark                    \\ \hline
+        3           & Email             & Email data, depend on data type               & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        7           & Student ID        & Student ID data, depend on data type          & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        8           & Class             & Class of the student, depend on data type     & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        9           & Employee ID       & Employee ID data, depend on data type         & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        5           & Department        & Department of employee, depend on data type   & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        6           & Category          & Category of product, depend on data type      & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        4           & Price             & Price of product, depend on data type         & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        10          & Address           & Address data, depend on data type             & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        11          & Purpose           & Room's purpose, depend on data type           & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        12          & Manager           & Room's manager, depend on data type           & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        13          & Status            & Room's status, depend on data type            & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        14          & Active            & Display on device status                      & \checkmark                    \\ \hline
+        15          & Font Style        & Display main font style                       & \scalebox{0.85}[1]{$\times$}  \\ \hline
+        16          & Theme             & Display schema                                & \scalebox{0.85}[1]{$\times$}  \\ \hline
+    \end{tabular}
+\end{table}
+(***) The input data of account:
+\begin{table}[H]
+    \renewcommand{\arraystretch}{2} % Adjust for row height
+    \centering{}
+    \fontsize{9pt}{8pt}\selectfont 
+    \begin{tabular}{| m{0.5cm} | m{2.5cm} | m{6cm} | m{2cm} |}
+        \hline
+        \textbf{No.}& \textbf{Name} & \textbf{Description}  & \textbf{Required} \\ \hline
+        1           & Name          & Name                  & \checkmark        \\ \hline
+        2           & Email         & Email                 & \checkmark        \\ \hline
+        3           & Password      & Password              & \checkmark        \\ \hline
+    \end{tabular}
+\end{table}
+
 \section{Non-functional requirement}
 \label{section:2.4}
 
