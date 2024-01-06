@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import "@/styles/header.css";
+import "@/styles/pip.css";
 import "@/styles/auth.css";
 import "@/styles/new-quiz.css";
 import "@/styles/menu.css";
@@ -12,7 +13,8 @@ import "@/styles/wheelpicker.css";
 
 import localFont from 'next/font/local';
 import { ThemeProvider } from "next-themes";
-import { SessionProvider } from "next-auth/react";
+import { PiPProvider } from '../services/pip';
+import PiPComponent from '../components/pip'; // Your PiP component
 
 const segoe = localFont({
   src: [
@@ -49,9 +51,12 @@ const segoe = localFont({
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <ThemeProvider enableSystem={true} attribute="class">
-      <div className={`${segoe.variable} font-segoe`}>
-        <Component {...pageProps} />
-      </div>
+      <PiPProvider>
+        <div className={`${segoe.variable} font-segoe`}>
+          <Component {...pageProps} />
+          <PiPComponent />
+        </div>
+      </PiPProvider>
     </ThemeProvider>
   );
 }

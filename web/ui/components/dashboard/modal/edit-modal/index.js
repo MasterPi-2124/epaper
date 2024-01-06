@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
 import Notify from 'notiflix/build/notiflix-notify-aio';
-import User from "./user";
+import Data from "./data";
 import Device from "./device";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
@@ -47,14 +47,14 @@ const EditModal = ({ type, data }) => {
 
   return (
     <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8" style={{ width: "400px" }}>
-      {type === "users" ? (
+      {type === "data" ? (
         <>
           <div className="modal-heading flex items-center justify-between gap-4 mb-6 flex-col">
-            <h1 className="heading-lg">Edit User Information</h1>
-            <p style={{ textAlign: "center" }}>To change the user type, you have to delete and re-create new user with new user type.</p>
+            <h1 className="heading-lg">Edit Data Information</h1>
+            <p style={{ textAlign: "center" }}>To change the data type, you have to delete and re-create new data with new data type.</p>
           </div>
-          <User
-            userUpdated={itemUpdated}
+          <Data
+            dataUpdated={itemUpdated}
             handleSubmit={handleSubmit}
             handleChange={handleChange}
           />

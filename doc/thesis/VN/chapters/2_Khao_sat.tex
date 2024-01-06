@@ -2,8 +2,7 @@
 \begin{document}
 Từ những vấn đề thực tế cùng với tổng quan về đề tài được đề cập trong Chương 1, Chương 2 sẽ đi sâu hơn về một số sản phẩm liên quan hiện nay và phân tích chi tiết yêu cầu của hệ thống quản lý dữ liệu hiển thị trong mục 2.2.
 
-% Với phương pháp phân tích thiết kế hướng đối tượng, sinh viên sử dụng biểu đồ use case theo hướng dẫn của template này. Với các phương pháp khác, sinh viên trao đổi với giáo viên hướng dẫn để đổi tên và sắp xếp lại đề mục cho phù hợp. Ví dụ, thay vì sử dụng biểu đồ use case, sinh viên đi theo hướng tiếp cận Agile có thể dùng User Story.
-
+% Với phương pháp phân tích thiết kế hướng đối tượng, sinh viên sử dụng biểu đồ use case theo hướng dẫn của template này. Với các phương pháp khác, sinh viên trao đổi với giáo viên hướng dẫn để đổi tên và 
 
 % \textbf{Lưu ý}: Mỗi chương nên có thêm 1 đoạn mở đầu chương và kết thúc chương, mở đầu giới thiệu những nội dung sẽ trình bày trong chương, kết thúc tổng kết lại các nội dung đã trình bày
 
@@ -91,91 +90,91 @@ Hình 6 dưới đây mô tả quy trình nghiệp vụ khi người dùng thêm
 Sinh viên lựa chọn từ 4 đến 7 use case quan trọng nhất của đồ án để đặc tả chi tiết. Mỗi đặc tả bao gồm ít nhất các thông tin sau: (i) Tên use case, (ii) Luồng sự kiện (chính và phát sinh), (iii) Tiền điều kiện, và (iv) Hậu điều kiện. Sinh viên chỉ vẽ bổ sung biểu đồ hoạt động khi đặc tả use case phức tạp.
 \subsection{Đặc tả use case A}
 
-% \begin{longtable}{|l|l|l|p{6cm}|}
-%     \hline
-%     \textbf{Mã use case} & UC01 & \textbf{Tên use case} & Quản lý thiết bị \\ \hline
+\begin{longtable}{|l|l|l|p{6cm}|}
+    \hline
+    \textbf{Mã use case} & UC01 & \textbf{Tên use case} & Quản lý thiết bị \\ \hline
 
-%     \textbf{Tác nhân} & \multicolumn{3}{l|}{Người quản lý} \\ \hline
+    \textbf{Tác nhân} & \multicolumn{3}{l|}{Người quản lý} \\ \hline
 
-%     \textbf{Tiền điều kiện} & \multicolumn{3}{p{12cm}|}{Người dùng đăng nhập vào hệ thống với vai trò là Người quản lý. Với nghiệp vụ tạo thiết bị mới và chỉnh sửa thông tin thiết bị trong trường hợp thiết bị không kết nối tới Internet, người dùng cần phải kết nối thiết bị với máy tính qua cổng USB.} \\ \hline
+    \textbf{Tiền điều kiện} & \multicolumn{3}{p{12cm}|}{Người dùng đăng nhập vào hệ thống với vai trò là Người quản lý. Với nghiệp vụ tạo thiết bị mới và chỉnh sửa thông tin thiết bị trong trường hợp thiết bị không kết nối tới Internet, người dùng cần phải kết nối thiết bị với máy tính qua cổng USB.} \\ \hline
 
-% % \multirow{8}{*}{\rotatebox[origin=c]{90}{Luồng sự kiện chính (thành công)}} & STT & Thực hiện bởi & Hành động \\ \cline{2-4}
-% % & 1 & Người quản lý & Chọn chức năng thêm thiết bị \\ \cline{2-4}
-% % & 2 & Hệ thống & Lấy và hiển thị danh sách các thiết bị đang kết nối qua USB. \\ \cline{2-4}
-% % & ... & ... & ... \\ \cline{2-4}
-% % & ... & ... & ... \\ \cline{2-4}
-% % & ... & ... & ... \\ \cline{2-4}
-% % & ... & ... & ... \\ \cline{2-4}
-% % & ... & ... & ... \\ \hline
+% \multirow{8}{*}{\rotatebox[origin=c]{90}{Luồng sự kiện chính (thành công)}} & STT & Thực hiện bởi & Hành động \\ \cline{2-4}
+% & 1 & Người quản lý & Chọn chức năng thêm thiết bị \\ \cline{2-4}
+% & 2 & Hệ thống & Lấy và hiển thị danh sách các thiết bị đang kết nối qua USB. \\ \cline{2-4}
+% & ... & ... & ... \\ \cline{2-4}
+% & ... & ... & ... \\ \cline{2-4}
+% & ... & ... & ... \\ \cline{2-4}
+% & ... & ... & ... \\ \cline{2-4}
+% & ... & ... & ... \\ \hline
 
-%     \multicolumn{4}{|l|}{a)	Thêm thiết bị mới} \\ 
-%     \multicolumn{4}{|l|}{
-%         \begin{tabular}{|p{2cm}|c|c|p{6cm}|}
-%             \hline
-%             \multirow{12}{}{\textbf{Luồng sự kiện chính (thành công)}} & 
-%             \textbf{STT} & \textbf{Thực hiện bởi} & \textbf{Hành động} \\ \cline{2-4}
-%             & 1     & Người quản lý             & Chọn chức năng thêm thiết bị \\ \cline{2-4}
-%             & 2     & Hệ thống                  & Lấy và hiển thị danh sách các thiết bị đang kết nối qua USB \\ \cline{2-4}
-%             & 3     & Người quản lý             & Lựa chọn thiết bị từ danh sách \\ \cline{2-4}
-%             & 4	    & Hệ thống                  & Kết nối với thiết bị qua cổng Serial Port \\ \cline{2-4}
-%             & 5	    & Hệ thống	                & Hiển thị giao diện điền thông tin thiết bị \\ \cline{2-4}
-%             & 6     & Người quản lý	            & Điền các thông tin của thiết bị (mô tả phía dưới *) \\ \cline{2-4}
-%             & 7     & Người quản lý	            & Gửi yêu cầu tạo thiết bị mới \\ \cline{2-4}
-%             & 8	    & Hệ thống	                & Thực hiện việc lưu dữ liệu tại server và truyền dữ liệu sang thiết bị đang kết nối \\ \cline{2-4}
-%             & 8.1	& Hệ thống	                & Lưu thông tin thiết bị mới tại server \\ \cline{2-4}
-%             & 8.2	& Hệ thống	                & Truyền dữ liệu sang thiết bị EPD \\ \cline{2-4}
-%             & 8.2.1	& Thiết bị EPD đang kết nối	& Xử lý thông tin nhận được \\ \cline{2-4}
-%             & 8.2.2	& Thiết bị EPD đang kết nối & Kết nối Internet và MQTT Broker \\ \cline{2-4}
-%             & 8.2.3	& Thiết bị EPD đang kết nối	& Gửi thông tin trạng thái đến server \\ \cline{2-4}
-%             & 8.2.4	& Hệ thống	                & Nhận và chỉnh sửa thông tin thiết bị mới \\ \cline{2-4}
-%             & 9	    & Hệ thống	                & Thông báo tạo thiết bị thành công \\ \hline
-
-
+    \multicolumn{4}{|l|}{a)	Thêm thiết bị mới} \\ 
+    \multicolumn{4}{|l|}{
+        \begin{tabular}{|p{2cm}|c|c|p{6cm}|}
+            \hline
+            \multirow{12}{}{\textbf{Luồng sự kiện chính (thành công)}} & 
+            \textbf{STT} & \textbf{Thực hiện bởi} & \textbf{Hành động} \\ \cline{2-4}
+            & 1     & Người quản lý             & Chọn chức năng thêm thiết bị \\ \cline{2-4}
+            & 2     & Hệ thống                  & Lấy và hiển thị danh sách các thiết bị đang kết nối qua USB \\ \cline{2-4}
+            & 3     & Người quản lý             & Lựa chọn thiết bị từ danh sách \\ \cline{2-4}
+            & 4	    & Hệ thống                  & Kết nối với thiết bị qua cổng Serial Port \\ \cline{2-4}
+            & 5	    & Hệ thống	                & Hiển thị giao diện điền thông tin thiết bị \\ \cline{2-4}
+            & 6     & Người quản lý	            & Điền các thông tin của thiết bị (mô tả phía dưới *) \\ \cline{2-4}
+            & 7     & Người quản lý	            & Gửi yêu cầu tạo thiết bị mới \\ \cline{2-4}
+            & 8	    & Hệ thống	                & Thực hiện việc lưu dữ liệu tại server và truyền dữ liệu sang thiết bị đang kết nối \\ \cline{2-4}
+            & 8.1	& Hệ thống	                & Lưu thông tin thiết bị mới tại server \\ \cline{2-4}
+            & 8.2	& Hệ thống	                & Truyền dữ liệu sang thiết bị EPD \\ \cline{2-4}
+            & 8.2.1	& Thiết bị EPD đang kết nối	& Xử lý thông tin nhận được \\ \cline{2-4}
+            & 8.2.2	& Thiết bị EPD đang kết nối & Kết nối Internet và MQTT Broker \\ \cline{2-4}
+            & 8.2.3	& Thiết bị EPD đang kết nối	& Gửi thông tin trạng thái đến server \\ \cline{2-4}
+            & 8.2.4	& Hệ thống	                & Nhận và chỉnh sửa thông tin thiết bị mới \\ \cline{2-4}
+            & 9	    & Hệ thống	                & Thông báo tạo thiết bị thành công \\ \hline
 
 
-%             \multirow{12}{}{\textbf{Luồng sự kiện thay thế}} & 
-%             \textbf{STT} & \textbf{Thực hiện bởi} & \textbf{Hành động} \\ \cline{2-4}
-%             & 4a.	 & Hệ thống	& Thông báo lỗi: không thể kết nối đến thiết bị\\ \cline{2-4}
-%             & 8.1a	 & Hệ thống	& Thông báo lỗi: cần nhập đủ các trường thông tin cần thiết của thiết bị nếu Người quản lý nhập thiếu\\ \cline{2-4}
-%             & 8.2.2a & Hệ thống	& Không nhận được phản hồi cập nhật trạng thái từ thiết bị, lưu lại thông tin thiết bị\\ \hline
-%         \end{tabular}
-%     } \\ \hline
-%     \multicolumn{4}{|l|}{b) Chỉnh sửa thông tin thiết bị} \\ 
-%     \multicolumn{4}{|l|}{
-%         \begin{tabular}{|p{2cm}|c|c|p{6cm}|}
-%             \hline
-%             \multirow{12}{}{\textbf{Luồng sự kiện chính (thành công)}} & 
-%             \textbf{STT} & \textbf{Thực hiện bởi} & \textbf{Hành động} \\ \cline{2-4}
-%             & 1	& Người quản lý	& Chọn chức năng thêm thiết bị \\ \cline{2-4}
-%             & 2	& Hệ thống	& Lấy và hiển thị danh sách các thiết bị đang kết nối qua USB. \\ \cline{2-4}
-%             & 3	& Người quản lý	& Lựa chọn thiết bị từ danh sách \\ \cline{2-4}
-%             & 4	& Hệ thống	& Kết nối với thiết bị qua cổng Serial Port \\ \cline{2-4}
-%             & 5	& Hệ thống	& Hiển thị giao diện điền thông tin thiết bị \\ \cline{2-4}
-%             & 6 	& Người quản lý	& Điền các thông tin của thiết bị (mô tả phía dưới *) \\ \cline{2-4}
-%             & 7	& Người quản lý	& Gửi yêu cầu tạo thiết bị mới \\ \cline{2-4}
-%             & 8	& Hệ thống	& Thực hiện việc lưu dữ liệu tại server và truyền dữ liệu sang thiết bị đang kết nối \\ \cline{2-4}
-%             & 8.1	& Hệ thống	& Lưu thông tin thiết bị mới tại server \\ \cline{2-4}
-%             & 8.2	& Hệ thống	& Truyền dữ liệu sang thiết bị EPD \\ \cline{2-4}
-%             & 8.2.1	& Thiết bị EPD đang kết nối	& Xử lý thông tin nhận được \\ \cline{2-4}
-%             & 8.2.2	& Thiết bị EPD đang kết nối	& Kết nối Internet và MQTT Broker \\ \cline{2-4}
-%             & 8.2.3	& Thiết bị EPD đang kết nối	& Gửi thông tin trạng thái đến server \\ \cline{2-4}
-%             & 8.2.4	& Hệ thống	& Nhận và chỉnh sửa thông tin thiết bị mới \\ \cline{2-4}
-%             & 9	& Hệ thống	& Thông báo tạo thiết bị thành công \\ \hline
+
+
+            \multirow{12}{}{\textbf{Luồng sự kiện thay thế}} & 
+            \textbf{STT} & \textbf{Thực hiện bởi} & \textbf{Hành động} \\ \cline{2-4}
+            & 4a.	 & Hệ thống	& Thông báo lỗi: không thể kết nối đến thiết bị\\ \cline{2-4}
+            & 8.1a	 & Hệ thống	& Thông báo lỗi: cần nhập đủ các trường thông tin cần thiết của thiết bị nếu Người quản lý nhập thiếu\\ \cline{2-4}
+            & 8.2.2a & Hệ thống	& Không nhận được phản hồi cập nhật trạng thái từ thiết bị, lưu lại thông tin thiết bị\\ \hline
+        \end{tabular}
+    } \\ \hline
+    \multicolumn{4}{|l|}{b) Chỉnh sửa thông tin thiết bị} \\ 
+    \multicolumn{4}{|l|}{
+        \begin{tabular}{|p{2cm}|c|c|p{6cm}|}
+            \hline
+            \multirow{12}{}{\textbf{Luồng sự kiện chính (thành công)}} & 
+            \textbf{STT} & \textbf{Thực hiện bởi} & \textbf{Hành động} \\ \cline{2-4}
+            & 1	& Người quản lý	& Chọn chức năng thêm thiết bị \\ \cline{2-4}
+            & 2	& Hệ thống	& Lấy và hiển thị danh sách các thiết bị đang kết nối qua USB. \\ \cline{2-4}
+            & 3	& Người quản lý	& Lựa chọn thiết bị từ danh sách \\ \cline{2-4}
+            & 4	& Hệ thống	& Kết nối với thiết bị qua cổng Serial Port \\ \cline{2-4}
+            & 5	& Hệ thống	& Hiển thị giao diện điền thông tin thiết bị \\ \cline{2-4}
+            & 6 	& Người quản lý	& Điền các thông tin của thiết bị (mô tả phía dưới *) \\ \cline{2-4}
+            & 7	& Người quản lý	& Gửi yêu cầu tạo thiết bị mới \\ \cline{2-4}
+            & 8	& Hệ thống	& Thực hiện việc lưu dữ liệu tại server và truyền dữ liệu sang thiết bị đang kết nối \\ \cline{2-4}
+            & 8.1	& Hệ thống	& Lưu thông tin thiết bị mới tại server \\ \cline{2-4}
+            & 8.2	& Hệ thống	& Truyền dữ liệu sang thiết bị EPD \\ \cline{2-4}
+            & 8.2.1	& Thiết bị EPD đang kết nối	& Xử lý thông tin nhận được \\ \cline{2-4}
+            & 8.2.2	& Thiết bị EPD đang kết nối	& Kết nối Internet và MQTT Broker \\ \cline{2-4}
+            & 8.2.3	& Thiết bị EPD đang kết nối	& Gửi thông tin trạng thái đến server \\ \cline{2-4}
+            & 8.2.4	& Hệ thống	& Nhận và chỉnh sửa thông tin thiết bị mới \\ \cline{2-4}
+            & 9	& Hệ thống	& Thông báo tạo thiết bị thành công \\ \hline
             
 
-%             \multirow{12}{}{\textbf{Luồng sự kiện thay thế}} & 
-%             \textbf{STT} & \textbf{Thực hiện bởi} & \textbf{Hành động} \\ \cline{2-4}
-%             & 4a.	 & Hệ thống	& Thông báo lỗi: không thể kết nối đến thiết bị\\ \cline{2-4}
-%             & 8.1a	 & Hệ thống	& Thông báo lỗi: cần nhập đủ các trường thông tin cần thiết của thiết bị nếu Người quản lý nhập thiếu\\ \cline{2-4}
-%             & 8.2.2a & Hệ thống	& Không nhận được phản hồi cập nhật trạng thái từ thiết bị, lưu lại thông tin thiết bị\\ \hline
+            \multirow{12}{}{\textbf{Luồng sự kiện thay thế}} & 
+            \textbf{STT} & \textbf{Thực hiện bởi} & \textbf{Hành động} \\ \cline{2-4}
+            & 4a.	 & Hệ thống	& Thông báo lỗi: không thể kết nối đến thiết bị\\ \cline{2-4}
+            & 8.1a	 & Hệ thống	& Thông báo lỗi: cần nhập đủ các trường thông tin cần thiết của thiết bị nếu Người quản lý nhập thiếu\\ \cline{2-4}
+            & 8.2.2a & Hệ thống	& Không nhận được phản hồi cập nhật trạng thái từ thiết bị, lưu lại thông tin thiết bị\\ \hline
 
             
-%         \end{tabular}
-%     } \\ \hline
+        \end{tabular}
+    } \\ \hline
     
-%     \multicolumn{4}{|l|}{d) Xem danh sách thiết bị} \\ \hline
+    \multicolumn{4}{|l|}{d) Xem danh sách thiết bị} \\ \hline
 
-% \end{longtable}
+\end{longtable}
 
 
 \begin{tabular}{|l|l|l|p{4cm}|}

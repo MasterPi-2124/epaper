@@ -14,11 +14,11 @@ const deviceSchema = new Schema({
     },
     dataID: {
         type: String,
-        unique: false,
-        sparse: true
+        default: ""
     },
     dataName: {
-        type: String
+        type: String,
+        default: ""
     },
     active: {
         type: Boolean,

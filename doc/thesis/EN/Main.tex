@@ -34,6 +34,8 @@
 \usepackage{float}
 \usepackage{subcaption}
 \usepackage{xurl}
+\usepackage{tikz}
+\usepackage{tikz-uml}
 
 \usepackage[nonumberlist, nopostdot, nogroupskip, acronym]{glossaries}
 \usepackage{glossary-superragged}
@@ -78,7 +80,7 @@
 \setlength{\headheight}{10pt}
 
 \def \TITLE{GRADUATION THESIS}
-\def \AUTHOR{NGUYEN DOAN ABC}
+\def \AUTHOR{VU LE NHAT MINH}
 
 % ===================================================
 \titleformat{\chapter}[hang]{\centering\bfseries}{CHƯƠNG \thechapter.\ }{0pt}{}[]
@@ -227,7 +229,7 @@
 
 % \pagenumbering{roman}
 %Tạo danh mục hình vẽ.
-\renewcommand{\listfigurename}{LIST OF FIGURES}
+\renewcommand{\listfigurename}{LIST OF FItGU-RES}
 {\let\oldnumberline\numberline
 \renewcommand{\numberline}{Figure~\oldnumberline}
 \listoffigures} 
@@ -238,7 +240,7 @@
  %Tạo danh mục bảng biểu.
 \renewcommand{\listtablename}{LIST OF TABLES}
 {\let\oldnumberline\numberline
-\renewcommand{\numberline}{Bảng~\oldnumberline}
+\renewcommand{\numberline}{Table~\oldnumberline}
 \listoftables}
 % \phantomsection\addcontentsline{toc}{section}{\numberline {} DANH MỤC BẢNG BIỂU}
 
@@ -298,13 +300,13 @@
 \newpage
 %\pagestyle{fancy} % Áp dụng header và footer
 \chapter{CONCLUSION AND FUTURE WORK} %Kết luận và hướng phát triển}
-\label{chapter:conclusion}
+\label{chapter:Conclusion}
 \subfile{chapters/6_Conclusion}
 
 \newpage
 %\pagestyle{fancy} % Áp dụng header và footer
 \chapter*{SHORT NOTICES ON REFERENCE} %Kết luận và hướng phát triển}
-\label{chapter:reference}
+\label{chapter:Reference}
 \subfile{chapters/7_Reference}
 
 

@@ -11,7 +11,7 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, port, setPort, handleSu
                 setPort(newPort);
                 Notify.Notify.success(`Opening serial port successfully! ${newPort.getInfo().usbVendorId}:${newPort.getInfo().usbProductId}`);
             } catch (error) {
-                Notify.Notify.failure(`Error opening serial port: ${error}`);
+                Notify.Notify.warning(`Error opening serial port. Please refreshing the page.`);
             }
         } else {
             Notify.Notify.failure(`Sorry, this browser doesn't support webSerial`);
@@ -62,7 +62,7 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, port, setPort, handleSu
                         {console.log(`SSID: `, deviceCreated.ssid)}
                         {console.log(`Password: `, deviceCreated.pass)}
                         {console.log(`active: `, deviceCreated.active)}
-                        {console.log(`userID: `, deviceCreated.userID)}
+                        {console.log(`dataID: `, deviceCreated.dataID)}
 
                         <button>
                             Write and Publish

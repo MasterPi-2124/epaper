@@ -5,7 +5,6 @@ import Cookies from "universal-cookie";
 import validToken from "@/services/validToken";
 import { useRouter } from 'next/router';
 
-
 function LoginPage() {
   const router = useRouter();
   const cookies = new Cookies();

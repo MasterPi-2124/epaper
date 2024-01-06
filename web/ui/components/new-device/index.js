@@ -14,8 +14,8 @@ const NewDevice = () => {
         ssid: "",
         pass: "",
         active: false,
-        userID: "",
-        userName: ""
+        dataID: "",
+        dataName: ""
     });
 
     useEffect(() => {
@@ -74,7 +74,7 @@ const NewDevice = () => {
             ssid: "",
             pass: "",
             active: false,
-            userID: ""
+            dataID: ""
         })
     }
 

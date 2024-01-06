@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Table, Modal } from "@nextui-org/react";
-import DeleteIcon from "@/assets/icons/thin/delete.svg";
-import EditIcon from "@/assets/icons/thin/edit.svg";
-import EyeIcon from "@/assets/icons/thin/eye.svg";
+import DeleteIcon from "@/assets/icons/thick/delete.svg";
+import EditIcon from "@/assets/icons/thick/edit.svg";
+import EyeIcon from "@/assets/icons/thick/eye.svg";
+import DebugIcon from "@/assets/icons/thick/debug.svg";
 import Image from "next/image";
 import { instanceCoreApi } from "@/services/setupAxios";
 import Notify from 'notiflix/build/notiflix-notify-aio';
 import DeleteModal from "../modal/delete-modal";
+import DebugModal from "../modal/debug-modal";
 import EditModal from "../modal/edit-modal";
 import DetailModal from "../modal/detail-modal";
 
@@ -19,6 +21,7 @@ export const DeviceList = () => {
                                           // 2 - Failed
   const [selectedDevice, setSelectedDevice] = useState();
   const [deleteModal, setDeleteModal] = useState(false);
+  const [debugModal, setDebugModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [detailModal, setDetailModal] = useState(false);
 
@@ -27,6 +30,7 @@ export const DeviceList = () => {
     instanceCoreApi.get(`${API}/devices`).then((res) => {
       Notify.Notify.success(`Getting devices data successfully!`);
       setStage(1);
+      document.pictureInPictureElement
       setDevices(res.data.data);
     }).catch((err) => {
       Notify.Notify.failure(`Error fetching devices data: ${err}`);
@@ -47,7 +51,7 @@ export const DeviceList = () => {
           <Table.Header>
             <Table.Column width={"auto"}>Name</Table.Column>
             <Table.Column width={"auto"}>Status</Table.Column>
-            <Table.Column width={"auto"}>UserID</Table.Column>
+            <Table.Column width={"auto"}>DataID</Table.Column>
             <Table.Column width={"auto"}></Table.Column>
           </Table.Header>
           {stage === 0 ? (
@@ -106,7 +110,7 @@ export const DeviceList = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                    {item.userID ? item.userID : "Not found"}
+                    {item.dataID ? item.dataID : "Not found"}
                   </Table.Cell>
 
                   <Table.Cell>
@@ -131,6 +135,18 @@ export const DeviceList = () => {
                     >
                       <Image
                         src={EditIcon}
+                        alt="vertical ellipsis"
+                      />
+                    </button>
+                    <button
+                      className="small-icon"
+                      onClick={() => {
+                        setSelectedDevice(item);
+                        setDebugModal(true);
+                      }}
+                    >
+                      <Image
+                        src={DebugIcon}
                         alt="vertical ellipsis"
                       />
                     </button>
@@ -201,6 +217,17 @@ export const DeviceList = () => {
             onConfirm={() => {
               setDeleteModal(false);
             }}
+          />
+        </Modal>
+
+        <Modal
+          blur
+          open={debugModal}
+          onClose={() => setDebugModal(false)}
+        >
+          <DebugModal
+            data={selectedDevice}
+            onClose={() => setDebugModal(false)}
           />
         </Modal>
 

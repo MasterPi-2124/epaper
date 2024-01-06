@@ -22,7 +22,7 @@ const LogInForm = () => {
         }
         console.log(data);
 
-        instanceCoreApi.post(`${API}/account/login`, data).then(response => {
+        instanceCoreApi.post(`${API}/user/login`, data).then(response => {
             console.log(response);
             setEmail("");
             setPassword("");

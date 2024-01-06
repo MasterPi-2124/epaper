@@ -1,0 +1,39 @@
+.pip {
+    border: 1px solid rgba(86, 86, 86, 0.736);
+    border-radius: 10px;
+    position: fixed;
+    width: 450px;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1000;
+    box-shadow: 1px 3px 3px 0 rgb(0 0 0 / 20%), 1px 3px 15px 2px rgb(0 0 0 / 20%);
+    background-color: #21212166;
+    backdrop-filter: blur(10px);
+    padding: 10px;
+}
+
+.pip:hover {
+    cursor: grab;
+}
+
+.pip:active {
+    cursor: grabbing;
+    outline: rgba(86, 86, 86, 0.736) auto 1px;
+}
+
+.pip-head {
+    margin-bottom: 10px;
+}
+
+label.nextui-input-wrapper {
+    background-color: #21212166;
+    color: white;
+    border: 1px solid rgba(86, 86, 86, 0.736);
+    border-radius: 10px;
+}
+
+label.nextui-input-wrapper > textarea{
+    color: white;
+    font-weight: 100;
+    font-size: 14px;
+}
