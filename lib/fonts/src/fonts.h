@@ -29,14 +29,14 @@ typedef struct
 {
   char16_t * index;                                     // index character, utf-16
   uint8_t width;                                        // dynamic width
-  const char matrix[MAX_HEIGHT_FONT*MAX_WIDTH_FONT/8];  // maximum index table
+  const char matrix[MAX_HEIGHT_FONT*MAX_WIDTH_FONT/8];  // bytes-array
 } FT_IDX;
 
 typedef struct
 {    
   const FT_IDX *table;
   uint16_t size;
-  uint16_t Height;
+  uint8_t Height;
 } cFONT;   // custom Font
 
 typedef struct 
@@ -48,10 +48,9 @@ typedef struct
 
 typedef struct
 {    
-  const FT_MAP *ASCII_table; // segmentSize = 95 characters from 
+  const FT_MAP *ASCII_table; // segmentSize = 95 characters from 32 to 126
   const FT_MAP *vn_table;    // segmentSize = 
   const FT_MAP *VN_table;    // segmentSize = 
-  const char *table;
   uint8_t Height;
 
   const FT_MAP * binarySearchInSegment(int unicodePoint, const FT_MAP* segment, size_t segmentSize) {
@@ -69,7 +68,8 @@ typedef struct
         }
     }
     return NULL; // Not found
-}
+  }
+  const char *table;
 
 } cFONT_SEGMENT;   // custom Font with Segment Management for better performance and resource saving
 

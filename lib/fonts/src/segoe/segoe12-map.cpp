@@ -182,6 +182,6 @@ cFONT_SEGMENT Segoe12_Segment =
 	ASCII_table,
 	VN_table,
 	vn_table,
-	table,
 	21, //  Height, in pixels, of space character
+	table,
 };
