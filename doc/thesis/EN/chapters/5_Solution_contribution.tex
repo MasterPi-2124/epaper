@@ -46,10 +46,10 @@ UTF-8 and UTF-16 are both encoding formats used for representing text in compute
 
 \subsection{Two ways of process and display text}
 \label{2-ways-process}
-To be displayed properly on the screen, the text has to be converted to a bitmap image, stored in the form of an array of bytes. This process can be achieved in two ways: converting from an image of characters (Figure\ref{fig:thedotfactory}) or directly from the font file to corresponding byte arrays. The main goal of both two conversion ways is to create a mapping from every character to the corresponding bytes array, which is a step in the display process illustrated in Figure \ref{2-ways-process}. Due to the specific nature of frequently displaying Vietnamese characters, the project uses the second option, with the help of the TheDotFactory tool, to convert all the Vietnamese and Latin characters mapped to the bytes arrays.
+To be displayed properly on the screen, the text has to be converted to a bitmap image, stored in the form of an array of bytes. This process can be achieved in two ways: converting from an image of characters (Figure \ref{fig:thedotfactory}) or directly from the font file to corresponding byte arrays. The main goal of both two conversion ways is to create a mapping from every character to the corresponding bytes array, which is a step in the display process illustrated in Figure \ref{2-ways-process}. Due to the specific nature of frequently displaying Vietnamese characters, the project uses the second option, with the help of the TheDotFactory tool, to convert all the Vietnamese and Latin characters mapped to the byte arrays.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{doc//thesis//EN//imgs/thedotfactory.png}
+    \includegraphics[width=0.8\linewidth]{doc/imgs/thedotfactory.png}
     \caption{UI of TheDotFactory tool}
     \label{fig:thedotfactory}
 \end{figure}
@@ -207,13 +207,13 @@ A secure and reliable connection is mandatory in a system that includes many dev
 Currently, MongoDB in the system is configured securely with the user's credentials and is being proxied behind a secure connection. However, on the first days of the development, with rudimentary configurations and exposing many vulnerabilities, the MongoDB server is "open" to the public with little protection from the system firewall. Several hacks targeting the MongoDB databases via the open port 27017 of the MongoDB server have been conducted by a hacker who deleted all collections and overwrote them with a recovery message. This message demanded a payment of 0.025 BTC (equivalent to \$1,000) to recover the data; otherwise, the data will be "published on the darknet forums on the TOR network".
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{doc//thesis//EN//imgs/mongo-hack.png}
+    \includegraphics[width=0.9\linewidth]{doc/imgs/mongo-hack.png}
     \caption{Enter Caption}
     \label{fig:enter-label}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{doc//thesis//EN//imgs/mongo-pig.png}
+    \includegraphics[width=0.5\linewidth]{doc/imgs/mongo-pig.png}
     \caption{Enter Caption}
     \label{fig:enter-label}
 \end{figure}
