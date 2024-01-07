@@ -1,4 +1,5 @@
 const mqtt = require("mqtt");
+const fs = require('fs');
 const DeviceModel = require("../models/Device");
 const DataModel = require("../models/Data");
 
@@ -9,6 +10,9 @@ const PASS = process.env.PASS;
 let client = null;
 const responseTimeout = 5000;
 let globalMessageHandlers = new Map();
+const ca = fs.readFileSync(`/etc/ssl/mongoKey/ca.crt`);
+const cert = fs.readFileSync(`/etc/ssl/mongoKey/backend.crt`);
+const key = fs.readFileSync(`/etc/ssl/mongoKey/backend.key`);
 
 const writeDeviceHandler = (data) => {
   return async (topic, oldDataID) => {
@@ -17,7 +21,7 @@ const writeDeviceHandler = (data) => {
       const device = await DeviceModel.findById(data.deviceID);
       console.log(oldDataID, data._id);
       const now = Math.floor(new Date().getTime() / 1000);
-      
+
       if (oldDataID !== "" && oldDataID !== `${data._id}`) {
         const oldData = await DataModel.findById(oldDataID);
 
@@ -76,7 +80,10 @@ exports.connect = () => {
     client = mqtt.connect(BROKER, {
       username: USER,
       password: PASS,
-      clientId: "backend-client"
+      clientId: "backend-client",
+      ca: ca,
+      cert: cert,
+      key: key,
     })
 
     client.on("connect", async () => {
@@ -109,8 +116,8 @@ exports.connect = () => {
           handler(topic);
         }
       } else if (data.startsWith("removeOK")) {
-          console.log("found removeOK, ")
-          const handler = globalMessageHandlers.get("removeOK");
+        console.log("found removeOK, ")
+        const handler = globalMessageHandlers.get("removeOK");
         handler(topic);
       }
     })
@@ -196,20 +203,29 @@ exports.writeDevice = async (data) => {
     case "Monospace 24pt":
       payload = payload + "F20|";
       break;
-    case "Segoe UI 8pt":
-      payload = payload + "F24|";
+    case "Segoe UI Light, 12pt":
+      payload = payload + "s12|";
       break;
-    case "Segoe UI 12pt":
+    case "Segoe UI Bold, 12pt":
       payload = payload + "S12|";
       break;
-    case "Segoe UI 16pt":
+    case "Segoe UI Light, 16pt":
+      payload = payload + "s16|";
+      break;
+    case "Segoe UI Bold, 16pt":
       payload = payload + "S16|";
       break;
-    case "Segoe UI 20pt":
-      payload = payload + "S20|";
+    case "Segoe UI Light, 18pt":
+      payload = payload + "s18|";
+      break;
+    case "Segoe UI Bold, 18pt":
+      payload = payload + "S18|";
+      break;
+    case "Segoe UI Light, 20pt":
+      payload = payload + "s20|";
       break;
     default:
-      payload = payload + "Segoe12|";
+      payload = payload + "S16|";
   }
 
   switch (data.designSchema) {
@@ -264,7 +280,7 @@ exports.writeDevice = async (data) => {
   this.subscribe(data.deviceID);
   const handler = writeDeviceHandler(data);
   globalMessageHandlers.set("writeOK", handler);
-console.log(globalMessageHandlers);
+  console.log(globalMessageHandlers);
   client.publish(`${data.deviceID}`, payload, (err) => {
     if (err) {
       console.log(`Error publishing to topic ${data.deviceID}: ${err}`);
