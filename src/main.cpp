@@ -52,14 +52,14 @@ void setup()
     Paint_DrawString_custom(50, 50, Welcome, &Segoe16Bold, BLACK, WHITE);
     EPD_2IN9_V2_Display(BlackImage);
 
-    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-    Paint_DrawString_custom(80, 70, text, &Segoe12, BLACK, WHITE);
+    Paint_ClearWindows(80, 80, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(80, 80, text, &Segoe12, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
     DEV_Delay_ms(3000);
 
     text = u"Getting local data ...";
-    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-    Paint_DrawString_custom(80, 70, text, &Segoe12, BLACK, WHITE);
+    Paint_ClearWindows(80, 80, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(80, 80, text, &Segoe12, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
 
     // Get Preferences local data
