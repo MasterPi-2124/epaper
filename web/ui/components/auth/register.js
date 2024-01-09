@@ -11,6 +11,7 @@ const RegisterForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [admin, setAdmin] = useState(false);
     const [register, setRegister] = useState(false);
 
     const handleSubmit = (event) => {
@@ -116,6 +117,25 @@ const RegisterForm = () => {
                                 value={passwordConfirm}
                                 onChange={(event) => setPasswordConfirm(event.target.value)}
                             />
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="remember-me"
+                                    checked={admin}
+                                    onChange={(event) => setAdmin(event.target.checked)}
+                                    style={{ "display": "none" }}
+                                />
+                                <label htmlFor="remember-me" className="select-none cursor-pointer font-thin">
+                                    <span className="inline-block align-middle relative w-6 h-6 align-middle">
+                                        <svg className="absolute stroke-2" width="12px" height="9px" viewBox="0 0 12 9">
+                                            <polyline points="1 5 4 8 11 1"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span className="ml-2">
+                                        I am Administrator
+                                    </span>
+                                </label>
+                            </div>
 
                             <button type="submit" className="h-12 bg-blue w-full font-thin text-lg">Create Account</button>
                         </form>

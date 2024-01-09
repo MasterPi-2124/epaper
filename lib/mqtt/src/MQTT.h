@@ -10,8 +10,8 @@
 
 #define SSID            "Pi's Network"
 #define PASS            "3.14159265358979"
-#define MQTT_BROKER     "95.217.121.243"
-#define MQTT_PORT       1883
+#define MQTT_BROKER     "mqtt.epaper.artsakh.ventures"
+#define MQTT_PORT       8883
 #define MQTT_USERNAME   "masterpi"
 #define MQTT_PASSWORD   "masterpi"
 // extern Preferences preferences;

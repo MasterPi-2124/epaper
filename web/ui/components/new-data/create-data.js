@@ -77,7 +77,7 @@ const CreateData = ({ dataCreated, setDataCreated, stage, setStage, handleStage,
     return (
         (stage === 0) ? (
             <>
-                <h1>Hi</h1>
+                <h1>Create new {dataCreated.type} data</h1>
                 <Image alt="logo" src={Logo}></Image>
                 <form className="form" onSubmit={handleStage}>
                     <label className="dark:text-dark-text text-light-text">First, fill in your information to continue</label>

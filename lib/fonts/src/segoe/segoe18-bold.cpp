@@ -1,5 +1,7 @@
+#include <fonts.h>
+
 // 
-//  Font data for Segoe UI 18pt
+//  Font data for Segoe UI Bold 18pt
 // 
 
 // Character bitmaps for Segoe UI 18pt
