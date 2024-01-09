@@ -10,19 +10,22 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleReset, handleSubmit }) => {
     const [deviceLoading, setDeviceLoading] = useState(0);
     const [devices, setDevices] = useState();
-    const fonts = ["Monospace 8pt",
-        "Monospace 12pt",
-        "Monospace 16pt",
-        "Monospace 24pt",
-        "Segoe UI 8pt",
-        "Segoe UI 12pt",
-        "Segoe UI 16pt",
-        "Segoe UI 20pt",
+    const fonts = [ "Monospace 8pt",
+                    "Monospace 12pt",
+                    "Monospace 16pt",
+                    "Monospace 24pt",
+                    "Segoe UI Light, 12pt",
+                    "Segoe UI Bold, 12pt",
+                    "Segoe UI Light, 16pt",
+                    "Segoe UI Bold, 16pt",
+                    "Segoe UI Light, 18pt",
+                    "Segoe UI Bold, 18pt",
+                    "Segoe UI Light, 20pt",
     ]
     const themes = ["Theme 1",
-        "Theme 2",
-        "Theme 3",
-        "Theme 4",
+                    "Theme 2",
+                    "Theme 3",
+                    "Theme 4",
     ]
     const canvaRef = useRef(null);
 
@@ -67,44 +70,98 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
             ctx.clearRect(0, 0, canva.width, canva.height);
 
             if (dataCreated.designSchema === "Theme 1") {
-                style["color"] = "red";
+                style["color"] = "black";
             } else if (dataCreated.designSchema === "Theme 2") {
                 style["color"] = "blue";
             } else if (dataCreated.designSchema === "Theme 3") {
                 style["color"] = "yellow";
             } else {
-                style["color"] = "orange";
+                style["color"] = "black"; // default to Theme 1
             }
 
             if (dataCreated.fontStyle === "Monospace 8pt") {
-                style["font"] = "8px Times New Roman";
+                style["font"] = "12px monospace";
             } else if (dataCreated.fontStyle === "Monospace 12pt") {
-                style["font"] = "12px Segoe UI";
+                style["font"] = "12px monospace";
             } else if (dataCreated.fontStyle === "Monospace 16pt") {
-                style["font"] = "16px";
+                style["font"] = "16px monospace";
             } else if (dataCreated.fontStyle === "Monospace 24pt") {
-                style["font"] = "24px";
-            } else if (dataCreated.fontStyle === "Segoe UI 8pt") {
-                style["font"] = "28px";
-            } else if (dataCreated.fontStyle === "Segoe UI 12pt") {
-                style["font"] = "32px";
-            } else if (dataCreated.fontStyle === "Segoe UI 16pt") {
-                style["font"] = "36px";
+                style["font"] = "24px monospace";
+            } else if (dataCreated.fontStyle === "Segoe UI Light, 12pt") {
+                style["font"] = "200 12px Segoe UI";
+            } else if (dataCreated.fontStyle === "Segoe UI Bold, 12pt") {
+                style["font"] = "bold 20px Segoe UI";
+            } else if (dataCreated.fontStyle === "Segoe UI Light, 16pt") {
+                style["font"] = "200 24px Segoe UI";
+            }  else if (dataCreated.fontStyle === "Segoe UI Bold, 16pt") {
+                style["font"] = "bold 24px Segoe UI";
+            }  else if (dataCreated.fontStyle === "Segoe UI Light, 18pt") {
+                style["font"] = "200 28px Segoe UI";
+            }  else if (dataCreated.fontStyle === "Segoe UI Bold, 18pt") {
+                style["font"] = "bold 28px Segoe UI";
+            }  else if (dataCreated.fontStyle === "Segoe UI Light, 20pt") {
+                style["font"] = "200 36px Segoe UI";
             } else {
-                style["font"] = "40px Segoe UI";
+                style["font"] = "bold 24px Segoe UI"; // default to Segoe UI Bold, 16pt
             }
 
-            ctx.font = style.font;
-            ctx.fillStyle = style.color;
-            ctx.fillText(`Name: ${dataCreated.name}`, 10, 30);
-            ctx.fillText(`Email: ${dataCreated.email}`, 10, 60);
+            if (dataCreated.type === "Product") {
+                if (dataCreated.designSchema === "Theme 1") {
+                    ctx.font = '200 12px Segoe UI';
+                    ctx.fillStyle = style.color;
+                    ctx.fillText(`${dataCreated.input2}`, 10, 40);
+    
+                    ctx.font = style.font;
+                    ctx.fillStyle = style.color;
+                    ctx.fillText(`${dataCreated.name}`, 10, 70);
+    
+                    ctx.font = "bold 36px Segoe UI";
+                    ctx.fillStyle = style.color;
+                    ctx.fillText(`${dataCreated.input3}`, 120, 90);
+                } else if (dataCreated.designSchema === "Theme 2") {
+                    ctx.font = style.font;
+                    ctx.fillStyle = style.color;
+                    ctx.fillText(`${dataCreated.input2}`, 10, 30);
+    
+                    ctx.font = style.font;
+                    ctx.fillStyle = style.color;
+                    ctx.fillText(`${dataCreated.name}`, 10, 60);
+    
+                    ctx.font = style.font;
+                    ctx.fillStyle = style.color;
+                    ctx.fillText(`Email: ${dataCreated.input3}`, 10, 90);
+                }
+            } else if (dataCreated.type === "Client") {
+                ctx.font = style.font;
+                ctx.fillStyle = style.color;
+                ctx.fillText(`Name: ${dataCreated.name}`, 10, 30);
+                ctx.fillText(`Email: ${dataCreated.email}`, 10, 60);
+            } else if (dataCreated.type === "Student") {
+                ctx.font = style.font;
+                ctx.fillStyle = style.color;
+                ctx.fillText(`Name: ${dataCreated.name}`, 10, 30);
+                ctx.fillText(`Email: ${dataCreated.email}`, 10, 60);
+            } else if (dataCreated.type === "Employee") {
+                ctx.font = style.font;
+                ctx.fillStyle = style.color;
+                ctx.fillText(`Name: ${dataCreated.name}`, 10, 30);
+                ctx.fillText(`Email: ${dataCreated.email}`, 10, 60);
+            } else if (dataCreated.type === "Room") {
+                ctx.font = style.font;
+                ctx.fillStyle = style.color;
+                ctx.fillText(`Name: ${dataCreated.name}`, 10, 30);
+                ctx.fillText(`Email: ${dataCreated.email}`, 10, 60);
+            }
         }
     }, [style, dataCreated, stage])
 
     return (
         (stage === 2) ? (
             <>
-                <h1>Create new Data</h1>
+            {console.log(dataCreated)}
+                <h1 style ={{
+                    marginBottom: "10px",
+                }}>Choose display device</h1>
                 <canvas className="render-canvas" ref={canvaRef} width="340" height="150" />
                 <form className="form" onSubmit={handleSubmit}>
                     <label className="dark:text-dark-text text-light-text">Choose a device, and theme to display. Example view will be displayed above.</label>
@@ -152,11 +209,11 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
                                     </Dropdown.Item>
                                 )
                             ) : deviceLoading === 0 ? (
-                                <Dropdown.Item style={{ color: "white" }} >
+                                <Dropdown.Item css={{ color: "white" }} >
                                     Getting active devices ...
                                 </Dropdown.Item>
                             ) : (
-                                <Dropdown.Item>
+                                <Dropdown.Item css={{color: "white"}}>
                                     No active devices are found!
                                 </Dropdown.Item>
                             )}

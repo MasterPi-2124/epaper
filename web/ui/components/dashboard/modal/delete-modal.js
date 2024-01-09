@@ -19,7 +19,7 @@ const DeleteModal = ({ type, data, onConfirm, onClose }) => {
                     <h1 className="text-mainRed heading-lg" style={{ fontSize: '30px' }}>Delete this data?</h1>
                 </div>
                 <p className="body-lg">Are you sure you want to delete this data? All displayed device will be removed after the data is deleted. <br /> THIS ACTION CAN NOT BE REVERSED.</p>
-                <p>Data Name: {data.name}<br/>Data ID: {data._id}</p>
+                <p>Data Name: {data.name}<br />Data ID: {data._id}</p>
                 <div className="modal-footer flex gap-4">
                     <button className="ok delete-button flex-1 text-white text-base rounded-full p-2 transition duration-200" onClick={() => {
                         onConfirm();
@@ -37,20 +37,20 @@ const DeleteModal = ({ type, data, onConfirm, onClose }) => {
         return (
             <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8">
                 <div className="modal-heading flex items-center justify-between gap-4 mb-6 flex-col">
-                <h1 className="text-mainRed heading-lg">Delete this device?</h1>
+                    <h1 className="text-mainRed heading-lg" style={{ fontSize: '30px' }}>Delete this device?</h1>
                 </div>
-                <p className="body-lg">Are you sure you want to delete this device? This device and its data display status will be deleted. <br /> THIS ACTION CAN NOT BE REVERSED.</p>
-                <p>Device Name: {data.name}<br/>Device ID: {data._id}</p>
-               
+                <p className="body-lg">Are you sure you want to delete this device? This device and its data display status will be deleted. <br /> THIS ACTION CAN NOT BE REVERSED.<br/></p>
+                <p>Device Name: {data.name}<br />Device ID: {data._id}</p>
+
                 <div className="modal-footer flex gap-4">
-                    <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200" onClick={() => {
+                    <button className="ok delete-button flex-1 text-white text-base rounded-full p-2 transition duration-200" onClick={() => {
                         onConfirm();
                         deleteItem();
 
                     }}>
                         Delete
                     </button>
-                    <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200" onClick={onClose}>
+                    <button className="ok flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200" onClick={onClose}>
                         Cancel
                     </button>
                 </div>

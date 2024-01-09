@@ -53,8 +53,8 @@ const NewData = () => {
             activeTimestamp: [],
             activeStartTime: -1,
             deviceID: "",
-        deviceName: "",
-        fontStyle: "",
+            deviceName: "",
+            fontStyle: "",
             designSchema: ""
         })
     }

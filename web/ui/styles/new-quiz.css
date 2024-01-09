@@ -17,7 +17,12 @@
 }
 
 .content canvas.render-canvas {
-    border: 1px solid red;
+    border-radius: 10px;
+    margin: 20px 0px;
+    border: 1px solid rgba(86, 86, 86, 0.736) !important;
+    box-shadow: 7px  7px 22px #242424,
+    -7px -7px 22px #383838;
+    background-color: rgb(213, 213, 213);
 }
 
 .content img {
