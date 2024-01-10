@@ -42,7 +42,6 @@ const writeDeviceHandler = (data) => {
       device["dataID"] = `${data._id}`;
       device["dataName"] = `${data.name}`;
       await DeviceModel.findByIdAndUpdate(data.deviceID, device);
-      // this.unsubscribe(topic);
     }
   }
 }
@@ -158,12 +157,11 @@ exports.getAllDevicesStatuses = async (topics) => {
     globalMessageHandlers.set("pingOK", handler);
 
     topics.forEach(topic => {
-      this.subscribe(topic);
+      // this.subscribe(topic);
       client.publish(`${topic}`, "ping|");
       deviceTimeouts.set(topic, setTimeout(() => {
         console.log(`No response from device ${topic}, setting status to false`);
         updateStatus(topic, false); // Implement this function to update the device status in your storage
-        // this.unsubscribe(topic);
       }, responseTimeout));
     })
 
@@ -274,24 +272,26 @@ exports.writeDevice = async (data) => {
 
   }
   payload = payload + `${data._id}|`;
-
   console.log(payload);
-
-  this.subscribe(data.deviceID);
-  const handler = writeDeviceHandler(data);
-  globalMessageHandlers.set("writeOK", handler);
-  console.log(globalMessageHandlers);
-  client.publish(`${data.deviceID}`, payload, (err) => {
-    if (err) {
-      console.log(`Error publishing to topic ${data.deviceID}: ${err}`);
-    } else {
-      console.log(`Published to topic ${data.deviceID} successfully!`);
-    }
-  });
-
-  setTimeout(() => {
-    globalMessageHandlers.delete("writeOK");
-  }, responseTimeout + 6000);
+  
+  return new Promise((resolve) => {
+    const handler = writeDeviceHandler(data);
+    globalMessageHandlers.set("writeOK", handler);
+    
+    // this.subscribe(data.deviceID);
+    client.publish(`${data.deviceID}`, payload, (err) => {
+      if (err) {
+        console.log(`Error publishing to topic ${data.deviceID}: ${err}`);
+      } else {
+        console.log(`Published to topic ${data.deviceID} successfully!`);
+      }
+    });
+    
+    setTimeout(() => {
+      resolve();
+      globalMessageHandlers.delete("writeOK");
+    }, responseTimeout + 5000);
+  })
 }
 
 exports.updateDevice = async (id, data) => {
@@ -301,25 +301,27 @@ exports.updateDevice = async (id, data) => {
   if (data.ssid) {  // update device data
     payload = payload + `${data.ssid}|`;
     payload = payload + `${data.pass}|`;
-    // payload = payload + `${data.dataID}|`;
-  } else {          // update data info
+  } else {          // remove data info
     payload = payload + "removeData|";
   }
 
   console.log(payload);
-  this.subscribe(`${id}`);
-  const handler = removeHandler(id);
-  globalMessageHandlers.set("removeOK", handler);
+  return new Promise((resolve) => {
+    const handler = removeHandler(id);
+    globalMessageHandlers.set("removeOK", handler);
 
-  client.publish(`${id}`, payload, (err) => {
-    if (err) {
-      console.log(`Error publishing to topic ${id}: ${err}`);
-    } else {
-      console.log(`Published to topic ${id} successfully!`);
-    }
-  });
+    // this.subscribe(`${id}`);
+    client.publish(`${id}`, payload, (err) => {
+      if (err) {
+        console.log(`Error publishing to topic ${id}: ${err}`);
+      } else {
+        console.log(`Published to topic ${id} successfully!`);
+      }
+    });
 
-  setTimeout(() => {
-    globalMessageHandlers.delete("removeOK");
-  }, responseTimeout + 1000);
+    setTimeout(() => {
+      resolve();
+      globalMessageHandlers.delete("removeOK");
+    }, responseTimeout + 1000);
+  })
 }

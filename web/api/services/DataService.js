@@ -29,21 +29,22 @@ exports.getDataById = async (id) => {
 }
 
 exports.createData = async (data, userID = null) => {
-  data.createdBy = userID;
-  console.log(data);
-  if (data.active) {
-    const createdData = await DataModel.create(data);
-    mqttClient.writeDevice(createdData);
-    return await DataModel.findById(createdData._id);
-  } else {
-    return await DataModel.create(data);
-  }
+    data.createdBy = userID;
+    console.log(data);
+
+    if (data.active) {
+      const createdData = await DataModel.create(data);
+      await mqttClient.writeDevice(createdData);
+      return await DataModel.findById(createdData._id);
+    } else {
+      return await DataModel.create(data);
+    }
 }
 
 exports.updateData = async (id, data) => {
   const oldData = await DataModel.findById(id);
   if (oldData.active) {
-    mqttClient.updateDevice(oldData.deviceID, {});
+    await mqttClient.updateDevice(oldData.deviceID, {});
     if (!data.active) {
       const now = Math.floor(new Date().getTime() / 1000);
       data.activeStartTime = -1;
@@ -53,7 +54,7 @@ exports.updateData = async (id, data) => {
   }
 
   if (data.active) {
-    mqttClient.writeDevice(data);
+    await mqttClient.writeDevice(data);
   }
   return await DataModel.findByIdAndUpdate(id, data);
 }

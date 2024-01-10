@@ -38,7 +38,7 @@ exports.getDataById = async (req, res) => {
 
 exports.updateData = async (req, res) => {
   try {
-    const data = dataService.updateData(req.params.id, req.body);
+    const data = await dataService.updateData(req.params.id, req.body);
     res.json({ data: data, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
