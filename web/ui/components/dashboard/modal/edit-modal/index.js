@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
-import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
 import Data from "./data";
 import Device from "./device";
 
@@ -10,12 +10,12 @@ const EditModal = ({ type, data }) => {
   const [port, setPort] = useState(null);
   const [itemUpdated, setItemUpdated] = useState(data);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(itemUpdated);
-    instanceCoreApi.put(`${API}/${type}/${data._id}`, itemUpdated).then(async (response) => {
+    await instanceCoreApi.put(`${API}/${type}/${data._id}`, itemUpdated).then(async (response) => {
       console.log(response.data);
-      Notify.Notify.success(`Device info updated successfully!`);
+      Notify.success(`Device info updated successfully!`);
       if (type === "devices" && port) {
         const writer = port.writable.getWriter();
         for (const [key, value] of Object.entries(itemUpdated)) {
@@ -27,12 +27,12 @@ const EditModal = ({ type, data }) => {
           }
         }
         writer.releaseLock();
-        Notify.Notify.success(`Write info to device successfully!`);
+        Notify.success(`Write info to device successfully!`);
       }
     }).catch(error => {
       console.error(error);
       setSubmitted(false);
-      Notify.Notify.failure(`Error updating new device info: ${error}`);
+      Notify.failure(`Error updating new device info: ${error}`);
     })
   };
 

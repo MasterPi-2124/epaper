@@ -3,6 +3,7 @@
 #include <Wire.h>
 #include <cstdint>
 #include <Display.h>
+#include <qrcode.h>
 
 size_t length;
 
@@ -73,6 +74,52 @@ char16_t *utf8ToUtf16(const char *utf8, size_t &outLength)
     output[outLength] = 0; // Null-terminate the string
     delete[] utf16;
     return output;
+}
+
+const unsigned char * textToQR(const char* data) {
+    int qrVersion = 11; // Adjust the QR version as needed
+    int bufferSize = qrcode_getBufferSize(qrVersion);
+    
+    // Dynamically allocate memory for the QR code
+    uint8_t* qrcodeData = new uint8_t[bufferSize];
+    if (!qrcodeData) {
+        Serial.println("Failed to allocate memory for QR code");
+        return nullptr;
+    }
+
+    // Initialize QR code
+    QRCode qrcode;
+    qrcode_initText(&qrcode, qrcodeData, qrVersion, 0, data);
+
+    // Calculate the size of the EPD array
+    int size = ((qrcode.size + 7) / 8) * qrcode.size;
+
+    // Dynamically allocate memory for the EPD array
+    unsigned char * epdArray = new unsigned char[size];
+    if (!epdArray) {
+        Serial.println("Failed to allocate memory for EPD array");
+        return nullptr;
+    }
+
+    memset(epdArray, 0, size);
+
+    for (int y = 0; y < qrcode.size; y++) { 
+        for (int x = 0; x < qrcode.size; x++) {
+            int byteIndex = (y * (qrcode.size + 8 - (qrcode.size % 8)) + x) / 8;
+            int bitIndex = x % 8;
+            if (qrcode_getModule(&qrcode, x, y)) {
+                epdArray[byteIndex] |= (unsigned char) (1 << (7 - bitIndex));
+                Serial.print("#");
+            } else {
+                Serial.print(" ");
+            }
+        }
+        Serial.print("\n");
+    }
+    Serial.print("\n");
+    Serial.print("\n");
+    return (const unsigned char *) epdArray;
+
 }
 
 int compareStrings(const char *str1, const char *str2)
@@ -270,4 +317,18 @@ void displayWrite5(UBYTE * BlackImage) {
         Paint_DrawString_custom(10, 90, status16, &Segoe12, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
+}
+
+void displayEmpty(UBYTE * BlackImage) {
+    char * status16 = "https://epaper.artsakh.ventures/new-data";
+    const unsigned char* qrCodeArray = textToQR(status16);
+
+    EPD_2IN9_V2_Init();
+    Paint_Clear(0xff);
+    Paint_DrawImage(qrCodeArray, 35, 16, 61, 61);
+    Paint_DrawLine(82, 25, 82, 102, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+    Paint_DrawString_custom(87, 35, u"No data to display", &Segoe16Bold, BLACK, WHITE);
+    Paint_DrawString_custom(87, 65, u"Scan QR to get started", &Segoe12, BLACK, WHITE);
+    EPD_2IN9_V2_Display(BlackImage);
+    delete[] qrCodeArray;
 }

@@ -9,7 +9,7 @@
 #include <ArduinoMqttClient.h>
 #include <cstdint>
 
-WiFiClientSecure espClient;
+WiFiClient espClient;
 MqttClient client(espClient);
 size_t update; // 0 - no update
                // 1 - write1 update
@@ -184,8 +184,8 @@ void setup_wifi(const char *ssid, const char *password, UBYTE *BlackImage)
     Serial.println();
     Serial.print("Connecting to ");
     Serial.println(ssid);
-    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-    Paint_DrawString_custom(80, 70, u"Connecting to WiFi...", &Segoe12, BLACK, WHITE);
+    Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(80, 70, u"Connecting to Wifi", &Segoe12, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
 
     unsigned long startAttemptTime = millis();
@@ -196,8 +196,8 @@ void setup_wifi(const char *ssid, const char *password, UBYTE *BlackImage)
         if (millis() - startAttemptTime >= connectTimeout)
         {
             Serial.println("Failed to connect to WiFi within the timeout period.");
-            Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-            Paint_DrawString_custom(80, 70, u"Failed to connect to Wifi!", &Segoe12, BLACK, WHITE);
+            Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe12.Height, WHITE);
+            Paint_DrawString_custom(60, 70, u"Failed to connect to Wifi!", &Segoe12, BLACK, WHITE);
             EPD_2IN9_V2_Display_Partial(BlackImage);
             break; // Exit the loop
         }
@@ -207,16 +207,16 @@ void setup_wifi(const char *ssid, const char *password, UBYTE *BlackImage)
 
     if (WiFi.status() == WL_CONNECTED)
     {
-        espClient.setCACert(ca);
-        espClient.setCertificate(cert); // for client verification
-        espClient.setPrivateKey(key);	// for client verification
-        client = MqttClient(espClient);
+        // espClient.setCACert(ca);
+        // espClient.setCertificate(cert); // for client verification
+        // espClient.setPrivateKey(key);	// for client verification
+        // client = MqttClient(espClient);
 
         Serial.println("");
         Serial.print("WiFi connected. IP address: ");
         Serial.println(WiFi.localIP());
-        Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-        Paint_DrawString_custom(80, 70, u"Connected to Wifi!", &Segoe12, BLACK, WHITE);
+        Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe12.Height, WHITE);
+        Paint_DrawString_custom(85, 70, u"Connected to Wifi!", &Segoe12, BLACK, WHITE);
         EPD_2IN9_V2_Display_Partial(BlackImage);
     }
 }
@@ -238,16 +238,16 @@ void MQTT_Connect(const char *id, UBYTE *BlackImage)
 {
     if (WiFi.status() == WL_CONNECTED)
     {
-        Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-        Paint_DrawString_custom(80, 70, u"Attempting MQTT connection...", &Segoe12, BLACK, WHITE);
+        Paint_ClearWindows(30, 70, 30 + 14 * 20, 70 + Segoe12.Height, WHITE);
+        Paint_DrawString_custom(40, 70, u"Attempting MQTT connection", &Segoe12, BLACK, WHITE);
         EPD_2IN9_V2_Display_Partial(BlackImage);
         Serial.println("Attempting MQTT connection...");
         while (!client.connected())
         {
             if (client.connect(MQTT_BROKER, MQTT_PORT))
             {
-                Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-                Paint_DrawString_custom(80, 70, u"Connected to MQTT Broker", &Segoe12, BLACK, WHITE);
+                Paint_ClearWindows(30, 70, 30 + 14 * 20, 70 + Segoe12.Height, WHITE);
+                Paint_DrawString_custom(48, 70, u"Connected to MQTT Broker", &Segoe12, BLACK, WHITE);
                 EPD_2IN9_V2_Display_Partial(BlackImage);
                 Serial.println(" connected");
                 client.onMessage(onMessage);
@@ -626,6 +626,7 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         removeOK += dataID;
         Serial.println(removeOK.c_str());
         preferences.putString("dataID", "");
+        displayEmpty(BlackImage);
 
         Serial.println(topic);
         client.beginMessage(topic);

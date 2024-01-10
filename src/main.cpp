@@ -46,20 +46,20 @@ void setup()
 
 #if 1
     Paint_Clear(0xff);
-    char16_t * text = u"Initializing ....";
+    char16_t * text = u"Initializing";
     const char16_t * Welcome = u"Pi's Epaper Project";
 
-    Paint_DrawString_custom(50, 50, Welcome, &Segoe16Bold, BLACK, WHITE);
+    Paint_DrawString_custom(60, 40, Welcome, &Segoe16Bold, BLACK, WHITE);
     EPD_2IN9_V2_Display(BlackImage);
 
-    Paint_ClearWindows(80, 80, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-    Paint_DrawString_custom(80, 80, text, &Segoe12, BLACK, WHITE);
+    Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(110, 70, text, &Segoe12, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
     DEV_Delay_ms(3000);
 
-    text = u"Getting local data ...";
-    Paint_ClearWindows(80, 80, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-    Paint_DrawString_custom(80, 80, text, &Segoe12, BLACK, WHITE);
+    text = u"Getting local data";
+    Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe12.Height, WHITE);
+    Paint_DrawString_custom(85, 70, text, &Segoe12, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
 
     // Get Preferences local data
@@ -83,7 +83,11 @@ void setup()
         MQTT_Connect(topic.c_str(), BlackImage);
     }
 
-    if (!dataID.isEmpty()) {
+    if (!dataID.isEmpty() && dataType != 0) {
+        Paint_ClearWindows(30, 70, 30 + 14 * 20, 70 + Segoe12.Height, WHITE);
+        Paint_DrawString_custom(70, 70, u"Displaying stored data", &Segoe12, BLACK, WHITE);
+        EPD_2IN9_V2_Display_Partial(BlackImage);
+
         if (dataType == 1) {
             displayWrite1(BlackImage);
         } else if (dataType == 2) {
@@ -95,6 +99,8 @@ void setup()
         } else if (dataType == 5) {
             displayWrite5(BlackImage);
         }
+    } else {
+        displayEmpty(BlackImage);
     }
 #endif
 
@@ -106,6 +112,11 @@ void loop()
     if (digitalRead(9) == LOW) {  // Check if the button is pressed
         Serial.println("Button pressed!");  // Print a message to the serial monitor
         delay(500);                 // Debounce delay to avoid multiple detections
+        EPD_2IN9_V2_Init();
+        Paint_Clear(0xff);
+        Paint_DrawString_custom(60, 40, u"Enter Debugging mode", &Segoe16, BLACK, WHITE);
+        EPD_2IN9_V2_Display(BlackImage);
+        DEV_Delay_ms(2000);
         startDebugging();
     }
     static String key = "";
@@ -137,7 +148,6 @@ void loop()
 
     // Reconfig after Preferences update
     if (updated) {
-
         String ssid = preferences.getString("ssid", "");
         String password = preferences.getString("pass", "");
         String topic = preferences.getString("_id", "");
@@ -145,6 +155,8 @@ void loop()
         int dataType = preferences.getInt("dataType", 0);
 
         EPD_2IN9_V2_Init();
+        Paint_Clear(0xff);
+        EPD_2IN9_V2_Display(BlackImage);
         MQTT_Client_Init(ssid.c_str(), password.c_str(), topic.c_str(), BlackImage);
         MQTT_Connect(topic.c_str(), BlackImage);
 
@@ -160,6 +172,8 @@ void loop()
             } else if (dataType == 5) {
                 displayWrite5(BlackImage);
             }
+        } else {
+            displayEmpty(BlackImage);
         }
         MQTT_Loop(topic.c_str(), BlackImage);
         updated = false;

@@ -40,11 +40,11 @@ const NewDevice = () => {
         };
     }, [port]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(deviceCreated);
 
-        instanceCoreApi.post(`${API}/devices`, deviceCreated).then(async (response) => {
+        await instanceCoreApi.post(`${API}/devices`, deviceCreated).then(async (response) => {
             console.log(response.data);
             Notify.Notify.success(`Device info updated successfully!`);
             if (port) {

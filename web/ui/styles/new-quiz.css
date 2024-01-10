@@ -16,7 +16,7 @@
     font-weight: 200;
 }
 
-.content canvas.render-canvas {
+canvas.render-canvas {
     border-radius: 10px;
     margin: 20px 0px;
     border: 1px solid rgba(86, 86, 86, 0.736) !important;

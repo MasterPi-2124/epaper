@@ -14,5 +14,6 @@ void displayWrite2(UBYTE * BlackImage);
 void displayWrite3(UBYTE * BlackImage);
 void displayWrite4(UBYTE * BlackImage);
 void displayWrite5(UBYTE * BlackImage);
+void displayEmpty(UBYTE * BlackImage);
   
 #endif /* __DISPLAY_H */

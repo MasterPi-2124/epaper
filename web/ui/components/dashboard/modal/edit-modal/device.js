@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
 import { Input } from "@nextui-org/react";
 
 const Device = ({ deviceUpdated, handleSubmit, handleChange, port, setPort }) => {
@@ -31,12 +31,12 @@ const Device = ({ deviceUpdated, handleSubmit, handleChange, port, setPort }) =>
         const newPort = await navigator.serial.requestPort();
         await newPort.open({ baudRate: 115200 });
         setPort(newPort);
-        Notify.Notify.success(`Opening serial port successfully! ${newPort.getInfo().usbVendorId}:${newPort.getInfo().usbProductId}`);
+        Notify.success(`Opening serial port successfully! ${newPort.getInfo().usbVendorId}:${newPort.getInfo().usbProductId}`);
       } catch (error) {
-        Notify.Notify.failure(`Error opening serial port: ${error}`);
+        Notify.failure(`Error opening serial port: ${error}`);
       }
     } else {
-      Notify.Notify.failure(`Sorry, this browser doesn't support webSerial`);
+      Notify.failure(`Sorry, this browser doesn't support webSerial`);
     }
   }
 

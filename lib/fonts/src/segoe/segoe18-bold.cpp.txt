@@ -1,11 +1,23 @@
 #include <fonts.h>
 
 // 
-//  Font data for Segoe UI Bold 18pt
+//  Font data for Segoe UI Bold 18pt, using Segment
 // 
 
-// Character bitmaps for Segoe UI 18pt
-const uint_8 segoeUI_18ptBitmaps[] = 
+const FT_MAP ASCII_table[] = {
+
+};
+
+const FT_MAP VN_table[] = {
+
+};
+
+const FT_MAP vn_table[] = {
+
+};
+
+// Character bitmaps for Segoe UI Bold 18pt
+const char table[] = 
 {
 	// @0 '!' (4 pixels wide)
 	0x00, //     
@@ -7532,13 +7544,12 @@ const uint_8 segoeUI_18ptBitmaps[] =
 	0x78, 0x00, //  ####        
 };
 
-// Font information for Segoe UI 18pt
-const FONT_INFO segoeUI_18ptFontInfo =
+// Font information for Segoe UI Bold 18pt
+cFONT_SEGMENT Segoe18Bold =
 {
-	4, //  Character height
-	'!', //  Start character
-	7929, //  End character
-	2, //  Width, in pixels, of space character
-	segoeUI_18ptDescriptors, //  Character descriptor array
-	segoeUI_18ptBitmaps, //  Character bitmap array
+	ASCII_table,
+	VN_table,
+	vn_table,
+	31, //  Height, in pixels, of space character
+	table,
 };

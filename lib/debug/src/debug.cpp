@@ -164,7 +164,7 @@ void enterDebugMode()
     printf("Goto Sleep...\r\n");
     // EPD_2IN9_V2_Sleep();
 
-    const char16_t * Welcome = u"Pi's Epaper Project";
+    // const char16_t * Welcome = u"Pi's Epaper Project";
     const char16_t * test = u"aàáảãạăằắẳẵặâầấẩẫậbcdđeèé";
     const char16_t * test2 = u"ẻẽẹêềếểễệfghiìíỉĩịjklmno";
     const char16_t * test3 = u"òóỏõọôồốổỗộơờớởỡợpqrstuù";

@@ -2,7 +2,6 @@ import { instanceCoreApi } from "@/services/setupAxios";
 import React, { useState, useEffect, useRef } from "react"
 import { Dropdown } from "@nextui-org/react";
 import Link from "next/link";
-// import Notify from 'notiflix/build/notiflix-notify-aio';
 import { Notify } from "notiflix";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";

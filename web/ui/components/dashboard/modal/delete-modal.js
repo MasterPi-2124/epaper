@@ -1,15 +1,15 @@
 import { instanceCoreApi } from "@/services/setupAxios";
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
-import Notify from 'notiflix/build/notiflix-notify-aio';
-
+import {Notify} from "notiflix";
 const DeleteModal = ({ type, data, onConfirm, onClose }) => {
-    const deleteItem = () => {
-        try {
-            instanceCoreApi.delete(`${API}/${type}/${data._id}`);
-            Notify.Notify.success("The item is deleted successfully!");
-        } catch (err) {
-            Notify.Notify.failure(`Error deleting item: ${err}`);
-        }
+    const deleteItem = async () => {
+        Notify.info("Deleting item...");
+
+        await instanceCoreApi.delete(`${API}/${type}/${data._id}`).then(response => {
+            Notify.success("The item is deleted successfully!");
+        }).catch(error => {
+            Notify.failure(`Error deleting item: ${err}`);
+        });
     }
 
     if (type === "data") {

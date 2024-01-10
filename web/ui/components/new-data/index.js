@@ -3,15 +3,16 @@ import { useState } from "react"
 import CreateData from "./create-data";
 import ChooseDevice from "./choose-device";
 import DataType from "./data-type";
+import { Notify } from "notiflix";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 const NewData = () => {
     const [stage, setStage] = useState(-1); // -1 - Choose data type
-    //  0 - not submitted
-    //  1 - submitted but not active
-    //  2 - not submitted and active
-    //  3 - submitted and active
+                                            //  0 - not submitted
+                                            //  1 - submitted but not active
+                                            //  2 - not submitted and active
+                                            //  3 - submitted and active
     const [dataCreated, setDataCreated] = useState({
         type: "",
         name: "",
@@ -59,13 +60,16 @@ const NewData = () => {
         })
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(dataCreated);
-        instanceCoreApi.post(`${API}/data`, dataCreated).then(response => {
+        Notify.info("Submitting");
+        await instanceCoreApi.post(`${API}/data`, dataCreated).then(response => {
             console.log(response.data);
             handleStage(event);
+            Notify.success("Data submitted and wrote successfully!");
         }).catch(error => {
+            Notify.success(`Error submitting data!\n${error}`);
             console.error(error);
         })
     }

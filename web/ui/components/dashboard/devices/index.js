@@ -38,9 +38,10 @@ export const DeviceList = () => {
       setStage(2);
     })
   }, []);
-
+  
   return (
     <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
+      {console.log(devices)}
       <div className="flex justify-between items-center flex-col gap-3">
         <h1 className="text-2xl">Devices</h1>
         <p>See the list of your EPD devices and make changes.</p>
@@ -51,7 +52,7 @@ export const DeviceList = () => {
           <Table.Header>
             <Table.Column width={"auto"}>Name</Table.Column>
             <Table.Column width={"auto"}>Status</Table.Column>
-            <Table.Column width={"auto"}>DataID</Table.Column>
+            <Table.Column width={"auto"}>Data</Table.Column>
             <Table.Column width={"auto"}></Table.Column>
           </Table.Header>
           {stage === 0 ? (
@@ -110,7 +111,16 @@ export const DeviceList = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                    {item.dataID ? item.dataID : "Not found"}
+                  {item.dataID ? 
+                    <>
+                      <p className="name">
+                        {item.dataName}
+                      </p>
+                      <p className="id">
+                        {item.dataID}
+                      </p>
+                    </> 
+                    : "Not found"}
                   </Table.Cell>
 
                   <Table.Cell>
