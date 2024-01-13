@@ -1848,11 +1848,11 @@ The code is transferred and stored in ESP32-C3 Supermini flash memory using the 
         ROM                     & 384KB                                             \\ \hline
         Supply Voltage          & 3V - 3.6V                                         \\ \hline
     \end{tabular}
-    \caption{System services}
+    \caption{ESP32-C3's specs}
     \label{fig:table_services}
 \end{table}
 
-The e-paper display panel is connected and communicates to the board via SPI interfaces.  
+The e-paper display panel is connected and communicates to the board via SPI interfaces. Details of connected pins and their description are listed in table \ref{fig:table_spi} below.
 \begin{table}[H]
     \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
     \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
@@ -1871,11 +1871,9 @@ The e-paper display panel is connected and communicates to the board via SPI int
         RST             & GPIO2	                      & Reset, low active                             \\ \hline
         BUSY            & GPIO3	                      & Busy status output pin (means busy)           \\ \hline
     \end{tabular}
-    \caption{System services}
-    \label{fig:table_services}
+    \caption{SPI connection schematic}
+    \label{fig:table_spi}
 \end{table}
 
-The device runs on battery, which can last for 5 - 6 hours before needing to recharge. In the scope of this project, this is still reasonable and acceptable as the product is still in the prototype stage and is not optimized for higher endurance in a real-life environment. 
-The EPD device also uses 250mAh Lithium battery; however the battery life is quite poor ( 
-
+The device runs on battery, which can last for 3 - 4 hours before needing to recharge. In the scope of this project, this is still reasonable and acceptable as the product is still in the prototype stage and is not optimized for higher endurance in a real-life environment. 
 \end{document}

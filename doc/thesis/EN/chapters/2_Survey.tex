@@ -38,18 +38,19 @@ With the assessments mentioned above, the features of the four e-paper display m
     \label{fig:table_manufaturers}
 \end{table}
 
-\section{Functional Overview}
 Having learned from the survey of the above four systems and other real-life use cases, this project has concluded some objectives of building an EPD display system, including designing and building EPD devices, as well as including some essential features fitting in multiple use cases.
 
-First, research the technology behind the electrophoretic display and apply it to a compact EPD device
-    
-    Manage EPD devices in a system via a central hub, which can be a cloud server, communicating with EPD devices and backend server using MQTT protocol and other wireless connectivities, or a local dock that is responsible for receiving data and displaying on EPD panels. Each solution's advantages and drawbacks are discussed in section \ref{section:optimization} in chapter \ref{chapter:SolutionAndContribution}.
-    
-    Building a system that supports several use cases for small businesses. This project will focus on several use cases, from student/employee ID cards, room signages, product price tags, and client cards in exhibitions.
-    
-    Implement security in the system and enhance user experience.
+First, take the advantage of the electrophoretic display technology in displaying infromation. With the unique characteristic of e-paper disolay, the EPD device should be capable of displaying data for a long period of time without frequent refreshing. The device also need to be energy-saving and able to operate in reasonable time without recharging.
 
+Second, manage EPD devices in a system via a central hub, which can be a cloud server, communicating with EPD devices and backend server using MQTT protocol and other wireless connectivities, or a local dock that is responsible for receiving data and displaying on EPD panels. Each solution's advantages and drawbacks are discussed in section \ref{section:optimization} in chapter \ref{chapter:SolutionAndContribution}.
+
+Third, implement the EPD device system in some initial use cases to test the performance and effectiveness of the system in solving real-life problems. The initial use cases include name tags for students, employees, and clients; price tags in mini-markets and logistics services; and room and other signages.
+  
+Finally, implement security in the system and enhance user experience.
+
+\section{Functional Overview}
 \label{section:2.2}
+
 \subsection{General use case diagram}
 \label{subsection:2.2.1}
 The general use case diagram of the EPD Display System is illustrated in Figure \ref{fig:uc_general}. As per the diagram, the system involves three main actors: The Manager, The Administrator, and the EPD devices. The Manager can manage EPD devices, data, and their accounts. The Administrator inherits the functions of the Manager and can also manage and test the devices more advanced. On the other hand, the EPD devices act as end-users, receiving and displaying data on the screen. They also interact with the system via the MQTT protocol.
