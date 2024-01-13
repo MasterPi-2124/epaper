@@ -120,7 +120,7 @@ On the other hand, the Model-View-Controller-Service (MVCS) architecture is an e
 By combining these two architectures, the system is better equipped to handle the dynamic and distributed nature of IoT applications. It also enables organizations to build more agile and adaptive applications to address the complex demands of modern business environments while ensuring scalability, reliability, and seamless communication between different components.
 
 \subsection{Overall design}
-The system is divided into independently deployable services, including the API back-end server and MQTT Server. These services communicate via the MQTT protocol, and the MQTT Server also acts as a broker to relay data to the EPD devices (Figure \ref{fig:Fig3}). API server follows the MVCS pattern with three main components: Controllers handling incoming requests and coordinating responses, Services containing the business logic and rules of the application, and Models interacting with the database, managing data storage and retrieval, while Management UI and EPD devices act as a View component (Figure \ref{fig:Fig2}).
+The system is divided into independently deployable services, including the API back-end server and MQTT Server. These services communicate via the MQTT protocol, and the MQTT Server also acts as a broker to relay data to the \gls{EPD} devices (Figure \ref{fig:Fig3}). API server follows the MVCS pattern with three main components: Controllers handling incoming requests and coordinating responses, Services containing the business logic and rules of the application, and Models interacting with the database, managing data storage and retrieval, while Management UI and \gls{EPD} devices act as a View component (Figure \ref{fig:Fig2}).
 \subsubsection{MVCS architecture}
 The system has three data types, and the packages of each type handling operation share the same structure: the Controller handles requests about the data type and delegates them to the Service, which processes the requests and uses the Model to interact with the database.
 \begin{figure}[H]
@@ -338,7 +338,7 @@ This service in the system acts as an intermediary, managing the state of all MQ
 
 \section{Detailed design}
 \subsection{User interface design}
-This system's architecture and user interface are meticulously tailored for computer displays, ensuring optimal functionality and visual experience on larger screens. The design is customized to leverage the expansive real estate of computer monitors (ranging from 1366 \(\times\) 768 and higher), facilitating ease of use and comprehensive information display. This focus on computer-targeted design means that the system is not intended for mobile use. As such, it may not provide an ideal user experience or full functionality on smaller mobile device screens. The decision to specialize in computer displays stems from a commitment to delivering a high-quality, immersive experience that fully utilizes the capabilities and advantages of larger screens typically associated with desktop or laptop computers. There are four main layouts used on the website: authentication, dashboard, modal, and creation. The users use the authentication page (figure \ref{fig:Mockup1}) for authenticating purposes, including sign-in and sign-up. The dashboard page layout in picture \ref{fig:Mockup2} shows a table of EPD devices and data, listing all information about each item and the buttons on the right side to open functional modals to view, edit, and delete, which are illustrated in figure \ref{fig:Mockup3}. In the creation page in figure \ref{fig:Mockup4}, users can create new devices and data by providing details in the inputs and choosing options from the dropdown. The layouts and the buttons follow the minimalistic design pattern and colors, improving the visual experience for users.
+This system's architecture and user interface are meticulously tailored for computer displays, ensuring optimal functionality and visual experience on larger screens. The design is customized to leverage the expansive real estate of computer monitors (ranging from 1366 \(\times\) 768 and higher), facilitating ease of use and comprehensive information display. This focus on computer-targeted design means that the system is not intended for mobile use. As such, it may not provide an ideal user experience or full functionality on smaller mobile device screens. The decision to specialize in computer displays stems from a commitment to delivering a high-quality, immersive experience that fully utilizes the capabilities and advantages of larger screens typically associated with desktop or laptop computers. There are four main layouts used on the website: authentication, dashboard, modal, and creation. The users use the authentication page (figure \ref{fig:Mockup1}) for authenticating purposes, including sign-in and sign-up. The dashboard page layout in picture \ref{fig:Mockup2} shows a table of \gls{EPD} devices and data, listing all information about each item and the buttons on the right side to open functional modals to view, edit, and delete, which are illustrated in figure \ref{fig:Mockup3}. In the creation page in figure \ref{fig:Mockup4}, users can create new devices and data by providing details in the inputs and choosing options from the dropdown. The layouts and the buttons follow the minimalistic design pattern and colors, improving the visual experience for users.
 
 \begin{figure}[H]
     \centering
@@ -1392,7 +1392,7 @@ Each sub-section below demonstrates the workflow of each class participating in 
                                 & input2            & String    &   & Second information                                    \\ \cline{2-5}
                                 & input3            & String    &   & Third information                                     \\ \cline{2-5}
                                 & input4            & String    &   & Fourth information                                    \\ \cline{2-5}
-                                & active            & boolean   & * & Display status on EPD device                          \\ \cline{2-5}
+                                & active            & boolean   & * & Display status on \gls{EPD} device                          \\ \cline{2-5}
                                 & activeStartTime   & uint      & * & The display start time                                \\ \cline{2-5}
                                 & deviceID          & ObjectId  &   & ID of displayed device                                \\ \cline{2-5}
                                 & deviceName        & String    &   & Name of the displayed device                          \\ \cline{2-5}
@@ -1488,13 +1488,13 @@ In the development of this project, a suite of sophisticated tools was employed 
         Express.JS                              & Framework     & v4.18.2           & A web application framework for Node.js                           & \url{https://expressjs.com}                                       \\ \hline
         Mongoose                                & Library       & v8.0.0            & A library for MongoDB and Node.js data modeling                   & \url{https://mongoosejs.com}                                      \\ \hline
         MQTT NPM Package (mqtt)                 & Library       & v5.3.0            & A library for implementing MQTT protocol in Node.js               & \url{https://www.npmjs.com/package/mqtt}                          \\ \hline
-        WaveShare EPD Library                   & Library       & v1.0              & A library for interfacing with e-paper displays                   &                                                                   \\ \hline
+        WaveShare \gls{EPD} Library                   & Library       & v1.0              & A library for interfacing with e-paper displays                   &                                                                   \\ \hline
         Node Version Manager (nvm)              & Tools         & v0.39.2           & A tool for managing multiple Node.js versions                     & \url{https://github.com/nvm-sh/nvm}                               \\ \hline
         Node Package Manager (npm)              & Tools         & v10.1.0           & A package manager managing dependencies in Node.js projects       & \url{https://www.npmjs.com}                                       \\ \hline
         MongoDB Community Edition for Linux     & Tools         & v7.0.2            & An open-source document database for Linux systems                & \url{https://www.mongodb.com/try/download/community}              \\ \hline
         MongoDB Compass                         & Tools         & v1.40.4           & A GUI for MongoDB, simplifying data visualization and management  & \url{https://www.mongodb.com/products/compass}                    \\ \hline
         RabbitMQ                                & Tools         & v3.12.10          & An open-source message broker software                            & \url{https://www.rabbitmq.com}                                    \\ \hline
-        ESP32 C3-Supermini                      & Device        &                   & A compact microcontroller module for EPD devices                  &                                                                   \\ \hline
+        ESP32 C3-Supermini                      & Device        &                   & A compact microcontroller module for \gls{EPD} devices                  &                                                                   \\ \hline
         WeAct Studio E-paper 2.9inch display    & Device        &                   & A low-power display module                                        & \url{https://www.weact-tc.cn}                                     \\ \hline
         Ubuntu Server                           & System        &                   & A dedicated server in Hetzner, for Web hosting and MQTT Broker    & \url{https://www.hetzner.com}                                     \\ \hline
         Nginx                                   & Tools         & nginx/1.24.0      & A high-performance web server and reverse proxy                   & \url{https://nginx.org}                                           \\ \hline
@@ -1514,9 +1514,9 @@ A lot of issues and additional tasks arise in the system development process, an
 \end{figure}
 
 \subsection{Achievement}
-With the help of tools and libraries in the table \ref{fig:table_tools} above, the project has reached significant milestones and also released a minimum viable product (MVP), including the Management UI, the back-end server, and a couple of EPD devices that can be implemented in many small business environments. While having some minor performance issues, this MVP still proved its usefulness in various use cases, such as mini-markets, schools, and offices, unveiling the enormous potential of the system in a broader spectrum of the service industry.
+With the help of tools and libraries in the table \ref{fig:table_tools} above, the project has reached significant milestones and also released a minimum viable product (MVP), including the Management UI, the back-end server, and a couple of \gls{EPD} devices that can be implemented in many small business environments. While having some minor performance issues, this MVP still proved its usefulness in various use cases, such as mini-markets, schools, and offices, unveiling the enormous potential of the system in a broader spectrum of the service industry.
 
-The whole system runs on the website, so the users don't need to install any additional applications. Also, the users only need to plug the EPD device into the computer via a USB port when needed without additional drivers, and the website will automatically recognize the device. Details of the running system are shown in the table below.
+The whole system runs on the website, so the users don't need to install any additional applications. Also, the users only need to plug the \gls{EPD} device into the computer via a USB port when needed without additional drivers, and the website will automatically recognize the device. Details of the running system are shown in the table below.
 
 \begin{table}[H]
     \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
@@ -1538,10 +1538,10 @@ The whole system runs on the website, so the users don't need to install any add
     \label{fig:table_tools}
 \end{table}
 
-The EPD device consists of an ESP32-C3 Supermini development board with a Waveshare 2.9-inch e-paper display panel and is packaged inside a custom 3D printed case \footnote{1}. The battery powering the system is a 250mAh Lithium-ion battery and is rechargeable via the USB-C port of ESP32-C3.
+The \gls{EPD} device consists of an ESP32-C3 Supermini development board with a Waveshare 2.9-inch e-paper display panel and is packaged inside a custom 3D printed case \footnote{1}. The battery powering the system is a 250mAh Lithium-ion battery and is rechargeable via the USB-C port of ESP32-C3.
 
 \subsection{Illustration of main functions}
-To manage EPD Devices and data, users have to log in with credentials as illustrated in the image \ref{fig:login-screen}. After logging in, the user can choose to create data/device or go to the dashboard to manage them by choosing the pages from the left sidebar, which is shown in figure \ref{fig:dashboard}. 
+To manage \gls{EPD} Devices and data, users have to log in with credentials as illustrated in the image \ref{fig:login-screen}. After logging in, the user can choose to create data/device or go to the dashboard to manage them by choosing the pages from the left sidebar, which is shown in figure \ref{fig:dashboard}. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{doc//imgs/ui_login.png}
@@ -1573,7 +1573,7 @@ When creating data, the user can easily follow on-screen instructions and fill i
     \label{fig:new-data}
 \end{figure}
 
-When registering a new device, users need to plug the EPD device into the USB port of the PC they are using. Then, users can choose the device from the connected devices list and provide its name and Wi-Fi credentials before submitting to the system.
+When registering a new device, users need to plug the \gls{EPD} device into the USB port of the PC they are using. Then, users can choose the device from the connected devices list and provide its name and Wi-Fi credentials before submitting to the system.
 
 \begin{figure}[H]
     \centering
@@ -1590,9 +1590,9 @@ In the device's dashboard, the users can see information together with the statu
         \label{fig:data-dashboard}
 \end{figure}
 
-The EPD Device connects to the MQTT Broker and subscribes to its ID as the topic. The picture \ref{} on the left side below indicates the device display when no data is stored, and the right side shows the device display when data is stored and displayed in the device. 
+The \gls{EPD} Device connects to the MQTT Broker and subscribes to its ID as the topic. The picture \ref{} on the left side below indicates the device display when no data is stored, and the right side shows the device display when data is stored and displayed in the device. 
 
-Users can also put the EPD device in debugging mode to test the devices. Currently, to do so, users need to hold the "Boot" button on the ESP32-C3 for 5 seconds, and it will reboot to the debugging mode and test the functionalities of the screen (figure \ref{}). This access method is not user-friendly and is only temporary in the development of the project. The improvement to this, and also other improvements of the system in the future, are discussed in chapter \ref{chapter:Conclusion}.
+Users can also put the \gls{EPD} device in debugging mode to test the devices. Currently, to do so, users need to hold the "Boot" button on the ESP32-C3 for 5 seconds, and it will reboot to the debugging mode and test the functionalities of the screen (figure \ref{}). This access method is not user-friendly and is only temporary in the development of the project. The improvement to this, and also other improvements of the system in the future, are discussed in chapter \ref{chapter:Conclusion}.
 
 \section{Testing and evaluation}
 \subsection{Evaluation}
@@ -1671,11 +1671,11 @@ Required inputs of new data form and device-choosing section in this process are
         \hline
 
         \textbf{No.}& \textbf{Test cases}     & \textbf{Conditions}& \textbf{Expected Behaviour}            & Pass \\ \hline
-        1           & User provides information correctly & All inputs are correctly filled                  & Save new data successfully, and data is correctly displayed on EPD device if Active is true & \checkmark                   \\ \hline
+        1           & User provides information correctly & All inputs are correctly filled                  & Save new data successfully, and data is correctly displayed on \gls{EPD} device if Active is true & \checkmark                   \\ \hline
         2           & Checking the required information              & Some required inputs are empty    & Notify users about the error  & \checkmark                   \\ \hline
-        3           & Display on device             & Device and display options are properly provided & The data is displayed on EPD screen correctly, and same as the rendered                   & \checkmark \\ \hline
+        3           & Display on device             & Device and display options are properly provided & The data is displayed on \gls{EPD} screen correctly, and same as the rendered                   & \checkmark \\ \hline
         4           & No active devices              & All the devices are inactive & Notify users to check the devices                 & \checkmark \\ \hline
-        5           & Old data handle        & Data is displayed on EPD device containing old data          &  Old data's device information removed, device and data details updated accordingly & \checkmark \\ \hline
+        5           & Old data handle        & Data is displayed on \gls{EPD} device containing old data          &  Old data's device information removed, device and data details updated accordingly & \checkmark \\ \hline
         6           & Handle device error          & Device encounters error when processing data                 & Receive the error and notify users & \checkmark \\ \hline
     \end{tabular}
     \caption{Testing results of "Adding new data" process}
