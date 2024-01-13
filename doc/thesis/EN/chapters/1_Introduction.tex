@@ -9,30 +9,30 @@ However, the challenge remains in presenting this vast amount of information in 
 
 By combining the latest advancements in electronic ink technology with energy-efficient design principles, e-paper display technology has emerged as a transformative solution in various industries besides traditional and digital screens. Its unique ability to retain text and images without a constant power supply makes it ideal for a wide range of applications, from dynamic signage in retail and transportation to real-time information displays in healthcare and corporate environments, and even revolutionizes information delivery within the service industry. Also, this technology aligns with the growing emphasis on environmental sustainability and energy efficiency in the industry, offering businesses a cost-effective way to stay ahead of the information curve, ensuring that customers have access to the most current data while reducing their carbon footprint to achieve sustainability goals. This change is not merely an improvement but a necessary evolution to meet the demands of modern service environments where information is both a tool and an asset.
 
-This project aims to focus on building an EPD devices system prototype that implements the use of e-paper display technology in various aspects, including warehousing, education, enterprises, etc.
+This project aims to focus on building an \gls{EPD} devices system prototype that implements the use of e-paper display technology in various aspects, including warehousing, education, enterprises, etc.
 
 \section{Objectives and scope of the graduation thesis}
 \label{section:1.2}
-There are numerous applications of e-paper being utilized in various large systems, ranging from public transportation and logistics to education. However, these are extensive systems that require the handling of many specialized tasks and call for a complex and costly display system. In other words, EPD (Electronic Paper Display) systems used in these businesses are highly optimized for the specific needs of each enterprise, making the costs expensive and not suitable for smaller systems.
+There are numerous applications of e-paper being utilized in various large systems, ranging from public transportation and logistics to education. However, these are extensive systems that require the handling of many specialized tasks and call for a complex and costly display system. In other words, \gls{EPD} (Electronic Paper Display) systems used in these businesses are highly optimized for the specific needs of each enterprise, making the costs expensive and not suitable for smaller systems.
 
-Building on these limitations, the project aims to develop an EPD devices system that focuses more on smaller businesses and use cases and targets the following main objectives: (i) Provide a cost-effective way of data displaying using e-paper display technology in small businesses; (ii) Provide a management UI and back-end system that suits most aspect's needs, firstly focusing on retails, offices, hospitals, schools, and exhibitions; and (iii) Optimize EPD devices to achieve better performance and higher quality in various harsh environments.
+Building on these limitations, the project aims to develop an \gls{EPD} devices system that focuses more on smaller businesses and use cases and targets the following main objectives: (i) Provide a cost-effective way of data displaying using e-paper display technology in small businesses; (ii) Provide a management UI and back-end system that suits most aspect's needs, firstly focusing on retails, offices, hospitals, schools, and exhibitions; and (iii) Optimize \gls{EPD} devices to achieve better performance and higher quality in various harsh environments.
 
 \section{Tentative solution}
 \label{section:1.3}
 To achieve the goals set out in Section \ref{section:1.2}, the project will focus on developing the system using a client-server model combined with microservices to ensure flexibility, ease of management, and scalability when necessary. 
 
-On the client side, the project uses the NextJS framework to develop a user-friendly UI and custom library to receive and display data in EPD devices that run on ESP32-C3 supermini development modules. On the back-end side, the project uses ExpressJS and MongoDB to build an API server containing user data and RabbitMQ as an MQTT Broker to communicate with EPD devices via MQTT protocol. Details about the utilized model and the technologies used in the system will be specifically presented in chapters \ref{chapter:Methodology} and \ref{chapter:Experiment}.
+On the client side, the project uses the NextJS framework to develop a user-friendly UI and custom library to receive and display data in \gls{EPD} devices that run on ESP32-C3 supermini development modules. On the back-end side, the project uses ExpressJS and MongoDB to build an API server containing user data and RabbitMQ as an MQTT Broker to communicate with \gls{EPD} devices via MQTT protocol. Details about the utilized model and the technologies used in the system will be specifically presented in chapters \ref{chapter:Methodology} and \ref{chapter:Experiment}.
 
-About the EPD devices. the project uses an ESP32-C3 Supermini development board to receive and display data on an e-paper display panel. Details of the device are also discussed in chapter \ref{chapter:Methodology} and chapter \ref{chapter:Experiment}.
+About the \gls{EPD} devices. the project uses an ESP32-C3 Supermini development board to receive and display data on an e-paper display panel. Details of the device are also discussed in chapter \ref{chapter:Methodology} and chapter \ref{chapter:Experiment}.
 
 \section{Thesis organization}
 \label{section:1.4}
 
 The rest of this thesis is structured as follows:
 
-Chapter 2 presents the survey process and requirement analysis of the project, providing an overview of its functionality and detailing some of the prominent features of the EPD display system.
+Chapter 2 presents the survey process and requirement analysis of the project, providing an overview of its functionality and detailing some of the prominent features of the \gls{EPD} display system.
 
-Based on the requirements outlined in Chapter 2, Chapter 3 will focus on the main technologies for system development. The system will comprise three main parts: (i) a website for managing information and display devices; (ii) a Node.js server and MQTT Broker to handle communication between display devices and the server, as well as process requests from the website; (iii) EPD devices to receive and display information.
+Based on the requirements outlined in Chapter 2, Chapter 3 will focus on the main technologies for system development. The system will comprise three main parts: (i) a website for managing information and display devices; (ii) a Node.js server and MQTT Broker to handle communication between display devices and the server, as well as process requests from the website; (iii) \gls{EPD} devices to receive and display information.
 
 Chapter 4 will delve deeper into the architectural design of each component, database design, application development process, testing, and system security.
 
