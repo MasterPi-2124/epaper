@@ -1,43 +1,11 @@
 \documentclass[../Main.tex]{subfiles}
 
-\tikzstyle{startstop} = [
-    rectangle,
-    rounded corners=1.5em,
-    minimum height=1cm,
-    minimum width=3cm,
-    text width=3cm, 
-    text centered, 
-    draw=gray!60, 
-    fill=gray!20
-]
-
-\tikzstyle{process} = [
-    rectangle, 
-    rounded corners, 
-    minimum width=3cm, 
-    minimum height=1cm,
-    text centered, 
-    text width=3cm, 
-    draw=gray!60, 
-    fill=gray!20
-]
-
-\tikzstyle{decision} = [
-    diamond, 
-    minimum width=4cm, 
-    minimum height=0.5cm, 
-    text centered, 
-    draw=gray!60, 
-    fill=gray!20
-]
-
-\tikzstyle{arrow} = [thick,->,>=stealth, draw=gray!90]
-
 \begin{document}
 
 The preceding chapters of this document have meticulously delineated the architectural framework and the technological foundations employed in the system's development process. However, without distinct solutions and initiatives, the system might have remained indistinguishable within the extensive landscape of business solutions and unsuitable in other environments like Vietnam. This chapter aims to shed light on how the issues are identified in the development progress of the project and the personalized strategies and innovations that contributed to the system's uniqueness and enhanced its efficacy and relevance in a dynamic business environment.
 
 \section{Display custom text}
+\label{section:custom-font}
 In the development process, the system encounters an issue when the user wants to display Vietnamese language texts and other special characters not in the ASCII character map. Vietnamese, with its complex diacritical marks and distinct character set, demands a high degree of precision in rendering, a task that is particularly challenging given the inherent limitations and operational mechanics of e-paper displays. This section will focus on how normal text is stored and processed in constrained environments like ESP32 and the problem of performance over resource usage. 
 
 \subsection{UTF-8 vs. UTF-16}
@@ -70,7 +38,7 @@ To be displayed properly on the screen, the text has to be converted to a bitmap
     }
 \end{center}
 
-In the text-processing task, looking for the bytes array of each character is the most resource-consuming task, especially in an extensive character set. In resource-limited systems like ESP32-c3supermini in the project, it is crucial to balance between saving as many resources as possible and processing data in a reasonable time. However, the way data is organized in the exported file from TheDotFactory does not effectively solve the problem of processing performance and resource conservation when having to store and process 228 different characters, including Latin letters, accented Vietnamese, special characters, and numbers. This issue, combined with the encoding formats discussed above, leads to two ways of storing and mapping from the character to its corresponding bytes array, with a big difference in performance and resource usage between the two.
+In the text-processing task, looking for the bytes array of each character is the most resource-consuming task, especially in an extensive character set. In resource-limited systems like ESP32-C3 Supermini in the project, it is crucial to balance between saving as many resources as possible and processing data in a reasonable time. However, the way data is organized in the exported file from TheDotFactory does not effectively solve the problem of processing performance and resource conservation when having to store and process 228 different characters, including Latin letters, accented Vietnamese, special characters, and numbers. This issue, combined with the encoding formats discussed above, leads to two ways of storing and mapping from the character to its corresponding bytes array, with a big difference in performance and resource usage between the two.
 
 \subsection{First Solution}
 The first of the two solutions mentioned above is a practical and straightforward approach focusing on the flexibility and scalability of the character set. The mapped character set is stored in an array of multiple character map definitions, where each character is associated with a structure that contains its display properties (width) and the corresponding byte array for rendering (code structure below), making the retrieval of byte data for each character straightforward and intuitive. This method is particularly suited for systems where a direct and easy way to access the display data for each character is highly recommended, especially for a fixed and known set of characters.
@@ -192,17 +160,147 @@ About performance, ...
 
 Overall, the logic for accessing and using the data in this second solution becomes slightly more complex, requiring correctly handling the mapping and indexing into the byte array. However, this method leverages the advantages of both segmentation and binary search, effectively reducing the search space and improving lookup times, making it well-suited for handling a large set of characters efficiently on systems with limited resources like the ESP32.
 
-\section{Shapes and Bitmap Images}
-\section{Partial Display}
-a
-\section{ESP32 Optimization}
-\subsection{Battery}
-\subsection{Serial Port}
+\section{Solutions for managing devices}
+Currently, this project handles and communicates to the EPD devices via MQTT Broker, which requires a 2.4GHz Wi-Fi connection from the devices. This method is suitable in most cases when Wi-Fi infrastructures are widely available and easy to set up. There are also other ways of managing EPD devices and each method has its advantages and drawbacks. This section will comprehensively discuss each proposed solution to clearly delineate the differences among them, providing a deeper understanding of their respective strengths and limitations. Additionally, the section will delve into the rationale behind selecting the Wi-Fi solution, offering insights into its suitability and effectiveness for the current project and the future plan to support a wide range of flexible management.
 
-\section{RabbitMQ}
+\subsection{Central Dock}
+In the general system, a central component is required to act as a bridge between the server and the EPD devices. This component needs to have sufficient resources to handle large numbers of devices and process enormous amounts of data from the server. Also, depending on the EPD devices, this central component will have specific features and functions.
+
+\begin{center}
+    {\fontsize{7pt}{8pt}\selectfont 
+        \begin{tikzpicture}[node distance=2cm, auto]
+            \node (user) [process, minimum width=1cm, minimum height = 1cm] {Users};
+            \node (server) [process, right of=user, yshift = 2cm, xshift = 1.5cm] {Server};
+            \node (dock) [process, right of=server, yshift = -2cm, xshift = 1cm] {Central dock};
+            \node (epd1) [process, right of=dock, yshift = 2cm, xshift = 2cm] {EPD device};
+            \node (epd2) [process, below of=epd1] {EPD device};
+            \node (epd3) [process, below of=epd2] {EPD device};
+            
+            \draw [arrow] (user) -- (server);
+            \draw [arrow] (server) -- (user);
+            \draw [arrow] (user) -- (dock);
+            \draw [arrow] (dock) -- (user);
+            \draw [arrow] (server) -- (dock);
+            \draw [arrow] (dock) -- (server);
+            \draw [arrow] (dock) -- (epd1);
+            \draw [arrow] (dock) -- (epd2);
+            \draw [arrow] (dock) -- (epd3);
+        \end{tikzpicture}
+    }
+\end{center}
+
+\subsection{Battery-less EPD devices}
+With its bi-stable nature that the display can hold an image for a really long time without any power supply, the EPD device may not need a battery to function properly. It only consumes power when the display is being updated, and most of the power used is from the ESP32 board. This advantage of e-paper display leads to a management solution for the use case when minimal power consumption is crucial, and a frequent data update is not important. As such, the central component will have to handle the data update and display task of multiple individual EPD devices, which is now only the display panel.
+
+A Raspberry Pi board can meet these requirements to become a central dock of the system. With 48 GPIO pins equipped, this device can connect and transmit data to the EPD devices via the SPI interface. Also, it is a powerful mini-computer capable of handling multiple tasks simultaneously and supports various programming languages, including Python, which is often used for EPD programming due to its simplicity and vast library support. On top of that, Rasberry Pi is relatively small compared to other equivalent mini-computers, which brings enormous benefits to the system, which has limited space and needs mobilities. This setup also reduces the cost of setting up the EPD display system significantly, which is very crucial in small businesses
+
+To display data, an EPD device connects to the dock via GPIO pins, which also provide power for the display task. After the data is displayed, the EPD device can disconnect from the dock, and the data remains displayed on the screen until a new display is needed. The EPD panel can also connect to the dock via Near Field Communication (NFC), which can also transfer power wirelessly to the EPD devices. This connection method can open great potential for managing EPD devices when users can directly display data on devices right from their phones or any NFC-support devices. The diagram below shows the new device management flow, with the Rasberry Pi acting as the central dock to receive, handle, and transmit data to EPD devices. The central dock can be a Rasberry Pi with the functions discussed above, or even users' phones and tablets if NFC is used as the connectivity between EPD devices and the dock, and in that case, the users can directly control via the central dock without an intermediate server.
+
+However, there are also drawbacks to this management method, making it only suitable for some minor use cases. First, this method is not capable of frequent updates and handling a lot of EPD devices. Users can only update one EPD device at a time, which will take a lot of time to update multiple EPD devices. Also, EPD devices need to connect to the dock in a short range, which limits the placement and scalability of the displays, especially in larger or more complex setups. In this centralized system, if the central dock encounters an issue or fails, all connected EPD panels will be affected, and this is a significant drawback in critical applications where continuous operation is essential. This drawback also makes the development of the central dock more complex as it has to be stable, fault-tolerant, and effective in dealing with different display content for each panel.
+
+These disadvantages of the central local dock make this solution only effective in small and simple use cases when the disadvantages do not significantly impact the overall functionality or efficiency of the system.
+
+\subsection{Current solution}
+The current solution is designed to handle EPD devices that are ESP32-C3 Supermini boards connected with EPD panels, allowing them to interact with the system individually. In this solution, the central dock does not need to process an extensive amount of data compared to the dock in the above method and only needs to relay data between the server and the EPD devices. The EPD devices can connect to this central dock at long-range distances by Bluetooth Low Energy (BLE) or Internet, maintaining the flexibility and scalability of the system. There can be two types of central dock in this system, depending on the connectivity used by EPD devices. First, if the EPD devices use BLE as connectivity, the central dock has to be a local device, receiving data from the server and transmitting it to the devices via BLE. This connectivity type is beneficial for EPD devices that have poor battery life and limited data size because its data rate is only 2Mbps, not efficient for complex image data. Secondly, if the EPD devices use Wi-Fi, this central device can be an MQTT Broker which receives data from the server and publishes it to the subscribed EPD devices via MQTT protocol. This method is currently used because it can solve the overall problem of managing multiple devices in various business scenarios. However, this approach also comes at the cost of longevity for the EPD devices as Wi-Fi connectivity consumes more power than BLE and does not support sleeping mode in ESP32.
+
+\subsection{Optimization and future work}
+Although having some advantages and handling effectively in various scenarios, this management approach still exposes many downsides in the actual environment. Firstly, EPD devices need to have a good and long-lasting battery, which can increase the thickness and affect the visual look of the devices. Secondly, it increases the setup and maintenance cost of the system as the devices are more complex and expensive to ensure quality and effectiveness. Thirdly, this solution is generally designed for most common cases which limits the flexibility of the system. Section \ref{section:optimization} will provide more insights into the works conducted to optimize the EPD devices' performance and improve battery life. Another solution is combining the advantages of the first solution into this, making it aligned with small environments while also suiting more complex needs of larger use cases. In this scenario, an additional central dock is implemented between the MQTT broker and the devices for BLE and NFC connectivity in smaller use cases and for some tasks that do not require an Internet connection. In larger use cases when an Internet connection is mandatory, the server will store a wish list of each device, containing the data assigned to but not displayed on the device yet. With this solution, the EPD device can sleep and reconnect to the broker to get and handle missed requests in a short period of time. If the devices need to sleep for a longer period, the intermediate central dock can also wake them up via BLE, which still functions when the device is in sleep mode. However, in the scope of this project, this combined solution has not yet been implemented due to the complexity of the development process. The current solution is tested and can handle well in the ideal environment, achieving the goal of designing and building the prototype of the project and making it the base for further optimizations.
+
+\section{ESP32 Optimization}
+\label{section:optimization}
+As discussed in chapter \ref{chapter:Experiment} and the section above, the EPD device's performance is currently just sufficient in the prototype stage and requires further optimization in both resources and battery life. This section will provide more details of the optimizing process, including tracking and addressing the issues.
+
+\subsection{Battery}
+In normal working conditions with a continuous Wi-Fi connection, ESP32-C3 takes an average of \(324mA \times 3.3V = 1.0692W\) at peak, which is calculated roughly based on resources load and the mode's typical consumption defined in the datasheet. The table below indicates the power consumption of each component in the device in the ideal environment and working conditions (Room temperature, 3.3V supply, infrequent e-paper refresh, constant Wi-Fi, and MQTT connection).
+
+\begin{table}[H]
+    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+    \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+    \renewcommand{\arraystretch}{3} % Adjust for row height
+    \centering{}
+    \fontsize{9pt}{8pt}\selectfont 
+    \begin{tabular}{| m{3cm} | m{2cm} | m{8cm} |}
+        \hline
+        \textbf{Components} & \textbf{Active Mode}  & \textbf{Note}                                                             \\ \hline
+        CPU Consumption     & 40mA (avg.)           & CPU run at max speed 160MHz with other peripherals enabled                \\ \hline
+        RF Consumption      & 276mA	                & RF current consumption at peak in 802.11n mode                            \\ \hline
+        ePaper Consumption 	& 8mA (avg.)            & Typical current consumption with rare refresh frequency (maximum 100mA)   \\ \hline
+        Total               & 324mA                 & Total current consumption at peak, actual rate may vary                   \\ \hline
+    \end{tabular}
+    \caption{System services}
+    \label{fig:table_services}
+\end{table}
+
+The current only way to improve battery life and reduce the constraints of devices is by optimizing CPU and RF loads, which can be achieved by strategically managing processes in the device. In the future, implementing a bigger battery without affecting the visual look significantly is also a good option to improve the battery life of the devices. The section below will focus on resource optimization, reducing CPU load, overhead, and memory wastes, this also contributes to battery improvement.
+
+\subsection{Resources}
+
+Here are the details of program usage in the ESP32-C3 board reported by PlatformIO before optimization. This VS code plugin also provides more insights about each component's size and allocation, which is helpful for indicating and addressing the issues.
+
+\begin{table}[H]
+    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+    \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+    \renewcommand{\arraystretch}{3} % Adjust for row height
+    \centering{}
+    \fontsize{9pt}{8pt}\selectfont 
+    \begin{tabular}{| m{3.5cm} | m{1.7cm} | m{8.5cm} |}
+        \hline
+        \textbf{Section}            & \textbf{Size (bytes)} & \textbf{Description}                                                                                           \\ \hline
+        Text                        & 677,023               & Size of the compiled machine code, stored in the flash memory of the ESP32.                                    \\ \hline
+        Data                        & 237,964               & Size of initialized global and static variables. Initially stored in flash memory and then copied to SRAM      \\ \hline
+        BSS                         & 672,304               & Size of uninitialized global and static variables. Stored in SRAM and zero-initialized when the program starts \\ \hline
+        Total Storage (Text + Data) & 914,987               & Total storage in flash memory (4MB total)                                                                      \\ \hline
+        Total RAM (Data + BSS)      & 910,268               & Total RAM usage (365KB actual total)                                                                           \\ \hline
+        Overall (Text + Data + BSS) & 1,587,291             & Total firmware size, helpful for OTA updates                                                                   \\ \hline
+    \end{tabular}
+    \caption{System services}
+    \label{fig:table_reports}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{doc//imgs/platformio-inspect.png}
+    \caption{Enter Caption}
+    \label{fig:enter-label}
+\end{figure}
+
+From the details provided in the table \ref{fig:table_reports}, it is clear that exceeding 910KB of total RAM usage may lead to potential overhead and memory leaks and also put constraints on the device if not properly managed and allocated. This also poses a risk of malfunctioning and battery draining, which decreases the overall performance of the devices a lot. To reduce Data and BSS usage and address this problem, one of the good practices is reducing the number of global and static variables if redundant and using dynamic allocation. Reducing tasks in the device also helps reduce the burden on CPU load, which can decrease CPU clock speed and thus improve battery life.
+
+With the help of PlatformIO Inspect tools, a detailed analysis of the variables in the program has been conducted, revealing valuable insights into their size and sections. Moreover, ESP's useful libraries in resource management also help track resource usage at specific parts, providing a comprehensive picture of code structure. This detailed breakdown helps in pinpointing specific areas where memory usage can be optimized. Thus, numerous issues have been effectively identified and addressed, making memory management efficient and improving overall application performance.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{doc//imgs/platformio-debug.png}
+    \caption{Enter Caption}
+    \label{fig:enter-label}
+\end{figure}
+
+The most significant memory optimization work is changing the way of storing and processing custom Vietnamese text fonts, which is discussed in section \ref{section:custom-font}. The occupied size of an average font decreased three times to just 11KB, which overall reduces memory usage and lookup time, leading to reduced CPU and RAM load. A lot of duplicate, large, and unused variables are also identified, removed, and reallocated dynamically in numerous parts of the code. As a result, the code structure is well-optimized, saving resources while still ensuring the performance of the devices. The table \ref{fig:table_new-reports} below shows the memory usage after optimization.
+
+\begin{table}[H]
+    \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+    \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+    \renewcommand{\arraystretch}{3} % Adjust for row height
+    \centering{}
+    \fontsize{9pt}{8pt}\selectfont 
+    \begin{tabular}{| m{4cm} | m{3cm} | m{3cm} |}
+        \hline
+        \textbf{Section}            & \textbf{Old size (bytes)} & \textbf{Size changed (bytes}  \\ \hline
+        Text                        & 692,494                   & +15,471                       \\ \hline
+        Data                        & 198,283                   & -39,681                       \\ \hline
+        BSS                         & 420,482                   & -251,822                      \\ \hline
+        Total Storage (Text + Data) & 890,777                   & -24,210                       \\ \hline
+        Total RAM (Data + BSS)      & 618,765                   & -291,503                      \\ \hline
+        Overall (Text + Data + BSS) & 1,320,259                 & -267,032                      \\ \hline
+    \end{tabular}
+    \caption{System services}
+    \label{fig:table_new-reports}
+\end{table}
+
+In the actual environment, the frequency of data updates is not high, meaning most of the time the EPD device just keeps the connection to the MQTT Broker and waits for new requests, which is a time-, resource-, and battery-wasting task. A periodical sleep mode can be implemented to address this problem; however, it will also deactivate the RF component in ESP32, which is responsible for the Wi-Fi connection. Although it can reconnect to Wi-Fi and the MQTT broker after a period of sleeping time, the device still has chances of missing requests from users, and if not configured to handle, this may lead to a missing information scenario, which is very crucial in businesses. Another solution to this is also discussed in the previous section \ref{section:optimization}, which is currently not implemented yet. Other than that, the optimized system has been proven to handle tasks effectively in various testing conditions.
 
 \section{Security and vulnerabilities}
-A secure and reliable connection is mandatory in a system that includes many devices communicating with each other and storing sensitive data. This project, however, had to go through a system hack that resulted in all users' data being deleted and sold on the black market. This experience, together with other security issues in the development process, has brought an urgency to enhance the system's security.
+A secure and reliable connection is paramount in a system that includes many devices communicating with each other and storing sensitive data. This project, however, had to go through a system hack that resulted in all users' data being deleted and sold on the black market. This experience, together with other security issues in the development process, has brought an urgency to enhance the system's security.
 \subsection{MongoDB Hack}
 Currently, MongoDB in the system is configured securely with the user's credentials and is being proxied behind a secure connection. However, on the first days of the development, with rudimentary configurations and exposing many vulnerabilities, the MongoDB server is "open" to the public with little protection from the system firewall. Several hacks targeting the MongoDB databases via the open port 27017 of the MongoDB server have been conducted by a hacker who deleted all collections and overwrote them with a recovery message. This message demanded a payment of 0.025 BTC (equivalent to \$1,000) to recover the data; otherwise, the data will be "published on the darknet forums on the TOR network".
 \begin{figure}[H]
@@ -217,10 +315,53 @@ Currently, MongoDB in the system is configured securely with the user's credenti
     \caption{Enter Caption}
     \label{fig:enter-label}
 \end{figure}
+ 
+\subsection{TLS/SSL and Certificate Authorities (CA)}
+MongoDB is one of several tools used in the system that have open connections to other services, together with RabbitMQ and the web servers. Each tool comes with built-in mechanisms to protect data and communications and a logging system to trace down any abnormalities in the system. One of the critical features for enhancing security in both these systems is the implementation of TLS/SSL (Transport Layer Security/Secure Sockets Layer) protocols, using internal Certificate Authorities (CAs) to issue and verify digital server and client certificates.
 
-\subsection{TLS/SSL}
-MongoDB is one of several tools used in the system that have open connections to other services, together with RabbitMQ and the web servers. Each tool has its own security configurations and logging system to debug in case of errors. 
-% Chương này có độ dài tối thiểu 5 trang, tối đa không giới hạn.\footnote{Trong trường hợp phần này dưới 5 trang thì sinh viên nên gộp vào phần kết luận, không tách ra một chương riêng rẽ nữa.} Sinh viên cần trình bày tất cả những nội dung đóng góp mà mình thấy tâm đắc nhất trong suốt quá trình làm ĐATN. Đó có thể là một loạt các vấn đề khó khăn mà sinh viên đã từng bước giải quyết được, là giải thuật cho một bài toán cụ thể, là giải pháp tổng quát cho một lớp bài toán, hoặc là mô hình/kiến trúc hữu hiệu nào đó được sinh viên thiết kế.
+In the internal CA, Root CA serves as the highest level of trust within the system's certificate hierarchy. It is responsible for self-signing its certificate and issuing Intermediate CA certificates. These Intermediate CAs bridge the gap between the Root CA and lower-level certificates. They inherit trust from the Root CA and are used to issue, verify, and revoke server and client certificates. In the services participating in the system, including MongoDB server, RabbitMQ broker, API server, and EPD devices, server and client certificates are used to secure communication. Server certificates are used to encrypt data transmitted to and from servers, ensuring confidentiality. Client certificates authenticate users or devices, confirming their identity before granting access to specific resources or services. Also, the web server uses Cloudflare SSL certificates to implement secure HTTPS protocol between the user and the system. The below image illustrates the CA system used in the project. Detail of certificate configurations and documentation is placed inside the \verb|/certificates| folder in the project's GitHub repository.
+
+\begin{center}
+    {\fontsize{7pt}{8pt}\selectfont 
+        \begin{tikzpicture}[node distance=2cm, auto]
+            \node (rootCA) [
+                process, 
+                minimum width=1cm, 
+                text width = 4cm, 
+                minimum height = 1cm
+            ] {\textbf{Root CA}};
+            \node (interCAs) [
+                process, 
+                below of=rootCA, 
+                yshift=-1.2cm, 
+                minimum width=8cm, 
+                minimum height=2cm, 
+                fill=none, 
+                align=center, 
+                on background layer, 
+                text width=6cm
+            ] {\ \ \\\ \ \\\ \ \\\ \ \\Intermediate CAs};
+            \node (interCA1) [process, below of=rootCA, minimum width=2cm, minimum height = 1cm, yshift=-1cm, xshift=-2cm] {\textbf{Intermediate CA}};
+            \node (interCA2) [process, right of=interCA1, minimum width=2cm, minimum height = 1cm, xshift=2cm] {\textbf{Intermediate CA}};
+            \node (mongoCRT) [process, left of=interCA1, xshift=-2cm, yshift=1cm] {\textbf{MongoDB}\\Server Certificate};
+            \node (rabbitCRT) [process, below of=mongoCRT] {\textbf{RabbitMQ}\\ Server Certificate};
+            \node (web) [process, right of=interCA2, text width = 1.8cm, xshift=2cm, yshift=1cm] {\textbf{API Server}\\Client Certificate};
+            \node (epd) [process, below of=web] {\textbf{EPD Devices}\\Client Certificate};
+            
+            \draw [arrow] (rootCA.west) -- ++(-1,0) -- ++(0,1) -- ++(3.1,0) node[midway, above] {Self signed} --(rootCA.north);
+            \draw [arrow] (rootCA) -- (interCA1);
+            \draw [arrow] (rootCA) -- (interCA2);
+            \draw [arrow] (mongoCRT) -- (interCAs);
+            \draw [arrow] (rabbitCRT) -- (interCAs);
+            \draw [arrow] (web) -- (interCAs);
+            \draw [arrow] (epd) -- (interCAs);
+        \end{tikzpicture}
+    }
+\end{center}
+
+By implementing this Internal CA infrastructure, the system can enable secure TLS/SSL connections between services, ensuring a robust and organized approach to digital security, safeguarding sensitive data, and maintaining the trust and integrity of online interactions.
+
+% Chương này có độ dài tối thiểu 5 trang, tối đa không giới hạn.\footnote{Trong trường hợp phần này dưới 5 trang thì sinh viên nên gộp vào phần kết luận, không tách ra một chương riêng rẽ nữa.} Sinh viên cần trình bày tất cả những nội dung đóng góp mà mình thấy tâm đắc nhất trong suốt quá trình làm ĐATN. Đó có thể là một loạt các vấn đề khó khăn mà sinh viên đã từng bước giải quyết được, là giải thuật cho một bài toán cụ thể, là so asdgiải pháp tổng quát cho một lớp bài toán, hoặc là mô hình/kiến trúc hữu hiệu nào đó được sinh viên thiết kế.
 
 % Chương này \textbf{là cơ sở quan trọng} để các thầy cô đánh giá sinh viên. Vì vậy, sinh viên cần phát huy tính sáng tạo, khả năng phân tích, phản biện, lập luận, tổng quát hóa vấn đề và tập trung viết cho thật tốt.
 % Mỗi giải pháp hoặc đóng góp của sinh viên cần được trình bày trong một mục độc lập bao gồm ba mục con: (i) dẫn dắt/giới thiệu về bài toán/vấn đề, (ii) giải pháp, và (iii) kết quả đạt được (nếu có).
@@ -228,6 +369,5 @@ MongoDB is one of several tools used in the system that have open connections to
 % Sinh viên lưu ý \textbf{không trình bày lặp lại nội dung}. Những nội dung đã trình bày chi tiết trong các chương trước không được trình bày lại trong chương này. Vì vậy, với nội dung hay, mang tính đóng góp/giải pháp, sinh viên chỉ nên tóm lược/mô tả sơ bộ trong các chương trước, đồng thời tạo tham chiếu chéo tới đề mục tương ứng trong Chương 5 này. Chi tiết thông tin về đóng góp/giải pháp được trình bày trong mục đó.
 
 % Ví dụ, trong Chương 4, sinh viên có thiết kế được kiến trúc đáng lưu ý gì đó, là sự kết hợp của các kiến trúc MVC, MVP, SOA, v.v. Khi đó, sinh viên sẽ chỉ mô tả ngắn gọn kiến trúc đó ở Chương 4, rồi thêm các câu có dạng: ``Chi tiết về kiến trúc này sẽ được trình bày trong phần 5.1". 
-
 
 \end{document}
