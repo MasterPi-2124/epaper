@@ -1,0 +1,83 @@
+name: ESP32 Build and Release
+
+on: 
+  push:
+    branches:
+      - main  # or any other branch or tag you want to trigger the release
+
+jobs:
+  esp32-c3:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install PlatformIO
+      run: pip install platformio
+
+    - name: Compile firmware for ESP32-C3
+      run: platformio run --environment adafruit_qtpy_esp32c3
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./.pio/build/adafruit_qtpy_esp32c3/firmware.bin
+        asset_name: firmware.bin
+        asset_content_type: application/octet-stream
+
+  esp32-s2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install PlatformIO
+      run: pip install platformio
+
+    - name: Compile firmware for ESP32-S2
+      run: platformio run --environment lolin_s2_mini 
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./.pio/build/lolin_s2_mini/firmware.bin
+        asset_name: firmware.bin
+        asset_content_type: application/octet-stream
