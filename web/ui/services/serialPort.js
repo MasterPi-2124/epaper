@@ -1,4 +1,4 @@
-import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
 import { useState, useRef } from 'react';
 
 export const useSerialPort = () => {
@@ -20,7 +20,7 @@ export const useSerialPort = () => {
                 setSerialData(prevData => prevData + value);
             }
         } catch (err) {
-            Notify.Notify.warning('Error reading from serial port. Please refreshing the page.');
+            Notify.warning('Error reading from serial port. Please refreshing the page.');
         } finally {
             if (reader.current) {
                 reader.current.releaseLock();
@@ -41,10 +41,10 @@ export const useSerialPort = () => {
                 console.log('Reader set:', reader.current);
                 readData();
             } catch (err) {
-                Notify.Notify.warning('There was an error opening the serial port. Please refreshing the page.');
+                Notify.warning('There was an error opening the serial port. Please refreshing the page.');
             }
         } else {
-            Notify.Notify.failure('Web Serial API not supported in this browser.');
+            Notify.failure('Web Serial API not supported in this browser.');
         }
     };
 

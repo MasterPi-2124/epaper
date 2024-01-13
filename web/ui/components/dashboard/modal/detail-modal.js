@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { instanceCoreApi } from "@/services/setupAxios";
 import Link from "next/link";
-import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
+import TimeSlider from "./time-slider";
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
@@ -14,7 +15,7 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
       instanceCoreApi.get(`${API}/data/${data.dataID}`).then((res) => {
         setData1(res.data.data);
       }).catch((error) => {
-        Notify.Notify.failure(`Error fetching data: ${error}`);
+        Notify.failure(`Error fetching data: ${error}`);
         console.log(error)
         setData1();
       })
@@ -24,7 +25,7 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
         console.log(res.data.data)
         setData1(res.data.data);
       }).catch((error) => {
-        Notify.Notify.failure(`Error fetching device data: ${error}`);
+        Notify.failure(`Error fetching device data: ${error}`);
         console.log(error)
         setData1();
       })
@@ -131,6 +132,7 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
               <p>
                 TimeStamp: {data1.activeTimestamp}
               </p>
+              <TimeSlider timestamps={data1.activeTimestamp} />
             </>
           ) : (
             <>
@@ -250,13 +252,14 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
             ) : (
               <></>
             )}
-            {console.log(data1)}
             <p>
               Start Time: {data.activeStartTime}
             </p>
             <p>
               TimeStamp: {data.activeTimestamp}
             </p>
+            <TimeSlider timestamps={data.activeTimestamp} />
+
           </>
         </div>
         <div className="flex gap-4 modal-footer">

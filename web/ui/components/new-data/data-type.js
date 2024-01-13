@@ -5,7 +5,7 @@ import Product from "@/assets/icons//thin/product.svg";
 import Employee from "@/assets/icons//thin/employee.svg";
 import Room from "@/assets/icons//thin/room.svg";
 import Student from "@/assets/icons//thin/student.svg";
-import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
 
 const DataType = ({ dataCreated, setDataCreated, handleStage }) => {
     const handleChange = (param, value) => {
@@ -23,7 +23,7 @@ const DataType = ({ dataCreated, setDataCreated, handleStage }) => {
         if (dataCreated.type !== "") {
             handleStage(e);
         } else {
-            Notify.Notify.failure("You have to choose an data type to continue.")
+            Notify.failure("You have to choose an data type to continue.")
         }
     }
 

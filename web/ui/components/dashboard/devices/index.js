@@ -6,7 +6,7 @@ import EyeIcon from "@/assets/icons/thick/eye.svg";
 import DebugIcon from "@/assets/icons/thick/debug.svg";
 import Image from "next/image";
 import { instanceCoreApi } from "@/services/setupAxios";
-import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
 import DeleteModal from "../modal/delete-modal";
 import DebugModal from "../modal/debug-modal";
 import EditModal from "../modal/edit-modal";
@@ -26,14 +26,14 @@ export const DeviceList = () => {
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
-    (Notify.Notify.info("Getting devices information and status ..."))
+    (Notify.info("Getting devices information and status ..."))
     instanceCoreApi.get(`${API}/devices`).then((res) => {
-      Notify.Notify.success(`Getting devices data successfully!`);
+      Notify.success(`Getting devices data successfully!`);
       setStage(1);
       document.pictureInPictureElement
       setDevices(res.data.data);
     }).catch((err) => {
-      Notify.Notify.failure(`Error fetching devices data: ${err}`);
+      Notify.failure(`Error fetching devices data: ${err}`);
       setDevices([]);
       setStage(2);
     })

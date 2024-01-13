@@ -1,12 +1,10 @@
-/* Includes ------------------------------------------------------------------*/
 #include <DEV_Config.h>
-#include <EPD.h>
+#include <EPD_2in9_V2.h>
 #include <Paint.h>
 #include <MQTT.h>
 #include <debug.h>
 #include <Display.h>
 #include <stdlib.h>
-// #include <Preferences.h>
 
 Preferences preferences;
 UBYTE *BlackImage;

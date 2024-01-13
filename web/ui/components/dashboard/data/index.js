@@ -5,7 +5,7 @@ import EditIcon from "@/assets/icons/thick/edit.svg";
 import EyeIcon from "@/assets/icons/thick/eye.svg";
 import Image from "next/image";
 import { instanceCoreApi } from "@/services/setupAxios";
-import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
 import DeleteModal from "../modal/delete-modal";
 import EditModal from "../modal/edit-modal";
 import DetailModal from "../modal/detail-modal";
@@ -23,13 +23,13 @@ export const DataList = () => {
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
-    (Notify.Notify.info("Getting data information and status ..."))
+    (Notify.info("Getting data information and status ..."))
     instanceCoreApi.get(`${API}/data`).then((res) => {
       setStage(1);
       console.log(res.data.data);
       setData(res.data.data);
     }).catch((err) => {
-      Notify.Notify.failure(`Error fetching data: ${err}`);
+      Notify.failure(`Error fetching data: ${err}`);
       setData([]);
       setStage(2);
     })

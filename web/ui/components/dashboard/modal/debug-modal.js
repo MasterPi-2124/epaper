@@ -1,4 +1,4 @@
-import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
 import { instanceCoreApi } from "@/services/setupAxios";
 import React, { useState, useEffect } from 'react';
 import Link from "next/link";
@@ -17,7 +17,7 @@ const DebugModal = ({ data, onClose }) => {
             instanceCoreApi.get(`${API}/data/${data.dataID}`).then((res) => {
                 setData1(res.data.data);
             }).catch((error) => {
-                Notify.Notify.failure(`Error fetching data: ${error}`);
+                Notify.failure(`Error fetching data: ${error}`);
                 console.log(error)
                 setData1();
             })

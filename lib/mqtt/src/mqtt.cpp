@@ -1,5 +1,5 @@
 #include <DEV_Config.h>
-#include <EPD.h>
+#include <EPD_2in9_V2.h>
 #include <Paint.h>
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
@@ -626,6 +626,7 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         removeOK += dataID;
         Serial.println(removeOK.c_str());
         preferences.putString("dataID", "");
+        preferences.putInt("dataType", 0);
         displayEmpty(BlackImage);
 
         Serial.println(topic);

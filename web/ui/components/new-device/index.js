@@ -1,5 +1,5 @@
 import { instanceCoreApi } from "@/services/setupAxios";
-import Notify from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from "notiflix";
 import React, { useState, useEffect } from "react";
 import GetUSBDevice from "./get-usb";
 import Link from "next/link";
@@ -20,12 +20,12 @@ const NewDevice = () => {
 
     useEffect(() => {
         const handleConnect = (e) => {
-            Notify.Notify.info("A new device is connected!");
+            Notify.info("A new device is connected!");
             setPort(e.port);
         }
 
         const handleDisconnect = (e) => {
-            Notify.Notify.info("A device is disconnected!");
+            Notify.info("A device is disconnected!");
             if (port && e.port === port) {
                 setPort(null);
             }
@@ -46,7 +46,7 @@ const NewDevice = () => {
 
         await instanceCoreApi.post(`${API}/devices`, deviceCreated).then(async (response) => {
             console.log(response.data);
-            Notify.Notify.success(`Device info updated successfully!`);
+            Notify.success(`Device info updated successfully!`);
             if (port) {
                 const writer = port.writable.getWriter();
                 for (const [key, value] of Object.entries(response.data.data)) {
@@ -58,13 +58,13 @@ const NewDevice = () => {
                  }
                 }
                 writer.releaseLock();
-                Notify.Notify.success(`Write info to device successfully!`);
+                Notify.success(`Write info to device successfully!`);
             }
             setSubmitted(true);
         }).catch(error => {
             console.error(error);
             setSubmitted(false);
-            Notify.Notify.failure(`Error updating new device info: ${error}`);
+            Notify.failure(`Error updating new device info: ${error}`);
         })
     };
 

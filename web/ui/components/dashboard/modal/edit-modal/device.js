@@ -5,12 +5,12 @@ import { Input } from "@nextui-org/react";
 const Device = ({ deviceUpdated, handleSubmit, handleChange, port, setPort }) => {
   useEffect(() => {
     const handleConnect = (e) => {
-      Notify.Notify.info("A new device is connected!");
+      Notify.info("A new device is connected!");
       setPort(e.port);
     }
 
     const handleDisconnect = (e) => {
-      Notify.Notify.info("A device is disconnected!");
+      Notify.info("A device is disconnected!");
       if (port && e.port === port) {
         setPort(null);
       }

@@ -1,5 +1,5 @@
 #include <DEV_Config.h>
-#include <EPD.h>
+#include <EPD_2in9_V2.h>
 #include <Paint.h>
 #include <WiFi.h>
 #include <Wire.h>
