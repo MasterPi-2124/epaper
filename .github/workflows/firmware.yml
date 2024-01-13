@@ -1,9 +1,9 @@
 name: ESP32 Build and Release
 
-on: 
+on:
   push:
-    branches:
-      - main  # or any other branch or tag you want to trigger the release
+    tags:
+      - 'v*'
 
 jobs:
   esp32-c3:
