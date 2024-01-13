@@ -1,4 +1,4 @@
-name: Epaper deploy
+name: Epaper Website Deploy
 on:
   push:
     branches:

@@ -2,7 +2,7 @@
 #include <EPD_2in9_V2.h>
 #include <Paint.h>
 #include <WiFi.h>
-#include <WiFiClientSecure.h>
+// #include <WiFiClientSecure.h>
 #include <Wire.h>
 #include <MQTT.h>
 #include <Display.h>
