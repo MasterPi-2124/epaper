@@ -2,56 +2,40 @@
 \begin{document}
 
 
-
-Chương 1 dưới đây đưa ra những vấn đề thực tế dẫn đến lý do chọn đề tài, tổng quan về cách thức hoạt động của thiết bị và hệ thống quản lý thiết bị cũng như thông tin dữ liệu, sau đó đưa ra mục tiêu và phạm vi của đề tài, định hướng giải pháp và bố cục trình bày của dự án.
-
 \section{Đặt vấn đề}
 \label{section:1.1}
-Thông tin hiện nay đang đóng 1 vai trò rất quan trọng, đặc biệt là trong các lĩnh vực dịch vụ, và việc quản lý thông tin hiệu quả có thể mang tới rất nhiều lợi thế cho doanh nghiệp. Đặc biệt, khi mỗi doanh nghiệp lớn cần giải quyết các bài toán 
-%Khi đặt vấn đề, sinh viên cần làm nổi bật mức độ cấp thiết, tầm quan trọng và/hoặc quy mô của bài toán của mình.
+Trong kỷ nguyên Công nghiệp 4.0, các doanh nghiệp tràn ngập khối lượng dữ liệu chưa từng có, hệ quả trực tiếp của những tiến bộ trong công nghệ kỹ thuật số và các hệ thống kết nối. Sự gia tăng dữ liệu này đã thúc đẩy các công ty đổi mới và áp dụng các phương pháp phức tạp để hiển thị và quản lý hiệu quả. Việc tích hợp phân tích dữ liệu lớn, điện toán đám mây và IoT (Internet of Things) đã cho phép các doanh nghiệp xử lý và trực quan hóa các tập dữ liệu phức tạp hiệu quả hơn bao giờ hết. Do đó, việc ra quyết định dựa trên dữ liệu đã trở thành nền tảng của các chiến lược kinh doanh hiện đại.
 
-%Gợi ý cách trình bày cho sinh viên: Xuất phát từ tình hình thực tế gì, dẫn đến vấn đề hoặc bài toán gì. Vấn đề hoặc bài toán đó, nếu được giải quyết, đem lại lợi ích gì, cho những ai, còn có thể được áp dụng vào các lĩnh vực khác nữa không. Sinh viên cần lưu ý phần này chỉ trình bày vấn đề, tuyệt đối không trình bày giải pháp.
+Tuy nhiên, thách thức vẫn là trình bày lượng thông tin khổng lồ này theo cách dễ tiếp cận, hấp dẫn và dễ hiểu cho nhiều đối tượng khác nhau. Các phương pháp hiển thị truyền thống, chẳng hạn như bảng hiệu in hoặc màn hình kỹ thuật số, không phù hợp với môi trường có nhịp độ nhanh này. Các tài liệu in tuy quen thuộc về mặt hình ảnh nhưng lại phát sinh chi phí định kỳ do nhu cầu cập nhật và thay thế liên tục. Mặt khác, màn hình kỹ thuật số thông thường, mặc dù dễ cập nhật hơn nhưng thường tiêu tốn nhiều năng lượng và chi phí bảo trì. Việc chuyển đổi từ các phương pháp hiển thị truyền thống sang các giải pháp năng động, tiết kiệm chi phí và tiết kiệm năng lượng hơn không chỉ là một lựa chọn mà còn là điều cần thiết để bắt kịp bối cảnh kinh doanh đang phát triển nhanh chóng của thời đại kỹ thuật số.
+
+Bằng cách kết hợp những tiến bộ mới nhất trong công nghệ mực điện tử với các nguyên tắc thiết kế tiết kiệm năng lượng, công nghệ hiển thị giấy điện tử đã nổi lên như một giải pháp mang tính biến đổi trong nhiều ngành công nghiệp khác nhau bên cạnh màn hình truyền thống và kỹ thuật số. Khả năng độc đáo của nó là giữ lại văn bản và hình ảnh mà không cần nguồn điện liên tục khiến nó trở nên lý tưởng cho nhiều ứng dụng, từ bảng hiệu động trong bán lẻ và vận chuyển đến hiển thị thông tin theo thời gian thực trong môi trường doanh nghiệp và chăm sóc sức khỏe, thậm chí còn cách mạng hóa việc cung cấp thông tin trong dịch vụ ngành công nghiệp. Ngoài ra, công nghệ này phù hợp với sự chú trọng ngày càng tăng vào tính bền vững môi trường và hiệu quả năng lượng trong ngành, mang đến cho doanh nghiệp một cách tiết kiệm chi phí để đón đầu xu hướng thông tin, đảm bảo rằng khách hàng có quyền truy cập vào dữ liệu mới nhất đồng thời giảm lượng khí thải carbon của họ xuống mức tối đa. đạt được các mục tiêu bền vững. Sự thay đổi này không chỉ đơn thuần là sự cải tiến mà còn là sự phát triển cần thiết để đáp ứng nhu cầu của môi trường dịch vụ hiện đại, nơi thông tin vừa là công cụ vừa là tài sản.
+
+Dự án này nhằm mục đích tập trung vào việc xây dựng nguyên mẫu hệ thống hiển thị EPD triển khai việc sử dụng công nghệ hiển thị giấy điện tử ở nhiều khía cạnh khác nhau, bao gồm kho bãi, giáo dục, doanh nghiệp, v.v.
 
 \section{Mục tiêu và phạm vi đề tài}
 \label{section:1.2}
-%Sinh viên trước tiên cần trình bày tổng quan các kết quả của các nghiên cứu hiện nay cho bài toán giới thiệu ở phần \ref{section:1.1} (đối với đề tài nghiên cứu), hoặc về các sản phẩm hiện tại/về nhu cầu của người dùng (đối với đề tài ứng dụng). Tiếp đến, sinh viên tiến hành so sánh và đánh giá tổng quan các sản phẩm/nghiên cứu này.
+Có rất nhiều ứng dụng của giấy điện tử đang được sử dụng trong nhiều hệ thống lớn khác nhau, từ giao thông công cộng, hậu cần đến giáo dục. Tuy nhiên, đây là những hệ thống mở rộng yêu cầu xử lý nhiều nhiệm vụ chuyên biệt và yêu cầu hệ thống hiển thị phức tạp và tốn kém. Nói cách khác, hệ thống EPD (Electronic Paper Display) sử dụng trong các doanh nghiệp này được tối ưu hóa cao cho nhu cầu cụ thể của từng doanh nghiệp, khiến chi phí đắt đỏ và không phù hợp với các hệ thống nhỏ hơn.
 
-%Dựa trên các phân tích và đánh giá ở trên, sinh viên khái quát lại các hạn chế hiện tại đang gặp phải. Trên cơ sở đó, sinh viên sẽ hướng tới giải quyết vấn đề cụ thể gì, khắc phục hạn chế gì, phát triển phần mềm \textbf{có các chức năng chính gì}, tạo nên đột phá gì, v.v.
-
-%Trong phần này, sinh viên lưu ý chỉ trình bày tổng quan, không đi vào chi tiết của vấn đề hoặc giải pháp. Nội dung chi tiết sẽ được trình bày trong các chương tiếp theo, đặc biệt là trong Chương 5.
+Dựa trên những hạn chế này, dự án nhằm mục đích phát triển hệ thống hiển thị EPD tập trung nhiều hơn vào các doanh nghiệp và các trường hợp sử dụng nhỏ hơn, cũng như nhắm đến các mục tiêu chính sau: (i) Cung cấp cách hiển thị dữ liệu hiệu quả về mặt chi phí bằng cách sử dụng công nghệ hiển thị giấy điện tử ở quy mô nhỏ các doanh nghiệp; (ii) Cung cấp giao diện người dùng quản lý và hệ thống back-end phù hợp với hầu hết các nhu cầu của mọi khía cạnh, trước hết tập trung vào bán lẻ, văn phòng, bệnh viện, trường học và triển lãm; và (iii) Tối ưu hóa các thiết bị EPD để đạt được hiệu suất tốt hơn và chất lượng cao hơn trong nhiều môi trường khắc nghiệt khác nhau.
 
 \section{Định hướng giải pháp}
 \label{section:1.3}
-%Từ việc xác định rõ nhiệm vụ cần giải quyết ở phần \ref{section:1.2}, sinh viên đề xuất định hướng giải pháp của mình theo trình tự sau: (i) Sinh viên trước tiên trình bày sẽ giải quyết vấn đề theo định hướng, phương pháp, thuật toán, kỹ thuật, hay công nghệ nào; Tiếp theo, (ii) sinh viên mô tả ngắn gọn giải pháp của mình là gì (khi đi theo định hướng/phương pháp nêu trên); và sau cùng, (iii) sinh viên trình bày đóng góp chính của đồ án là gì, kết quả đạt được là gì.
+Để đạt được các mục tiêu đặt ra tại Mục \ref{section:1.2}, dự án sẽ tập trung phát triển hệ thống theo mô hình client-server kết hợp với microservices để đảm bảo tính linh hoạt, dễ quản lý và có khả năng mở rộng khi cần thiết.
 
-%Sinh viên lưu ý không giải thích hoặc phân tích chi tiết công nghệ/thuật toán trong phần này. Sinh viên chỉ cần nêu tên định hướng công nghệ/thuật toán, mô tả ngắn gọn trong một đến hai câu và giải thích nhanh lý do lựa chọn.
+Về phía khách hàng, dự án sử dụng khung NextJS để phát triển giao diện người dùng thân thiện với người dùng và thư viện tùy chỉnh nhằm nhận và hiển thị dữ liệu trong các thiết bị EPD chạy trên mô-đun phát triển supermini ESP32-C3. Về mặt back-end, dự án sử dụng ExpressJS và MongoDB để xây dựng máy chủ API chứa dữ liệu người dùng và RabbitMQ làm Nhà môi giới MQTT để giao tiếp với các thiết bị EPD thông qua giao thức MQTT. Thông tin chi tiết về mô hình được sử dụng và các công nghệ được sử dụng trong hệ thống sẽ được trình bày cụ thể trong các Chương \ref{chapter:Methodology} và \ref{chaptef:Experiment}.
 
+Dự án cũng sử dụng các kết nối bảo mật giữa các thành phần để bảo vệ dữ liệu người dùng trước các cuộc tấn công từ bên ngoài.
 \section{Bố cục đồ án}
 \label{section:1.4}
-Phần còn lại của báo cáo đồ án tốt nghiệp này được tổ chức như sau. 
+Phần còn lại của luận án này được cấu trúc như sau:
 
-Chương 2 trình bày về quá trình khảo sát và phân tích yêu cầu của dự án, đưa ra tổng quan chức năng và đặc tả một số chức năng nổi bật trong hệ thống quản lý thông tin.
+Chương 2 trình bày quá trình khảo sát và phân tích yêu cầu của dự án, cung cấp cái nhìn tổng quan về chức năng của dự án và trình bày chi tiết một số tính năng nổi bật của hệ thống hiển thị EPD.
 
-Từ các yêu cầu đã nêu ra tại Chương 2, Chương 3 sẽ tập trung vào các công nghệ chính để phát triển hệ thống. Hệ thống sẽ bao gồm 3 phần chính, (i) website quản lý thông tin và các thiết bị hiển thị; (ii) Node JS server và MQTT Broker xử lý giao tiếp giữa các thiết bị hiển thị và server, cũng như xử lý các yêu cầu từ phía website; (iii) các thiết bị EPD nhận và hiển thị thông tin.
+Dựa trên các yêu cầu được nêu trong Chương 2, Chương 3 sẽ tập trung vào các công nghệ chính để phát triển hệ thống. Hệ thống sẽ bao gồm ba phần chính: (i) trang web quản lý thông tin và thiết bị hiển thị; (ii) máy chủ Node.js và Nhà môi giới MQTT để xử lý giao tiếp giữa các thiết bị hiển thị và máy chủ, cũng như xử lý các yêu cầu từ trang web; (iii) Thiết bị EPD để nhận và hiển thị thông tin.
 
-Chương 4 sẽ đi sâu hơn về thiết kế kiến trúc của từng thành phần, thiết kế cơ sở dữ liệu, quá trình xây dựng ứng dụng, kiểm thử và bảo mật hệ thống.
+Chương 4 sẽ đi sâu hơn vào thiết kế kiến trúc của từng thành phần, thiết kế cơ sở dữ liệu, quy trình phát triển ứng dụng, thử nghiệm và bảo mật hệ thống.
 
-Chương 5 trình bày về những đóng góp, giải pháp nổi bật giúp hệ thống giải quyết các vấn đề hiện tại như quản lý thiết bị từ xa, lấy các thông tin giá trị của thiết bị và bảo mật hệ thống. Những vấn đề còn tồn đọng hay những khó khăn trong quá trình phát triển hệ thống cũng được bàn luận tại Chương 5 này.
+Chương 5 thảo luận về những đóng góp đáng kể và giải pháp nổi bật giúp hệ thống giải quyết các vấn đề hiện tại như quản lý thiết bị từ xa, truy xuất thông tin thiết bị có giá trị và bảo mật hệ thống. Các vấn đề hoặc thách thức còn lại phải đối mặt trong quá trình phát triển hệ thống cũng được thảo luận trong chương này.
 
-Cuối cùng, Chương 6 sẽ tổng kết về các đóng góp chính của đồ án và hướng phát triển của hệ thống trong tương lai.
-
-%\textbf{Chú ý:} Sinh viên cần viết mô tả thành đoạn văn đầy đủ về nội dung chương. Tuyệt đối không viết ý hay gạch đầu dòng. Chương 1 không cần mô tả trong phần này. 
-
-%Ví dụ tham khảo mô tả chương trong phần bố cục đồ án tốt nghiệp: Chương *** trình bày đóng góp chính của đồ án, đó là một nền tảng ABC cho phép khai phá và tích hợp nhiều nguồn dữ liệu, trong đó mỗi nguồn dữ liệu lại có định dạng đặc thù riêng. Nền tảng ABC được phát triển dựa trên khái niệm DEF, là các module ngữ nghĩa trợ giúp người dùng tìm kiếm, tích hợp và hiển thị trực quan dữ liệu theo mô hình cộng tác và mô hình phân tán.
-
-% \textbf{Chú ý:} Trong phần nội dung chính, mỗi chương của đồ án nên có phần Tổng quan và Kết chương. Hai phần này đều có định dạng văn bản “Normal”, sinh viên không cần tạo định dạng riêng, ví dụ như không in đậm/in nghiêng, không đóng khung, v.v. 
-
-% Trong phần Tổng quan của chương N, sinh viên nên có sự liên kết với chương N-1 rồi trình bày sơ qua lý do có mặt của chương N và sự cần thiết của chương này trong đồ án. Sau đó giới thiệu những vấn đề sẽ trình bày trong chương này là gì, trong các đề mục lớn nào.
-
-% Ví dụ về phần Tổng quan: Chương 3 đã thảo luận về nguồn gốc ra đời, cơ sở lý thuyết và các nhiệm vụ chính của bài toán tích hợp dữ liệu. Chương 4 này sẽ trình bày chi tiết các công cụ tích hợp dữ liệu theo hướng tiếp cận “mashup”. Với mục đích và phạm vi của đề tài, sáu nhóm công cụ tích hợp dữ liệu chính được trình bày bao gồm: (i) nhóm công cụ ABC trong phần 4.1, (ii) nhóm công cụ DEF trong phần 4.2, nhóm công cụ GHK trong phần 4.3, v.v.
-
-% Trong phần Kết chương, sinh viên đưa ra một số kết luận quan trọng của chương. Những vấn đề mở ra trong Tổng quan cần được tóm tắt lại nội dung và cách giải quyết/thực hiện như thế nào. Sinh viên lưu ý không viết Kết chương giống hệt Tổng quan. Sau khi đọc phần Kết chương, người đọc sẽ nắm được sơ bộ nội dung và giải pháp cho các vấn đề đã trình bày trong chương. Trong Kết chương, Sinh viên nên có thêm câu liên kết tới chương tiếp theo.
-
-% Ví dụ về phần Kết chương: Chương này đã phân tích chi tiết sáu nhóm công cụ tích hợp dữ liệu. Nhóm công cụ ABC và DEF thích hợp với những bài toán tích hợp dữ liệu phạm vi nhỏ. Trong khi đó, nhóm công cụ GHK lại chứng tỏ thế mạnh của mình với những bài toán cần độ chính xác cao, v.v. Từ kết quả nghiên cứu và phân tích về sáu nhóm công cụ tích hợp dữ liệu này, tôi đã thực hiện phát triển phần mềm tự động bóc tách và tích hợp dữ liệu sử dụng nhóm công cụ GHK. Phần này được trình bày trong chương tiếp theo – Chương 5.
-
+Cuối cùng, Chương 6 kết thúc với những đóng góp chính của dự án và định hướng phát triển trong tương lai của hệ thống.
 \end{document}
