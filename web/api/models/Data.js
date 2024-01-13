@@ -53,6 +53,7 @@ const dataSchema = new Schema({
     },
     activeTimestamp: {
         type: [String],
+        default: []
     },
     fontStyle: {
         type: String,

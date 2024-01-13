@@ -35,7 +35,6 @@ const writeDeviceHandler = (data) => {
         }
       }
       data["activeStartTime"] = `${now}`;
-      data["activeTimestamp"] = [];
       await DataModel.findByIdAndUpdate(`${data._id}`, data);
 
       device["active"] = true;
@@ -68,7 +67,6 @@ const removeHandler = (id) => {
       device["dataID"] = "";
       device["dataName"] = "";
       await DeviceModel.findByIdAndUpdate(id, device);
-      // this.unsubscribe(topic);
     }
   }
 }
@@ -107,17 +105,25 @@ exports.connect = () => {
           console.log("found writeOK, ", match)
           const handler = globalMessageHandlers.get("writeOK");
           handler(topic, match[1]);
+        } else {
+          throw new Error("Response time out!!!!")
         }
       } else if (data.startsWith("pingOK")) {
         if (globalMessageHandlers.has("pingOK")) {
           console.log("found pingOK, ")
           const handler = globalMessageHandlers.get("pingOK");
           handler(topic);
+        } else {
+          throw new Error("Response time out!!!!")
         }
       } else if (data.startsWith("removeOK")) {
-        console.log("found removeOK, ")
-        const handler = globalMessageHandlers.get("removeOK");
-        handler(topic);
+        if (globalMessageHandlers.has("removeOK")) {
+          console.log("found removeOK, ")
+          const handler = globalMessageHandlers.get("removeOK");
+          handler(topic);
+        } else {
+          throw new Error("Response time out!!!!")
+        }
       }
     })
   }

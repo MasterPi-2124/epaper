@@ -59,7 +59,6 @@ exports.deleteDevice = async (id, userID = null) => {
 
   if (device.dataID !== "") {
     await mqttClient.updateDevice(device._id, {});
-    mqttClient.unsubscribe(`${device._id}`);
     const data = await DataModel.findById(device.dataID);
     const now = Math.floor(new Date().getTime() / 1000);
     data["deviceID"] = "";
@@ -68,6 +67,7 @@ exports.deleteDevice = async (id, userID = null) => {
     data["activeStartTime"] = -1;
     await DataModel.findByIdAndUpdate(device.dataID, data);
   }
-
+  
+  mqttClient.unsubscribe(`${device._id}`);
   return await DeviceModel.findByIdAndDelete(id);
 };
