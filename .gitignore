@@ -375,3 +375,5 @@ TSWLatexianTemp*
 *.srl
 crlnumber
 serial
+
+firmwares/
