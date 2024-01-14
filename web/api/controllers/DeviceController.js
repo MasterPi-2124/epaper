@@ -80,16 +80,7 @@ exports.postOTA = async (req, res) => {
 
 exports.getOTA = async (req, res) => {
   // Define the path to the firmware file
-  // Make sure the path and file name match your actual firmware file
   console.log(`Received a OTA request for firmware: ${req.query.version}`);
-  const firmwarePath = path.join(__dirname, `firmwares/${req.query.version}.bin`);
+  res.sendFile(`/root/epaper/web/api/firmwares/${req.query.version}.bin`);
 
-  // Check if the file exists
-  fs.exists(firmwarePath, (exists) => {
-    if (exists) {
-      res.sendFile(firmwarePath);
-    } else {
-      res.status(404).send('Firmware file not found');
-    }
-  });
 };
