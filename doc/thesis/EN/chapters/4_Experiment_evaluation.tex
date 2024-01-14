@@ -1581,7 +1581,7 @@ When registering a new device, users need to plug the \gls{EPD} device into the 
     \caption{"New Device" page}
     \label{fig:ui_new-device}
 \end{figure}
-In the device's dashboard, the users can see information together with the status of each device and also can choose to view more detail, edit, or delete devices via the buttons on the right side. Figure \ref{} below shows the detailed modal of an active device displaying the data. The users also can check the serial output of the device via Serial Port and even pop it out into the PiP component by choosing the "Debug on-the-go" button, which enables them to test interacting with the device right on the website while still monitoring the device's log (figure \ref{fig:data-dashboard}). This feature is very useful in case some problems occur on the device and users don't have the proper instruments to debug further.
+In the device's dashboard, the users can see information together with the status of each device and also can choose to view more detail, edit, or delete devices via the buttons on the right side. Figure \ref{} below shows the detailed modal of an active device displaying the data. The users also can check the serial output of the device via Serial Port and even pop it out into the PiP component by choosing the "Debug on-the-go" button, which enables them to test interacting with the device right on the website while still monitoring the device's log (figure \ref{fig:data-dashboard}). This feature is very useful in case some problems occur on the device and users don't have the proper instruments to debug further. Moreover, users can also upgrade the devices wirelessly by choosing the "OTA Uprgade" feature and choosing the \verb|.bin| binary file. The server will receive the binary file and send an OTA request to the assigned device. Detail of OTA and debug features are discussed in chapter \ref{chapter:SolutionAndContribution}.
 
 \begin{figure}[H]
         \centering
@@ -1771,6 +1771,8 @@ The testing cases and results are described in the table \ref{} below.
     \caption{A successful GitHub deploy workflow}
     \label{fig:github-action}
 \end{figure}
+
+The project also releases stable firmware versions for EPD devices, which is listed on the GitHub "Releases"\footnote{Check out \url{https://github.com/MasterPi-2124/epaper/releases}} page. The releases are created from the stable \verb|main| branch, which is safe for developers to test the system. In each release, developers can download firmware for various microcontrollers (currently ESP32-C3 and ESP32-S2 variants), which are built and uploaded from \verb|ESP32 Build and Release| automated workflow in GitHub. The versions and release types are named in semantic format, with "Latest" meaning stable versions and "Pre-release" meaning stable beta versions with tested features or stable versions with minor updates.
 
 \subsection{Servers}
 The system uses two Hetzner dedicated servers to host the Rabbit MQTT broker and web services. Details of the servers and the tools used are shown in the table \ref{fig:table_tools} below.
