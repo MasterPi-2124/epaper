@@ -10,7 +10,6 @@ const dataRouter = require("./routes/DataRoutes");
 const deviceRouter = require("./routes/DeviceRoutes");
 const userRouter = require("./routes/UserRoutes");
 
-
 mqttClient.connect();
 
 //configure mongoose

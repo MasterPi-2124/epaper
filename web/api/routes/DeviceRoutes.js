@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require('multer');
 const auth = require("../auth/auth");
+const fs = require('fs');
 
 if (!fs.existsSync("firmwares")){
   fs.mkdirSync("firmwares");
