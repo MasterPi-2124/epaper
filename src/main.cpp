@@ -4,6 +4,7 @@
 #include <MQTT.h>
 #include <debug.h>
 #include <Display.h>
+#include <ota.h>
 #include <stdlib.h>
 
 Preferences preferences;
@@ -78,8 +79,10 @@ void setup()
     if (!ssid.isEmpty() && !password.isEmpty()) {
         // If SSID and password are available in Preferences, use them to connect to Wi-Fi
         MQTT_Client_Init(ssid.c_str(), password.c_str(), topic.c_str(), BlackImage);
-        MQTT_Connect(topic.c_str(), BlackImage);
+    } else { 
+        MQTT_Client_Init(SSID, PASS, topic.c_str(), BlackImage);
     }
+        MQTT_Connect(topic.c_str(), BlackImage);
 
     if (!dataID.isEmpty() && dataType != 0) {
         Paint_ClearWindows(30, 70, 30 + 14 * 20, 70 + Segoe12.Height, WHITE);
@@ -180,5 +183,7 @@ void loop()
         MQTT_Loop(topic.c_str(), BlackImage);
     }
     printf("loop done, updated = %d\r\n", updated);
+
+    // performOTAUpdate("https://github.com/MasterPi-2124/epaper/releases/download/v1.0.0/firmware-c3.bin");
 
 }

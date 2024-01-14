@@ -22,6 +22,10 @@ jobs:
     - name: Compile firmware for ESP32-C3
       run: platformio run --environment adafruit_qtpy_esp32c3
 
+    - name: Extract Tag Name
+      id: extract_tag
+      run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
@@ -29,7 +33,7 @@ jobs:
       with:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: ./.pio/build/adafruit_qtpy_esp32c3/firmware.bin
-        asset_name: firmware-c3.bin
+        asset_name: ${{env.TAG}}-c3.bin
         asset_content_type: application/octet-stream
 
   esp32-s2:
@@ -48,7 +52,11 @@ jobs:
 
     - name: Compile firmware for ESP32-S2
       run: platformio run --environment lolin_s2_mini 
-    
+
+    - name: Extract Tag Name
+      id: extract_tag
+      run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
@@ -56,5 +64,5 @@ jobs:
       with:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: ./.pio/build/lolin_s2_mini/firmware.bin
-        asset_name: firmware-s2.bin
+        asset_name: ${{env.TAG}}-s2.bin
         asset_content_type: application/octet-stream
