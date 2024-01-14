@@ -71,3 +71,18 @@ exports.deleteDevice = async (id, userID = null) => {
   mqttClient.unsubscribe(`${device._id}`);
   return await DeviceModel.findByIdAndDelete(id);
 };
+
+exports.OTA = async (firmware, id) => {
+  let device = await this.getDeviceById(id);
+  if (device) {
+    if (device.createdBy != userID) {
+      return null;
+    }
+  } else {
+    return null;
+  }
+
+  await mqttClient.ota(device._id, firmware);
+  
+
+}

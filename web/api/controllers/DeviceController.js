@@ -65,25 +65,28 @@ exports.postOTA = async (req, res) => {
   }
 
   try {
-      console.log('Uploaded File:', req.file.path);
-      res.status(200).send('File uploaded successfully.');
+    console.log('Uploaded File:', req.file.path);
+    res.status(200).send('File uploaded successfully.');
+    if (req.query.device) {
+      await deviceService.OTA(req.file.path, req.query.device);
+    }
   } catch (error) {
-      console.error('Error during file upload:', error);
-      res.status(500).send('Error during file upload.');
+    console.error('Error during file upload:', error);
+    res.status(500).send('Error during file upload.');
   }
 };
 
 exports.getOTA = async (req, res) => {
-    // Define the path to the firmware file
-    // Make sure the path and file name match your actual firmware file
-    const firmwarePath = path.join(__dirname, `firmwares/${req.params.version}.bin`);
+  // Define the path to the firmware file
+  // Make sure the path and file name match your actual firmware file
+  const firmwarePath = path.join(__dirname, `firmwares/${req.params.version}.bin`);
 
-    // Check if the file exists
-    fs.exists(firmwarePath, (exists) => {
-        if (exists) {
-            res.sendFile(firmwarePath);
-        } else {
-            res.status(404).send('Firmware file not found');
-        }
-    });
+  // Check if the file exists
+  fs.exists(firmwarePath, (exists) => {
+    if (exists) {
+      res.sendFile(firmwarePath);
+    } else {
+      res.status(404).send('Firmware file not found');
+    }
+  });
 };

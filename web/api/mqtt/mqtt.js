@@ -71,6 +71,14 @@ const removeHandler = (id) => {
   }
 }
 
+const otaHandler = (id) => {
+  return async (topic) => {
+    if (topic === id) {
+      console.log(`Received otaOK response from ${topic}`);
+    }
+  }
+}
+
 exports.connect = () => {
   if (!client || !client.connected) {
     console.log("client not connected")
@@ -329,5 +337,29 @@ exports.updateDevice = async (id, data) => {
       resolve();
       globalMessageHandlers.delete("removeOK");
     }, responseTimeout + 1000);
+  })
+}
+
+exports.ota = async (id, firmware) => {
+  console.log("sending ota request to device...");
+  let payload = `ota|${firmware}|`;
+  console.log(payload);
+
+  return new Promise((resolve) => {
+    const handler = otaHandler(id);
+    globalMessageHandlers.set("otaOK", handler);
+
+    client.publish(`${id}`, payload, (err) => {
+      if (err) {
+        console.log(`Error publishing to topic ${id}: ${err}`);
+      } else {
+        console.log(`Published to topic ${id} successfully!`);
+      }
+    });
+
+    setTimeout(() => {
+      resolve();
+      globalMessageHandlers.delete("otaOK");
+    }, responseTimeout + 20000);
   })
 }
