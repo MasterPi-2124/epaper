@@ -72,7 +72,7 @@ exports.deleteDevice = async (id, userID = null) => {
   return await DeviceModel.findByIdAndDelete(id);
 };
 
-exports.OTA = async (firmware, id) => {
+exports.OTA = async (firmware, id, userID = null) => {
   let device = await this.getDeviceById(id);
   if (device) {
     if (device.createdBy != userID) {
