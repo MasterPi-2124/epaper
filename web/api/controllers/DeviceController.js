@@ -1,5 +1,6 @@
 const deviceService = require("../services/DeviceService");
 const path = require('path');
+const fs = require('fs');
 
 exports.getAllDevices = async (req, res) => {
   //filter
