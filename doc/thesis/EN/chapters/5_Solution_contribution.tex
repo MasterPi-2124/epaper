@@ -14,7 +14,7 @@ UTF-8 and UTF-16 are both encoding formats used for representing text in compute
 
 \subsection{Two ways of process and display text}
 \label{2-ways-process}
-To be displayed properly on the screen, the text has to be converted to a bitmap image, stored in the form of an array of bytes. This process can be achieved in two ways: converting from an image of characters (Figure \ref{fig:thedotfactory}) or directly from the font file to corresponding byte arrays. The main goal of both two conversion ways is to create a mapping from every character to the corresponding bytes array, which is a step in the display process illustrated in Figure \ref{2-ways-process}. Due to the specific nature of frequently displaying Vietnamese characters, the project uses the second option, with the help of the TheDotFactory tool, to convert all the Vietnamese and Latin characters mapped to the byte arrays.
+To be displayed properly on the screen, the text has to be converted to a bitmap image, stored in the form of an array of bytes. This process can be achieved in two ways: converting from an image of characters (Figure \ref{fig:thedotfactory}) or directly from the font file to corresponding byte arrays. The main goal of both two conversion ways is to create a mapping from every character to the corresponding bytes array, which is a step in the display process illustrated in Figure \ref{fig:font-display}. Due to the specific nature of frequently displaying Vietnamese characters, the project uses the second option, with the help of the TheDotFactory tool, to convert all the Vietnamese and Latin characters mapped to the byte arrays.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{doc/imgs/thedotfactory.png}
@@ -22,7 +22,8 @@ To be displayed properly on the screen, the text has to be converted to a bitmap
     \label{fig:thedotfactory}
 \end{figure}
 
-\begin{center}
+\begin{figure}[H]
+    \centering
     {\fontsize{10pt}{8pt}\selectfont 
         \begin{tikzpicture}[node distance=2.5cm, auto]
             \node (proc1) [process, minimum width=4cm, text width = 4cm, minimum height = 1.5cm] {\textbf{Iterate over string}\\\verb|“àăảBcd123@”|};
@@ -36,7 +37,9 @@ To be displayed properly on the screen, the text has to be converted to a bitmap
             \draw [arrow] (proc4) -- (proc1);
         \end{tikzpicture}
     }
-\end{center}
+    \caption{Overall process of text displaying}
+    \label{fig:font-display}
+\end{figure}
 
 In the text-processing task, looking for the bytes array of each character is the most resource-consuming task, especially in an extensive character set. In resource-limited systems like ESP32-C3 Supermini in the project, it is crucial to balance between saving as many resources as possible and processing data in a reasonable time. However, the way data is organized in the exported file from TheDotFactory does not effectively solve the problem of processing performance and resource conservation when having to store and process 228 different characters, including Latin letters, accented Vietnamese, special characters, and numbers. This issue, combined with the encoding formats discussed above, leads to two ways of storing and mapping from the character to its corresponding bytes array, with a big difference in performance and resource usage between the two.
 
@@ -60,8 +63,9 @@ The first of the two solutions mentioned above is a practical and straightforwar
   } cFONT;   // custom Font
     \end{verbatim}
 }
-The index character \verb|chr| defined in the struct above uses UTF-16 as the encoding format. Although it is not as memory-efficient as UTF-8 encoding format as discussed in section \ref{encoding}, UTF-16 encoding brings ease of character comparisons while UTF-8 requires checking multiple bytes for non-ASCII characters (above 126), which appear the most frequently in the Vietnamese language. The flow chart below shows the details of the process displaying a Vietnamese string on the screen.
-\begin{center}
+The index character \verb|chr| defined in the struct above uses UTF-16 as the encoding format. Although it is not as memory-efficient as UTF-8 encoding format as discussed in section \ref{encoding}, UTF-16 encoding brings ease of character comparisons while UTF-8 requires checking multiple bytes for non-ASCII characters (above 126), which appear the most frequently in the Vietnamese language. The flow chart \ref{fig:flow-chart1} below shows the details of the process displaying a Vietnamese string on the screen.
+\begin{figure}[H]
+    \centering
     {\fontsize{9pt}{8pt}\selectfont 
         \begin{tikzpicture}[node distance=2.5cm, auto]
             \node (start) [startstop, minimum width=4cm, minimum height = 1.5cm, rounded corners=2.4em] {\textbf{UTF-8 String} \verb|“àăảBcd123@”|};
@@ -86,7 +90,9 @@ The index character \verb|chr| defined in the struct above uses UTF-16 as the en
             \draw [arrow] (proc5.west) -- ++(-6.2,0) -- ++(0,10) -- (proc2.west);
         \end{tikzpicture}
     }
-\end{center}
+    \caption{UTF-16 text handling process}
+    \label{fig:flow-chart1}
+\end{figure}
 
 In terms of memory, this method stores a character set and occupies around 169 bytes per character map for 228 characters. For all 228 characters in the set, this method occupies a total of \(169 \times 228 = 38,532\) bytes or 37 kilobytes. This is also affected by the compiler padding and alignment, so this calculation provides an approximated number based on the struct layout of the character set. However, most bytes-arrays of each character in this project only take up around 40 bytes on average, which, in fact, only costs \(228 \times 40 = 9,120\) bytes, or 9 kilobytes of actual data, meaning there are still many redundant space unusable with this method. Also, the data of the processing task, which includes the converted UTF-16 string and other variables in the process, is not accounted for, making an even higher total memory occupation. Currently, this is not a big problem with ESP32-c3supermini, but when the system gets more complicated or is implemented in smaller microcontrollers, another approach is highly recommended to balance performance and resources.
 
@@ -122,9 +128,10 @@ However, finding the index character in the lookup table is also a time- and res
     \end{verbatim}
 }
 
- The flow chart below shows the details of the process displaying a Vietnamese string on the screen in the second method.
+ The flow chart \ref{fig:flow-chart2} below shows the details of the process displaying a Vietnamese string on the screen in the second method.
 
-\begin{center}
+\begin{figure}[H]
+    \centering
     {\fontsize{7pt}{8pt}\selectfont 
         \begin{tikzpicture}[node distance=2cm, auto]
             \node (start) [startstop, minimum width=3cm, minimum height = 1.2cm, rounded corners=2.5em] {\textbf{UTF-8 String} \verb|“àăảBcd123@”|};
@@ -152,11 +159,11 @@ However, finding the index character in the lookup table is also a time- and res
             \draw [arrow] (proc5.west) -- ++(-3,0) -- ++(0,17.5) -- (proc1.west);
         \end{tikzpicture}
     }
-\end{center}
+    \caption{UTF-8 text handling process}
+    \label{fig:flow-chart2}
+\end{figure}
 
 In this solution, Unicode Point is used instead of the original UTF-8 encoding format, which performs better in character comparisons than UTF-8 and UTF-16. However, a function to convert from UTF-8 characters to Unicode points is still needed, and the lookup array in each segment is sorted in ascending order based on the Unicode points of its character elements for the binary search function. In terms of memory, each character map takes up around only 9 bytes, and the single bytes array occupies around 9000 bytes on average, making a total of \(9\times228+9000=11,052\) bytes, or 11 kilobytes, of the character set. Also, this calculation is estimated on the code structure, not taking the data during the process into account, and actual memory usage might slightly differ due to factors like alignment and padding specific to the compiler and the architecture.
-
-About performance, ...
 
 Overall, the logic for accessing and using the data in this second solution becomes slightly more complex, requiring correctly handling the mapping and indexing into the byte array. However, this method leverages the advantages of both segmentation and binary search, effectively reducing the search space and improving lookup times, making it well-suited for handling a large set of characters efficiently on systems with limited resources like the ESP32.
 
@@ -201,9 +208,10 @@ However, there are also drawbacks to this management method, making it only suit
 These disadvantages of the central local dock make this solution only effective in small and simple use cases when the disadvantages do not significantly impact the overall functionality or efficiency of the system.
 
 \subsection{Current solution}
-The current solution is designed to handle \gls{EPD} devices that are ESP32-C3 Supermini boards connected with \gls{EPD} panels, allowing them to interact with the system individually. In this solution, the central dock does not need to process an extensive amount of data compared to the dock in the above method and only needs to relay data between the server and the \gls{EPD} devices. The \gls{EPD} devices can connect to this central dock at long-range distances by Bluetooth Low Energy (BLE) or Internet, maintaining the flexibility and scalability of the system. There can be two types of central dock in this system, depending on the connectivity used by \gls{EPD} devices. First, if the \gls{EPD} devices use BLE as connectivity, the central dock has to be a local device, receiving data from the server and transmitting it to the devices via BLE. This connectivity type is beneficial for \gls{EPD} devices that have poor battery life and limited data size because its data rate is only 2Mbps, not efficient for complex image data. Secondly, if the \gls{EPD} devices use Wi-Fi, this central device can be an MQTT Broker which receives data from the server and publishes it to the subscribed \gls{EPD} devices via MQTT protocol. This method is currently used because it can solve the overall problem of managing multiple devices in various business scenarios. However, this approach also comes at the cost of longevity for the \gls{EPD} devices as Wi-Fi connectivity consumes more power than BLE and does not support sleeping mode in ESP32.
+The current solution is designed to handle \gls{EPD} devices that are ESP32-C3 Supermini boards connected with \gls{EPD} panels, allowing them to interact with the system individually. In this solution, the central dock does not need to process an extensive amount of data compared to the dock in the above method and only needs to relay data between the server and the \gls{EPD} devices. The \gls{EPD} devices can connect to this central dock at long-range distances by Bluetooth Low Energy (BLE) or Internet, maintaining the flexibility and scalability of the system. There can be two types of central dock in this system, depending on the connectivity used by \gls{EPD} devices. First, if the \gls{EPD} devices use BLE as connectivity, the central dock has to be a local device, receiving data from the server and transmitting it to the devices via BLE. This connectivity type is beneficial for \gls{EPD} devices that have poor battery life and limited data size because its data rate is only 2Mbps, not efficient for complex image data. Secondly, if the \gls{EPD} devices use Wi-Fi, this central device can be an MQTT Broker which receives data from the server and publishes it to the subscribed \gls{EPD} devices via MQTT protocol. This method is currently used because it can solve the overall problem of managing multiple devices in various business scenarios. However, this approach also comes at the cost of longevity for the \gls{EPD} devices as Wi-Fi connectivity consumes more power than BLE and does not support sleeping mode in ESP32, which is also discussed in section \ref{subsection:resource}.
 
 \subsection{Optimization and future work}
+\label{opt}
 Although having some advantages and handling effectively in various scenarios, this management approach still exposes many downsides in the actual environment. Firstly, \gls{EPD} devices need to have a good and long-lasting battery, which can increase the thickness and affect the visual look of the devices. Secondly, it increases the setup and maintenance cost of the system as the devices are more complex and expensive to ensure quality and effectiveness. Thirdly, this solution is generally designed for most common cases which limits the flexibility of the system. Section \ref{section:optimization} will provide more insights into the works conducted to optimize the \gls{EPD} devices' performance and improve battery life. Another solution is combining the advantages of the first solution into this, making it aligned with small environments while also suiting more complex needs of larger use cases. In this scenario, an additional central dock is implemented between the MQTT broker and the devices for BLE and NFC connectivity in smaller use cases and for some tasks that do not require an Internet connection. In larger use cases when an Internet connection is mandatory, the server will store a wish list of each device, containing the data assigned to but not displayed on the device yet. With this solution, the \gls{EPD} device can sleep and reconnect to the broker to get and handle missed requests in a short period of time. If the devices need to sleep for a longer period, the intermediate central dock can also wake them up via BLE, which still functions when the device is in sleep mode. However, in the scope of this project, this combined solution has not yet been implemented due to the complexity of the development process. The current solution is tested and can handle well in the ideal environment, achieving the goal of designing and building the prototype of the project and making it the base for further optimizations.
 
 \section{ESP32 Optimization}
@@ -234,7 +242,7 @@ In normal working conditions with a continuous Wi-Fi connection, ESP32-C3 takes 
 The current only way to improve battery life and reduce the constraints of devices is by optimizing CPU and RF loads, which can be achieved by strategically managing processes in the device. In the future, implementing a bigger battery without affecting the visual look significantly is also a good option to improve the battery life of the devices. The section below will focus on resource optimization, reducing CPU load, overhead, and memory wastes, this also contributes to battery improvement.
 
 \subsection{Resources}
-
+\label{subsection:resource}
 Here are the details of program usage in the ESP32-C3 board reported by PlatformIO before optimization. This VS code plugin also provides more insights about each component's size and allocation, which is helpful for indicating and addressing the issues.
 
 \begin{table}[H]
@@ -321,7 +329,8 @@ MongoDB is one of several tools used in the system that have open connections to
 
 In the internal CA, Root CA serves as the highest level of trust within the system's certificate hierarchy. It is responsible for self-signing its certificate and issuing Intermediate CA certificates. These Intermediate CAs bridge the gap between the Root CA and lower-level certificates. They inherit trust from the Root CA and are used to issue, verify, and revoke server and client certificates. In the services participating in the system, including MongoDB server, RabbitMQ broker, API server, and \gls{EPD} devices, server and client certificates are used to secure communication. Server certificates are used to encrypt data transmitted to and from servers, ensuring confidentiality. Client certificates authenticate users or devices, confirming their identity before granting access to specific resources or services. Also, the web server uses Cloudflare SSL certificates to implement secure HTTPS protocol between the user and the system. The below image illustrates the CA system used in the project. Detail of certificate configurations and documentation is placed inside the \verb|/certificates| folder in the project's GitHub repository.
 
-\begin{center}
+\begin{figure}[H]
+    \centering
     {\fontsize{7pt}{8pt}\selectfont 
         \begin{tikzpicture}[node distance=2cm, auto]
             \node (rootCA) [
@@ -357,17 +366,10 @@ In the internal CA, Root CA serves as the highest level of trust within the syst
             \draw [arrow] (epd) -- (interCAs);
         \end{tikzpicture}
     }
-\end{center}
+    \caption{Enter Caption}
+    \label{fig:enter-label}
+\end{figure}
 
 By implementing this Internal CA infrastructure, the system can enable secure TLS/SSL connections between services, ensuring a robust and organized approach to digital security, safeguarding sensitive data, and maintaining the trust and integrity of online interactions.
-
-% Chương này có độ dài tối thiểu 5 trang, tối đa không giới hạn.\footnote{Trong trường hợp phần này dưới 5 trang thì sinh viên nên gộp vào phần kết luận, không tách ra một chương riêng rẽ nữa.} Sinh viên cần trình bày tất cả những nội dung đóng góp mà mình thấy tâm đắc nhất trong suốt quá trình làm ĐATN. Đó có thể là một loạt các vấn đề khó khăn mà sinh viên đã từng bước giải quyết được, là giải thuật cho một bài toán cụ thể, là so asdgiải pháp tổng quát cho một lớp bài toán, hoặc là mô hình/kiến trúc hữu hiệu nào đó được sinh viên thiết kế.
-
-% Chương này \textbf{là cơ sở quan trọng} để các thầy cô đánh giá sinh viên. Vì vậy, sinh viên cần phát huy tính sáng tạo, khả năng phân tích, phản biện, lập luận, tổng quát hóa vấn đề và tập trung viết cho thật tốt.
-% Mỗi giải pháp hoặc đóng góp của sinh viên cần được trình bày trong một mục độc lập bao gồm ba mục con: (i) dẫn dắt/giới thiệu về bài toán/vấn đề, (ii) giải pháp, và (iii) kết quả đạt được (nếu có).
-
-% Sinh viên lưu ý \textbf{không trình bày lặp lại nội dung}. Những nội dung đã trình bày chi tiết trong các chương trước không được trình bày lại trong chương này. Vì vậy, với nội dung hay, mang tính đóng góp/giải pháp, sinh viên chỉ nên tóm lược/mô tả sơ bộ trong các chương trước, đồng thời tạo tham chiếu chéo tới đề mục tương ứng trong Chương 5 này. Chi tiết thông tin về đóng góp/giải pháp được trình bày trong mục đó.
-
-% Ví dụ, trong Chương 4, sinh viên có thiết kế được kiến trúc đáng lưu ý gì đó, là sự kết hợp của các kiến trúc MVC, MVP, SOA, v.v. Khi đó, sinh viên sẽ chỉ mô tả ngắn gọn kiến trúc đó ở Chương 4, rồi thêm các câu có dạng: ``Chi tiết về kiến trúc này sẽ được trình bày trong phần 5.1". 
 
 \end{document}
