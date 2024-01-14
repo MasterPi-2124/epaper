@@ -79,7 +79,8 @@ exports.postOTA = async (req, res) => {
 exports.getOTA = async (req, res) => {
   // Define the path to the firmware file
   // Make sure the path and file name match your actual firmware file
-  const firmwarePath = path.join(__dirname, `firmwares/${req.params.version}.bin`);
+  console.log(`Receive a OTA request for firmware: ${req.query.version}`)
+  const firmwarePath = path.join(__dirname, `firmwares/${req.query.version}.bin`);
 
   // Check if the file exists
   fs.exists(firmwarePath, (exists) => {
