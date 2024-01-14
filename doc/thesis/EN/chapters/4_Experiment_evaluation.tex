@@ -947,7 +947,7 @@ Each sub-section below demonstrates the workflow of each class participating in 
                                     % \begin{umlcall}[op={findByIdAndUpdate()}]{DataService}{DeviceModel}\end{umlcall}
                                     % \begin{umlcall}[op={findById()}, return = {data}]{DataService}{DeviceModel}\end{umlcall}
                                 \end{umlfragment}
-                                \umlnote[x = 3, y = -8.5, fill = white]{alt}{This process of displaying on device is same as "Add a new data" process}
+                                \umlnote[x = 3, y = -8.5, fill = white]{alt}{This process of displaying on the device is the same as "Add a new data" process}
                                 \begin{umlcall}[op={findByIdAndUpdate()}, dt = 4, return = {data}]{DataService}{DataModel}\end{umlcall}
                             \end{umlfragment}
                         \end{umlcall}
@@ -1505,7 +1505,7 @@ In the development of this project, a suite of sophisticated tools was employed 
     \label{fig:table_tools}
 \end{table}
 
-A lot of issues and additional tasks arise in the system development process, and a task management tool is required to manage multiple tasks and issues effectively. Included in GitHub, GitHub Project is a perfect tool that matches the requirements while offering users a comprehensive platform for organizing, tracking, and managing issues and tasks in software development projects efficiently.
+A lot of issues and additional tasks arise in the system development process, and a task management tool is required to manage multiple tasks and problems effectively. Included in GitHub, GitHub Project is a perfect tool that matches the requirements while offering users a comprehensive platform for efficiently organizing, tracking, and managing issues and tasks in software development projects.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{doc//imgs/github-projects.png}
@@ -1538,7 +1538,7 @@ The whole system runs on the website, so the users don't need to install any add
     \label{fig:table_tools}
 \end{table}
 
-The \gls{EPD} device consists of an ESP32-C3 Supermini development board with a Waveshare 2.9-inch e-paper display panel and is packaged inside a custom 3D printed case \footnote{1}. The battery powering the system is a 250mAh Lithium-ion battery and is rechargeable via the USB-C port of ESP32-C3.
+The \gls{EPD} device consists of an ESP32-C3 Supermini development board with a Waveshare 2.9-inch e-paper display panel and is packaged inside a custom 3D printed case \footnote{Special thanks to MSc. Nguyen Duc Tien for the 3D-printed case and the packaged EPD device}. The battery powering the system is a 135mAh Lithium-ion battery and is rechargeable via the USB-C port of ESP32-C3.
 
 \subsection{Illustration of main functions}
 To manage \gls{EPD} Devices and data, users have to log in with credentials as illustrated in the image \ref{fig:login-screen}. After logging in, the user can choose to create data/device or go to the dashboard to manage them by choosing the pages from the left sidebar, which is shown in figure \ref{fig:dashboard}. 
@@ -1565,7 +1565,7 @@ To manage \gls{EPD} Devices and data, users have to log in with credentials as i
 \end{figure}
 
 
-When creating data, the user can easily follow on-screen instructions and fill in the required information. All the steps are annotated in detail, and the rendered display is showing in real-time, which helps improve user experience. Figure \ref{fig:new-data-type} below illustrates the process of creating new data at the data type step, which requires users to choose the type of data before providing more detail and going to the device-choosing step shown in figure \ref{fig:new-data}. The user can choose the active device and their preferred display configurations and see the pre-rendered display of the data.
+When creating data, the user can easily follow on-screen instructions and fill in the required information. All the steps are annotated in detail, and the rendered display is showing in real-time, which helps improve user experience. Figure \ref{fig:new-data-type} below illustrates the process of creating new data at the data type step, which requires users to choose the type of data before providing more detail and going to the device-choosing step shown in figure \ref{fig:new-data}. The user can select the active device and their preferred display configurations and see the pre-rendered display of the data.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\linewidth]{doc//imgs/ui_new-data.png}
@@ -1573,7 +1573,7 @@ When creating data, the user can easily follow on-screen instructions and fill i
     \label{fig:new-data}
 \end{figure}
 
-When registering a new device, users need to plug the \gls{EPD} device into the USB port of the PC they are using. Then, users can choose the device from the connected devices list and provide its name and Wi-Fi credentials before submitting to the system.
+When registering a new device, users need to plug the \gls{EPD} device into the USB port of the PC they are using. Then, users can choose the device from the connected devices list and provide its name and Wi-Fi credentials before submitting it to the system.
 
 \begin{figure}[H]
     \centering
@@ -1581,7 +1581,8 @@ When registering a new device, users need to plug the \gls{EPD} device into the 
     \caption{"New Device" page}
     \label{fig:ui_new-device}
 \end{figure}
-In the device's dashboard, the users can see information together with the status of each device and also can choose to view more detail, edit, or delete devices via the buttons on the right side. Figure \ref{} below shows the detailed modal of an active device displaying the data. The users also can check the serial output of the device via Serial Port and even pop it out into the PiP component by choosing the "Debug on-the-go" button, which enables them to test interacting with the device right on the website while still monitoring the device's log (figure \ref{fig:data-dashboard}). This feature is very useful in case some problems occur on the device and users don't have the proper instruments to debug further. Moreover, users can also upgrade the devices wirelessly by choosing the "OTA Uprgade" feature and choosing the \verb|.bin| binary file. The server will receive the binary file and send an OTA request to the assigned device. Detail of OTA and debug features are discussed in chapter \ref{chapter:SolutionAndContribution}.
+
+In the device's dashboard, the users can see information together with the status of each device and also can choose to view more detail, edit, or delete devices via the buttons on the right side. Figure \ref{} below shows the detailed modal of an active device displaying the data. The users also can check the serial output of the device via Serial Port and even pop it out into the PiP component by choosing the "Debug on-the-go" button, which enables them to test interacting with the device right on the website while still monitoring the device's log (figure \ref{fig:data-dashboard}). This feature is handy in case some problems occur on the device and users don't have the proper instruments to debug further. Moreover, users can also upgrade the devices wirelessly by choosing the "OTA Uprgade" feature and choosing the \verb|.bin| binary file. The server will receive the binary file and send an OTA request to the assigned device. Details of OTA and debug features are discussed in chapter \ref{chapter:SolutionAndContribution}.
 
 \begin{figure}[H]
         \centering
@@ -1596,7 +1597,7 @@ Users can also put the \gls{EPD} device in debugging mode to test the devices. C
 
 \section{Testing and evaluation}
 \subsection{Evaluation}
-The project utilizes Lighthouse - an open-source tool by Google used for analyzing, measuring, improving quality, and optimizing the Management UI's performance. Lighthouse evaluates a web page's performance based on five criteria: performance, accessibility, best practices, search engine optimization (SEO), and Progressive Web App (PWA) compatibility. This tool not only provides a comprehensive analysis of web pages but also recommends ways to enhance the quality of the website. In this project, Progressive Web App (PWA) is not accounted for because the website only focuses on mainly desktop users. 
+The project utilizes Lighthouse - an open-source tool by Google used for analyzing, measuring, improving quality, and optimizing the Management UI's performance. Lighthouse evaluates a web page's performance based on five criteria: performance, accessibility, best practices, search engine optimization (SEO), and Progressive Web App (PWA) compatibility\cite{lighthouse}. This tool not only provides a comprehensive analysis of web pages but also recommends ways to enhance the quality of the website. In this project, Progressive Web App (PWA) is not accounted for because the website only focuses mainly on desktop users. 
 
 The results of the website quality assessment are shown in figure \ref{fig:ui_light-house}, and details are listed in table \ref{fig:ligthhouse-report}.
 \begin{figure}[H]
@@ -1822,7 +1823,7 @@ Services running in each server are configured as a system daemon (\verb|systemc
 \end{table}
 
 \subsection{EPD Devices}
-The code is transferred and stored in ESP32-C3 Supermini flash memory using the PlatformIO plugin integrated into Visual Studio Code. The code takes about 1.5MB in total memory, most of which is stored in the non-volatile flash memory, meaning the code still remains on the device even after it is powered off. The image of the ESP32-C3 Supermini and its ESP32-C3 microcontroller unit specs are listed in figure \ref{fig:esp32-c3} and table \ref{fig:table_services} below.
+The code is transferred and stored in ESP32-C3 Supermini flash memory using the PlatformIO plugin integrated into Visual Studio Code. The code takes about 1.5MB in total memory, most of which is stored in the non-volatile flash memory, meaning the code remains on the device even after it is powered off. The image of the ESP32-C3 Supermini and its ESP32-C3 microcontroller unit specs are listed in figure \ref{fig:esp32-c3} and table \ref{fig:table_services} below.
 
 \begin{figure}[H]
     \centering
@@ -1877,5 +1878,5 @@ The e-paper display panel is connected and communicates to the board via SPI int
     \label{fig:table_spi}
 \end{table}
 
-The device runs on battery, which can last for 3 - 4 hours before needing to recharge. In the scope of this project, this is still reasonable and acceptable as the product is still in the prototype stage and is not optimized for higher endurance in a real-life environment. 
+The device runs on battery, which can last 3 - 4 hours before recharging. In the scope of this project, this is still reasonable and acceptable as the product is still in the prototype stage and is not optimized for higher endurance in a real-life environment. 
 \end{document}
