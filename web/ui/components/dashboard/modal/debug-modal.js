@@ -14,6 +14,32 @@ const DebugModal = ({ data, onClose }) => {
     const [ota, setOTA] = useState(false);
     const { showPiP, hidePiP, stopPiP, serialData, onConnectSerial } = usePiP();
 
+    
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
+    
+    const uploadFirmware = () => {
+        if (!file) {
+            Notify.failure('Please select a file to upload');
+            return;
+        }
+        
+        const formData = new FormData();
+        formData.append('firmware', file);
+        
+        instanceCoreApi.post(`/devices/upgrade?device=${data._id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            Notify.success('Uploaded firmware successfully!');
+        })
+        .catch(error => {
+            Notify.failure(`Error uploading firmware: ${error}`);
+        });
+    }
+    
     useEffect(() => {
         if (data.dataID) {
             instanceCoreApi.get(`${API}/data/${data.dataID}`).then((res) => {
@@ -24,33 +50,7 @@ const DebugModal = ({ data, onClose }) => {
                 setData1();
             })
         }
-    })
-
-    const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
-    };
-
-    const uploadFirmware = () => {
-        if (!file) {
-            Notify.failure('Please select a file to upload');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('firmware', file);
-
-        instanceCoreApi.post(`/devices/upgrade?device=${data._id}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then(response => {
-            Notify.success('Uploaded firmware successfully!');
-        })
-            .catch(error => {
-                Notify.failure(`Error uploading firmware: ${error}`);
-            });
-    }
-
+    }, [])
 
     return (
         <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8 flex flex-row">

@@ -1,29 +1,12 @@
 #include <HTTPClient.h>
 #include <Update.h>
-#include <MQTT.h>
-#include <WiFiClientSecure.h>
-
-WiFiClientSecure httpsClient;
-
-void setupHTTPSClient() {
-  // For maximum security, set the correct Root CA certificate
-
-}
 
 void performOTAUpdate(const char * url) {
-    // const char* rootCACertificate = CA;
-
-  // Load root CA certificate
-//   httpsClient.setCACert(rootCACertificate);
-
-  // Alternatively, for testing only, you can disable SSL certificate verification
-  httpsClient.setInsecure();
-
-
-
+  Serial.print("Sending OTA request to: ");
+  Serial.println(url);
 
   HTTPClient http;
-  http.begin(httpsClient, url);
+  http.begin(url);
   int httpCode = http.GET();
   if (httpCode == 302) {
     // Redirected
@@ -31,7 +14,7 @@ void performOTAUpdate(const char * url) {
     http.end(); // Close the first connection
 
     // Follow the redirect
-    http.begin(httpsClient, newUrl);
+    http.begin(newUrl);
     httpCode = http.GET();
   }
 
