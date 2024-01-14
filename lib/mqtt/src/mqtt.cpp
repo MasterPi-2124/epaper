@@ -497,7 +497,7 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
     else if (update == 9) {
         String firmware = preferences.getString("firmware", "");
         if (!firmware.isEmpty()) {
-            String url = "https://eaper.artsakh.ventures/api/upgrade?version=";
+            String url = "https://eaper.artsakh.ventures/api/devices/upgrade?version=";
             url += firmware.c_str();
             performOTAUpdate(url.c_str());
         }

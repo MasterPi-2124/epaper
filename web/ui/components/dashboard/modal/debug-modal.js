@@ -39,7 +39,7 @@ const DebugModal = ({ data, onClose }) => {
         const formData = new FormData();
         formData.append('firmware', file);
 
-        instanceCoreApi.post(`/upgrade?device=${data._id}`, formData, {
+        instanceCoreApi.post(`/devices/upgrade?device=${data._id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
