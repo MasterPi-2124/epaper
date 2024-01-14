@@ -2,6 +2,6 @@
 #define __OTA 
 
 
-void performOTAUpdate(char * url);
+void performOTAUpdate(const char * url);
 
 #endif /* __OTA */

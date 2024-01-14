@@ -10,6 +10,8 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 const DebugModal = ({ data, onClose }) => {
     const [data1, setData1] = useState();
+    const [file, setFile] = useState(null);
+    const [ota, setOTA] = useState(false);
     const { showPiP, hidePiP, stopPiP, serialData, onConnectSerial } = usePiP();
 
     useEffect(() => {
@@ -23,6 +25,32 @@ const DebugModal = ({ data, onClose }) => {
             })
         }
     })
+
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
+
+    const uploadFirmware = () => {
+        if (!file) {
+            Notify.failure('Please select a file to upload');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('firmware', file);
+
+        instanceCoreApi.post(`/upgrade?device=${data._id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            Notify.success('Uploaded firmware successfully!');
+        })
+            .catch(error => {
+                Notify.failure(`Error uploading firmware: ${error}`);
+            });
+    }
+
 
     return (
         <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8 flex flex-row">
@@ -119,8 +147,8 @@ const DebugModal = ({ data, onClose }) => {
                     <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200 edit-button ok" onClick={() => switchToEdit()}>
                         Reset
                     </button>
-                    <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200 delete-button ok" onClick={() => switchToDelete()}>
-                        Re-flash
+                    <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200 delete-button ok" onClick={() => setOTA(true)}>
+                        OTA upgrade
                     </button>
                 </div>
             </div>
@@ -128,16 +156,23 @@ const DebugModal = ({ data, onClose }) => {
             <div className="separator w-1" />
 
             <div className='debug-right'>
-                {serialData ? (
+
+                {ota ? (
                     <>
-                <Textarea
-                    value={serialData}
-                    readOnly
-                    fullWidth
-                    maxRows={10}
-                />
+                        <h1>Upload Firmware for OTA</h1>
+                        <input type="file" onChange={handleFileChange} accept=".bin" />
+                        <button onClick={uploadFirmware}>Upload</button>
+                    </>
+                ) : serialData ? (
+                    <>
+                        <Textarea
+                            value={serialData}
+                            readOnly
+                            fullWidth
+                            maxRows={10}
+                        />
                         <div>
-                            <button 
+                            <button
                                 onClick={() => {
                                     showPiP();
                                     onClose();

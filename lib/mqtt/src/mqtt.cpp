@@ -8,6 +8,7 @@
 #include <Display.h>
 #include <ArduinoMqttClient.h>
 #include <cstdint>
+#include <ota.h>
 
 WiFiClient espClient;
 MqttClient client(espClient);
@@ -20,6 +21,7 @@ size_t update; // 0 - no update
                // 6 - ping update
                // 7 - device update
                // 8 - remove update
+               // 9 - ota upgrade
 const long connectTimeout = 20000;
 
 void onMessage(int messageSize);
@@ -125,6 +127,7 @@ void handleMessage(char *message)
                   // 5 - write5
                   // 6 - ping
                   // 7 - update
+                  // 8 - ota
     while (*chr != '\0')
     {
         if (*chr == '|')
@@ -171,6 +174,10 @@ void handleMessage(char *message)
                 {
                     type = 7;
                 }
+                else if (compareStrings(msg.c_str(), "ota"))
+                {
+                    type = 8;
+                }
                 else
                 {
                     msg = "";
@@ -178,7 +185,7 @@ void handleMessage(char *message)
                 }
                 break;
             case 2:
-                if (type != 7)
+                if (type < 7)
                 {
                     if (compareStrings(msg.c_str(), "F8"))
                     {
@@ -213,7 +220,7 @@ void handleMessage(char *message)
                         preferences.putString("font", "Segoe20");
                     }
                 }
-                else
+                else if (type == 7)
                 {
                     if (compareStrings(msg.c_str(), "removeData"))
                     {
@@ -224,6 +231,12 @@ void handleMessage(char *message)
                     {
                         preferences.putString("ssid", msg);
                     }
+                }
+                else
+                {
+                    update = 9;
+                    preferences.putString("firmware", msg);
+                    printf("----- update = %d\r\n", update);
                 }
                 break;
             case 3:
@@ -480,6 +493,14 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
         client.print(removeOK.c_str());
         client.endMessage();
         update = 0;
+    } 
+    else if (update == 9) {
+        String firmware = preferences.getString("firmware", "");
+        if (!firmware.isEmpty()) {
+            String url = "https://eaper.artsakh.ventures/api/upgrade?version=";
+            url += firmware.c_str();
+            performOTAUpdate(url.c_str());
+        }
     }
     DEV_Delay_ms(5000);
 }

@@ -10,7 +10,7 @@ void setupHTTPSClient() {
 
 }
 
-void performOTAUpdate(char * url) {
+void performOTAUpdate(const char * url) {
     // const char* rootCACertificate = CA;
 
   // Load root CA certificate
