@@ -83,6 +83,4 @@ exports.OTA = async (firmware, id) => {
   }
 
   await mqttClient.ota(device._id, firmware);
-  
-
 }

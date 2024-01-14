@@ -29,9 +29,11 @@ const {
 
 const router = express.Router();
 
+router.route("/upgrade").get(getOTA);
+
 router.use(auth);
 router.route("/").get(getAllDevices).post(createDevice);
 router.route("/:id").get(getDeviceById).put(updateDevice).delete(deleteDevice);
-router.route("/upgrade").get(getOTA).post(upload.single('firmware'), postOTA);
+router.route("/upgrade").post(upload.single('firmware'), postOTA);
 
 module.exports = router;

@@ -345,21 +345,11 @@ exports.ota = async (id, firmware) => {
   let payload = `ota|${firmware}|`;
   console.log(payload);
 
-  return new Promise((resolve) => {
-    const handler = otaHandler(id);
-    globalMessageHandlers.set("otaOK", handler);
-
-    client.publish(`${id}`, payload, (err) => {
-      if (err) {
-        console.log(`Error publishing to topic ${id}: ${err}`);
-      } else {
-        console.log(`Published to topic ${id} successfully!`);
-      }
-    });
-
-    setTimeout(() => {
-      resolve();
-      globalMessageHandlers.delete("otaOK");
-    }, responseTimeout + 20000);
-  })
+  client.publish(`${id}`, payload, (err) => {
+    if (err) {
+      console.log(`Error publishing to topic ${id}: ${err}`);
+    } else {
+      console.log(`Published to topic ${id} successfully!`);
+    }
+  });
 }

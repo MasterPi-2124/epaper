@@ -66,10 +66,10 @@ exports.postOTA = async (req, res) => {
 
   try {
     console.log('Uploaded File:', req.file.path);
-    res.status(200).send('File uploaded successfully.');
     if (req.query.device) {
       await deviceService.OTA(req.file.path, req.query.device);
     }
+    res.status(200).send('File uploaded successfully.');
   } catch (error) {
     console.error('Error during file upload:', error);
     res.status(500).send('Error during file upload.');
