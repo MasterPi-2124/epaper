@@ -13,6 +13,8 @@ UWORD Imagesize = ((EPD_2IN9_V2_WIDTH % 8 == 0) ? (EPD_2IN9_V2_WIDTH / 8) : (EPD
 
 void setup()
 {
+    pinMode(2, OUTPUT); // Initialize the built-in LED pin as an output
+    digitalWrite(2, LOW);
     DEV_Delay_ms(1000);
     Serial.begin(115200);
     pinMode(9, INPUT_PULLUP);
