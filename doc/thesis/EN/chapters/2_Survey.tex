@@ -14,7 +14,7 @@ There are several e-paper display manufacturers that take advantage of \gls{EPD}
 
 \textbf{InkCase} is a product line from the Singapore-based consumer electronics design house Gajah. They specialize in offering protective cases for smartphones with added functionalities and are also involved in various innovative display solutions, including intelligent information display, healthcare, and tracking\cite{inkcase}. 
 
-\textbf{Pervasive Displays} is a leading manufacturer in the electronic paper display industry, specializing in the design, manufacture, and marketing of e-paper displays. They have a manufacturing capacity of over 2 million pieces per week and are financially stable, being a part of the world's largest display company\cite{pvsdp}. Their products and services are tailored to industrial applications, with a focus on the design and manufacturing of ultra-low power displays, and are often ordered in large quantities by other major industrial clients.
+\textbf{Pervasive Displays} is a leading manufacturer in the electronic paper display industry, specializing in designing, manufacturing, and marketing e-paper displays. They have a manufacturing capacity of over 2 million pieces per week and are financially stable, being a part of the world's largest display company\cite{pvsdp}. Their products and services are tailored to industrial applications, with a focus on the design and manufacturing of ultra-low power displays, and are often ordered in significant quantities by other major industrial clients.
 
 With the assessments mentioned above, the features of the four e-paper display manufacturers can be summarized in the table \ref{fig:table_manufaturers} below.
 
@@ -27,7 +27,7 @@ With the assessments mentioned above, the features of the four e-paper display m
         \textbf{Features}           & \textbf{E Ink}            & \textbf{Seekink}  & \textbf{InkCase} & \textbf{Pervasive Displays} \\ \hline
         \textbf{Prices}             & Contact sale              & Contact sale     & Not available & Contact sale                \\ \hline
         \textbf{Client type}        & \makecell[{{p{2.5cm}}}]{\raggedright Business\\Commercial user} & Business   & Commercial user & \Gape[10pt][-80pt]{\makecell[{{p{2.5cm}}}]{\raggedright Business\\Commercial user}}   \\ \hline
-        \textbf{Use case}        & \Gape[10pt][-10pt]{\makecell[{{p{2cm}}}]{\raggedright Business\\Education\\Healthcare\\Logistics\\Transportation\\Automotive}} & \Gape[10pt][-10pt]{\makecell[{{p{2cm}}}]{\raggedright Business\\Retail\\Education\\Transportation\\Healthcare\\IoT}}  & \makecell[{{p{2cm}}}]{\raggedright Transportation\\Business} & \Gape[00pt][-20pt]{\makecell[{{p{2cm}}}]{\raggedright Logistic\\IoT\\Healthcare\\Education\\Business}}   \\ \hline
+        \textbf{Use case}        & \Gape[10pt][-10pt]{\makecell[{{p{2cm}}}]{\raggedright Business\\Education\\Healthcare\\Logistics\\Transportation\\Automotive}} & \Gape[10pt][-10pt]{\makecell[{{p{2cm}}}]{\raggedright Business\\Retail\\Education\\Transportation\\Healthcare\\IoT}}  & \makecell[{{p{2cm}}}]{\raggedright Transportation\\Business} & \Gape[10pt][-20pt]{\makecell[{{p{2cm}}}]{\raggedright Logistic\\IoT\\Healthcare\\Education\\Business}}   \\ \hline
         \textbf{Management System}  & \checkmark & \checkmark & \checkmark & \checkmark \\ \hline
         \textbf{Allow custom display}  & Customized for each customer & Customized for each customer & Not available & Customized for each customer \\ \hline
         \textbf{Connectivities}     & \Gape[10pt][-10pt]{\makecell[{{p{2cm}}}]{\raggedright Bluetooth\\Internet\\Wired}} & \makecell[{{p{5cm}}}]{\raggedright Bluetooth\\Internet\\Wired}  & \makecell[{{p{5cm}}}]{\raggedright Bluetooth\\Internet} & Not published  \\ \hline
@@ -40,7 +40,7 @@ With the assessments mentioned above, the features of the four e-paper display m
 
 Having learned from the survey of the above four systems and other real-life use cases, this project has concluded some objectives of building an \gls{EPD} devices system, including designing and building \gls{EPD} devices, as well as including some essential features fitting in multiple use cases.
 
-First, take advantage of the electrophoretic display technology in displaying information. With the unique characteristic of e-paper display, the \gls{EPD} device should be capable of displaying data for a long period of time without frequent refreshing. The device also needs to be energy-saving and able to operate in a reasonable time without recharging.
+First, take advantage of the electrophoretic display technology in displaying information. With the unique characteristic of e-paper display, the \gls{EPD} device should be capable of displaying data for an extended period of time without frequent refreshing. The device also needs to be energy-saving and able to operate in a reasonable time without recharging.
 
 Second, manage \gls{EPD} devices in a system via a central hub, which can be a cloud server, communicating with \gls{EPD} devices and backend server using MQTT protocol and other wireless connectivities, or a local dock that is responsible for receiving data and displaying on \gls{EPD} panels. Each solution's advantages and drawbacks are discussed in section \ref{section:optimization} in chapter \ref{chapter:SolutionAndContribution}.
 
@@ -201,7 +201,7 @@ Figure \ref{fig:act_new-device} below shows the business process when the Manage
 \end{figure}
 
 \subsubsection{"Creating and displaying new data" flow}
-The following describes the business process when users add new data to the system, as depicted in Figure \ref{fig:act_new-data}. Firstly, the user selects the type of data they want to display. Afterward, they add the corresponding detailed information based on the chosen data type. Users can also decide whether or not to allow display on the \gls{EPD} device. If they choose to do so, the system will provide a list of devices connected to the MQTT Broker for the user to choose from. The user will then provide additional information about how to display the data on the selected device. Once all the necessary information has been provided, the system will send MQTT messages through the MQTT Broker. The selected device will receive and display the data and send the status back to the system via the MQTT protocol.
+The following describes the business process when users add new data to the system, as depicted in Figure \ref{fig:act_new-data}. Firstly, the user selects the type of data they want to display. Afterward, they add the corresponding detailed information based on the chosen data type. Users can also decide whether or not to allow display on the \gls{EPD} device. If they choose to do so, the system will provide a list of devices connected to the MQTT Broker for the user to select from. The user will then provide additional information about how to display the data on the selected device. Once all the necessary information has been provided, the system will send MQTT messages through the MQTT Broker. The selected device will receive and display the data and send the status back to the system via the MQTT protocol.
 
 \begin{figure}[H]
     \centering
@@ -459,7 +459,6 @@ The following describes the business process when users add new data to the syst
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System, \gls{EPD} device} \\ \hline
         \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user logs into the system as a Manager, and the data is stored in the system.} \\ \hline
         
-        \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
         \endfirsthead
@@ -499,7 +498,6 @@ The following describes the business process when users add new data to the syst
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System} \\ \hline
         \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{No} \\ \hline
         
-        \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
         \endfirsthead
@@ -530,7 +528,6 @@ The following describes the business process when users add new data to the syst
         \textbf{Actor}          & \multicolumn{3}{l|}{Manager, System} \\ \hline
         \textbf{Pre-condition}  & \multicolumn{3}{p{12cm}|}{The user have stored account.} \\ \hline
         
-        \hline
         \multirow{0}{2cm}{\textbf{Main scenario (success)}} & 
         \textbf{No.} & \textbf{Executed by} & \textbf{Action} \\ \cline{2-4}
         \endfirsthead
@@ -615,15 +612,15 @@ Given the system's unique nature, where a user has to manage a vast array of dat
 Containing sensitive user and business data, the system needs to ensure privacy and security among \gls{EPD} devices and servers. The system also requires authenticated and authorized services so that only users with specific permissions are allowed to access particular services. Moreover, it is also crucial to protect the system from outside attacks by implementing secure connections between services using TLS/SSL protocol. The details of this problem and its implemented solution are discussed in chapter \ref{chapter:SolutionAndContribution}.
 
 \subsection{Performance}
-With the characteristic of having to update in real time, the system also requires multiple performance criteria. First, the \gls{EPD} devices should process data in a reasonable time and maintain a stable connection with the server in the event of receiving requests. The \gls{EPD} device also needs long-lasting battery life and sufficient resources to store and handle data.  On the other hand, the system also needs to manage many \gls{EPD} devices and users efficiently, especially in big businesses. Chapter \ref{chapter:SolutionAndContribution} will also provide a clear view of the performance evaluation process and various techniques used to improve both \gls{EPD} devices and the server's overall quality.
+With the characteristic of having to update in real time, the system also requires multiple performance criteria. First, the \gls{EPD} devices should process data in a reasonable time and maintain a stable connection with the server in the event of receiving requests. The \gls{EPD} device also needs long-lasting battery life and sufficient resources to store and handle data. On the other hand, the system also needs to manage many \gls{EPD} devices and users efficiently, especially in big businesses. Chapter \ref{chapter:SolutionAndContribution} will also provide a clear view of the performance evaluation process and various techniques used to improve both \gls{EPD} devices and the server's overall quality.
 
 \subsection{User Experience}
 UX/UI is also one of the most essential requirements of the system. The web interface needs to be user-friendly, with a consistent layout and color scheme across different pages. Additionally, the interface should support responsive design, making it adaptable to various screen sizes on different devices. Moreover, information in the system needs to be delivered to the users efficiently and clearly, making it easy to understand for all ages.
 
-About the \gls{EPD} devices, the display needs to have a clear and simple layout, ensuring the data is well-organized and easy to view, especially in complicated use cases. The e-paper screen also needs to refresh clearly and does not show any remaining black pixels after the refresh.
+About the \gls{EPD} devices, the display needs to have a clear and straightforward layout, ensuring the data is well-organized and easy to view, especially in complicated use cases. The e-paper screen also needs to refresh clearly and show no remaining black pixels after the refresh.
 
 Both the website and the \gls{EPD} devices should follow a minimalistic design, only showing the users what they want to show. The color, layout, and design patterns should be consistent among devices and pages, overall enhancing user experience and brand recognition.
 
 \subsection{Flexibility and Scalability}
-The system is still in the development and expansion phase, so it needs to be designed for easy modification and upgrading to suit new requirements as they arise. Changes or additions to features or devices should also not affect the system's operation. The system also needs to be fault-tolerance provide detailed logs in the event of errors and have backup storage in an emergency. All logic failures must not cause the system to stop running, and the system should have handling strategies for all of them and a notification system to indicate the error to the users.
+The system is still in the development and expansion phase, so it needs to be designed for easy modification and upgrading to suit new requirements as they arise. Changes or additions to features or devices should also not affect the system's operation. The system also needs to be fault-tolerant, provide detailed logs in the event of errors, and have backup storage in an emergency. All logic failures must not cause the system to stop running, and the system should have handling strategies for all of them and a notification system to indicate the error to the users.
 \end{document}
