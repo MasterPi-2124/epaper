@@ -11,9 +11,9 @@ const PiPComponent = () => {
     return (
         <Draggable>
             <div className='pip'>
-                <div className='pip-head'>
-                    <label>Serial Output of</label>
-                    <button onClick={stopPiP}>x</button>
+                <div className='pip-head w-full flex flex-row'>
+                    <label>Debug on-the-go</label>
+                    <button onClick={stopPiP}>-</button>
                 </div>
                 <Textarea
                     onMouseDown={(e) => {

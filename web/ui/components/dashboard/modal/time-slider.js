@@ -4,8 +4,8 @@ function TimeSlider({ timestamps }) {
   const [hoverInfo, setHoverInfo] = useState(null);
   const [hoverTime, setHoverTime] = useState(null);
   const sliderRef = useRef(null);
-  const beginTime = timestamps[0].split("-")[0];
-  const endTime = timestamps[timestamps.length - 1].split("-")[1];
+  const beginTime = timestamps.length ? timestamps[0].split("-")[0] : -1;
+  const endTime = timestamps.length ? timestamps[timestamps.length - 1].split("-")[1] : -1;
   const maxLength = endTime - beginTime;
 
   console.log(beginTime, endTime, maxLength);

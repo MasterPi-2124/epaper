@@ -127,12 +127,12 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
               )}
               <div className="separator" />
               <p>
-                Start Time: {data1.activeStartTime}
+                Start Time: {new Date(data1.activeStartTime * 1000).toLocaleString()}
               </p>
-              <p>
-                TimeStamp: {data1.activeTimestamp}
+              {/* <p>
+                Time Stamp: {data1.activeTimestamp}
               </p>
-              <TimeSlider timestamps={data1.activeTimestamp} />
+              <TimeSlider timestamps={data1.activeTimestamp} /> */}
             </>
           ) : (
             <>
@@ -253,10 +253,10 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
               <></>
             )}
             <p>
-              Start Time: {data.activeStartTime}
+              Start Time: {new Date(data.activeStartTime * 1000).toLocaleString()}
             </p>
             <p>
-              TimeStamp: {data.activeTimestamp}
+              Time Stamp: {data.activeTimestamp}
             </p>
             <TimeSlider timestamps={data.activeTimestamp} />
 

@@ -1,10 +1,12 @@
 import { Notify } from "notiflix";
 import { instanceCoreApi } from "@/services/setupAxios";
 import React, { useState, useEffect } from 'react';
+import DeleteIcon from "@/assets/icons/thick/delete.svg";
 import Link from "next/link";
 import { Textarea } from '@nextui-org/react';
+import Image from "next/image";
 import { usePiP } from '@/services/pip';
-
+import { FileInput, Label } from 'flowbite-react';
 
 const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
@@ -12,22 +14,22 @@ const DebugModal = ({ data, onClose }) => {
     const [data1, setData1] = useState();
     const [file, setFile] = useState(null);
     const [ota, setOTA] = useState(false);
-    const { showPiP, hidePiP, stopPiP, serialData, onConnectSerial } = usePiP();
+    const { isPiPVisible, showPiP, hidePiP, stopPiP, serialData, onConnectSerial } = usePiP();
 
-    
+
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
-    
+
     const uploadFirmware = () => {
         if (!file) {
             Notify.failure('Please select a file to upload');
             return;
         }
-        
+
         const formData = new FormData();
         formData.append('firmware', file);
-        
+
         instanceCoreApi.post(`/devices/upgrade?device=${data._id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -35,11 +37,11 @@ const DebugModal = ({ data, onClose }) => {
         }).then(response => {
             Notify.success('Uploaded firmware successfully!');
         })
-        .catch(error => {
-            Notify.failure(`Error uploading firmware: ${error}`);
-        });
+            .catch(error => {
+                Notify.failure(`Error uploading firmware: ${error}`);
+            });
     }
-    
+
     useEffect(() => {
         if (data.dataID) {
             instanceCoreApi.get(`${API}/data/${data.dataID}`).then((res) => {
@@ -130,10 +132,10 @@ const DebugModal = ({ data, onClose }) => {
                             )}
                             <div className="separator" />
                             <p>
-                                Start Time: {data1.activeStartTime}
+                                Start Time: {new Date(data1.activeStartTime * 1000).toLocaleString()}
                             </p>
                             <p>
-                                TimeStamp: {data1.activeTimestamp}
+                                Time Stamp: {data1.activeTimestamp}
                             </p>
                         </>
                     ) : (
@@ -144,24 +146,64 @@ const DebugModal = ({ data, onClose }) => {
                 </div>
 
                 <div className="flex gap-4 modal-footer">
-                    <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200 edit-button ok" onClick={() => switchToEdit()}>
-                        Reset
+                    <button className="flex-1 bg-opacity-10 text-base rounded-full p-2 transition duration-200 edit-button ok" onClick={() => setOTA(false)}>
+                        Show log (debug)
                     </button>
-                    <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200 delete-button ok" onClick={() => setOTA(true)}>
+                    <button className="flex-1 text-white text-base rounded-full p-2 transition duration-200 edit-button ok" onClick={() => setOTA(true)}>
                         OTA upgrade
                     </button>
                 </div>
             </div>
 
-            <div className="separator w-1" />
+            <div className="separator w-0.5" />
 
             <div className='debug-right'>
-
                 {ota ? (
                     <>
-                        <h1>Upload Firmware for OTA</h1>
-                        <input type="file" onChange={handleFileChange} accept=".bin" />
-                        <button onClick={uploadFirmware}>Upload</button>
+                        <h1>Upload Firmware</h1>
+
+                        <Label
+                            className="drag-file-area flex h-30 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed"
+                        >
+                            {file ? <>
+                                <h3>Your file is ready!</h3>
+                                <p>{file.name}</p>
+                                <button
+                                    className="small-icon"
+                                    onClick={() => setFile(null)}
+                                >
+                                    <Image
+                                        src={DeleteIcon}
+                                        alt="vertical ellipsis"
+                                    />
+                                </button>
+                            </> : <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                                <svg
+                                    className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 20 16"
+                                >
+                                    <path
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLineJoin="round"
+                                        strokeWidth="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                    />
+                                </svg>
+                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <span className="font-semibold">Click to upload</span> or drag and drop
+                                </p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Only accept .bin files</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Maximum size: 2.6Mb</p>
+                            </div>
+                            }
+
+                            <FileInput id="dropzone-file" className="hidden" accept=".bin" onChange={handleFileChange} />
+                        </Label>
+                        <button onClick={uploadFirmware} className="ok edit-button w-full">Upload</button>
                     </>
                 ) : serialData ? (
                     <>
@@ -171,18 +213,19 @@ const DebugModal = ({ data, onClose }) => {
                             fullWidth
                             maxRows={10}
                         />
-                        <div>
+                        {isPiPVisible ? 
+                            <button className="edit-button ok w-full" onClick={hidePiP}>Hide PiP</button> 
+                            :  
                             <button
-                                onClick={() => {
+                                className="edit-button ok w-full" onClick={() => {
                                     showPiP();
                                     onClose();
                                 }}
                             >
                                 Show PiP
                             </button>
-                            <button onClick={hidePiP}>Hide PiP</button>
-                            <button onClick={stopPiP}>Stop PiP</button>
-                        </div>
+                        }
+                        <button className="delete-button ok w-full" onClick={stopPiP}>Disconnect</button>
                     </>
                 ) : (
                     <button onClick={onConnectSerial} className='ok edit-button'>Connect via Serial Port</button>

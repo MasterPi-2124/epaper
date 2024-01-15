@@ -26,6 +26,7 @@
     "dayjs": "^1.11.10",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "flowbite-react": "^0.7.2",
     "next": "^13.4.5",
     "next-auth": "^4.22.1",
     "next-themes": "^0.2.1",

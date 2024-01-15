@@ -23,6 +23,20 @@
 
 .pip-head {
     margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.pip-head button {
+    font-size: 50px;
+    line-height: 1%;
+    font-weight: 100;
+}
+
+.pip-head button:hover {
+background: none;
+box-shadow: none;
+background-color: transparent !important;
+font-weight: 600;
 }
 
 label.nextui-input-wrapper {

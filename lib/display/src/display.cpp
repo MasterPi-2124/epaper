@@ -202,10 +202,10 @@ void displayWrite2(UBYTE * BlackImage) {
     if (compareStrings(schema.c_str(), "1")) {
         EPD_2IN9_V2_Init();
         Paint_Clear(0xff);
-        Paint_DrawString_custom(10, 30, name16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 50, email16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 20, name16, &Segoe16Bold, BLACK, WHITE);
+        Paint_DrawString_custom(10, 50, class16, &Segoe12Bold, BLACK, WHITE);
         Paint_DrawString_custom(10, 70, studentID16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 90, class16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_custom(10, 90, email16, &Segoe12, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
 }

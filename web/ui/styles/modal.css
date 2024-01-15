@@ -11,7 +11,7 @@
 
 .nextui-backdrop .nextui-c-grJsex-ikUaMfZ-css {
     width: auto;
-    max-width: 700px;
+    max-width: 1000px;
 }
 
 .nextui-backdrop .nextui-backdrop-content {
@@ -231,16 +231,35 @@ tfoot tr th nav button {
 }
 
 .modal .detail-left {
-    width: 300px;
+    max-width: 900px;
     height: 100%;
 }
 
 
 .modal .debug-right {
-    width: 800px;
+    width: 400px;
     display: flex;
     margin: 0px;
     align-items: center;
     justify-content: center;
     justify-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.debug-right h1 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.debug-right input.file-input {
+    border: 1px solid red;
+}
+
+
+
+
+.debug-right .drag-file-area {
+    gap: 15px;
+	border: 1px dashed #606060;
 }

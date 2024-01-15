@@ -26,7 +26,7 @@ function Dashboard() {
           <>
             <Menu currentPath={"Dashboard"} />
             <div className="main-container">
-              <div className="content">
+              <div className="content !flex-row">
                 <Link href="/dashboard/data">
                   <div className="item-dashboard">
                     Data Dashboard
