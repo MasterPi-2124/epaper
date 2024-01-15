@@ -338,7 +338,9 @@ This service in the system acts as an intermediary, managing the state of all MQ
 
 \section{Detailed design}
 \subsection{User interface design}
-This system's architecture and user interface are meticulously tailored for computer displays, ensuring optimal functionality and visual experience on larger screens. The design is customized to leverage the expansive real estate of computer monitors (ranging from 1366 \(\times\) 768 and higher), facilitating ease of use and comprehensive information display. This focus on computer-targeted design means that the system is not intended for mobile use. As such, it may not provide an ideal user experience or full functionality on smaller mobile device screens. The decision to specialize in computer displays stems from a commitment to delivering a high-quality, immersive experience that fully utilizes the capabilities and advantages of larger screens typically associated with desktop or laptop computers. There are four main layouts used on the website: authentication, dashboard, modal, and creation. The users use the authentication page (figure \ref{fig:Mockup1}) for authenticating purposes, including sign-in and sign-up. The dashboard page layout in picture \ref{fig:Mockup2} shows a table of \gls{EPD} devices and data, listing all information about each item and the buttons on the right side to open functional modals to view, edit, and delete, which are illustrated in figure \ref{fig:Mockup3}. In the creation page in figure \ref{fig:Mockup4}, users can create new devices and data by providing details in the inputs and choosing options from the dropdown. The layouts and the buttons follow the minimalistic design pattern and colors, improving the visual experience for users.
+This system's architecture and user interface are meticulously tailored for computer displays, ensuring optimal functionality and visual experience on larger screens. The design is customized to leverage the expansive real estate of computer monitors (ranging from 1366 \(\times\) 768 and higher), facilitating ease of use and comprehensive information display. This focus on computer-targeted design means that the system is not intended for mobile use. As such, it may not provide an ideal user experience or full functionality on smaller mobile device screens. The decision to specialize in computer displays stems from a commitment to delivering a high-quality, immersive experience that fully utilizes the capabilities and advantages of larger screens typically associated with desktop or laptop computers.
+
+There are four main layouts used on the website: authentication, dashboard, modal, and creation. The users use the authentication page (figure \ref{fig:Mockup1}) for authenticating purposes, including sign-in and sign-up. The dashboard page layout in picture \ref{fig:Mockup2} shows a table of \gls{EPD} devices and data, listing all information about each item and the buttons on the right side to open functional modals to view, edit, and delete, which are illustrated in figure \ref{fig:Mockup3}. In the creation page in figure \ref{fig:Mockup4}, users can create new devices and data by providing details in the inputs and choosing options from the dropdown. The layouts and the buttons follow the minimalistic design pattern and colors, improving the visual experience for users.
 
 \begin{figure}[H]
     \centering
@@ -1500,6 +1502,7 @@ In the development of this project, a suite of sophisticated tools was employed 
         Nginx                                   & Tools         & nginx/1.24.0      & A high-performance web server and reverse proxy                   & \url{https://nginx.org}                                           \\ \hline
         Cloudflare                              & Tools         &                   & A service for website performance optimization and security       & \url{https://www.cloudflare.com}                                  \\ \hline
         GitHub                                  & Tools         &                   & Source code and project management website                        & \url{https://github.com}                      \\ \hline
+        TheDotFactory                           & Tools         & v0.1.4            & An LCD Font and Image Generator                                   & \url{http://www.eran.io/the-dot-factory-an-lcd-font-and-image-generator/}                      \\ \hline
     \end{tabular}
     \caption{List of libraries and tools used in the project}
     \label{fig:table_tools}
@@ -1582,18 +1585,63 @@ When registering a new device, users need to plug the \gls{EPD} device into the 
     \label{fig:ui_new-device}
 \end{figure}
 
-In the device's dashboard, the users can see information together with the status of each device and also can choose to view more detail, edit, or delete devices via the buttons on the right side. Figure \ref{} below shows the detailed modal of an active device displaying the data. The users also can check the serial output of the device via Serial Port and even pop it out into the PiP component by choosing the "Debug on-the-go" button, which enables them to test interacting with the device right on the website while still monitoring the device's log (figure \ref{fig:data-dashboard}). This feature is handy in case some problems occur on the device and users don't have the proper instruments to debug further. Moreover, users can also upgrade the devices wirelessly by choosing the "OTA Uprgade" feature and choosing the \verb|.bin| binary file. The server will receive the binary file and send an OTA request to the assigned device. Details of OTA and debug features are discussed in chapter \ref{chapter:SolutionAndContribution}.
+In the device's dashboard, the users can see information together with the status of each device and also can choose to view more detail, edit, or delete devices via the buttons on the right side. Figure \ref{fig:detail-modal} below shows the detailed modal of an active device displaying the data. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{doc//imgs/ui_device-modal.png}
+    \caption{Detail modal of an active device displaying data}
+    \label{fig:detail-modal}
+\end{figure}
+
+The users can also check the serial output of the device via Serial Port and even pop it out into the PiP component by choosing the "Show log (debug)" button (figure \ref{fig:ui_debug}), which enables them to test interacting with the device right on the website while still monitoring the device's log (figure \ref{fig:data-dashboard}). This feature is handy in case some problems occur on the device and users don't have the proper instruments to debug further. Moreover, users can also upgrade the devices wirelessly by choosing the "OTA Uprgade" feature and choosing the \verb|.bin| binary file, which is illustrated in figure \ref{fig:ui_firmware} below. The server will receive the binary file and send an OTA request to the assigned device.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{doc//imgs/ui_debug.png}
+    \caption{Debug modal showing the log of the device}
+    \label{fig:ui_debug}
+\end{figure}
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=0.87\linewidth]{doc//imgs/ui_data-dashboard.png}
+        \includegraphics[width=0.85\linewidth]{doc//imgs/ui_data-dashboard.png}
         \caption{Data dashboard, with a PiP showing device log}
         \label{fig:data-dashboard}
 \end{figure}
 
-The \gls{EPD} Device connects to the MQTT Broker and subscribes to its ID as the topic. The picture \ref{} on the left side below indicates the device display when no data is stored, and the right side shows the device display when data is stored and displayed in the device. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\linewidth]{doc//imgs/ui_firmware.png}
+    \caption{Debug modal showing firmware upload section}
+    \label{fig:ui_firmware}
+\end{figure}
 
-Users can also put the \gls{EPD} device in debugging mode to test the devices. Currently, to do so, users need to hold the "Boot" button on the ESP32-C3 for 5 seconds, and it will reboot to the debugging mode and test the functionalities of the screen (figure \ref{}). This access method is not user-friendly and is only temporary in the development of the project. The improvement to this, and also other improvements of the system in the future, are discussed in chapter \ref{chapter:Conclusion}.
+The \gls{EPD} Device connects to the MQTT Broker and subscribes to its ID as the topic. The picture \ref{fig:epd_no-data} on the left side below indicates the device display when no data is stored, and \ref{fig:epd_name} on the right side shows the device display when data is stored and displayed in the device. 
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{doc//imgs/epd_no-data.png}
+    \caption{EPD display when no data is received}
+    \label{fig:epd_no-data}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{doc//imgs/epd_name.png}
+    \caption{EPD display when displaying a student data}
+    \label{fig:epd_name}
+  \end{minipage}
+\end{figure}
+
+Users can also put the \gls{EPD} device in debugging mode to test the devices. Currently, to do so, users need to hold the "Boot" button on the ESP32-C3 for 5 seconds, and it will reboot to the debugging mode and test the functionalities of the screen (figure \ref{fig:epd_debug}). This access method is not user-friendly and is only temporary in the development of the project. The improvement to this, and also other improvements of the system in the future, are discussed in chapter \ref{chapter:Conclusion}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{doc//imgs/epd_debug.png}
+    \caption{EPD device going to debug mode}
+    \label{fig:epd_debug}
+\end{figure}
 
 \section{Testing and evaluation}
 \subsection{Evaluation}
@@ -1602,7 +1650,7 @@ The project utilizes Lighthouse - an open-source tool by Google used for analyzi
 The results of the website quality assessment are shown in figure \ref{fig:ui_light-house}, and details are listed in table \ref{fig:ligthhouse-report}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\linewidth]{doc//imgs/ui_light-house.png}
+    \includegraphics[width=0.8\linewidth]{doc//imgs/ui_light-house.png}
     \caption{Performance reports by Lighthouse}
     \label{fig:ui_light-house}
 \end{figure}
@@ -1823,11 +1871,12 @@ Services running in each server are configured as a system daemon (\verb|systemc
 \end{table}
 
 \subsection{EPD Devices}
-The code is transferred and stored in ESP32-C3 Supermini flash memory using the PlatformIO plugin integrated into Visual Studio Code. The code takes about 1.5MB in total memory, most of which is stored in the non-volatile flash memory, meaning the code remains on the device even after it is powered off. The image of the ESP32-C3 Supermini and its ESP32-C3 microcontroller unit specs are listed in figure \ref{fig:esp32-c3} and table \ref{fig:table_services} below.
+The code is transferred and stored in ESP32-C3 Supermini flash memory using the PlatformIO plugin integrated into Visual Studio Code. The code takes about 1.5MB in total memory, most of which is stored in the non-volatile flash memory, meaning the code remains on the device even after it is powered off. The image of the ESP32-C3 Supermini and its ESP32-C3 microcontroller unit specs are listed in figure \ref{fig:esp32-c3} and table \ref{fig:table_c3specs} below.
+The code is transferred and stored in ESP32-C3 Supermini flash memory using the PlatformIO plugin integrated into Visual Studio Code. The code takes about 1.5MB in total memory, most of which is stored in the non-volatile flash memory, meaning the code remains on the device even after it is powered off. The image of the ESP32-C3 Supermini and its ESP32-C3 microcontroller unit specs are listed in figure \ref{fig:esp32-c3} and table \ref{fig:table_c3specs} below.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\linewidth]{doc//imgs/esp32-c3.png}
+    \includegraphics[width=0.75\linewidth]{doc//imgs/esp32-c3.png}
     \caption{Back and front image of ESP32-C3 Supermini}
     \label{fig:esp32-c3}
 \end{figure}
@@ -1852,7 +1901,7 @@ The code is transferred and stored in ESP32-C3 Supermini flash memory using the 
         Supply Voltage          & 3V - 3.6V                                         \\ \hline
     \end{tabular}
     \caption{ESP32-C3's specs}
-    \label{fig:table_services}
+    \label{fig:table_c3specs}
 \end{table}
 
 The e-paper display panel is connected and communicates to the board via SPI interfaces. Details of connected pins and their description are listed in table \ref{fig:table_spi} below.
