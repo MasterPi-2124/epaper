@@ -157,6 +157,108 @@
     [] % after
 \titlespacing{\subsubsection}{50pt}{\parskip}{0.5\parskip}
 
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows}
+\usetikzlibrary{calc}
+
+\pgfarrowsdeclare{crow's foot}{crow's foot}
+{
+    \pgfarrowsleftextend{+-.5\pgflinewidth}%
+    \pgfarrowsrightextend{+.5\pgflinewidth}%
+}
+{
+    \pgfutil@tempdima=0.6pt%
+    \pgfsetdash{}{+0pt}%
+    \pgfsetmiterjoin%
+    \pgfpathmoveto{\pgfqpoint{0pt}{-9\pgfutil@tempdima}}%
+    \pgfpathlineto{\pgfqpoint{-13\pgfutil@tempdima}{0pt}}%
+    \pgfpathlineto{\pgfqpoint{0pt}{9\pgfutil@tempdima}}%
+    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%
+    \pgfpathmoveto{\pgfqpoint{-8pt}{-6pt}}% 
+    \pgfpathlineto{\pgfqpoint{-8pt}{-6pt}}%  
+    \pgfpathlineto{\pgfqpoint{-8pt}{6pt}}% 
+    \pgfusepathqstroke%
+}
+
+\pgfarrowsdeclare{omany}{omany}
+{
+    \pgfarrowsleftextend{+-.5\pgflinewidth}%
+    \pgfarrowsrightextend{+.5\pgflinewidth}%
+}
+{
+    \pgfutil@tempdima=0.6pt%
+    \pgfsetdash{}{+0pt}%
+    \pgfsetmiterjoin%
+    \pgfpathmoveto{\pgfqpoint{0pt}{-9\pgfutil@tempdima}}%
+    \pgfpathlineto{\pgfqpoint{-13\pgfutil@tempdima}{0pt}}%
+    \pgfpathlineto{\pgfqpoint{0pt}{9\pgfutil@tempdima}}%
+    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%  
+    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%
+    \pgfpathmoveto{\pgfqpoint{-6pt}{-6pt}}% 
+    \pgfpathcircle{\pgfpoint{-15.5pt}{0}} {3.5pt}
+    \pgfusepathqstroke%
+}
+
+\pgfarrowsdeclare{one}{one}
+{
+    \pgfarrowsleftextend{+-.5\pgflinewidth}%
+    \pgfarrowsrightextend{+.5\pgflinewidth}%
+}
+{
+    \pgfutil@tempdima=0.6pt%
+    \pgfsetdash{}{+0pt}%
+    \pgfsetmiterjoin%
+    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%
+    \pgfpathmoveto{\pgfqpoint{-6pt}{-6pt}}% 
+    \pgfpathlineto{\pgfqpoint{-6pt}{-6pt}}%  
+    \pgfpathlineto{\pgfqpoint{-6pt}{6pt}}% 
+    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%
+    \pgfpathmoveto{\pgfqpoint{-8pt}{-6pt}}% 
+    \pgfpathlineto{\pgfqpoint{-8pt}{-6pt}}%  
+    \pgfpathlineto{\pgfqpoint{-8pt}{6pt}}%    
+    \pgfusepathqstroke%
+}
+
+\tikzset{%
+    pics/entity/.style n args={3}{code={%
+        \node[draw,
+        rectangle split,
+        rectangle split parts=2,
+        text height=1.5ex,
+        ] (#1)
+        {#2 \nodepart{second}
+            \begin{tabular}{>{\raggedright\arraybackslash}p{8.5em}}
+                #3
+            \end{tabular}
+        };%
+    }},
+    pics/entitynoatt/.style n args={2}{code={%
+        \node[draw,
+        text height=1.5ex,
+        ] (#1)
+        {#2};%
+    }},
+    zig zag to/.style={
+        to path={(\tikztostart) -| ($(\tikztostart)!#1!(\tikztotarget)$) |- (\tikztotarget)}
+    },
+    zig zag to/.default=0.5,   
+    one to one/.style={
+        one-one, zig zag to
+    },
+    one to oone/.style={
+        one-one, zig zag to
+    },
+    one to many/.style={
+        one-crow's foot, zig zag to,
+    },
+    one to omany/.style={
+        one-omany, zig zag to
+    }
+}
+
 % \newcommand{\titlesize}{\fontsize{18pt}{23pt}\selectfont}
 % \newcommand{\subtitlesize}{\fontsize{16pt}{21pt}\selectfont}
 % \titleclass{\part}{top}
@@ -170,6 +272,9 @@
 
 
 % ===================================================
+
+
+\usepackage{makecell}
 \usepackage{hyperref}
 \hypersetup{pdfborder = {0 0 0}} %
 \hypersetup{pdftitle={\TITLE},

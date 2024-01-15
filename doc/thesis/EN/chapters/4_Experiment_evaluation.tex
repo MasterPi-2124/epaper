@@ -1,104 +1,5 @@
 \documentclass[../Main.tex]{subfiles}
-\usepackage{tikz}
-\usetikzlibrary{shapes.multipart}
-\usetikzlibrary{positioning}
-\usetikzlibrary{shadows}
-\usetikzlibrary{calc}
 
-\pgfarrowsdeclare{crow's foot}{crow's foot}
-{
-    \pgfarrowsleftextend{+-.5\pgflinewidth}%
-    \pgfarrowsrightextend{+.5\pgflinewidth}%
-}
-{
-    \pgfutil@tempdima=0.6pt%
-    \pgfsetdash{}{+0pt}%
-    \pgfsetmiterjoin%
-    \pgfpathmoveto{\pgfqpoint{0pt}{-9\pgfutil@tempdima}}%
-    \pgfpathlineto{\pgfqpoint{-13\pgfutil@tempdima}{0pt}}%
-    \pgfpathlineto{\pgfqpoint{0pt}{9\pgfutil@tempdima}}%
-    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%
-    \pgfpathmoveto{\pgfqpoint{-8pt}{-6pt}}% 
-    \pgfpathlineto{\pgfqpoint{-8pt}{-6pt}}%  
-    \pgfpathlineto{\pgfqpoint{-8pt}{6pt}}% 
-    \pgfusepathqstroke%
-}
-
-\pgfarrowsdeclare{omany}{omany}
-{
-    \pgfarrowsleftextend{+-.5\pgflinewidth}%
-    \pgfarrowsrightextend{+.5\pgflinewidth}%
-}
-{
-    \pgfutil@tempdima=0.6pt%
-    \pgfsetdash{}{+0pt}%
-    \pgfsetmiterjoin%
-    \pgfpathmoveto{\pgfqpoint{0pt}{-9\pgfutil@tempdima}}%
-    \pgfpathlineto{\pgfqpoint{-13\pgfutil@tempdima}{0pt}}%
-    \pgfpathlineto{\pgfqpoint{0pt}{9\pgfutil@tempdima}}%
-    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%  
-    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%
-    \pgfpathmoveto{\pgfqpoint{-6pt}{-6pt}}% 
-    \pgfpathcircle{\pgfpoint{-15.5pt}{0}} {3.5pt}
-    \pgfusepathqstroke%
-}
-
-\pgfarrowsdeclare{one}{one}
-{
-    \pgfarrowsleftextend{+-.5\pgflinewidth}%
-    \pgfarrowsrightextend{+.5\pgflinewidth}%
-}
-{
-    \pgfutil@tempdima=0.6pt%
-    \pgfsetdash{}{+0pt}%
-    \pgfsetmiterjoin%
-    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%
-    \pgfpathmoveto{\pgfqpoint{-6pt}{-6pt}}% 
-    \pgfpathlineto{\pgfqpoint{-6pt}{-6pt}}%  
-    \pgfpathlineto{\pgfqpoint{-6pt}{6pt}}% 
-    \pgfpathmoveto{\pgfqpoint{0\pgfutil@tempdima}{0\pgfutil@tempdima}}%
-    \pgfpathmoveto{\pgfqpoint{-8pt}{-6pt}}% 
-    \pgfpathlineto{\pgfqpoint{-8pt}{-6pt}}%  
-    \pgfpathlineto{\pgfqpoint{-8pt}{6pt}}%    
-    \pgfusepathqstroke%
-}
-
-\tikzset{%
-    pics/entity/.style n args={3}{code={%
-        \node[draw,
-        rectangle split,
-        rectangle split parts=2,
-        text height=1.5ex,
-        ] (#1)
-        {#2 \nodepart{second}
-            \begin{tabular}{>{\raggedright\arraybackslash}p{8.5em}}
-                #3
-            \end{tabular}
-        };%
-    }},
-    pics/entitynoatt/.style n args={2}{code={%
-        \node[draw,
-        text height=1.5ex,
-        ] (#1)
-        {#2};%
-    }},
-    zig zag to/.style={
-        to path={(\tikztostart) -| ($(\tikztostart)!#1!(\tikztotarget)$) |- (\tikztotarget)}
-    },
-    zig zag to/.default=0.5,   
-    one to one/.style={
-        one-one, zig zag to
-    },
-    one to oone/.style={
-        one-one, zig zag to
-    },
-    one to many/.style={
-        one-crow's foot, zig zag to,
-    },
-    one to omany/.style={
-        one-omany, zig zag to
-    }
-}
 
 \begin{document}
 Given the distinctive characteristics of the system discussed in chapter \ref{chapter:Methodology}, it is essential to adopt an architecture or combination of multiple architectures to efficiently address these specific requirements while ensuring scalability, reliability, and seamless communication between different components. This chapter aims to deliver an in-depth exploration of the architecture design implemented in the project and provide a detailed understanding of each element in the system.
@@ -1748,7 +1649,7 @@ Required inputs the user needs to provide to register a new device in this proce
         2           & SSID          & String, Input                 & \checkmark        \\ \hline
         3           & Password      & String, Input                 & \checkmark        \\ \hline
     \end{tabular}
-    \caption{Input details of "Creating new device" process}
+    \caption{Input details of "Register new device" process}
     \label{fig:test_new-device-input}
 \end{table}
 
@@ -1767,13 +1668,13 @@ The testing cases and results are described in the table \ref{fig:test_new-devic
         2           & Checking the required information              & Some required inputs are empty       & Notify users about the error  & \checkmark                   \\ \hline
         3           & Device connect error          & Device encounters error when connect to the PC        & Receive the error and notify users & \checkmark \\ \hline
     \end{tabular}
-    \caption{Testing results of "Creating new device" process}
+    \caption{Testing results of "Register new device" process}
     \label{fig:test_new-device-result}
 \end{table}
 
 \subsubsection{"Removing device" function testing}
 
-The testing cases and results are described in the table \ref{} below.
+The testing cases and results of the "Removing device" function are described in the table \ref{fig:test_remove-device-result} below.
 \begin{table}[H]
     \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
     \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
@@ -1793,7 +1694,7 @@ The testing cases and results are described in the table \ref{} below.
 
 \subsubsection{"Removing data" function testing}
 
-The testing cases and results are described in the table \ref{} below.
+The testing cases and results of the "Removing data" function are described in the table \ref{fig:test_remove-data-result} below.
 \begin{table}[H]
     \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
     \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
@@ -1807,8 +1708,8 @@ The testing cases and results are described in the table \ref{} below.
         1           & Removing data & User confirms to remove data                  & Data is removed from the system, removed from device if displayed and device's data information is removed & \checkmark                   \\ \hline
         2           & Handle device error & Device encounters error when processing request   & Remove data from system and notify users about the error  & \checkmark                   \\ \hline
     \end{tabular}
-    \caption{Testing results of "Removing device" process}
-    \label{fig:test_remove-device-result}
+    \caption{Testing results of "Removing data" process}
+    \label{fig:test_remove-data-result}
 \end{table}
 
 \section{Deployment}
@@ -1821,7 +1722,7 @@ The testing cases and results are described in the table \ref{} below.
     \label{fig:github-action}
 \end{figure}
 
-The project also releases stable firmware versions for EPD devices, which is listed on the GitHub "Releases"\footnote{Check out \url{https://github.com/MasterPi-2124/epaper/releases}} page. The releases are created from the stable \verb|main| branch, which is safe for developers to test the system. In each release, developers can download firmware for various microcontrollers (currently ESP32-C3 and ESP32-S2 variants), which are built and uploaded from \verb|ESP32 Build and Release| automated workflow in GitHub. The versions and release types are named in semantic format, with "Latest" meaning stable versions and "Pre-release" meaning stable beta versions with tested features or stable versions with minor updates.
+The project also releases stable firmware versions for EPD devices, which is listed on the GitHub "Releases"\footnote{Check out \url{https://github.com/MasterPi-2124/epaper/releases}} page. The releases are created from the stable \verb|main| branch, which is safe for developers to test the system. In each release, developers can download firmware for various microcontrollers (currently ESP32-C3 and ESP32-S2 variants), which are built and uploaded from "\textit{ESP32 Build and Release}" automated workflow in GitHub. The versions and release types are named in semantic format, with "\textit{Latest}" meaning stable versions and "\textit{Pre-release}" meaning stable beta versions with tested features or stable versions with minor updates.
 
 \subsection{Servers}
 The system uses two Hetzner dedicated servers to host the Rabbit MQTT broker and web services. Details of the servers and the tools used are shown in the table \ref{fig:table_tools} below.
