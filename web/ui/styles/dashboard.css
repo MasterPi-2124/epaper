@@ -116,3 +116,28 @@ main .dashboard-column {
     margin-left: 4px;
     font-size: 13px;
 }
+
+div.responses table .item-type-Product {
+    background-color: #547be7;
+    color: #c8d4f5;
+}
+
+div.responses table .item-type-Room {
+    background-color: #e39779;
+    color: #f9dfd5;
+}
+
+div.responses table .item-type-Client {
+    background-color: #724fbb;
+    color: #d3c3f5;
+}
+
+div.responses table .item-type-Employee {
+    background-color: #3c8339;
+    color: #dff8de;
+}
+
+div.responses table .item-type-Student {
+    background-color: #bb4f70;
+    color: #f8c2d2;
+}

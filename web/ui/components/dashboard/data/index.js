@@ -23,13 +23,17 @@ export const DataList = () => {
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
-    (Notify.info("Getting data information and status ..."))
+    Notify.info("Getting data information", {
+      className: "notiflix-info"
+    });
     instanceCoreApi.get(`${API}/data`).then((res) => {
       setStage(1);
       console.log(res.data.data);
       setData(res.data.data);
     }).catch((err) => {
-      Notify.failure(`Error fetching data: ${err}`);
+      Notify.failure(`Error fetching data: ${err}`, {
+        className: "notiflix-failure"
+      });
       setData([]);
       setStage(2);
     })
@@ -38,8 +42,8 @@ export const DataList = () => {
   return (
     <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
       <div className="flex justify-between items-center flex-col gap-3">
-        <h1 className="text-2xl">Data</h1>
-        <p>See the list of your EPD devices and make changes.</p>
+        <h1 className="text-2xl">Data Dashboard</h1>
+        <p>See the list of your data and make modifications</p>
       </div>
 
       <div className="responses">
@@ -87,11 +91,13 @@ export const DataList = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                    <span style={{
-                      padding: "2px 14px",
+                    <span className={`item-type-${item.type}`} style={{
+                      display: "block",
+                      width: "80px",
+                      textAlign: "center",
+                      padding: "3px 0px",
                       borderRadius: "15px",
                       fontWeight: "600",
-                      backgroundColor: "green"
                     }}>
                       {item.type}
                     </span>
@@ -100,19 +106,27 @@ export const DataList = () => {
                   <Table.Cell>
                     {item.active ? (
                       <span style={{
-                        padding: "2px 14px",
+                        display: "block",
+                        width: "100px",
+                        textAlign: "center",
+                        padding: "3px 0px",
                         borderRadius: "15px",
                         fontWeight: "600",
-                        backgroundColor: "green"
+                        backgroundColor: "#58d16a",
+                        color: "#f1fcf3"
                       }}>
                         ACTIVE
                       </span>
                     ) : (
                       <span style={{
-                        padding: "2px 14px",
+                        display: "block",
+                        width: "100px",
+                        textAlign: "center",
+                        padding: "3px 0px",
                         borderRadius: "15px",
                         fontWeight: "600",
-                        backgroundColor: "grey"
+                        backgroundColor: "#959595",
+                        color: "#eaeaea"
                       }}>
                         INACTIVE
                       </span>

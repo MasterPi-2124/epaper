@@ -25,8 +25,7 @@ const NewData = () => {
         designSchema: ""
     });
 
-    const handleStage = (event) => {
-        event.preventDefault();
+    const handleStage = () => {
         console.log(dataCreated)
         if (dataCreated.name && dataCreated.name !== "") {
             localStorage.setItem("dataCreated", JSON.stringify(dataCreated));
@@ -63,15 +62,27 @@ const NewData = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(dataCreated);
-        Notify.info("Submitting");
-        await instanceCoreApi.post(`${API}/data`, dataCreated).then(response => {
-            console.log(response.data);
-            handleStage(event);
-            Notify.success("Data submitted and wrote successfully!");
-        }).catch(error => {
-            Notify.success(`Error submitting data!\n${error}`);
-            console.error(error);
-        })
+        if (dataCreated.name === "") {
+            Notify.warning("You have to provide the name", {
+                className: "notiflix-warning",
+            });
+        } else {
+            Notify.info("Submitting data", {
+                className: "notiflix-info",
+            });
+            await instanceCoreApi.post(`${API}/data`, dataCreated).then(response => {
+                console.log(response.data);
+                handleStage(event);
+                Notify.success("Data submitted and wrote successfully!", {
+                    className: "notiflix-success",
+                });
+            }).catch(error => {
+                Notify.failure(`Error submitting data!\n${error}`, {
+                    className: "notiflix-failure",
+                });
+                console.error(error);
+            })
+        }
     }
 
     return (

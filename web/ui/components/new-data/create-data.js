@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import { Input, Switch, Popover } from "@nextui-org/react";
 import Image from "next/image";
 import Logo from "@/public/logo/epaper.svg";
 import { WheelPicker } from "./WheelPicker";
 import dayjs from "dayjs";
 import Link from "next/link";
+import { Notify } from "notiflix";
 
 const CreateData = ({ dataCreated, setDataCreated, stage, setStage, handleStage, handleReset, handleSubmit }) => {
     const handleChange = (param, e) => {
@@ -77,9 +78,9 @@ const CreateData = ({ dataCreated, setDataCreated, stage, setStage, handleStage,
     return (
         (stage === 0) ? (
             <>
-                <h1>Create new {dataCreated.type} data</h1>
+                <h1>Enter information</h1>
                 <Image alt="logo" src={Logo}></Image>
-                <form className="form" onSubmit={handleStage}>
+                <form className="form">
                     <label className="dark:text-dark-text text-light-text">First, fill in your information to continue</label>
                     <Input
                         className="input"
@@ -267,7 +268,15 @@ const CreateData = ({ dataCreated, setDataCreated, stage, setStage, handleStage,
                     )}
 
                     {dataCreated.active ? (
-                        <button type="button" onClick={handleStage}>
+                        <button type="button" onClick={() => {
+
+                            handleStage();
+                            if (dataCreated.name === "") {
+                                Notify.warning("You have to provide the name", {
+                                    className: "notiflix-warning",
+                                });
+                            }
+                        }}>
                             Continue
                         </button>
                     ) : (
@@ -284,10 +293,9 @@ const CreateData = ({ dataCreated, setDataCreated, stage, setStage, handleStage,
             </>
         ) : (
             <div className="content text-light-text dark:text-dark-text">
-                <h1>Your information is successfully submitted!</h1>
-                <br />
-                <p> Your personnal information is saved in our database, but you chose not to display it on EPD device yet.</p>
-                <button className="ok" onClick={() => {
+                <h1>Your data is submitted successfully!</h1>
+                <p style={{marginTop: "10px"}}> Your data is saved in the database, but you chose not to display on an EPD device yet.</p>
+                <button style={{marginTop:"15px"}} className="ok" onClick={() => {
                     setStage(-1);
                     handleReset();
                 }}>

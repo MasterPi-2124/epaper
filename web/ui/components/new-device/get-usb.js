@@ -9,12 +9,18 @@ const GetUSBDevice = ({ deviceCreated, setDeviceCreated, port, setPort, handleSu
                 const newPort = await navigator.serial.requestPort();
                 await newPort.open({ baudRate: 115200 });
                 setPort(newPort);
-                Notify.success(`Opening serial port successfully! ${newPort.getInfo().usbVendorId}:${newPort.getInfo().usbProductId}`);
+                Notify.success(`Opening serial port successfully! ${newPort.getInfo().usbVendorId}:${newPort.getInfo().usbProductId}`, {
+                    className:"notiflix-success"
+                });
             } catch (error) {
-                Notify.warning(`Error opening serial port. Please refreshing the page.`);
+                Notify.warning(`Error opening serial port. Please refreshing the page.`, {
+                    className: "notiflix-warning"
+                });
             }
         } else {
-            Notify.failure(`Sorry, this browser doesn't support webSerial`);
+            Notify.failure(`Sorry, this browser doesn't support webSerial`, {
+                className: "notiflix-failure"
+            });
         }
     }
 

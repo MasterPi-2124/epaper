@@ -13,27 +13,45 @@ const EditModal = ({ type, data }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(itemUpdated);
-    await instanceCoreApi.put(`${API}/${type}/${data._id}`, itemUpdated).then(async (response) => {
-      console.log(response.data);
-      Notify.success(`Device info updated successfully!`);
-      if (type === "devices" && port) {
-        const writer = port.writable.getWriter();
-        for (const [key, value] of Object.entries(itemUpdated)) {
-          if (key !== "_v" && key !== "createdBy" && key !== "name" && key !== "active") {
-            const keyValue = `${key}:${value}\n`;
-            console.log(keyValue);
-            const data = new TextEncoder().encode(keyValue);
-            await writer.write(data);
+    if (type == "data" && dataCreated.name === "") {
+      Notify.warning("You have to provide the name", {
+        className: "notiflix-warning",
+      });
+    } else {
+      Notify.info("Submitting data", {
+        className: "notiflix-info",
+      });
+      await instanceCoreApi.put(`${API}/${type}/${data._id}`, itemUpdated).then(async (response) => {
+        console.log(response.data);
+        Notify.success(`Device info updated successfully!`, {
+          className: "notiflix-success"
+        });
+        if (type === "devices" && port) {
+          Notify.info("Writing info to device via Serial Port", {
+            className: "notiflix-info"
+          });
+          const writer = port.writable.getWriter();
+          for (const [key, value] of Object.entries(itemUpdated)) {
+            if (key !== "_v" && key !== "createdBy" && key !== "name" && key !== "active") {
+              const keyValue = `${key}:${value}\n`;
+              console.log(keyValue);
+              const data = new TextEncoder().encode(keyValue);
+              await writer.write(data);
+            }
           }
+          writer.releaseLock();
+          Notify.success(`Write info to device successfully!`, {
+            className: "notiflix-success"
+          });
         }
-        writer.releaseLock();
-        Notify.success(`Write info to device successfully!`);
-      }
-    }).catch(error => {
-      console.error(error);
-      setSubmitted(false);
-      Notify.failure(`Error updating new device info: ${error}`);
-    })
+      }).catch(error => {
+        console.error(error);
+        setSubmitted(false);
+        Notify.failure(`Error updating data: ${error}`, {
+          className: "notiflix-failure"
+        });
+      })
+    }
   };
 
   const handleChange = (param, value) => {
@@ -50,7 +68,7 @@ const EditModal = ({ type, data }) => {
       {type === "data" ? (
         <>
           <div className="modal-heading flex items-center justify-between gap-4 mb-6 flex-col">
-            <h1 className="heading-lg">Edit Data Information</h1>
+            <h1 className="heading-lg">{type === "devices" ? "Edit Device Information" : "Edit Data Information"}</h1>
             <p style={{ textAlign: "center" }}>To change the data type, you have to delete and re-create new data with new data type.</p>
           </div>
           <Data

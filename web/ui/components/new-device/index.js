@@ -20,12 +20,16 @@ const NewDevice = () => {
 
     useEffect(() => {
         const handleConnect = (e) => {
-            Notify.info("A new device is connected!");
+            Notify.info("A new device is connected!", {
+                className: "notiflix-info"
+            });
             setPort(e.port);
         }
 
         const handleDisconnect = (e) => {
-            Notify.info("A device is disconnected!");
+            Notify.info("A device is disconnected!", {
+                className: "notiflix-info"
+            });
             if (port && e.port === port) {
                 setPort(null);
             }
@@ -44,10 +48,18 @@ const NewDevice = () => {
         event.preventDefault();
         console.log(deviceCreated);
 
+        Notify.info("Submitting device", {
+            className: "notiflix-info"
+        });
         await instanceCoreApi.post(`${API}/devices`, deviceCreated).then(async (response) => {
             console.log(response.data);
-            Notify.success(`Device info updated successfully!`);
+            Notify.success(`Device submitted successfully!`, {
+                className: "notiflix-success"
+            });
             if (port) {
+                Notify.info("Writing info to device via Serial Port", {
+                    className: "notiflix-info"
+                });
                 const writer = port.writable.getWriter();
                 for (const [key, value] of Object.entries(response.data.data)) {
                  if (key !== "_v" && key !== "createdBy" && key !== "name" && key !== "active") {
@@ -58,13 +70,17 @@ const NewDevice = () => {
                  }
                 }
                 writer.releaseLock();
-                Notify.success(`Write info to device successfully!`);
+                Notify.success(`Write info to device successfully!`, {
+                    className: "notiflix-success"
+                });
             }
             setSubmitted(true);
         }).catch(error => {
             console.error(error);
             setSubmitted(false);
-            Notify.failure(`Error updating new device info: ${error}`);
+            Notify.failure(`Error updating new device info!\n${error}`, {
+                className: "notiflix-failure"
+            });
         })
     };
 

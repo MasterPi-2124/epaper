@@ -66,16 +66,24 @@ const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
 
   const getActiveDevices = async () => {
     try {
+      Notify.info("Fetching for all active devices", {
+        className: "notiflix-info",
+        timeout: 6500,
+    });
       await instanceCoreApi.get(`${API}/devices?active=true`).then((res) => {
         setDevices(res.data.data);
-        Notify.success(`Fetched all active devices successfully!`);
+        Notify.success(`Fetched all active devices successfully!`, {
+          className: "notiflix-success",
+      });
         setDeviceLoading(1);
       })
     }
     catch (err) {
       console.error(err);
       setDeviceLoading(-1);
-      Notify.failure(`Error fetching active devices data: ${err}`);
+      Notify.failure(`Error fetching active devices data: ${err}`, {
+        className: "notiflix-failure"
+    });
     }
   }
 
@@ -204,7 +212,7 @@ const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
       <>
         <canvas className="render-canvas" ref={canvaRef} width="340" height="150" />
         <form className="form" onSubmit={handleSubmit}>
-          <label className="dark:text-dark-text text-light-text">Choose a device, and theme to display. Example view will be displayed above.</label>
+          <label className="dark:text-dark-text text-light-text">Choose a device, font style and theme to display. Example view will be displayed above.</label>
           <Dropdown>
             <Dropdown.Button flat className="devices-choices">
               {(dataUpdated.deviceID !== "") ? dataUpdated.deviceName : 'Choose a device'}

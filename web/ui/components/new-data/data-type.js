@@ -21,7 +21,7 @@ const DataType = ({ dataCreated, setDataCreated, handleStage }) => {
 
     const handleContinue = (e) => {
         if (dataCreated.type !== "") {
-            handleStage(e);
+            handleStage();
         } else {
             Notify.failure("You have to choose an data type to continue.")
         }

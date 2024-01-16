@@ -44,16 +44,24 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
 
     const getActiveDevices = async () => {
         try {
+            Notify.info("Fetching for all active devices", {
+                className: "notiflix-info",
+                timeout: 6500,
+            })
             await instanceCoreApi.get(`${API}/devices?active=true`).then((res) => {
                 setDevices(res.data.data);
-                Notify.success(`Fetched all active devices successfully!`);
+                Notify.success(`Fetched all active devices successfully!`, {
+                    className: "notiflix-success",
+                });
                 setDeviceLoading(1);
             })
         }
         catch (err) {
             console.error(err);
             setDeviceLoading(-1);
-            Notify.failure(`Error fetching active devices data: ${err}`);
+            Notify.failure(`Error fetching active devices data: ${err}`, {
+                className: "notiflix-failure"
+            });
         }
     }
 
@@ -163,7 +171,7 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
                 }}>Choose display device</h1>
                 <canvas className="render-canvas" ref={canvaRef} width="340" height="150" />
                 <form className="form" onSubmit={handleSubmit}>
-                    <label className="dark:text-dark-text text-light-text">Choose a device, and theme to display. Example view will be displayed above.</label>
+                    <label className="dark:text-dark-text text-light-text">Choose a device, font style and theme to display. Example view will be displayed above.</label>
                     <Dropdown>
                         <Dropdown.Button flat className="devices-choices">
                             {(dataCreated.deviceID !== "") ? dataCreated.deviceName : 'Choose a device'}
@@ -307,8 +315,8 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
             </>
         ) : (
             <div className="content text-light-text dark:text-dark-text">
-                <h1>Data information is submitted successfully! </h1>
-                <p> and displayed on the EPD device! You can go to Dashboard/Data to see and manage your data information.</p>
+                <h1>Your data is submitted successfully!</h1>
+                <p style={{textAlign: "center", marginTop: "10px"}}>And it is also being displayed on device {`${dataCreated.deviceName}`}. You can go to Dashboard/Data to see and manage your data.</p>
                 <br />
                 <button className="ok" onClick={() => {
                     setStage(-1);

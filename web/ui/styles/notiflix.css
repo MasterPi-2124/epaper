@@ -1,0 +1,27 @@
+.notiflix-warning {
+    border: 1px solid #fff53c83 !important;
+    background-color: #fff53c83 !important;
+    backdrop-filter: blur(2px) !important;
+    border-radius: 10px !important;
+}
+
+.notiflix-failure {
+    background-color: #a2000083 !important;
+    border: 1px solid rgb(121, 70, 70) !important;
+    border-radius: 10px !important;
+    backdrop-filter: blur(2px) !important;
+}
+
+.notiflix-info {
+    border: 1px solid #3ccbff83 !important;
+    background-color: #3ccbff83 !important;
+    backdrop-filter: blur(2px) !important;
+    border-radius: 10px !important;
+}
+
+.notiflix-success {
+    border: 1px solid #3cffa183 !important;
+    background-color: #3cff7083 !important;
+    backdrop-filter: blur(2px) !important;
+    border-radius: 10px !important;
+}

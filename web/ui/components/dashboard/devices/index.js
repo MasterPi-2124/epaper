@@ -26,14 +26,17 @@ export const DeviceList = () => {
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
-    (Notify.info("Getting devices information and status ..."))
+  Notify.info("Getting devices information and status", {
+      className: "notiflix-info"
+    });
     instanceCoreApi.get(`${API}/devices`).then((res) => {
       Notify.success(`Getting devices data successfully!`);
       setStage(1);
-      document.pictureInPictureElement
       setDevices(res.data.data);
     }).catch((err) => {
-      Notify.failure(`Error fetching devices data: ${err}`);
+      Notify.failure(`Error fetching devices data: ${err}`, {
+        className: "notiflix-failure"
+      });
       setDevices([]);
       setStage(2);
     })
@@ -43,8 +46,8 @@ export const DeviceList = () => {
     <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
       {console.log(devices)}
       <div className="flex justify-between items-center flex-col gap-3">
-        <h1 className="text-2xl">Devices</h1>
-        <p>See the list of your EPD devices and make changes.</p>
+        <h1 className="text-2xl">Devices Dasboard</h1>
+        <p>See the list of your EPD devices and make modifications</p>
       </div>
 
       <div className="responses">
@@ -91,19 +94,27 @@ export const DeviceList = () => {
                   <Table.Cell>
                     {item.active ? (
                       <span style={{
-                        padding: "2px 14px",
+                        display: "block",
+                        width: "100px",
+                        textAlign: "center",
+                        padding: "3px 0px",
                         borderRadius: "15px",
                         fontWeight: "600",
-                        backgroundColor: "green"
+                        backgroundColor: "#58d16a",
+                        color: "#f1fcf3"
                       }}>
                         ACTIVE
                       </span>
                     ) : (
                       <span style={{
-                        padding: "2px 14px",
+                        display: "block",
+                        width: "100px",
+                        textAlign: "center",
+                        padding: "3px 0px",
                         borderRadius: "15px",
                         fontWeight: "600",
-                        backgroundColor: "grey"
+                        backgroundColor: "#959595",
+                        color: "#eaeaea"
                       }}>
                         INACTIVE
                       </span>
