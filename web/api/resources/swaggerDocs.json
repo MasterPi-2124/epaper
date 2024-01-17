@@ -213,7 +213,94 @@
             "default": "A note"
           }
         }
-      }
+      },
+      "Device": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "default": "65a2bd97f735f08ba5fa6ef8"
+          },
+          "name": {
+            "type": "string",
+            "default": "Pi's ESP"
+          },
+          "ssid": {
+            "type": "string",
+            "default": "Pi's Network"
+          },
+          "pass": {
+            "type": "string",
+            "default": "3.14159265358979"
+          },
+          "dataID": {
+            "type": "string",
+            "default": "6597a777005e009822d5eb90"
+          },
+          "dataName": {
+            "type": "string",
+            "default": "Thịt Gà Ta"
+          },
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "createdBy": {
+            "type": "string",
+            "default": "658c47d0e26a7f86d3e95236"
+          }
+        }
+      },
+      "DeviceInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "Pi's ESP 2"
+          },
+          "ssid": {
+            "type": "string",
+            "default": "Pi's Network"
+          },
+          "pass": {
+            "type": "string",
+            "default": "3.14159265358979"
+          },
+          "dataID": {
+            "type": "string",
+            "default": "6597a777005e009822d5eb90"
+          },
+          "dataName": {
+            "type": "string",
+            "default": "Thịt Gà Ta"
+          },
+          "active": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "DeviceUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "Pi's ESP 2"
+          },
+          "ssid": {
+            "type": "string",
+            "default": "Pi's Network"
+          },
+          "pass": {
+            "type": "string",
+            "default": "3.14159265358979"
+          },
+          "dataID": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      }  
     },
     "responses": {
       "UnauthorizedError": {
@@ -232,7 +319,7 @@
           }
         }
       }
-    },
+    }, 
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
@@ -571,7 +658,7 @@
         }
       }
     },
-    "/users/register": {
+    "/user/register": {
       "post": {
         "tags": ["user"],
         "summary": "Create new user",
@@ -612,7 +699,7 @@
         }
       }
     },
-    "/users/login": {
+    "/user/login": {
       "post": {
         "tags": ["user"],
         "summary": "Login user",
@@ -741,7 +828,7 @@
         }
       }
     },
-    "/users/{id}": {
+    "/user/{id}": {
       "get": {
         "tags": ["user"],
         "summary": "Get user by id",
@@ -832,6 +919,339 @@
                       "$ref": "#/components/schemas/UserResponse"
                     }
                   ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/devices": {
+      "get": {
+        "tags": ["device"],
+        "summary": "Get all devices",
+        "description": "Get all devices",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [{
+          "name": "active",
+          "in": "query",
+          "description": "Filter active or inactive devices",
+          "schema": {
+            "type": "boolean",
+            "example": true
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "allOf": [
+                          {
+                            "$ref": "#/components/schemas/DefaultMongo"
+                          },
+                          {
+                            "$ref": "#/components/schemas/Device"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["device"],
+        "summary": "Create new devices",
+        "description": "Create new devices",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "New device's values",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Device"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/devices/{id}": {
+      "get": {
+        "tags": ["device"],
+        "summary": "Get device by id",
+        "description": "Get device by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "Device ID",
+          "schema": {
+            "type": "string",
+            "example": "65a2bd97f735f08ba5fa6ef8"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Device"
+                    }        
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["device"],
+        "summary": "Update devices",
+        "description": "Update devices",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Device ID",
+            "schema": {
+              "type": "string",
+              "example": "65a2bd97f735f08ba5fa6ef8"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update Device",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Device"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["device"],
+        "summary": "Delete device",
+        "description": "Delete device",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Device ID",
+            "schema": {
+              "type": "string",
+              "example": "65a2bd97f735f08ba5fa6ef8"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Device"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/devices/upgrade": {
+      "post": {
+        "tags": ["device"],
+        "summary": "Upgrade devices",
+        "description": "Upgrade devices",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "device",
+            "in": "query",
+            "description": "Device ID",
+            "schema": {
+              "type": "string",
+              "example": "65a2bd97f735f08ba5fa6ef8"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Upgrade Device",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "File uploaded successfully."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "No file uploaded."
+                    }
+                  }
                 }
               }
             }
