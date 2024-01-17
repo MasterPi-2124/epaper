@@ -300,7 +300,183 @@
             "default": ""
           }
         }
-      }  
+      },
+      "Data": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "default": "65a2bd97f735f08ba5fa6ef8"
+          },
+          "type": {
+            "type": "string",
+            "default": "Product"
+          },
+          "name": {
+            "type": "string",
+            "default": "Thịt Gà Ta"
+          },
+          "input2": {
+            "type": "string",
+            "default": "Thịt Gà"
+          },
+          "input3": {
+            "type": "string",
+            "default": "125.000đ/Kg"
+          },
+          "deviceID": {
+            "type": "string",
+            "default": "65a2bd97f735f08ba5fa6ef8"
+          },
+          "deviceName": {
+            "type": "string",
+            "default": "Pi's ESP"
+          },
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "activeStartTime": {
+            "type": "integer",
+            "default": 1705164295
+          },
+          "fontStyle": {
+            "type": "string",
+            "default": "Segoe UI Bold, 12pt"
+          },
+          "designSchema": {
+            "type": "string",
+            "default": "Theme 1"
+          },
+          "activeTimeStamp": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              "1704867348-1704867393",
+              "1704877165-1704905189",
+              "1704971564-1704972742"
+            ]
+          },
+          "__v": {
+            "type": "integer",
+            "default": 0
+          }
+        }
+      },
+      "DataInput": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "Product"
+          },
+          "name": {
+            "type": "string",
+            "default": "Thịt Gà Ta 1"
+          },
+          "input2": {
+            "type": "string",
+            "default": "Thịt Gà"
+          },
+          "input3": {
+            "type": "string",
+            "default": "125.000đ/Kg"
+          },
+          "deviceID": {
+            "type": "string",
+            "default": "65a2bd97f735f08ba5fa6ef8"
+          },
+          "deviceName": {
+            "type": "string",
+            "default": "Pi's ESP"
+          },
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "activeStartTime": {
+            "type": "integer",
+            "default": 1705164295
+          },
+          "fontStyle": {
+            "type": "string",
+            "default": "Segoe UI Bold, 12pt"
+          },
+          "designSchema": {
+            "type": "string",
+            "default": "Theme 1"
+          },
+          "activeTimeStamp": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              "1704867348-1704867393",
+              "1704877165-1704905189",
+              "1704971564-1704972742"
+            ]
+          }
+        }
+      },
+      "DataUpdate": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "Product"
+          },
+          "name": {
+            "type": "string",
+            "default": "Thịt Gà Ta 1"
+          },
+          "input2": {
+            "type": "string",
+            "default": "Thịt Gà"
+          },
+          "input3": {
+            "type": "string",
+            "default": "125.000đ/Kg"
+          },
+          "deviceID": {
+            "type": "string",
+            "default": "65a2bd97f735f08ba5fa6ef8"
+          },
+          "deviceName": {
+            "type": "string",
+            "default": "Pi's ESP"
+          },
+          "active": {
+            "type": "boolean",
+            "default": true
+          },
+          "activeStartTime": {
+            "type": "integer",
+            "default": 1705164295
+          },
+          "fontStyle": {
+            "type": "string",
+            "default": "Segoe UI Bold, 12pt"
+          },
+          "designSchema": {
+            "type": "string",
+            "default": "Theme 1"
+          },
+          "activeTimeStamp": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              "1704867348-1704867393",
+              "1704877165-1704905189",
+              "1704971564-1704972742"
+            ]
+          }
+        }
+      }
     },
     "responses": {
       "UnauthorizedError": {
@@ -1121,10 +1297,7 @@
                       "default": "success"
                     },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Device"
-                      }
+                      "$ref": "#/components/schemas/Device"
                     }
                   }
                 }
@@ -1169,10 +1342,7 @@
                       "default": "success"
                     },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Device"
-                      }
+                      "$ref": "#/components/schemas/Device"
                     }
                   }
                 }
@@ -1250,6 +1420,249 @@
                     "message": {
                       "type": "string",
                       "default": "No file uploaded."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/data": {
+      "get": {
+        "tags": ["data"],
+        "summary": "Get all data",
+        "description": "Get all data",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [{
+          "name": "groupBy",
+          "in": "query",
+          "description": "Filter active or inactive data",
+          "schema": {
+            "type": "boolean",
+            "example": true
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Data"
+                      }
+                    },
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["data"],
+        "summary": "Create new data",
+        "description": "Create new data",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "New data's values",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Data"
+                      }
+                    },
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/data/{id}": {
+      "get": {
+        "tags": ["data"],
+        "summary": "Get data by id",
+        "description": "Get data by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "Data ID",
+          "schema": {
+            "type": "string",
+            "example": "6597a777005e009822d5eb90"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Data"
+                    },
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    }        
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["data"],
+        "summary": "Update data",
+        "description": "Update data",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Data ID",
+            "schema": {
+              "type": "string",
+              "example": "6597a777005e009822d5eb90"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update Data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Data"
+                    },
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["data"],
+        "summary": "Delete data",
+        "description": "Delete data",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Device ID",
+            "schema": {
+              "type": "string",
+              "example": "6597a777005e009822d5eb90"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Data"
+                    },
+                    "status": {
+                      "type": "string",
+                      "default": "success"
                     }
                   }
                 }
