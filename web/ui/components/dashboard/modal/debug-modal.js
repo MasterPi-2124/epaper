@@ -130,13 +130,6 @@ const DebugModal = ({ data, onClose }) => {
                                     </p>
                                 </>
                             )}
-                            <div className="separator" />
-                            <p>
-                                Start Time: {new Date(data1.activeStartTime * 1000).toLocaleString()}
-                            </p>
-                            <p>
-                                Time Stamp: {data1.activeTimestamp}
-                            </p>
                         </>
                     ) : (
                         <>

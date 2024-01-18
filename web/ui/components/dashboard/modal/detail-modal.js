@@ -125,18 +125,10 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
                   </p>
                 </>
               )}
-              <div className="separator" />
-              <p>
-                Start Time: {new Date(data1.activeStartTime * 1000).toLocaleString()}
-              </p>
-              {/* <p>
-                Time Stamp: {data1.activeTimestamp}
-              </p>
-              <TimeSlider timestamps={data1.activeTimestamp} /> */}
             </>
           ) : (
             <>
-              The device currently has no data to display. Go to <Link href="/dashboard/data"> data dashboard</Link> to select data to display, or create a new data <Link href="/new-data">here</Link>.
+              <p style={{textAlign: "center"}}>The device currently has no data to display. Go to <Link href="/dashboard/data"><em className="hover:font-medium hover:underline"> Data Dashboard</em></Link> to select data to display, or create a new data <Link href="/new-data"><em className="hover:font-medium hover:underline">here</em></Link>.</p>
             </>
           )}
         </div>
@@ -256,7 +248,7 @@ const DetailModal = ({ type, data, switchToEdit, switchToDelete }) => {
               Start Time: {new Date(data.activeStartTime * 1000).toLocaleString()}
             </p>
             <p>
-              Time Stamp: {data.activeTimestamp}
+              Timestamp:
             </p>
             <TimeSlider timestamps={data.activeTimestamp} />
 

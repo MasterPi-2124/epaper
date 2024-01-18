@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Modal } from "@nextui-org/react";
+import { Table, Modal, Tooltip } from "@nextui-org/react";
 import DeleteIcon from "@/assets/icons/thick/delete.svg";
 import EditIcon from "@/assets/icons/thick/edit.svg";
 import EyeIcon from "@/assets/icons/thick/eye.svg";
@@ -15,8 +15,8 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 export const DataList = () => {
   const [data, setData] = useState([]);
   const [stage, setStage] = useState(0);  // 0 - Loading
-                                          // 1 - Loaded success
-                                          // 2 - Failed
+  // 1 - Loaded success
+  // 2 - Failed
   const [selectedData, setSelectedData] = useState();
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -134,55 +134,63 @@ export const DataList = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                    {item.deviceID ? 
-                    <>
-                      <p className="name">
-                        {item.deviceName}
-                      </p>
-                      <p className="id">
-                        {item.deviceID}
-                      </p>
-                    </> 
-                    : "Not found"}
+                    {item.deviceID ?
+                      <>
+                        <p className="name">
+                          {item.deviceName}
+                        </p>
+                        <p className="id">
+                          {item.deviceID}
+                        </p>
+                      </>
+                      : "Not found"}
                   </Table.Cell>
 
                   <Table.Cell>
-                    <button
-                      className="small-icon"
-                      onClick={() => {
-                        setSelectedData(item);
-                        setDetailModal(true);
-                      }}
-                    >
-                      <Image
-                        src={EyeIcon}
-                        alt="vertical ellipsis"
-                      />
-                    </button>
-                    <button
-                      className="small-icon"
-                      onClick={() => {
-                        setSelectedData(item);
-                        setEditModal(true);
-                      }}
-                    >
-                      <Image
-                        src={EditIcon}
-                        alt="vertical ellipsis"
-                      />
-                    </button>
-                    <button
-                      className="small-icon"
-                      onClick={() => {
-                        setSelectedData(item);
-                        setDeleteModal(true);
-                      }}
-                    >
-                      <Image
-                        src={DeleteIcon}
-                        alt="vertical ellipsis"
-                      />
-                    </button>
+                    <Tooltip content="View detail of the data" hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "300", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
+                      <button
+                        className="small-icon"
+                        onClick={() => {
+                          setSelectedData(item);
+                          setDetailModal(true);
+                        }}
+                      >
+                        <Image
+                          src={EyeIcon}
+                          alt="vertical ellipsis"
+                        />
+                      </button>
+                    </Tooltip>
+
+                    <Tooltip content={<><p style={{ fontWeight: "300" }}>Modify detail of the data</p><p style={{ fontSize: "10px", color: "rgb(223, 223, 223)", fontWeight: "200" }}>Note: You can not change data type.</p></>} hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "200", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
+                      <button
+                        className="small-icon"
+                        onClick={() => {
+                          setSelectedData(item);
+                          setEditModal(true);
+                        }}
+                      >
+                        <Image
+                          src={EditIcon}
+                          alt="vertical ellipsis"
+                        />
+                      </button>
+                    </Tooltip>
+
+                    <Tooltip content="Remove data" hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "300", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
+                      <button
+                        className="small-icon"
+                        onClick={() => {
+                          setSelectedData(item);
+                          setDeleteModal(true);
+                        }}
+                      >
+                        <Image
+                          src={DeleteIcon}
+                          alt="vertical ellipsis"
+                        />
+                      </button>
+                    </Tooltip>
                   </Table.Cell>
                 </Table.Row>
               )}

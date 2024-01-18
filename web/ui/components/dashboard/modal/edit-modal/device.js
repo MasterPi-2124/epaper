@@ -31,12 +31,18 @@ const Device = ({ deviceUpdated, handleSubmit, handleChange, port, setPort }) =>
         const newPort = await navigator.serial.requestPort();
         await newPort.open({ baudRate: 115200 });
         setPort(newPort);
-        Notify.success(`Opening serial port successfully! ${newPort.getInfo().usbVendorId}:${newPort.getInfo().usbProductId}`);
+        Notify.success(`Opening serial port successfully! ${newPort.getInfo().usbVendorId}:${newPort.getInfo().usbProductId}`, {
+          className: "notiflix-success"
+        });
       } catch (error) {
-        Notify.failure(`Error opening serial port: ${error}`);
+        Notify.failure(`Error opening serial port: ${error}`, {
+          className: "notiflix-failure"
+        });
       }
     } else {
-      Notify.failure(`Sorry, this browser doesn't support webSerial`);
+      Notify.failure(`Sorry, this browser doesn't support webSerial`, {
+        className: "notiflix-failure"
+      });
     }
   }
 
@@ -77,10 +83,8 @@ const Device = ({ deviceUpdated, handleSubmit, handleChange, port, setPort }) =>
       </form>
     ) : (
       <>
-        <p>
-          To start, please plug your ESP device to this machine via USB port.
-          <br />
-          When the device is connected, choose device below and continue.
+        <p style={{fontWeight: "100"}}>
+          To start, please plug your ESP device to this machine via USB port. When the device is connected, choose a device below to continue.
         </p>
         <br />
         <button className="ok" onClick={connectESP}>

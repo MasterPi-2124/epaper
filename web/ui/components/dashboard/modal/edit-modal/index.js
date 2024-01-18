@@ -67,7 +67,7 @@ const EditModal = ({ type, data }) => {
     <div className="modal w-full mx-auto rounded-md p-6 dark:bg-darkGrey md:p-8" style={{ width: "400px" }}>
       {type === "data" ? (
         <>
-          <div className="modal-heading flex items-center justify-between gap-4 mb-6 flex-col">
+          <div className="modal-heading flex items-center justify-between gap-2 mb-6 flex-col">
             <h1 className="heading-lg">{type === "devices" ? "Edit Device Information" : "Edit Data Information"}</h1>
             <p style={{ textAlign: "center" }}>To change the data type, you have to delete and re-create new data with new data type.</p>
           </div>
@@ -79,8 +79,9 @@ const EditModal = ({ type, data }) => {
         </>
       ) : (
         <>
-          <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="modal-heading flex items-center justify-between mb-6 flex-col">
             <h1 className="heading-lg">{data.name}</h1>
+            <p style={{ textAlign: "center" }}>{!data.active ? "Not connected" : "Connected"}</p>
           </div>
           <Device
             deviceUpdated={itemUpdated}

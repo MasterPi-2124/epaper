@@ -8,8 +8,6 @@ import { useTheme } from "next-themes";
 import LightIcon from "@/assets/icons/thin/sun.svg";
 import DarkIcon from "@/assets/icons/thin/moon.svg";
 import DashboardIcon from "@/assets/icons/thin/dashboard.svg";
-import ExportIcon from "@/assets/icons/thin/export.svg";
-import NotiIcon from "@/assets/icons/thin/notification.svg";
 import UserIcon from "@/assets/icons/thin/human.svg";
 import DeviceIcon from "@/assets/icons/thin/device.svg";
 
@@ -41,16 +39,6 @@ const navButton = [
             }
         ]
     },
-    {
-        text: "Export",
-        path: "/export",
-        img: ExportIcon,
-    },
-    {
-        text: "Notifications",
-        path: "/notifications",
-        img: NotiIcon,
-    }
 ];
 
 const Menu = ({ currentPath }) => {

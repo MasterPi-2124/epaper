@@ -57,7 +57,7 @@ const LogInForm = () => {
             )}
             <div className="separator w-px h-full ml-5" />
             <div className="right-form w-3/5">
-                <form onSubmit={handleSubmit} className="mt-8 flex flex-col">
+                <form onSubmit={handleSubmit} className="mt-8 flex flex-col authen-form">
                     <input
                         type="email"
                         className="placeholder-gray-200 h-10 font-thin text-white"

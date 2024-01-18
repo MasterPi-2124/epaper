@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Modal } from "@nextui-org/react";
+import { Table, Modal, Tooltip } from "@nextui-org/react";
 import DeleteIcon from "@/assets/icons/thick/delete.svg";
 import EditIcon from "@/assets/icons/thick/edit.svg";
 import EyeIcon from "@/assets/icons/thick/eye.svg";
@@ -17,8 +17,8 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 export const DeviceList = () => {
   const [devices, setDevices] = useState([]);
   const [stage, setStage] = useState(0);  // 0 - Loading
-                                          // 1 - Loaded success
-                                          // 2 - Failed
+  // 1 - Loaded success
+  // 2 - Failed
   const [selectedDevice, setSelectedDevice] = useState();
   const [deleteModal, setDeleteModal] = useState(false);
   const [debugModal, setDebugModal] = useState(false);
@@ -26,7 +26,7 @@ export const DeviceList = () => {
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
-  Notify.info("Getting devices information and status", {
+    Notify.info("Getting devices information and status", {
       className: "notiflix-info"
     });
     instanceCoreApi.get(`${API}/devices`).then((res) => {
@@ -41,7 +41,7 @@ export const DeviceList = () => {
       setStage(2);
     })
   }, []);
-  
+
   return (
     <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
       {console.log(devices)}
@@ -83,9 +83,9 @@ export const DeviceList = () => {
               {(item) => (
                 <Table.Row key={item._id}>
                   <Table.Cell>
-                      <p className="name">
-                        {item.name}
-                      </p>
+                    <p className="name">
+                      {item.name}
+                    </p>
                     <p className="id">
                       {item._id}
                     </p>
@@ -122,20 +122,21 @@ export const DeviceList = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                  {item.dataID ? 
-                    <>
-                      <p className="name">
-                        {item.dataName}
-                      </p>
-                      <p className="id">
-                        {item.dataID}
-                      </p>
-                    </> 
-                    : "Not found"}
+                    {item.dataID ?
+                      <>
+                        <p className="name">
+                          {item.dataName}
+                        </p>
+                        <p className="id">
+                          {item.dataID}
+                        </p>
+                      </>
+                      : "Not found"}
                   </Table.Cell>
 
                   <Table.Cell>
-                  <button
+                    <Tooltip content="View detail of the device" hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "300", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
+                    <button
                       className="small-icon"
                       onClick={() => {
                         setSelectedDevice(item);
@@ -147,6 +148,9 @@ export const DeviceList = () => {
                         alt="vertical ellipsis"
                       />
                     </button>
+                    </Tooltip>
+
+                    <Tooltip content={<><p style={{ fontWeight: "300" }}>Modify detail of the device</p><p style={{ fontSize: "10px", color: "rgb(223, 223, 223)", fontWeight: "200" }}>Note: If the device in not active, you may need to connect the device via Serial Port.</p></>} hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "200", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
                     <button
                       className="small-icon"
                       onClick={() => {
@@ -159,6 +163,9 @@ export const DeviceList = () => {
                         alt="vertical ellipsis"
                       />
                     </button>
+                    </Tooltip>
+
+                    <Tooltip content="Debug device" hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "300", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
                     <button
                       className="small-icon"
                       onClick={() => {
@@ -171,6 +178,9 @@ export const DeviceList = () => {
                         alt="vertical ellipsis"
                       />
                     </button>
+                    </Tooltip>
+
+                    <Tooltip content="Unregister device from the system" hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "300", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
                     <button
                       className="small-icon"
                       onClick={() => {
@@ -183,6 +193,7 @@ export const DeviceList = () => {
                         alt="vertical ellipsis"
                       />
                     </button>
+                    </Tooltip>
                   </Table.Cell>
                 </Table.Row>
               )}
