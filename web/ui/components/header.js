@@ -12,14 +12,14 @@ const navButton = [
         text: "How It Works",
         path: "#how-it-works",
     },
-    {
-        text: "Project",
-        path: "#project",
-    },
-    {
-        text: "Github",
-        path: "#github",
-    },
+    // {
+    //     text: "Project",
+    //     path: "#project",
+    // },
+    // {
+    //     text: "Github",
+    //     path: "#github",
+    // },
 ];
 
 const Header = ({ currentPath }) => {
