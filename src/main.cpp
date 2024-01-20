@@ -92,7 +92,7 @@ void setup()
         EPD_2IN9_V2_Display_Partial(BlackImage);
 
         if (dataType == 1) {
-            displayWrite1_Segment(BlackImage);
+            displayWrite1(BlackImage);
         } else if (dataType == 2) {
             displayWrite2(BlackImage);
         } else if (dataType == 3) {
@@ -165,7 +165,7 @@ void loop()
 
         if (!dataID.isEmpty()) {
             if (dataType == 1) {
-                displayWrite1_Segment(BlackImage);
+                displayWrite1(BlackImage);
             } else if (dataType == 2) {
                 displayWrite2(BlackImage);
             } else if (dataType == 3) {

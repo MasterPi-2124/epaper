@@ -64,7 +64,7 @@ def generate_cpp_struct(input):
     segment3 += "};\n\n"
     
     output = output + segment1 + segment2 + segment3 + table
-    output += f"const cFONT_SEGMENT {fontType} =\n{{\n    ASCII_table,\n    vn_table,\n    VN_table,\n    {height}, // Height, in pixels, of space character\n    table,\n}};"
+    output += f"const sFONT {fontType} =\n{{\n    ASCII_table,\n    vn_table,\n    VN_table,\n    {height}, // Height, in pixels, of space character\n    table,\n}};"
     
     return output, filename
     

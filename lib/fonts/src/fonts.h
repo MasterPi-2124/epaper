@@ -71,7 +71,7 @@ typedef struct
   }
   const char *table;
 
-} cFONT_SEGMENT;   // custom Font with Segment Management for better performance and resource saving
+} sFONT;   // custom Font with Segment Management for better performance and resource efficiency
 
 extern const mFont Font8;
 extern const mFont Font12;
@@ -84,12 +84,12 @@ extern const mFont Font24;
 // extern cFONT Segoe12Bold;
 
 // segment fonts
-extern const cFONT_SEGMENT Segoe11;
-extern const cFONT_SEGMENT Segoe16;
-extern const cFONT_SEGMENT Segoe20;
+extern const sFONT Segoe11;
+extern const sFONT Segoe16;
+extern const sFONT Segoe20;
 
-extern const cFONT_SEGMENT Segoe11Bold;
-extern const cFONT_SEGMENT Segoe16Bold;
+extern const sFONT Segoe11Bold;
+extern const sFONT Segoe16Bold;
 
 #ifdef __cplusplus
 }

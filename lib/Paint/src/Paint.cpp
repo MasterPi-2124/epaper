@@ -726,7 +726,7 @@ void Paint_DrawString_custom(UWORD Xstart, UWORD Ystart, const char16_t * pStrin
     }
 }
 
-void Paint_DrawString_segment(UWORD Xstart, UWORD Ystart, const char * pString, const cFONT_SEGMENT* font,
+void Paint_DrawString_segment(UWORD Xstart, UWORD Ystart, const char * pString, const sFONT* font,
                         UWORD Color_Foreground, UWORD Color_Background)
 {
     const char * p_text = pString;

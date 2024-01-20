@@ -208,7 +208,7 @@ void Paint_DrawCircle(UWORD X_Center, UWORD Y_Center, UWORD Radius, UWORD Color,
 void Paint_DrawChar(UWORD Xstart, UWORD Ystart, const char Acsii_Char, const mFont* Font, UWORD Color_Foreground, UWORD Color_Background);
 void Paint_DrawString(UWORD Xstart, UWORD Ystart, const char * pString, const mFont* Font, UWORD Color_Foreground, UWORD Color_Background);
 void Paint_DrawString_custom(UWORD Xstart, UWORD Ystart, const char16_t * pString, cFONT* Font, UWORD Color_Foreground, UWORD Color_Background);
-void Paint_DrawString_segment(UWORD Xstart, UWORD Ystart, const char * pString, const cFONT_SEGMENT* font, UWORD Color_Foreground, UWORD Color_Background);
+void Paint_DrawString_segment(UWORD Xstart, UWORD Ystart, const char * pString, const sFONT* font, UWORD Color_Foreground, UWORD Color_Background);
 void Paint_DrawTime(UWORD Xstart, UWORD Ystart, PAINT_TIME *pTime, const mFont* Font, UWORD Color_Foreground, UWORD Color_Background);
 
 //pic

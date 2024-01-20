@@ -2,7 +2,6 @@
 #include <EPD_2in9_V2.h>
 #include <Paint.h>
 #include <WiFi.h>
-// #include <WiFiClientSecure.h>
 #include <MQTT.h>
 #include <Display.h>
 #include <ArduinoMqttClient.h>
@@ -11,7 +10,7 @@
 
 WiFiClient espClient;
 MqttClient client(espClient);
-size_t update; // 0 - no update
+uint8_t update; // 0 - no update
                // 1 - write1 update
                // 2 - write2 update
                // 3 - write3 update
@@ -21,7 +20,7 @@ size_t update; // 0 - no update
                // 7 - device update
                // 8 - remove update
                // 9 - ota upgrade
-const long connectTimeout = 20000;
+const int connectTimeout = 20000;
 
 void onMessage(int messageSize);
 
@@ -117,8 +116,8 @@ void handleMessage(char *message)
 {
     static String msg = "";
     char *chr = message;
-    size_t count = 0;
-    int type = 0; // 0 - not defined
+    uint8_t count = 0;
+    uint8_t type = 0; // 0 - not defined
                   // 1 - write1
                   // 2 - write2
                   // 3 - write3
@@ -348,7 +347,7 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
     if (update == 1)
     {
         String oldData = preferences.getString("oldData", "");
-        displayWrite1_Segment(BlackImage);
+        displayWrite1(BlackImage);
 
         String writeOK = "writeOK|";
         writeOK += oldData;
@@ -451,7 +450,7 @@ void MQTT_Loop(const char *topic, UBYTE *BlackImage)
 
         if (!dataID.isEmpty()) {
             if (dataType == 1) {
-                displayWrite1_Segment(BlackImage);
+                displayWrite1(BlackImage);
             } else if (dataType == 2) {
                 displayWrite2(BlackImage);
             } else if (dataType == 3) {

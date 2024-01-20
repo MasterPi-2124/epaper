@@ -6,11 +6,10 @@
 
 extern Preferences preferences;
 
-char16_t * utf8ToUtf16(const char *utf8, size_t &outLength);
-int compareStrings(const char *str1, const char *str2);
+// char16_t * utf8ToUtf16(const char *utf8, size_t &outLength);
+bool compareStrings(const char *str1, const char *str2);
 
 void displayWrite1(UBYTE * BlackImage);
-void displayWrite1_Segment(UBYTE * BlackImage);
 void displayWrite2(UBYTE * BlackImage);
 void displayWrite3(UBYTE * BlackImage);
 void displayWrite4(UBYTE * BlackImage);

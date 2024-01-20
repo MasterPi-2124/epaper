@@ -4825,7 +4825,7 @@ const char table[] = {
 	0xE0, // ###     
 };
 
-const cFONT_SEGMENT Segoe11Bold =
+const sFONT Segoe11Bold =
 {
     ASCII_table,
     vn_table,
