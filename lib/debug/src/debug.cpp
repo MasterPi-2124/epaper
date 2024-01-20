@@ -35,14 +35,14 @@ void enterDebugMode()
     Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 90, WHITE);
 
 #if 1
-    const char16_t * Welcome = u"Pi's Epaper Project";
-    char16_t * text = u"Debug Mode";
+    const char * Welcome = "Pi's Epaper Project";
+    const char * text = "Debug Mode";
 
-    Paint_DrawString_custom(50, 50, Welcome, &Segoe16Bold, BLACK, WHITE);
+    Paint_DrawString_segment(50, 50, Welcome, &Segoe16Bold, BLACK, WHITE);
     EPD_2IN9_V2_Display(BlackImage);
 
-    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe12.Height, WHITE);
-    Paint_DrawString_custom(80, 70, text, &Segoe12, BLACK, WHITE);
+    Paint_ClearWindows(80, 70, 80 + 14 * 15, 80 + Segoe11.Height, WHITE);
+    Paint_DrawString_segment(80, 70, text, &Segoe11, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
     DEV_Delay_ms(3000);
 #endif
@@ -83,7 +83,6 @@ void enterDebugMode()
         Paint_DrawLine(105, 75, 105, 115, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
 
         // Paint_DrawString(10, 0, "waveshare", &Font16, BLACK, WHITE);
-        Paint_DrawString_segment(10, 20, "ÀẢàả !", &Segoe12_Segment, BLACK, WHITE);
 
         EPD_2IN9_V2_Display_Base(BlackImage);
         DEV_Delay_ms(5000);

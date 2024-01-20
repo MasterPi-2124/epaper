@@ -141,6 +141,34 @@ int compareStrings(const char *str1, const char *str2)
     }
 }
 
+void displayWrite1_Segment(UBYTE * BlackImage) {
+    String name = preferences.getString("name", "");
+    String email = preferences.getString("input2", "");
+    String address = preferences.getString("input3", "");
+    String font = preferences.getString("font", "");
+    String schema = preferences.getString("schema", "");
+
+    Serial.print(" -- name: ");
+    Serial.println(name.c_str());
+    Serial.print(" -- email: ");
+    Serial.println(email.c_str());
+    Serial.print(" -- addr: ");
+    Serial.println(address.c_str());
+    Serial.print(" -- font: ");
+    Serial.println(font.c_str());
+    Serial.print(" -- schema: ");
+    Serial.println(schema.c_str());
+
+    if (compareStrings(schema.c_str(), "1")) {
+        EPD_2IN9_V2_Init();
+        Paint_Clear(0xff);
+        Paint_DrawString_segment(10, 30, name.c_str(), &Segoe16, BLACK, WHITE);
+        Paint_DrawString_segment(10, 50, email.c_str(), &Segoe16, BLACK, WHITE);
+        Paint_DrawString_segment(10, 70, address.c_str(), &Segoe16, BLACK, WHITE);
+        EPD_2IN9_V2_Display(BlackImage);
+    }
+}
+
 void displayWrite1(UBYTE * BlackImage) {
     String name = preferences.getString("name", "");
     String email = preferences.getString("input2", "");
@@ -166,9 +194,9 @@ void displayWrite1(UBYTE * BlackImage) {
     if (compareStrings(schema.c_str(), "1")) {
         EPD_2IN9_V2_Init();
         Paint_Clear(0xff);
-        Paint_DrawString_custom(10, 30, name16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 50, email16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 70, address16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_segment(10, 30, name.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 50, email.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 70, address.c_str(), &Segoe11, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
 }
@@ -202,10 +230,10 @@ void displayWrite2(UBYTE * BlackImage) {
     if (compareStrings(schema.c_str(), "1")) {
         EPD_2IN9_V2_Init();
         Paint_Clear(0xff);
-        Paint_DrawString_custom(10, 20, name16, &Segoe16Bold, BLACK, WHITE);
-        Paint_DrawString_custom(10, 50, class16, &Segoe12Bold, BLACK, WHITE);
-        Paint_DrawString_custom(10, 70, studentID16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 90, email16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_segment(10, 20, name.c_str(), &Segoe16Bold, BLACK, WHITE);
+        Paint_DrawString_segment(10, 50, _class.c_str(), &Segoe11Bold, BLACK, WHITE);
+        Paint_DrawString_segment(10, 70, studentID.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 90, email.c_str(), &Segoe11, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
 }
@@ -239,10 +267,10 @@ void displayWrite3(UBYTE * BlackImage) {
     if (compareStrings(schema.c_str(), "1")) {
         EPD_2IN9_V2_Init();
         Paint_Clear(0xff);
-        Paint_DrawString_custom(10, 30, name16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 50, email16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 70, employeeID16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 90, department16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_segment(10, 30, name.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 50, email.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 70, employeeID.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 90, department.c_str(), &Segoe11, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
 }
@@ -274,9 +302,9 @@ void displayWrite4(UBYTE * BlackImage) {
         Paint_SetScale(2);
         Paint_Clear(0xff);
         if (compareStrings(schema.c_str(), "1")) {
-            Paint_DrawString_custom(10, 50, name16, &Segoe16Bold, BLACK, WHITE);
-            Paint_DrawString_custom(10, 90, price16, &Segoe16, BLACK, WHITE);
-            Paint_DrawString_custom(10, 20, category16, &Segoe12, BLACK, WHITE);
+            Paint_DrawString_segment(10, 50, name.c_str(), &Segoe16Bold, BLACK, WHITE);
+            Paint_DrawString_segment(10, 90, price.c_str(), &Segoe16, BLACK, WHITE);
+            Paint_DrawString_segment(10, 20, category.c_str(), &Segoe11, BLACK, WHITE);
         }
         EPD_2IN9_V2_Display(BlackImage);
     }
@@ -311,10 +339,10 @@ void displayWrite5(UBYTE * BlackImage) {
     if (compareStrings(schema.c_str(), "1")) {
         EPD_2IN9_V2_Init();
         Paint_Clear(0xff);
-        Paint_DrawString_custom(10, 30, name16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 50, purpose16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 70, manager16, &Segoe12, BLACK, WHITE);
-        Paint_DrawString_custom(10, 90, status16, &Segoe12, BLACK, WHITE);
+        Paint_DrawString_segment(10, 30, name.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 50, purpose.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 70, manager.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 90, status.c_str(), &Segoe11, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
 }
@@ -327,8 +355,8 @@ void displayEmpty(UBYTE * BlackImage) {
     Paint_Clear(0xff);
     Paint_DrawImage(qrCodeArray, 35, 16, 61, 61);
     Paint_DrawLine(82, 25, 82, 102, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);
-    Paint_DrawString_custom(87, 35, u"No data to display", &Segoe16Bold, BLACK, WHITE);
-    Paint_DrawString_custom(87, 65, u"Scan QR to get started", &Segoe12, BLACK, WHITE);
+    Paint_DrawString_segment(87, 35, "No data to display", &Segoe16Bold, BLACK, WHITE);
+    Paint_DrawString_segment(87, 65, "Scan QR to get started", &Segoe11, BLACK, WHITE);
     EPD_2IN9_V2_Display(BlackImage);
     delete[] qrCodeArray;
 }

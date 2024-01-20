@@ -595,7 +595,7 @@ parameter:
     Color_Background : Select the background color
 ******************************************************************************/
 void Paint_DrawChar(UWORD Xpoint, UWORD Ypoint, const char Acsii_Char,
-                    mFont* Font, UWORD Color_Foreground, UWORD Color_Background)
+                    const mFont* Font, UWORD Color_Foreground, UWORD Color_Background)
 {
     UWORD Page, Column;
 
@@ -644,7 +644,7 @@ parameter:
     Color_Background : Select the background color
 ******************************************************************************/
 void Paint_DrawString(UWORD Xstart, UWORD Ystart, const char * pString,
-                         mFont* Font, UWORD Color_Foreground, UWORD Color_Background)
+                         const mFont* Font, UWORD Color_Foreground, UWORD Color_Background)
 {
     UWORD Xpoint = Xstart;
     UWORD Ypoint = Ystart;
@@ -726,7 +726,7 @@ void Paint_DrawString_custom(UWORD Xstart, UWORD Ystart, const char16_t * pStrin
     }
 }
 
-void Paint_DrawString_segment(UWORD Xstart, UWORD Ystart, const char * pString, cFONT_SEGMENT* font,
+void Paint_DrawString_segment(UWORD Xstart, UWORD Ystart, const char * pString, const cFONT_SEGMENT* font,
                         UWORD Color_Foreground, UWORD Color_Background)
 {
     const char * p_text = pString;
@@ -736,27 +736,27 @@ void Paint_DrawString_segment(UWORD Xstart, UWORD Ystart, const char * pString, 
     /* Send the string character by character on EPD */
     while (*p_text != 0) {
         int unicodePoint = utf8ToUnicodePoint(p_text);
-        Serial.println(unicodePoint);
         const FT_MAP * data = NULL;
-        if (unicodePoint >= 32 && unicodePoint <= 126) {                                // Threshold for Segment 1: ASCII range
-            data = font->binarySearchInSegment(unicodePoint, font->ASCII_table, 2);
-        } else if (unicodePoint <= 333) {                                               // Threshold for Segment 2: ASCII range
-            data = font->binarySearchInSegment(unicodePoint, font->VN_table, 2);
-        } else if (unicodePoint <= 9999) {                                              // Threshold for Segment 3: ASCII range  
-            data = font->binarySearchInSegment(unicodePoint, font->vn_table, 2);
+        if (unicodePoint >= 32 && unicodePoint <= 107) {                                // Threshold for Segment 1: ASCII range
+            data = font->binarySearchInSegment(unicodePoint, font->ASCII_table, 76);
+        } else if (unicodePoint <= 7852) {                                               // Threshold for Segment 2: ASCII range
+            data = font->binarySearchInSegment(unicodePoint, font->vn_table, 76);
+        } else if (unicodePoint <= 7929) {                                              // Threshold for Segment 3: ASCII range  
+            data = font->binarySearchInSegment(unicodePoint, font->VN_table, 77);
         }
 
         uint8_t width;
 
         if (data != NULL) {
+            // Serial.print(unicodePoint);
+            // Serial.print(": (");
+            // Serial.print(data->width);
+            // Serial.print(", ");
+            // Serial.print(data->index);
+            // Serial.println(")");
+
             width = data->width;
             int index = data->index;
-
-            // Serial.print(x);
-            // Serial.print(" ");
-            // Serial.print(data->width);
-            // Serial.print(" ");
-            // Serial.println(data->index);
 
             const char* ptr = &font->table[index];
             for (j = 0; j < font->Height; j++) {
@@ -803,7 +803,7 @@ parameter:
     Color_Foreground : Select the foreground color
     Color_Background : Select the background color
 ******************************************************************************/
-void Paint_DrawTime(UWORD Xstart, UWORD Ystart, PAINT_TIME *pTime, mFont* Font,
+void Paint_DrawTime(UWORD Xstart, UWORD Ystart, PAINT_TIME *pTime, const mFont* Font,
                     UWORD Color_Foreground, UWORD Color_Background)
 {
     uint8_t value[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};

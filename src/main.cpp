@@ -47,20 +47,20 @@ void setup()
 
 #if 1
     Paint_Clear(0xff);
-    char16_t * text = u"Initializing";
-    const char16_t * Welcome = u"Pi's Epaper Project";
+    char * text = "Initializing";
+    const char * Welcome = "Pi's Epaper Project";
 
-    Paint_DrawString_custom(60, 40, Welcome, &Segoe16Bold, BLACK, WHITE);
+    Paint_DrawString_segment(60, 40, Welcome, &Segoe16Bold, BLACK, WHITE);
     EPD_2IN9_V2_Display(BlackImage);
 
-    Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe12.Height, WHITE);
-    Paint_DrawString_custom(110, 70, text, &Segoe12, BLACK, WHITE);
+    Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe11.Height, WHITE);
+    Paint_DrawString_segment(110, 70, text, &Segoe11, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
     DEV_Delay_ms(3000);
 
-    text = u"Getting local data";
-    Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe12.Height, WHITE);
-    Paint_DrawString_custom(85, 70, text, &Segoe12, BLACK, WHITE);
+    text = "Getting local data";
+    Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe11.Height, WHITE);
+    Paint_DrawString_segment(85, 70, text, &Segoe11, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
 
     // Get Preferences local data
@@ -87,12 +87,12 @@ void setup()
         MQTT_Connect(topic.c_str(), BlackImage);
 
     if (!dataID.isEmpty() && dataType != 0) {
-        Paint_ClearWindows(30, 70, 30 + 14 * 20, 70 + Segoe12.Height, WHITE);
-        Paint_DrawString_custom(70, 70, u"Displaying stored data", &Segoe12, BLACK, WHITE);
+        Paint_ClearWindows(30, 70, 30 + 14 * 20, 70 + Segoe11.Height, WHITE);
+        Paint_DrawString_segment(70, 70, "Displaying stored data", &Segoe11, BLACK, WHITE);
         EPD_2IN9_V2_Display_Partial(BlackImage);
 
         if (dataType == 1) {
-            displayWrite1(BlackImage);
+            displayWrite1_Segment(BlackImage);
         } else if (dataType == 2) {
             displayWrite2(BlackImage);
         } else if (dataType == 3) {
@@ -117,7 +117,7 @@ void loop()
         delay(500);                 // Debounce delay to avoid multiple detections
         EPD_2IN9_V2_Init();
         Paint_Clear(0xff);
-        Paint_DrawString_custom(60, 40, u"Enter Debugging mode", &Segoe16, BLACK, WHITE);
+        Paint_DrawString_segment(60, 40, "Enter Debugging mode", &Segoe16, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
         DEV_Delay_ms(2000);
         startDebugging();
@@ -165,7 +165,7 @@ void loop()
 
         if (!dataID.isEmpty()) {
             if (dataType == 1) {
-                displayWrite1(BlackImage);
+                displayWrite1_Segment(BlackImage);
             } else if (dataType == 2) {
                 displayWrite2(BlackImage);
             } else if (dataType == 3) {

@@ -1,11 +1,285 @@
+#include <fonts.h>
+
 // 
 //  Font data for Segoe UI Light 20pt
 // 
 
-// Character bitmaps for Segoe UI Light 20pt
-const uint_8 segoeUILight_20ptBitmaps[] = 
-{
-	// @0 '!' (2 pixels wide)
+const FT_MAP ASCII_table[76] = {
+    {32, 2, 0}, // Character: ' '
+    {33, 2, 35}, // Character: '!'
+    {34, 5, 70}, // Character: '"'
+    {35, 14, 105}, // Character: '#'
+    {36, 10, 175}, // Character: '$'
+    {37, 19, 245}, // Character: '%'
+    {38, 16, 350}, // Character: '&'
+    {39, 1, 420}, // Character: '''
+    {40, 5, 455}, // Character: '('
+    {41, 5, 490}, // Character: ')'
+    {42, 9, 525}, // Character: '*'
+    {43, 11, 595}, // Character: '+'
+    {44, 3, 665}, // Character: ','
+    {45, 7, 700}, // Character: '-'
+    {46, 2, 735}, // Character: '.'
+    {47, 10, 770}, // Character: '/'
+    {48, 11, 840}, // Character: '0'
+    {49, 6, 910}, // Character: '1'
+    {50, 11, 945}, // Character: '2'
+    {51, 9, 1015}, // Character: '3'
+    {52, 13, 1085}, // Character: '4'
+    {53, 10, 1155}, // Character: '5'
+    {54, 11, 1225}, // Character: '6'
+    {55, 12, 1295}, // Character: '7'
+    {56, 11, 1365}, // Character: '8'
+    {57, 11, 1435}, // Character: '9'
+    {58, 2, 1505}, // Character: ':'
+    {59, 3, 1540}, // Character: ';'
+    {60, 11, 1575}, // Character: '<'
+    {61, 12, 1645}, // Character: '='
+    {62, 11, 1715}, // Character: '>'
+    {63, 8, 1785}, // Character: '?'
+    {64, 21, 1820}, // Character: '@'
+    {65, 15, 1925}, // Character: 'A'
+    {66, 11, 1995}, // Character: 'B'
+    {67, 14, 2065}, // Character: 'C'
+    {68, 14, 2135}, // Character: 'D'
+    {69, 10, 2205}, // Character: 'E'
+    {70, 9, 2275}, // Character: 'F'
+    {71, 15, 2345}, // Character: 'G'
+    {72, 14, 2415}, // Character: 'H'
+    {73, 1, 2485}, // Character: 'I'
+    {74, 6, 2520}, // Character: 'J'
+    {75, 12, 2555}, // Character: 'K'
+    {76, 9, 2625}, // Character: 'L'
+    {77, 18, 2695}, // Character: 'M'
+    {78, 14, 2800}, // Character: 'N'
+    {79, 18, 2870}, // Character: 'O'
+    {80, 11, 2975}, // Character: 'P'
+    {81, 18, 3045}, // Character: 'Q'
+    {82, 11, 3150}, // Character: 'R'
+    {83, 9, 3220}, // Character: 'S'
+    {84, 11, 3290}, // Character: 'T'
+    {85, 13, 3360}, // Character: 'U'
+    {86, 15, 3430}, // Character: 'V'
+    {87, 23, 3500}, // Character: 'W'
+    {88, 13, 3605}, // Character: 'X'
+    {89, 13, 3675}, // Character: 'Y'
+    {90, 13, 3745}, // Character: 'Z'
+    {91, 4, 3815}, // Character: '['
+    {92, 10, 3850}, // Character: '\'
+    {93, 4, 3920}, // Character: ']'
+    {94, 11, 3955}, // Character: '^'
+    {95, 11, 4025}, // Character: '_'
+    {96, 4, 4095}, // Character: '`'
+    {97, 10, 4130}, // Character: 'a'
+    {98, 12, 4200}, // Character: 'b'
+    {99, 10, 4270}, // Character: 'c'
+    {100, 12, 4340}, // Character: 'd'
+    {101, 11, 4410}, // Character: 'e'
+    {102, 7, 4480}, // Character: 'f'
+    {103, 12, 4515}, // Character: 'g'
+    {104, 10, 4585}, // Character: 'h'
+    {105, 2, 4655}, // Character: 'i'
+    {106, 7, 4690}, // Character: 'j'
+    {107, 9, 4725}, // Character: 'k'
+};
+
+const FT_MAP vn_table[76] = {
+    {108, 1, 4795}, // Character: 'l'
+    {109, 18, 4830}, // Character: 'm'
+    {110, 10, 4935}, // Character: 'n'
+    {111, 13, 5005}, // Character: 'o'
+    {112, 12, 5075}, // Character: 'p'
+    {113, 12, 5145}, // Character: 'q'
+    {114, 7, 5215}, // Character: 'r'
+    {115, 7, 5250}, // Character: 's'
+    {116, 7, 5285}, // Character: 't'
+    {117, 10, 5320}, // Character: 'u'
+    {118, 12, 5390}, // Character: 'v'
+    {119, 18, 5460}, // Character: 'w'
+    {120, 10, 5565}, // Character: 'x'
+    {121, 12, 5635}, // Character: 'y'
+    {122, 11, 5705}, // Character: 'z'
+    {123, 5, 5775}, // Character: '{'
+    {124, 1, 5810}, // Character: '|'
+    {125, 5, 5845}, // Character: '}'
+    {126, 11, 5880}, // Character: '~'
+    {192, 15, 5950}, // Character: 'À'
+    {193, 15, 6020}, // Character: 'Á'
+    {194, 15, 6090}, // Character: 'Â'
+    {195, 15, 6160}, // Character: 'Ã'
+    {200, 10, 6230}, // Character: 'È'
+    {201, 10, 6300}, // Character: 'É'
+    {202, 10, 6370}, // Character: 'Ê'
+    {204, 4, 6440}, // Character: 'Ì'
+    {205, 4, 6475}, // Character: 'Í'
+    {210, 18, 6510}, // Character: 'Ò'
+    {211, 18, 6615}, // Character: 'Ó'
+    {212, 18, 6720}, // Character: 'Ô'
+    {213, 18, 6825}, // Character: 'Õ'
+    {217, 13, 6930}, // Character: 'Ù'
+    {218, 13, 7000}, // Character: 'Ú'
+    {221, 13, 7070}, // Character: 'Ý'
+    {224, 10, 7140}, // Character: 'à'
+    {225, 10, 7210}, // Character: 'á'
+    {226, 10, 7280}, // Character: 'â'
+    {227, 10, 7350}, // Character: 'ã'
+    {232, 11, 7420}, // Character: 'è'
+    {233, 11, 7490}, // Character: 'é'
+    {234, 11, 7560}, // Character: 'ê'
+    {236, 4, 7630}, // Character: 'ì'
+    {237, 4, 7665}, // Character: 'í'
+    {242, 13, 7700}, // Character: 'ò'
+    {243, 13, 7770}, // Character: 'ó'
+    {244, 13, 7840}, // Character: 'ô'
+    {245, 13, 7910}, // Character: 'õ'
+    {249, 10, 7980}, // Character: 'ù'
+    {250, 10, 8050}, // Character: 'ú'
+    {253, 12, 8120}, // Character: 'ý'
+    {258, 15, 8190}, // Character: 'Ă'
+    {259, 10, 8260}, // Character: 'ă'
+    {272, 16, 8330}, // Character: 'Đ'
+    {273, 14, 8400}, // Character: 'đ'
+    {296, 8, 8470}, // Character: 'Ĩ'
+    {297, 8, 8505}, // Character: 'ĩ'
+    {360, 13, 8540}, // Character: 'Ũ'
+    {361, 10, 8610}, // Character: 'ũ'
+    {416, 19, 8680}, // Character: 'Ơ'
+    {417, 14, 8785}, // Character: 'ơ'
+    {431, 16, 8855}, // Character: 'Ư'
+    {432, 13, 8925}, // Character: 'ư'
+    {7840, 15, 8995}, // Character: 'Ạ'
+    {7841, 10, 9065}, // Character: 'ạ'
+    {7842, 15, 9135}, // Character: 'Ả'
+    {7843, 10, 9205}, // Character: 'ả'
+    {7844, 15, 9275}, // Character: 'Ấ'
+    {7845, 12, 9345}, // Character: 'ấ'
+    {7846, 15, 9415}, // Character: 'Ầ'
+    {7847, 10, 9485}, // Character: 'ầ'
+    {7848, 15, 9555}, // Character: 'Ẩ'
+    {7849, 12, 9625}, // Character: 'ẩ'
+    {7850, 15, 9695}, // Character: 'Ẫ'
+    {7851, 10, 9765}, // Character: 'ẫ'
+    {7852, 15, 9835}, // Character: 'Ậ'
+};
+
+const FT_MAP VN_table[77] = {
+    {7853, 10, 9905}, // Character: 'ậ'
+    {7854, 15, 9975}, // Character: 'Ắ'
+    {7855, 10, 10045}, // Character: 'ắ'
+    {7856, 15, 10115}, // Character: 'Ằ'
+    {7857, 10, 10185}, // Character: 'ằ'
+    {7858, 15, 10255}, // Character: 'Ẳ'
+    {7859, 10, 10325}, // Character: 'ẳ'
+    {7860, 15, 10395}, // Character: 'Ẵ'
+    {7861, 10, 10465}, // Character: 'ẵ'
+    {7862, 15, 10535}, // Character: 'Ặ'
+    {7863, 10, 10605}, // Character: 'ặ'
+    {7864, 10, 10675}, // Character: 'Ẹ'
+    {7865, 11, 10745}, // Character: 'ẹ'
+    {7866, 10, 10815}, // Character: 'Ẻ'
+    {7867, 11, 10885}, // Character: 'ẻ'
+    {7868, 10, 10955}, // Character: 'Ẽ'
+    {7869, 11, 11025}, // Character: 'ẽ'
+    {7870, 11, 11095}, // Character: 'Ế'
+    {7871, 12, 11165}, // Character: 'ế'
+    {7872, 11, 11235}, // Character: 'Ề'
+    {7873, 11, 11305}, // Character: 'ề'
+    {7874, 11, 11375}, // Character: 'Ể'
+    {7875, 12, 11445}, // Character: 'ể'
+    {7876, 10, 11515}, // Character: 'Ễ'
+    {7877, 11, 11585}, // Character: 'ễ'
+    {7878, 10, 11655}, // Character: 'Ệ'
+    {7879, 11, 11725}, // Character: 'ệ'
+    {7880, 4, 11795}, // Character: 'Ỉ'
+    {7881, 4, 11830}, // Character: 'ỉ'
+    {7882, 2, 11865}, // Character: 'Ị'
+    {7883, 2, 11900}, // Character: 'ị'
+    {7884, 18, 11935}, // Character: 'Ọ'
+    {7885, 13, 12040}, // Character: 'ọ'
+    {7886, 18, 12110}, // Character: 'Ỏ'
+    {7887, 13, 12215}, // Character: 'ỏ'
+    {7888, 18, 12285}, // Character: 'Ố'
+    {7889, 13, 12390}, // Character: 'ố'
+    {7890, 18, 12460}, // Character: 'Ồ'
+    {7891, 13, 12565}, // Character: 'ồ'
+    {7892, 18, 12635}, // Character: 'Ổ'
+    {7893, 13, 12740}, // Character: 'ổ'
+    {7894, 18, 12810}, // Character: 'Ỗ'
+    {7895, 13, 12915}, // Character: 'ỗ'
+    {7896, 18, 12985}, // Character: 'Ộ'
+    {7897, 13, 13090}, // Character: 'ộ'
+    {7898, 19, 13160}, // Character: 'Ớ'
+    {7899, 14, 13265}, // Character: 'ớ'
+    {7900, 19, 13335}, // Character: 'Ờ'
+    {7901, 14, 13440}, // Character: 'ờ'
+    {7902, 19, 13510}, // Character: 'Ở'
+    {7903, 14, 13615}, // Character: 'ở'
+    {7904, 19, 13685}, // Character: 'Ỡ'
+    {7905, 14, 13790}, // Character: 'ỡ'
+    {7906, 19, 13860}, // Character: 'Ợ'
+    {7907, 14, 13965}, // Character: 'ợ'
+    {7908, 13, 14035}, // Character: 'Ụ'
+    {7909, 10, 14105}, // Character: 'ụ'
+    {7910, 13, 14175}, // Character: 'Ủ'
+    {7911, 10, 14245}, // Character: 'ủ'
+    {7912, 16, 14315}, // Character: 'Ứ'
+    {7913, 13, 14385}, // Character: 'ứ'
+    {7914, 16, 14455}, // Character: 'Ừ'
+    {7915, 13, 14525}, // Character: 'ừ'
+    {7916, 16, 14595}, // Character: 'Ử'
+    {7917, 13, 14665}, // Character: 'ử'
+    {7918, 16, 14735}, // Character: 'Ữ'
+    {7919, 13, 14805}, // Character: 'ữ'
+    {7920, 16, 14875}, // Character: 'Ự'
+    {7921, 13, 14945}, // Character: 'ự'
+    {7922, 13, 15015}, // Character: 'Ỳ'
+    {7923, 12, 15085}, // Character: 'ỳ'
+    {7924, 13, 15155}, // Character: 'Ỵ'
+    {7925, 12, 15225}, // Character: 'ỵ'
+    {7926, 13, 15295}, // Character: 'Ỷ'
+    {7927, 12, 15365}, // Character: 'ỷ'
+    {7928, 13, 15435}, // Character: 'Ỹ'
+    {7929, 12, 15505}, // Character: 'ỹ'
+};
+
+const char table[] = {
+
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+	0x00, //   
+
 	0x00, //   
 	0x00, //   
 	0x00, //   
@@ -42,7 +316,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //   
 	0x00, //   
 
-	// @35 '"' (5 pixels wide)
 	0x00, //      
 	0x00, //      
 	0x00, //      
@@ -79,7 +352,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //      
 	0x00, //      
 
-	// @70 '#' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -116,7 +388,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @140 '$' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -153,7 +424,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @210 '%' (19 pixels wide)
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
@@ -190,7 +460,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 
-	// @315 '&' (16 pixels wide)
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
@@ -227,7 +496,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 
-	// @385 ''' (1 pixels wide)
 	0x00, //  
 	0x00, //  
 	0x00, //  
@@ -264,7 +532,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //  
 	0x00, //  
 
-	// @420 '(' (5 pixels wide)
 	0x00, //      
 	0x00, //      
 	0x00, //      
@@ -301,7 +568,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //      
 	0x00, //      
 
-	// @455 ')' (5 pixels wide)
 	0x00, //      
 	0x00, //      
 	0x00, //      
@@ -338,7 +604,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //      
 	0x00, //      
 
-	// @490 '*' (9 pixels wide)
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 	0x00, 0x00, //          
@@ -375,7 +640,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 
-	// @560 '+' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -412,7 +676,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @630 ',' (3 pixels wide)
 	0x00, //    
 	0x00, //    
 	0x00, //    
@@ -449,7 +712,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //    
 	0x00, //    
 
-	// @665 '-' (7 pixels wide)
 	0x00, //        
 	0x00, //        
 	0x00, //        
@@ -486,7 +748,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //        
 	0x00, //        
 
-	// @700 '.' (2 pixels wide)
 	0x00, //   
 	0x00, //   
 	0x00, //   
@@ -523,7 +784,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //   
 	0x00, //   
 
-	// @735 '/' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -560,7 +820,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @805 '0' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -597,7 +856,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @875 '1' (6 pixels wide)
 	0x00, //       
 	0x00, //       
 	0x00, //       
@@ -634,7 +892,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //       
 	0x00, //       
 
-	// @910 '2' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -671,7 +928,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @980 '3' (9 pixels wide)
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 	0x00, 0x00, //          
@@ -708,7 +964,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 
-	// @1050 '4' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -745,7 +1000,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @1120 '5' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -782,7 +1036,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @1190 '6' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -819,7 +1072,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @1260 '7' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -856,7 +1108,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @1330 '8' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -893,7 +1144,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @1400 '9' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -930,7 +1180,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @1470 ':' (2 pixels wide)
 	0x00, //   
 	0x00, //   
 	0x00, //   
@@ -967,7 +1216,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //   
 	0x00, //   
 
-	// @1505 ';' (3 pixels wide)
 	0x00, //    
 	0x00, //    
 	0x00, //    
@@ -1004,7 +1252,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //    
 	0x00, //    
 
-	// @1540 '<' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -1041,7 +1288,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @1610 '=' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -1078,7 +1324,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @1680 '>' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -1115,7 +1360,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @1750 '?' (8 pixels wide)
 	0x00, //         
 	0x00, //         
 	0x00, //         
@@ -1152,7 +1396,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //         
 	0x00, //         
 
-	// @1785 '@' (21 pixels wide)
 	0x00, 0x00, 0x00, //                      
 	0x00, 0x00, 0x00, //                      
 	0x00, 0x00, 0x00, //                      
@@ -1189,7 +1432,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                      
 	0x00, 0x00, 0x00, //                      
 
-	// @1890 'A' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -1226,7 +1468,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @1960 'B' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -1263,7 +1504,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @2030 'C' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -1300,7 +1540,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @2100 'D' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -1337,7 +1576,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @2170 'E' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -1374,7 +1612,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @2240 'F' (9 pixels wide)
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 	0x00, 0x00, //          
@@ -1411,7 +1648,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 
-	// @2310 'G' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -1448,7 +1684,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @2380 'H' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -1485,7 +1720,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @2450 'I' (1 pixels wide)
 	0x00, //  
 	0x00, //  
 	0x00, //  
@@ -1522,7 +1756,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //  
 	0x00, //  
 
-	// @2485 'J' (6 pixels wide)
 	0x00, //       
 	0x00, //       
 	0x00, //       
@@ -1559,7 +1792,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //       
 	0x00, //       
 
-	// @2520 'K' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -1596,7 +1828,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @2590 'L' (9 pixels wide)
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 	0x00, 0x00, //          
@@ -1633,7 +1864,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 
-	// @2660 'M' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -1670,7 +1900,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @2765 'N' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -1707,7 +1936,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @2835 'O' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -1744,7 +1972,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @2940 'P' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -1781,7 +2008,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @3010 'Q' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -1818,7 +2044,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @3115 'R' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -1855,7 +2080,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @3185 'S' (9 pixels wide)
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 	0x00, 0x00, //          
@@ -1892,7 +2116,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 
-	// @3255 'T' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -1929,7 +2152,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @3325 'U' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -1966,7 +2188,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @3395 'V' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -2003,7 +2224,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @3465 'W' (23 pixels wide)
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
@@ -2040,7 +2260,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                        
 	0x00, 0x00, 0x00, //                        
 
-	// @3570 'X' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -2077,7 +2296,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @3640 'Y' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -2114,7 +2332,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @3710 'Z' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -2151,7 +2368,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @3780 '[' (4 pixels wide)
 	0x00, //     
 	0x00, //     
 	0x00, //     
@@ -2188,7 +2404,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //     
 	0x00, //     
 
-	// @3815 '\' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -2225,7 +2440,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @3885 ']' (4 pixels wide)
 	0x00, //     
 	0x00, //     
 	0x00, //     
@@ -2262,7 +2476,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //     
 	0x00, //     
 
-	// @3920 '^' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -2299,7 +2512,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @3990 '_' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -2336,7 +2548,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @4060 '`' (4 pixels wide)
 	0x00, //     
 	0x00, //     
 	0x00, //     
@@ -2373,7 +2584,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //     
 	0x00, //     
 
-	// @4095 'a' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -2410,7 +2620,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @4165 'b' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -2447,7 +2656,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @4235 'c' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -2484,7 +2692,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @4305 'd' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -2521,7 +2728,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @4375 'e' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -2558,7 +2764,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @4445 'f' (7 pixels wide)
 	0x00, //        
 	0x00, //        
 	0x00, //        
@@ -2595,7 +2800,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //        
 	0x00, //        
 
-	// @4480 'g' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -2632,7 +2836,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x60, 0xC0, //  ##     ##  
 	0x3F, 0x00, //   ######    
 
-	// @4550 'h' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -2669,7 +2872,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @4620 'i' (2 pixels wide)
 	0x00, //   
 	0x00, //   
 	0x00, //   
@@ -2706,7 +2908,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //   
 	0x00, //   
 
-	// @4655 'j' (7 pixels wide)
 	0x00, //        
 	0x00, //        
 	0x00, //        
@@ -2743,7 +2944,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x18, //    ##  
 	0xF0, // ####   
 
-	// @4690 'k' (9 pixels wide)
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 	0x00, 0x00, //          
@@ -2780,7 +2980,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //          
 	0x00, 0x00, //          
 
-	// @4760 'l' (1 pixels wide)
 	0x00, //  
 	0x00, //  
 	0x00, //  
@@ -2817,7 +3016,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //  
 	0x00, //  
 
-	// @4795 'm' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -2854,7 +3052,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @4900 'n' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -2891,7 +3088,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @4970 'o' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -2928,7 +3124,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @5040 'p' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -2965,7 +3160,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x80, 0x00, // #           
 	0x80, 0x00, // #           
 
-	// @5110 'q' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -3002,7 +3196,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x10, //            #
 	0x00, 0x10, //            #
 
-	// @5180 'r' (7 pixels wide)
 	0x00, //        
 	0x00, //        
 	0x00, //        
@@ -3039,7 +3232,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //        
 	0x00, //        
 
-	// @5215 's' (7 pixels wide)
 	0x00, //        
 	0x00, //        
 	0x00, //        
@@ -3076,7 +3268,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //        
 	0x00, //        
 
-	// @5250 't' (7 pixels wide)
 	0x00, //        
 	0x00, //        
 	0x00, //        
@@ -3113,7 +3304,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //        
 	0x00, //        
 
-	// @5285 'u' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -3150,7 +3340,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @5355 'v' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -3187,7 +3376,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @5425 'w' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -3224,7 +3412,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @5530 'x' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -3261,7 +3448,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @5600 'y' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -3298,7 +3484,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x10, 0x00, //    #        
 	0xE0, 0x00, // ###         
 
-	// @5670 'z' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -3335,7 +3520,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @5740 '{' (5 pixels wide)
 	0x00, //      
 	0x00, //      
 	0x00, //      
@@ -3372,7 +3556,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //      
 	0x00, //      
 
-	// @5775 '|' (1 pixels wide)
 	0x00, //  
 	0x00, //  
 	0x00, //  
@@ -3409,7 +3592,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x80, // #
 	0x80, // #
 
-	// @5810 '}' (5 pixels wide)
 	0x00, //      
 	0x00, //      
 	0x00, //      
@@ -3446,7 +3628,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //      
 	0x00, //      
 
-	// @5845 '~' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -3483,7 +3664,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @5915 'À' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -3520,7 +3700,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @5985 'Á' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -3557,7 +3736,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @6055 'Â' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -3594,7 +3772,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @6125 'Ã' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -3631,7 +3808,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @6195 'È' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -3668,7 +3844,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @6265 'É' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -3705,7 +3880,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @6335 'Ê' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -3742,7 +3916,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @6405 'Ì' (4 pixels wide)
 	0x00, //     
 	0x00, //     
 	0x00, //     
@@ -3779,7 +3952,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //     
 	0x00, //     
 
-	// @6440 'Í' (4 pixels wide)
 	0x00, //     
 	0x00, //     
 	0x00, //     
@@ -3816,7 +3988,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //     
 	0x00, //     
 
-	// @6475 'Ò' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -3853,7 +4024,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @6580 'Ó' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -3890,7 +4060,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @6685 'Ô' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -3927,7 +4096,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @6790 'Õ' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -3964,7 +4132,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @6895 'Ù' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -4001,7 +4168,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @6965 'Ú' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -4038,7 +4204,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @7035 'Ý' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -4075,7 +4240,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @7105 'à' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -4112,7 +4276,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @7175 'á' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -4149,7 +4312,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @7245 'â' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -4186,7 +4348,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @7315 'ã' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -4223,7 +4384,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @7385 'è' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -4260,7 +4420,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @7455 'é' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -4297,7 +4456,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @7525 'ê' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -4334,7 +4492,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @7595 'ì' (4 pixels wide)
 	0x00, //     
 	0x00, //     
 	0x00, //     
@@ -4371,7 +4528,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //     
 	0x00, //     
 
-	// @7630 'í' (4 pixels wide)
 	0x00, //     
 	0x00, //     
 	0x00, //     
@@ -4408,7 +4564,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //     
 	0x00, //     
 
-	// @7665 'ò' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -4445,7 +4600,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @7735 'ó' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -4482,7 +4636,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @7805 'ô' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -4519,7 +4672,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @7875 'õ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -4556,7 +4708,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @7945 'ù' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -4593,7 +4744,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @8015 'ú' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -4630,7 +4780,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @8085 'ý' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -4667,7 +4816,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x10, 0x00, //    #        
 	0xE0, 0x00, // ###         
 
-	// @8155 'Ă' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -4704,7 +4852,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @8225 'ă' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -4741,7 +4888,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @8295 'Đ' (16 pixels wide)
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
@@ -4778,7 +4924,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 
-	// @8365 'đ' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -4815,7 +4960,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @8435 'Ĩ' (8 pixels wide)
 	0x00, //         
 	0x00, //         
 	0x00, //         
@@ -4852,7 +4996,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //         
 	0x00, //         
 
-	// @8470 'ĩ' (8 pixels wide)
 	0x00, //         
 	0x00, //         
 	0x00, //         
@@ -4889,7 +5032,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //         
 	0x00, //         
 
-	// @8505 'Ũ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -4926,7 +5068,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @8575 'ũ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -4963,7 +5104,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @8645 'Ơ' (19 pixels wide)
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
@@ -5000,7 +5140,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 
-	// @8750 'ơ' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -5037,7 +5176,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @8820 'Ư' (16 pixels wide)
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
@@ -5074,7 +5212,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 
-	// @8890 'ư' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -5111,7 +5248,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @8960 'Ạ' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -5148,7 +5284,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @9030 'ạ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5185,7 +5320,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @9100 'Ả' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -5222,7 +5356,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @9170 'ả' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5259,7 +5392,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @9240 'Ấ' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -5296,7 +5428,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @9310 'ấ' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -5333,7 +5464,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @9380 'Ầ' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -5370,7 +5500,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @9450 'ầ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5407,7 +5536,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @9520 'Ẩ' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x38, //           ###  
 	0x00, 0x0C, //             ## 
@@ -5444,7 +5572,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @9590 'ẩ' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -5481,7 +5608,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @9660 'Ẫ' (15 pixels wide)
 	0x0E, 0x10, //     ###    #   
 	0x11, 0x30, //    #   #  ##   
 	0x10, 0xE0, //    #    ###    
@@ -5518,7 +5644,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @9730 'ẫ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5555,7 +5680,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @9800 'Ậ' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -5592,7 +5716,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @9870 'ậ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5629,7 +5752,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @9940 'Ắ' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0xC0, //         ##     
@@ -5666,7 +5788,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @10010 'ắ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5703,7 +5824,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @10080 'Ằ' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x06, 0x00, //      ##        
@@ -5740,7 +5860,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @10150 'ằ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5777,7 +5896,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @10220 'Ẳ' (15 pixels wide)
 	0x03, 0x80, //       ###      
 	0x00, 0xC0, //         ##     
 	0x00, 0x40, //          #     
@@ -5814,7 +5932,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @10290 'ẳ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5851,7 +5968,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @10360 'Ẵ' (15 pixels wide)
 	0x0E, 0x10, //     ###    #   
 	0x11, 0x30, //    #   #  ##   
 	0x10, 0xE0, //    #    ###    
@@ -5888,7 +6004,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @10430 'ẵ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5925,7 +6040,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @10500 'Ặ' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -5962,7 +6076,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @10570 'ặ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -5999,7 +6112,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @10640 'Ẹ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -6036,7 +6148,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @10710 'ẹ' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -6073,7 +6184,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @10780 'Ẻ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -6110,7 +6220,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @10850 'ẻ' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -6147,7 +6256,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @10920 'Ẽ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -6184,7 +6292,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @10990 'ẽ' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -6221,7 +6328,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @11060 'Ế' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -6258,7 +6364,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @11130 'ế' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -6295,7 +6400,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @11200 'Ề' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -6332,7 +6436,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @11270 'ề' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -6369,7 +6472,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @11340 'Ể' (11 pixels wide)
 	0x00, 0x00, //            
 	0x01, 0xC0, //        ### 
 	0x00, 0x60, //          ##
@@ -6406,7 +6508,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @11410 'ể' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -6443,7 +6544,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 
-	// @11480 'Ễ' (10 pixels wide)
 	0x38, 0x40, //   ###    #
 	0x44, 0xC0, //  #   #  ##
 	0x43, 0x80, //  #    ### 
@@ -6480,7 +6580,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @11550 'ễ' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -6517,7 +6616,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @11620 'Ệ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -6554,7 +6652,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @11690 'ệ' (11 pixels wide)
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 	0x00, 0x00, //            
@@ -6591,7 +6688,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //            
 	0x00, 0x00, //            
 
-	// @11760 'Ỉ' (4 pixels wide)
 	0x00, //     
 	0x00, //     
 	0x00, //     
@@ -6628,7 +6724,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //     
 	0x00, //     
 
-	// @11795 'ỉ' (4 pixels wide)
 	0x00, //     
 	0x00, //     
 	0x00, //     
@@ -6665,7 +6760,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //     
 	0x00, //     
 
-	// @11830 'Ị' (2 pixels wide)
 	0x00, //   
 	0x00, //   
 	0x00, //   
@@ -6702,7 +6796,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //   
 	0x00, //   
 
-	// @11865 'ị' (2 pixels wide)
 	0x00, //   
 	0x00, //   
 	0x00, //   
@@ -6739,7 +6832,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, //   
 	0x00, //   
 
-	// @11900 'Ọ' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -6776,7 +6868,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @12005 'ọ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -6813,7 +6904,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @12075 'Ỏ' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -6850,7 +6940,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @12180 'ỏ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -6887,7 +6976,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @12250 'Ố' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -6924,7 +7012,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @12355 'ố' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -6961,7 +7048,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @12425 'Ồ' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -6998,7 +7084,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @12530 'ồ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -7035,7 +7120,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @12600 'Ổ' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x1C, 0x00, //            ###    
 	0x00, 0x06, 0x00, //              ##   
@@ -7072,7 +7156,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @12705 'ổ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -7109,7 +7192,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @12775 'Ỗ' (18 pixels wide)
 	0x03, 0x84, 0x00, //       ###    #    
 	0x04, 0x4C, 0x00, //      #   #  ##    
 	0x04, 0x38, 0x00, //      #    ###     
@@ -7146,7 +7228,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @12880 'ỗ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -7183,7 +7264,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @12950 'Ộ' (18 pixels wide)
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
@@ -7220,7 +7300,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                   
 	0x00, 0x00, 0x00, //                   
 
-	// @13055 'ộ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -7257,7 +7336,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @13125 'Ớ' (19 pixels wide)
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
@@ -7294,7 +7372,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 
-	// @13230 'ớ' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -7331,7 +7408,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @13300 'Ờ' (19 pixels wide)
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
@@ -7368,7 +7444,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 
-	// @13405 'ờ' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -7405,7 +7480,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @13475 'Ở' (19 pixels wide)
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
@@ -7442,7 +7516,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 
-	// @13580 'ở' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -7479,7 +7552,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @13650 'Ỡ' (19 pixels wide)
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
@@ -7516,7 +7588,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 
-	// @13755 'ỡ' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -7553,7 +7624,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @13825 'Ợ' (19 pixels wide)
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
@@ -7590,7 +7660,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, 0x00, //                    
 	0x00, 0x00, 0x00, //                    
 
-	// @13930 'ợ' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -7627,7 +7696,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @14000 'Ụ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -7664,7 +7732,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @14070 'ụ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -7701,7 +7768,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @14140 'Ủ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -7738,7 +7804,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @14210 'ủ' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -7775,7 +7840,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @14280 'Ứ' (16 pixels wide)
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
@@ -7812,7 +7876,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 
-	// @14350 'ứ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -7849,7 +7912,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @14420 'Ừ' (16 pixels wide)
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
@@ -7886,7 +7948,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 
-	// @14490 'ừ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -7923,7 +7984,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @14560 'Ử' (16 pixels wide)
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
@@ -7960,7 +8020,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 
-	// @14630 'ử' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -7997,7 +8056,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @14700 'Ữ' (16 pixels wide)
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
@@ -8034,7 +8092,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 
-	// @14770 'ữ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -8071,7 +8128,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @14840 'Ự' (16 pixels wide)
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
@@ -8108,7 +8164,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //                 
 	0x00, 0x00, //                 
 
-	// @14910 'ự' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -8145,7 +8200,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @14980 'Ỳ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -8182,7 +8236,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @15050 'ỳ' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -8219,7 +8272,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x10, 0x00, //    #        
 	0xE0, 0x00, // ###         
 
-	// @15120 'Ỵ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -8256,7 +8308,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @15190 'ỵ' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -8293,7 +8344,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x10, 0x00, //    #        
 	0xE0, 0x00, // ###         
 
-	// @15260 'Ỷ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -8330,7 +8380,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @15330 'ỷ' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -8367,7 +8416,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x10, 0x00, //    #        
 	0xE0, 0x00, // ###         
 
-	// @15400 'Ỹ' (13 pixels wide)
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 	0x00, 0x00, //              
@@ -8404,7 +8452,6 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0x00, 0x00, //              
 	0x00, 0x00, //              
 
-	// @15470 'ỹ' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -8442,13 +8489,11 @@ const uint_8 segoeUILight_20ptBitmaps[] =
 	0xE0, 0x00, // ###         
 };
 
-// Font information for Segoe UI Light 20pt
-const FONT_INFO segoeUILight_20ptFontInfo =
+const cFONT_SEGMENT Segoe20 =
 {
-	5, //  Character height
-	'!', //  Start character
-	7929, //  End character
-	2, //  Width, in pixels, of space character
-	segoeUILight_20ptDescriptors, //  Character descriptor array
-	segoeUILight_20ptBitmaps, //  Character bitmap array
+    ASCII_table,
+    vn_table,
+    VN_table,
+    35, // Height, in pixels, of space character
+    table,
 };

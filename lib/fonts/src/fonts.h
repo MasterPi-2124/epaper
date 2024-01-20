@@ -53,7 +53,7 @@ typedef struct
   const FT_MAP *VN_table;    // segmentSize = 
   uint8_t Height;
 
-  const FT_MAP * binarySearchInSegment(int unicodePoint, const FT_MAP* segment, size_t segmentSize) {
+  const FT_MAP * binarySearchInSegment(int unicodePoint, const FT_MAP* segment, size_t segmentSize) const {
     int low = 0;
     int high = segmentSize - 1;
 
@@ -73,20 +73,23 @@ typedef struct
 
 } cFONT_SEGMENT;   // custom Font with Segment Management for better performance and resource saving
 
-extern mFont Font8;
-extern mFont Font12;
-extern mFont Font16;
-extern mFont Font20;
-extern mFont Font24;
+extern const mFont Font8;
+extern const mFont Font12;
+extern const mFont Font16;
+extern const mFont Font20;
+extern const mFont Font24;
 
-// extern cFONT Segoe8;
-extern cFONT Segoe12;
-extern cFONT Segoe16;
+// Normal fonts
+// extern cFONT Segoe12;
+// extern cFONT Segoe12Bold;
 
-extern cFONT Segoe12Bold;
-extern cFONT Segoe16Bold;
+// segment fonts
+extern const cFONT_SEGMENT Segoe11;
+extern const cFONT_SEGMENT Segoe16;
+extern const cFONT_SEGMENT Segoe20;
 
-extern cFONT_SEGMENT Segoe12_Segment;
+extern const cFONT_SEGMENT Segoe11Bold;
+extern const cFONT_SEGMENT Segoe16Bold;
 
 #ifdef __cplusplus
 }
