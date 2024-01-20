@@ -81,7 +81,6 @@ const otaHandler = (id) => {
 
 exports.connect = () => {
   if (!client || !client.connected) {
-    console.log("client not connected")
     client = mqtt.connect(BROKER, {
       username: USER,
       password: PASS,
