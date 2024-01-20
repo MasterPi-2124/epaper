@@ -8,7 +8,7 @@ const BROKER = process.env.BROKER;
 const USER = process.env.USER;
 const PASS = process.env.PASS;
 let client = null;
-const responseTimeout = 5000;
+const responseTimeout = 6000;
 let globalMessageHandlers = new Map();
 const ca = fs.readFileSync(`/etc/ssl/mongoKey/ca.crt`);
 const cert = fs.readFileSync(`/etc/ssl/mongoKey/backend.crt`);
@@ -112,24 +112,18 @@ exports.connect = () => {
           console.log("found writeOK, ", match)
           const handler = globalMessageHandlers.get("writeOK");
           handler(topic, match[1]);
-        } else {
-          throw new Error("Response time out!!!!")
         }
       } else if (data.startsWith("pingOK")) {
         if (globalMessageHandlers.has("pingOK")) {
           console.log("found pingOK, ")
           const handler = globalMessageHandlers.get("pingOK");
           handler(topic);
-        } else {
-          throw new Error("Response time out!!!!")
         }
       } else if (data.startsWith("removeOK")) {
         if (globalMessageHandlers.has("removeOK")) {
           console.log("found removeOK, ")
           const handler = globalMessageHandlers.get("removeOK");
           handler(topic);
-        } else {
-          throw new Error("Response time out!!!!")
         }
       }
     })
@@ -286,11 +280,11 @@ exports.writeDevice = async (data) => {
   }
   payload = payload + `${data._id}|`;
   console.log(payload);
-  
+
   return new Promise((resolve) => {
     const handler = writeDeviceHandler(data);
     globalMessageHandlers.set("writeOK", handler);
-    
+
     // this.subscribe(data.deviceID);
     client.publish(`${data.deviceID}`, payload, (err) => {
       if (err) {
@@ -299,7 +293,7 @@ exports.writeDevice = async (data) => {
         console.log(`Published to topic ${data.deviceID} successfully!`);
       }
     });
-    
+
     setTimeout(() => {
       resolve();
       globalMessageHandlers.delete("writeOK");
