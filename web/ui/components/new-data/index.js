@@ -9,10 +9,10 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 
 const NewData = () => {
     const [stage, setStage] = useState(-1); // -1 - Choose data type
-                                            //  0 - not submitted
-                                            //  1 - submitted but not active
-                                            //  2 - not submitted and active
-                                            //  3 - submitted and active
+    //  0 - not submitted
+    //  1 - submitted but not active
+    //  2 - not submitted and active
+    //  3 - submitted and active
     const [dataCreated, setDataCreated] = useState({
         type: "",
         name: "",
@@ -64,6 +64,10 @@ const NewData = () => {
         console.log(dataCreated);
         if (dataCreated.name === "") {
             Notify.warning("You have to provide the name", {
+                className: "notiflix-warning",
+            });
+        } else if (dataCreated.active && dataCreated.deviceID === "") {
+            Notify.warning("You have to choose a display device", {
                 className: "notiflix-warning",
             });
         } else {

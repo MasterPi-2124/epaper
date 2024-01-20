@@ -26,21 +26,23 @@ export const DeviceList = () => {
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
-    Notify.info("Getting devices information and status", {
-      className: "notiflix-info"
-    });
-    instanceCoreApi.get(`${API}/devices`).then((res) => {
-      Notify.success(`Getting devices data successfully!`);
-      setStage(1);
-      setDevices(res.data.data);
-    }).catch((err) => {
-      Notify.failure(`Error fetching devices data: ${err}`, {
-        className: "notiflix-failure"
+    if (editModal === false && deleteModal === false) {
+      Notify.info("Getting devices information and status", {
+        className: "notiflix-info"
       });
-      setDevices([]);
-      setStage(2);
-    })
-  }, []);
+      instanceCoreApi.get(`${API}/devices`).then((res) => {
+        Notify.success(`Getting devices data successfully!`);
+        setStage(1);
+        setDevices(res.data.data);
+      }).catch((err) => {
+        Notify.failure(`Error fetching devices data: ${err}`, {
+          className: "notiflix-failure"
+        });
+        setDevices([]);
+        setStage(2);
+      })
+    }
+  }, [editModal, deleteModal]);
 
   return (
     <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">
@@ -136,63 +138,63 @@ export const DeviceList = () => {
 
                   <Table.Cell>
                     <Tooltip content="View detail of the device" hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "300", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
-                    <button
-                      className="small-icon"
-                      onClick={() => {
-                        setSelectedDevice(item);
-                        setDetailModal(true);
-                      }}
-                    >
-                      <Image
-                        src={EyeIcon}
-                        alt="vertical ellipsis"
-                      />
-                    </button>
+                      <button
+                        className="small-icon"
+                        onClick={() => {
+                          setSelectedDevice(item);
+                          setDetailModal(true);
+                        }}
+                      >
+                        <Image
+                          src={EyeIcon}
+                          alt="vertical ellipsis"
+                        />
+                      </button>
                     </Tooltip>
 
                     <Tooltip content={<><p style={{ fontWeight: "300" }}>Modify detail of the device</p><p style={{ fontSize: "10px", color: "rgb(223, 223, 223)", fontWeight: "200" }}>Note: If the device in not active, you may need to connect the device via Serial Port.</p></>} hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "200", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
-                    <button
-                      className="small-icon"
-                      onClick={() => {
-                        setSelectedDevice(item);
-                        setEditModal(true);
-                      }}
-                    >
-                      <Image
-                        src={EditIcon}
-                        alt="vertical ellipsis"
-                      />
-                    </button>
+                      <button
+                        className="small-icon"
+                        onClick={() => {
+                          setSelectedDevice(item);
+                          setEditModal(true);
+                        }}
+                      >
+                        <Image
+                          src={EditIcon}
+                          alt="vertical ellipsis"
+                        />
+                      </button>
                     </Tooltip>
 
                     <Tooltip content="Debug device" hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "300", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
-                    <button
-                      className="small-icon"
-                      onClick={() => {
-                        setSelectedDevice(item);
-                        setDebugModal(true);
-                      }}
-                    >
-                      <Image
-                        src={DebugIcon}
-                        alt="vertical ellipsis"
-                      />
-                    </button>
+                      <button
+                        className="small-icon"
+                        onClick={() => {
+                          setSelectedDevice(item);
+                          setDebugModal(true);
+                        }}
+                      >
+                        <Image
+                          src={DebugIcon}
+                          alt="vertical ellipsis"
+                        />
+                      </button>
                     </Tooltip>
 
                     <Tooltip content="Unregister device from the system" hideArrow css={{ backdropFilter: "blur(2px)", background: "rgba(32, 32, 32, 0.747)", color: "white", border: "1px solid grey", fontWeight: "300", borderBottomRightRadius: "4px", marginTop: "5px" }} placement="topEnd">
-                    <button
-                      className="small-icon"
-                      onClick={() => {
-                        setSelectedDevice(item);
-                        setDeleteModal(true);
-                      }}
-                    >
-                      <Image
-                        src={DeleteIcon}
-                        alt="vertical ellipsis"
-                      />
-                    </button>
+                      <button
+                        className="small-icon"
+                        onClick={() => {
+                          setSelectedDevice(item);
+                          setDeleteModal(true);
+                        }}
+                      >
+                        <Image
+                          src={DeleteIcon}
+                          alt="vertical ellipsis"
+                        />
+                      </button>
                     </Tooltip>
                   </Table.Cell>
                 </Table.Row>

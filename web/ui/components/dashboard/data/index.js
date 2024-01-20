@@ -23,21 +23,23 @@ export const DataList = () => {
   const [detailModal, setDetailModal] = useState(false);
 
   useEffect(() => {
-    Notify.info("Getting data information", {
-      className: "notiflix-info"
-    });
-    instanceCoreApi.get(`${API}/data`).then((res) => {
-      setStage(1);
-      console.log(res.data.data);
-      setData(res.data.data);
-    }).catch((err) => {
-      Notify.failure(`Error fetching data: ${err}`, {
-        className: "notiflix-failure"
+    if (editModal === false && deleteModal === false) {
+      Notify.info("Getting data information", {
+        className: "notiflix-info"
       });
-      setData([]);
-      setStage(2);
-    })
-  }, []);
+      instanceCoreApi.get(`${API}/data`).then((res) => {
+        setStage(1);
+        console.log(res.data.data);
+        setData(res.data.data);
+      }).catch((err) => {
+        Notify.failure(`Error fetching data: ${err}`, {
+          className: "notiflix-failure"
+        });
+        setData([]);
+        setStage(2);
+      })
+    }
+  }, [editModal, deleteModal]);
 
   return (
     <div className="max-w-7xl content dark:bg-dark-background bg-light-background text-light-text dark:text-dark-text border border-solid border-light-border dark:border-dark-border">

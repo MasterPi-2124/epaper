@@ -13,10 +13,16 @@ const EditModal = ({ type, data }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(itemUpdated);
-    if (type == "data" && dataCreated.name === "") {
-      Notify.warning("You have to provide the name", {
-        className: "notiflix-warning",
-      });
+    if (type == "data") {
+      if (itemUpdated.name === "") {
+        Notify.warning("You have to provide the name", {
+          className: "notiflix-warning",
+        });
+      } else if (itemUpdated.active && itemUpdated.deviceID === "") {
+        Notify.warning("You have to choose a display device", {
+          className: "notiflix-warning",
+        });
+      }
     } else {
       Notify.info("Submitting data", {
         className: "notiflix-info",

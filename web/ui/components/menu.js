@@ -9,13 +9,14 @@ import LightIcon from "@/assets/icons/thin/sun.svg";
 import DarkIcon from "@/assets/icons/thin/moon.svg";
 import DashboardIcon from "@/assets/icons/thin/dashboard.svg";
 import UserIcon from "@/assets/icons/thin/human.svg";
+import DataIcon from "@/assets/icons/thin/data.svg";
 import DeviceIcon from "@/assets/icons/thin/device.svg";
 
 const navButton = [
     {
         text: "New Data",
         path: "/new-data",
-        img: UserIcon,
+        img: DataIcon,
     },
     {
         text: "New Device",
@@ -30,7 +31,7 @@ const navButton = [
             {
                 text: "Data",
                 path: "/dashboard/data",
-                img: UserIcon,
+                img: DataIcon,
             },
             {
                 text: "Devices",
