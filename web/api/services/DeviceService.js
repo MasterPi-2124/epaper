@@ -14,8 +14,8 @@ exports.getAllDevices = async (filters = null) => {
     const devices = await DeviceModel.find(query);
     const deviceIds = devices.map(device => `${device._id}`);
 
-    await mqttClient.getAllDevicesStatuses(deviceIds)
-    console.log("get status done")
+    await mqttClient.getAllDevicesStatuses(deviceIds);
+    console.log("get status done");
     if (filters && "active" in filters) {
         query.active = filters.active === "true" ? true : false;
       }
