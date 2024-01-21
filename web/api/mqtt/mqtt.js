@@ -196,16 +196,13 @@ exports.writeDevice = async (data) => {
   }
 
   switch (data.fontStyle) {
-    case "Monospace 8pt":
-      payload = payload + "F8|";
-      break;
     case "Monospace 12pt":
       payload = payload + "F12|";
       break;
     case "Monospace 16pt":
       payload = payload + "F16|";
       break;
-    case "Monospace 24pt":
+    case "Monospace 20pt":
       payload = payload + "F20|";
       break;
     case "Segoe UI Light, 11pt":
@@ -219,12 +216,6 @@ exports.writeDevice = async (data) => {
       break;
     case "Segoe UI Bold, 16pt":
       payload = payload + "S16|";
-      break;
-    case "Segoe UI Light, 18pt":
-      payload = payload + "s18|";
-      break;
-    case "Segoe UI Bold, 18pt":
-      payload = payload + "S18|";
       break;
     case "Segoe UI Light, 20pt":
       payload = payload + "s20|";

@@ -185,11 +185,7 @@ void handleMessage(char *message)
             case 2:
                 if (type < 7)
                 {
-                    if (compareStrings(msg.c_str(), "F8"))
-                    {
-                        preferences.putString("font", "Font8");
-                    }
-                    else if (compareStrings(msg.c_str(), "F12"))
+                    if (compareStrings(msg.c_str(), "F12"))
                     {
                         preferences.putString("font", "Font12");
                     }
@@ -201,19 +197,23 @@ void handleMessage(char *message)
                     {
                         preferences.putString("font", "Font20");
                     }
-                    else if (compareStrings(msg.c_str(), "F24"))
+                    else if (compareStrings(msg.c_str(), "s11"))
                     {
-                        preferences.putString("font", "Font24");
+                        preferences.putString("font", "Segoe11");
                     }
                     else if (compareStrings(msg.c_str(), "S11"))
                     {
                         preferences.putString("font", "Segoe11Bold");
                     }
-                    else if (compareStrings(msg.c_str(), "S16"))
+                    else if (compareStrings(msg.c_str(), "s16"))
                     {
                         preferences.putString("font", "Segoe16");
                     }
-                    else if (compareStrings(msg.c_str(), "S20"))
+                    else if (compareStrings(msg.c_str(), "S16"))
+                    {
+                        preferences.putString("font", "Segoe16Bold");
+                    }
+                    else if (compareStrings(msg.c_str(), "s20"))
                     {
                         preferences.putString("font", "Segoe20");
                     }

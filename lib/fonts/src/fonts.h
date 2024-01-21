@@ -73,11 +73,9 @@ typedef struct
 
 } sFONT;   // custom Font with Segment Management for better performance and resource efficiency
 
-extern const mFont Font8;
 extern const mFont Font12;
 extern const mFont Font16;
 extern const mFont Font20;
-extern const mFont Font24;
 
 // Normal fonts
 // extern cFONT Segoe12;

@@ -9,16 +9,13 @@ const API = process.env.NEXT_PUBLIC_API || "http://65.108.79.164:3007/api";
 const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleReset, handleSubmit }) => {
     const [deviceLoading, setDeviceLoading] = useState(0);
     const [devices, setDevices] = useState();
-    const fonts = [ "Monospace 8pt",
-                    "Monospace 12pt",
+    const fonts = [ "Monospace 12pt",
                     "Monospace 16pt",
-                    "Monospace 24pt",
+                    "Monospace 20pt",
                     "Segoe UI Light, 11pt",
                     "Segoe UI Bold, 11pt",
                     "Segoe UI Light, 16pt",
                     "Segoe UI Bold, 16pt",
-                    "Segoe UI Light, 18pt",
-                    "Segoe UI Bold, 18pt",
                     "Segoe UI Light, 20pt",
     ]
     const themes = ["Theme 1",
@@ -86,13 +83,11 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
                 style["color"] = "black"; // default to Theme 1
             }
 
-            if (dataCreated.fontStyle === "Monospace 8pt") {
-                style["font"] = "12px monospace";
-            } else if (dataCreated.fontStyle === "Monospace 12pt") {
+            if (dataCreated.fontStyle === "Monospace 12pt") {
                 style["font"] = "12px monospace";
             } else if (dataCreated.fontStyle === "Monospace 16pt") {
                 style["font"] = "16px monospace";
-            } else if (dataCreated.fontStyle === "Monospace 24pt") {
+            } else if (dataCreated.fontStyle === "Monospace 20pt") {
                 style["font"] = "24px monospace";
             } else if (dataCreated.fontStyle === "Segoe UI Light, 11pt") {
                 style["font"] = "200 12px Segoe UI";
@@ -102,10 +97,6 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
                 style["font"] = "200 24px Segoe UI";
             }  else if (dataCreated.fontStyle === "Segoe UI Bold, 16pt") {
                 style["font"] = "bold 24px Segoe UI";
-            }  else if (dataCreated.fontStyle === "Segoe UI Light, 18pt") {
-                style["font"] = "200 28px Segoe UI";
-            }  else if (dataCreated.fontStyle === "Segoe UI Bold, 18pt") {
-                style["font"] = "bold 28px Segoe UI";
             }  else if (dataCreated.fontStyle === "Segoe UI Light, 20pt") {
                 style["font"] = "200 36px Segoe UI";
             } else {

@@ -100,11 +100,9 @@ void enterDebugMode(UBYTE * BlackImage)
     Paint_SelectImage(BlackImage);
     Paint_Clear(0xff);
 
-    Paint_DrawString(10, 5, "This is Monospace 8pt", &Font8, BLACK, WHITE);
-    Paint_DrawString(10, 25, "This is Monospace 12pt", &Font12, BLACK, WHITE);
-    Paint_DrawString(10, 45, "This is Monospace 16pt", &Font16, BLACK, WHITE);
-    Paint_DrawString(10, 65, "This is Monospace 20pt", &Font20, BLACK, WHITE);
-    Paint_DrawString(10, 89, "Monospace 24pt", &Font24, BLACK, WHITE);
+    Paint_DrawString(5, 25, "This is Monospace 12pt", &Font12, BLACK, WHITE);
+    Paint_DrawString(5, 45, "This is Monospace 16pt", &Font16, BLACK, WHITE);
+    Paint_DrawString(5, 65, "This is Monospace 20pt", &Font20, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
     DEV_Delay_ms(10000);
 
