@@ -342,7 +342,7 @@
           },
           "fontStyle": {
             "type": "string",
-            "default": "Segoe UI Bold, 12pt"
+            "default": "Segoe UI Bold, 11pt"
           },
           "designSchema": {
             "type": "string",
@@ -402,7 +402,7 @@
           },
           "fontStyle": {
             "type": "string",
-            "default": "Segoe UI Bold, 12pt"
+            "default": "Segoe UI Bold, 11pt"
           },
           "designSchema": {
             "type": "string",
@@ -458,7 +458,7 @@
           },
           "fontStyle": {
             "type": "string",
-            "default": "Segoe UI Bold, 12pt"
+            "default": "Segoe UI Bold, 11pt"
           },
           "designSchema": {
             "type": "string",

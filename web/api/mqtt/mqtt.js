@@ -208,11 +208,11 @@ exports.writeDevice = async (data) => {
     case "Monospace 24pt":
       payload = payload + "F20|";
       break;
-    case "Segoe UI Light, 12pt":
-      payload = payload + "s12|";
+    case "Segoe UI Light, 11pt":
+      payload = payload + "s11|";
       break;
-    case "Segoe UI Bold, 12pt":
-      payload = payload + "S12|";
+    case "Segoe UI Bold, 11pt":
+      payload = payload + "S11|";
       break;
     case "Segoe UI Light, 16pt":
       payload = payload + "s16|";

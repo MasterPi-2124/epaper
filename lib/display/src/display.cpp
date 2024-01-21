@@ -109,9 +109,6 @@ const unsigned char * textToQR(const char* data) {
             int bitIndex = x % 8;
             if (qrcode_getModule(&qrcode, x, y)) {
                 epdArray[byteIndex] |= (unsigned char) (1 << (7 - bitIndex));
-                Serial.print("#");
-            } else {
-                Serial.print(" ");
             }
         }
         Serial.print("\n");

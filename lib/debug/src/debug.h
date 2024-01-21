@@ -1,11 +1,10 @@
 #ifndef __debug // RabbitMQ
 #define __debug 
 
-#include <Wire.h>
 #include <Arduino.h>
 
 
 void startDebugging();
-void enterDebugMode();
+void enterDebugMode(UBYTE * Image);
 
 #endif /* __debug */

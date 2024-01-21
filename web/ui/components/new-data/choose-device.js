@@ -13,8 +13,8 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
                     "Monospace 12pt",
                     "Monospace 16pt",
                     "Monospace 24pt",
-                    "Segoe UI Light, 12pt",
-                    "Segoe UI Bold, 12pt",
+                    "Segoe UI Light, 11pt",
+                    "Segoe UI Bold, 11pt",
                     "Segoe UI Light, 16pt",
                     "Segoe UI Bold, 16pt",
                     "Segoe UI Light, 18pt",
@@ -94,9 +94,9 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
                 style["font"] = "16px monospace";
             } else if (dataCreated.fontStyle === "Monospace 24pt") {
                 style["font"] = "24px monospace";
-            } else if (dataCreated.fontStyle === "Segoe UI Light, 12pt") {
+            } else if (dataCreated.fontStyle === "Segoe UI Light, 11pt") {
                 style["font"] = "200 12px Segoe UI";
-            } else if (dataCreated.fontStyle === "Segoe UI Bold, 12pt") {
+            } else if (dataCreated.fontStyle === "Segoe UI Bold, 11pt") {
                 style["font"] = "bold 20px Segoe UI";
             } else if (dataCreated.fontStyle === "Segoe UI Light, 16pt") {
                 style["font"] = "200 24px Segoe UI";

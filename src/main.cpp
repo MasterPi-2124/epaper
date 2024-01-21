@@ -38,29 +38,25 @@ void setup()
 
     bool debugMode = preferences.getBool("debugMode", false);
     if (debugMode) {
-        enterDebugMode();
+        enterDebugMode(BlackImage);
         preferences.putBool("debugMode", false); // Clear flag
         ESP.restart();
     }
-#if 1
-#endif
 
 #if 1
     Paint_Clear(0xff);
-    char * text = "Initializing";
     const char * Welcome = "Pi's Epaper Project";
 
     Paint_DrawString_segment(60, 40, Welcome, &Segoe16Bold, BLACK, WHITE);
     EPD_2IN9_V2_Display(BlackImage);
 
     Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe11.Height, WHITE);
-    Paint_DrawString_segment(110, 70, text, &Segoe11, BLACK, WHITE);
+    Paint_DrawString_segment(110, 70, "Initializing", &Segoe11, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
     DEV_Delay_ms(3000);
 
-    text = "Getting local data";
     Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe11.Height, WHITE);
-    Paint_DrawString_segment(85, 70, text, &Segoe11, BLACK, WHITE);
+    Paint_DrawString_segment(85, 70, "Getting local data", &Segoe11, BLACK, WHITE);
     EPD_2IN9_V2_Display_Partial(BlackImage);
 
     // Get Preferences local data
@@ -185,7 +181,5 @@ void loop()
         MQTT_Loop(topic.c_str(), BlackImage);
     }
     printf("loop done, updated = %d\r\n", updated);
-
-    // performOTAUpdate("https://github.com/MasterPi-2124/epaper/releases/download/v1.0.0/firmware-c3.bin");
 
 }

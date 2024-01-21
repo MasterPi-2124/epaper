@@ -205,9 +205,9 @@ void handleMessage(char *message)
                     {
                         preferences.putString("font", "Font24");
                     }
-                    else if (compareStrings(msg.c_str(), "S12"))
+                    else if (compareStrings(msg.c_str(), "S11"))
                     {
-                        preferences.putString("font", "Segoe12");
+                        preferences.putString("font", "Segoe11Bold");
                     }
                     else if (compareStrings(msg.c_str(), "S16"))
                     {
