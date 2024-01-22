@@ -23,6 +23,7 @@ def generate_cpp_struct(input):
     fontCount = 0
     linesCount = 0
     height = 0
+    widthAverage = 0
     for line in input:
         linesCount += 1
         if linesCount <= 4:
@@ -48,6 +49,7 @@ def generate_cpp_struct(input):
                 parsed_data = parse_line(match1)
                 if parsed_data:
                     index, char, width = parsed_data
+                    widthAverage += width
                     if(fontCount <= 76):
                         segment1 += f"    {{{ord(char)}, {width}, {index}}}, // Character: '{char}'\n"
                     elif fontCount <= 152:
@@ -65,6 +67,8 @@ def generate_cpp_struct(input):
     
     output = output + segment1 + segment2 + segment3 + table
     output += f"const sFONT {fontType} =\n{{\n    ASCII_table,\n    vn_table,\n    VN_table,\n    {height}, // Height, in pixels, of space character\n    table,\n}};"
+    
+    print(widthAverage)
     
     return output, filename
     

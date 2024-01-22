@@ -595,7 +595,7 @@ parameter:
     Color_Background : Select the background color
 ******************************************************************************/
 void Paint_DrawChar(UWORD Xpoint, UWORD Ypoint, const char Acsii_Char,
-                    const mFont* Font, UWORD Color_Foreground, UWORD Color_Background)
+                    const mFONT* Font, UWORD Color_Foreground, UWORD Color_Background)
 {
     UWORD Page, Column;
 
@@ -644,7 +644,7 @@ parameter:
     Color_Background : Select the background color
 ******************************************************************************/
 void Paint_DrawString(UWORD Xstart, UWORD Ystart, const char * pString,
-                         const mFont* Font, UWORD Color_Foreground, UWORD Color_Background)
+                         const mFONT* Font, UWORD Color_Foreground, UWORD Color_Background)
 {
     UWORD Xpoint = Xstart;
     UWORD Ypoint = Ystart;
@@ -803,7 +803,7 @@ parameter:
     Color_Foreground : Select the foreground color
     Color_Background : Select the background color
 ******************************************************************************/
-void Paint_DrawTime(UWORD Xstart, UWORD Ystart, PAINT_TIME *pTime, const mFont* Font,
+void Paint_DrawTime(UWORD Xstart, UWORD Ystart, PAINT_TIME *pTime, const mFONT* Font,
                     UWORD Color_Foreground, UWORD Color_Background)
 {
     uint8_t value[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};

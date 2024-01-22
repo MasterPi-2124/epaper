@@ -3,5 +3,6 @@
 
 extern const unsigned char realio[];
 extern const unsigned char epaper[];
+extern const unsigned char example[];
 
 #endif

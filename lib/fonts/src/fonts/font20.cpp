@@ -2133,7 +2133,7 @@ const uint8_t Font20_Table[] =
 };
 
 
-const mFont Font20 = {
+const mFONT Font20 = {
   Font20_Table,
   14, /* Width */
   20, /* Height */

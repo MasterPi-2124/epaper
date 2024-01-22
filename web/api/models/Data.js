@@ -12,6 +12,9 @@ const dataSchema = new Schema({
         default: "Nguyễn Văn A"
     },
     email: {
+        // Client
+        // Student
+        // Employee
         type: String,
         trim: true,
         lowercase: true

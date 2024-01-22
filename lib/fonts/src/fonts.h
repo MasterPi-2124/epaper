@@ -22,7 +22,7 @@ typedef struct _tFont
   uint16_t Width;
   uint16_t Height;
   
-} mFont;  // monospace fonts
+} mFONT;  // monospace fonts
 
 //GB2312
 typedef struct 
@@ -73,9 +73,9 @@ typedef struct
 
 } sFONT;   // custom Font with Segment Management for better performance and resource efficiency
 
-extern const mFont Font12;
-extern const mFont Font16;
-extern const mFont Font20;
+extern const mFONT Font12;
+extern const mFONT Font16;
+extern const mFONT Font20;
 
 // Normal fonts
 // extern cFONT Segoe12;

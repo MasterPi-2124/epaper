@@ -46,6 +46,15 @@ void enterDebugMode(UBYTE * BlackImage)
     EPD_2IN9_V2_Display_Partial(BlackImage);
     DEV_Delay_ms(5000);
 
+    Paint_SelectImage(BlackImage);
+    Paint_Clear(0xff);
+    EPD_2IN9_V2_Init();
+    EPD_2IN9_V2_Clear();
+    Paint_DrawBitMap(example);
+    EPD_2IN9_V2_Display(BlackImage);
+    DEV_Delay_ms(10000);
+
+
     //DRAW SHAPE
     Paint_SelectImage(BlackImage);
     Paint_Clear(0xff);

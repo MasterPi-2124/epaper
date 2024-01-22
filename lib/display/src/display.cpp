@@ -76,6 +76,42 @@
 //     return output;
 // }
 
+UWORD alignMiddle(const char * text, bool horizontal = true, const char * font) {
+    float length = strlen(text);
+    uint8_t height;
+    if (compareStrings(font, "Segoe11Bold")) {
+        height = 19;
+        length = length * 7.545851528384279;
+    } else if (compareStrings(font, "Segoe11")) {
+        height = 19;
+        length = length * 6.7336244541484715;
+    } else if (compareStrings(font, "Segoe16Bold")) {
+        height = 29;
+        length = length * 10.672489082969433;
+    } else if (compareStrings(font, "Segoe16")) {
+        height = 27;
+        length = length * 9.030567685589519;
+    } else if (compareStrings(font, "Segoe20")) {
+        height = 35;
+        length = length * 11.554585152838428;
+    } else if (compareStrings(font, "Font12")) {
+        height = 12;
+        length = length * 7;
+    } else if (compareStrings(font, "Font16")) {
+        height = 16;
+        length = length * 11;
+    } else if (compareStrings(font, "Font20")) {
+        height = 20;
+        length = length * 14;
+    }
+
+    if (horizontal) {
+        return (uint16_t) (EPD_2IN9_V2_WIDTH - length) / 2;
+    } else {
+        return (uint16_t) (EPD_2IN9_V2_HEIGHT - height) / 2;
+    }
+}
+
 const unsigned char * textToQR(const char* data) {
     uint8_t qrVersion = 11; // Adjust the QR version as needed
     int bufferSize = qrcode_getBufferSize(qrVersion);
@@ -142,8 +178,10 @@ void displayWrite1(UBYTE * BlackImage) {
     const char * name = preferences.getString("name", "").c_str();
     const char * email = preferences.getString("input2", "").c_str();
     const char * address = preferences.getString("input3", "").c_str();
-    const char * font = preferences.getString("font", "").c_str();
+    String ft = preferences.getString("font", "");
     const char * schema = preferences.getString("schema", "").c_str();
+    sFONT sFont;
+    mFONT mFont;
 
     Serial.print(" -- name: ");
     Serial.println(name);
@@ -152,18 +190,43 @@ void displayWrite1(UBYTE * BlackImage) {
     Serial.print(" -- addr: ");
     Serial.println(address);
     Serial.print(" -- font: ");
-    Serial.println(font);
+    Serial.println(ft);
     Serial.print(" -- schema: ");
     Serial.println(schema);
 
+    if (ft == "Segoe11") sFont = Segoe11;
+    else if (ft == "Segoe11Bold") sFont = Segoe11Bold;
+    else if (ft == "Segoe16") sFont = Segoe16;
+    else if (ft == "Segoe16Bold") sFont = Segoe16Bold;
+    else if (ft == "Segoe20") sFont = Segoe20;
+    else if (ft == "Font12") mFont = Font12;
+    else if (ft == "Font16") mFont = Font16;
+    else if (ft == "Font20") mFont = Font20;
+
+
+    EPD_2IN9_V2_Init();
+    Paint_Clear(0xff);
+
     if (compareStrings(schema, "1")) {
-        EPD_2IN9_V2_Init();
-        Paint_Clear(0xff);
-        Paint_DrawString_segment(10, 30, name, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(10, 50, email, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(10, 70, address, &Segoe11, BLACK, WHITE);
-        EPD_2IN9_V2_Display(BlackImage);
+        UWORD xName = alignMiddle(name, true, ft.c_str());
+        UWORD xEmail = alignMiddle(email, true, "Segoe11");
+        UWORD xAddress = alignMiddle(address, true, "Segoe11");
+        Paint_DrawString_segment(xName, 30, name, &sFont, BLACK, WHITE);
+        Paint_DrawString_segment(xEmail, 50, email, &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(xAddress, 70, address, &Segoe11, BLACK, WHITE);
+    } else if (compareStrings(schema, "2")) {
+        Paint_DrawString_segment(10, 30, name, &sFont, BLACK, WHITE);
+        Paint_DrawString_segment(10, 50, "Email: ", &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(40, 50, email, &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 70, "Address: ", &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(50, 70, address, &Segoe11, BLACK, WHITE);
+    } else if (compareStrings(schema, "3")) {
+        Paint_DrawString_segment(10, 30, name, &sFont, BLACK, WHITE);
+    } else if (compareStrings(schema, "4")) {
+        Paint_DrawString_segment(10, 30, name, &sFont, BLACK, WHITE);
     }
+
+    EPD_2IN9_V2_Display(BlackImage);
 }
 
 void displayWrite2(UBYTE * BlackImage) {

@@ -1755,7 +1755,7 @@ const uint8_t Font16_Table[] =
 	0x00, 0x00, //            
 };
 
-const mFont Font16 = {
+const mFONT Font16 = {
   Font16_Table,
   11, /* Width */
   16, /* Height */

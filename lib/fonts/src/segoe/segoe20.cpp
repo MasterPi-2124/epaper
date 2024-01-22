@@ -5,7 +5,7 @@
 // 
 
 const FT_MAP ASCII_table[76] = {
-    {32, 2, 0}, // Character: ' '
+    {32, 4, 0}, // Character: ' '
     {33, 2, 35}, // Character: '!'
     {34, 5, 70}, // Character: '"'
     {35, 14, 105}, // Character: '#'
