@@ -20,8 +20,6 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
     ]
     const themes = ["Theme 1",
                     "Theme 2",
-                    "Theme 3",
-                    "Theme 4",
     ]
     const canvaRef = useRef(null);
 
