@@ -126,21 +126,21 @@ const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
           style["color"] = "black"; // default to Theme 1
       }
 
-      if (dataCreated.fontStyle === "Monospace 12pt") {
+      if (dataUpdated.fontStyle === "Monospace 12pt") {
         style["font"] = "12px monospace";
-    } else if (dataCreated.fontStyle === "Monospace 16pt") {
+    } else if (dataUpdated.fontStyle === "Monospace 16pt") {
         style["font"] = "16px monospace";
-    } else if (dataCreated.fontStyle === "Monospace 20pt") {
+    } else if (dataUpdated.fontStyle === "Monospace 20pt") {
         style["font"] = "24px monospace";
-    } else if (dataCreated.fontStyle === "Segoe UI Light, 11pt") {
+    } else if (dataUpdated.fontStyle === "Segoe UI Light, 11pt") {
         style["font"] = "200 12px Segoe UI";
-    } else if (dataCreated.fontStyle === "Segoe UI Bold, 11pt") {
+    } else if (dataUpdated.fontStyle === "Segoe UI Bold, 11pt") {
         style["font"] = "bold 20px Segoe UI";
-    } else if (dataCreated.fontStyle === "Segoe UI Light, 16pt") {
+    } else if (dataUpdated.fontStyle === "Segoe UI Light, 16pt") {
         style["font"] = "200 24px Segoe UI";
-    }  else if (dataCreated.fontStyle === "Segoe UI Bold, 16pt") {
+    }  else if (dataUpdated.fontStyle === "Segoe UI Bold, 16pt") {
         style["font"] = "bold 24px Segoe UI";
-    }  else if (dataCreated.fontStyle === "Segoe UI Light, 20pt") {
+    }  else if (dataUpdated.fontStyle === "Segoe UI Light, 20pt") {
         style["font"] = "200 36px Segoe UI";
     } else {
         style["font"] = "bold 24px Segoe UI"; // default to Segoe UI Bold, 16pt
