@@ -76,7 +76,7 @@
 //     return output;
 // }
 
-UWORD alignMiddle(const char * text, bool horizontal = true, const char * font) {
+UWORD alignMiddle(const char * text, const char * font, bool horizontal = true) {
     float length = strlen(text);
     uint8_t height;
     if (compareStrings(font, "Segoe11Bold")) {
@@ -208,9 +208,9 @@ void displayWrite1(UBYTE * BlackImage) {
     Paint_Clear(0xff);
 
     if (compareStrings(schema, "1")) {
-        UWORD xName = alignMiddle(name, true, ft.c_str());
-        UWORD xEmail = alignMiddle(email, true, "Segoe11");
-        UWORD xAddress = alignMiddle(address, true, "Segoe11");
+        UWORD xName = alignMiddle(name, ft.c_str());
+        UWORD xEmail = alignMiddle(email, "Segoe11");
+        UWORD xAddress = alignMiddle(address, "Segoe11");
         Paint_DrawString_segment(xName, 30, name, &sFont, BLACK, WHITE);
         Paint_DrawString_segment(xEmail, 50, email, &Segoe11, BLACK, WHITE);
         Paint_DrawString_segment(xAddress, 70, address, &Segoe11, BLACK, WHITE);

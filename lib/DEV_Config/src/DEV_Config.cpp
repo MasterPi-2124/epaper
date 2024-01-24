@@ -48,6 +48,8 @@ UBYTE DEV_Module_Init(void)
     digitalWrite(EPD_CS_PIN, HIGH);
     digitalWrite(EPD_SCK_PIN, LOW);
 
+    Serial.println("dev init ok");
+
     return 0;
 }
 
