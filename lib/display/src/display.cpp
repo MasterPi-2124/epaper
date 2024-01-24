@@ -77,6 +77,7 @@
 // }
 
 UWORD alignMiddle(const char * text, const char * font, bool horizontal = true) {
+    Serial.println("aligning");
     float length = strlen(text);
     uint8_t height;
     if (compareStrings(font, "Segoe11Bold")) {
@@ -175,6 +176,7 @@ bool compareStrings(const char *str1, const char *str2)
 }
 
 void displayWrite1(UBYTE * BlackImage) {
+
     const char * name = preferences.getString("name", "").c_str();
     const char * email = preferences.getString("input2", "").c_str();
     const char * address = preferences.getString("input3", "").c_str();
@@ -249,6 +251,7 @@ void displayWrite2(UBYTE * BlackImage) {
     Serial.println(font);
     Serial.print(" -- schema: ");
     Serial.println(schema);
+    
 
     if (compareStrings(schema, "1")) {
         EPD_2IN9_V2_Init();

@@ -748,13 +748,12 @@ void Paint_DrawString_segment(UWORD Xstart, UWORD Ystart, const char * pString, 
         uint8_t width;
 
         if (data != NULL) {
-            // Serial.print(unicodePoint);
-            // Serial.print(": (");
-            // Serial.print(data->width);
-            // Serial.print(", ");
-            // Serial.print(data->index);
-            // Serial.println(")");
-
+            Serial.print(unicodePoint);
+            Serial.print(": (");
+            Serial.print(data->width);
+            Serial.print(", ");
+            Serial.print(data->index);
+            Serial.println(")");
             width = data->width;
             int index = data->index;
 
