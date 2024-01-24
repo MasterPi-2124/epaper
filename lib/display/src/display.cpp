@@ -177,11 +177,11 @@ bool compareStrings(const char *str1, const char *str2)
 
 void displayWrite1(UBYTE * BlackImage) {
 
-    const char * name = preferences.getString("name", "").c_str();
-    const char * email = preferences.getString("input2", "").c_str();
-    const char * address = preferences.getString("input3", "").c_str();
+    String name = preferences.getString("name", "");
+    String email = preferences.getString("input2", "");
+    String address = preferences.getString("input3", "");
     String ft = preferences.getString("font", "");
-    const char * schema = preferences.getString("schema", "").c_str();
+    String schema = preferences.getString("schema", "");
     sFONT sFont;
     mFONT mFont;
 
@@ -209,35 +209,35 @@ void displayWrite1(UBYTE * BlackImage) {
     EPD_2IN9_V2_Init();
     Paint_Clear(0xff);
 
-    if (compareStrings(schema, "1")) {
-        UWORD xName = alignMiddle(name, ft.c_str());
-        UWORD xEmail = alignMiddle(email, "Segoe11");
-        UWORD xAddress = alignMiddle(address, "Segoe11");
-        Paint_DrawString_segment(xName, 30, name, &sFont, BLACK, WHITE);
-        Paint_DrawString_segment(xEmail, 50, email, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(xAddress, 70, address, &Segoe11, BLACK, WHITE);
-    } else if (compareStrings(schema, "2")) {
-        Paint_DrawString_segment(10, 30, name, &sFont, BLACK, WHITE);
+    if (compareStrings(schema.c_str(), "1")) {
+        UWORD xName = alignMiddle(name.c_str(), ft.c_str());
+        UWORD xEmail = alignMiddle(email.c_str(), "Segoe11");
+        UWORD xAddress = alignMiddle(address.c_str(), "Segoe11");
+        Paint_DrawString_segment(xName, 30, name.c_str(), &sFont, BLACK, WHITE);
+        Paint_DrawString_segment(xEmail, 50, email.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(xAddress, 70, address.c_str(), &Segoe11, BLACK, WHITE);
+    } else if (compareStrings(schema.c_str(), "2")) {
+        Paint_DrawString_segment(10, 30, name.c_str(), &sFont, BLACK, WHITE);
         Paint_DrawString_segment(10, 50, "Email: ", &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(40, 50, email, &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(40, 50, email.c_str(), &Segoe11, BLACK, WHITE);
         Paint_DrawString_segment(10, 70, "Address: ", &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(50, 70, address, &Segoe11, BLACK, WHITE);
-    } else if (compareStrings(schema, "3")) {
-        Paint_DrawString_segment(10, 30, name, &sFont, BLACK, WHITE);
-    } else if (compareStrings(schema, "4")) {
-        Paint_DrawString_segment(10, 30, name, &sFont, BLACK, WHITE);
+        Paint_DrawString_segment(50, 70, address.c_str(), &Segoe11, BLACK, WHITE);
+    } else if (compareStrings(schema.c_str(), "3")) {
+        Paint_DrawString_segment(10, 30, name.c_str(), &sFont, BLACK, WHITE);
+    } else if (compareStrings(schema.c_str(), "4")) {
+        Paint_DrawString_segment(10, 30, name.c_str(), &sFont, BLACK, WHITE);
     }
 
     EPD_2IN9_V2_Display(BlackImage);
 }
 
 void displayWrite2(UBYTE * BlackImage) {
-    const char * name = preferences.getString("name", "").c_str();
-    const char * email = preferences.getString("input2", "").c_str();
-    const char * studentID = preferences.getString("input3", "").c_str();
-    const char * _class = preferences.getString("input4", "").c_str();
-    const char * font = preferences.getString("font", "").c_str();
-    const char * schema = preferences.getString("schema", "").c_str();
+    String name = preferences.getString("name", "");
+    String email = preferences.getString("input2", "");
+    String studentID = preferences.getString("input3", "");
+    String _class = preferences.getString("input4", "");
+    String font = preferences.getString("font", "");
+    String schema = preferences.getString("schema", "");
 
     Serial.print(" -- name: ");
     Serial.println(name);
@@ -253,24 +253,24 @@ void displayWrite2(UBYTE * BlackImage) {
     Serial.println(schema);
     
 
-    if (compareStrings(schema, "1")) {
+    if (compareStrings(schema.c_str(), "1")) {
         EPD_2IN9_V2_Init();
         Paint_Clear(0xff);
-        Paint_DrawString_segment(10, 20, name, &Segoe16Bold, BLACK, WHITE);
-        Paint_DrawString_segment(10, 50, _class, &Segoe11Bold, BLACK, WHITE);
-        Paint_DrawString_segment(10, 70, studentID, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(10, 90, email, &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 20, name.c_str(), &Segoe16Bold, BLACK, WHITE);
+        Paint_DrawString_segment(10, 50, _class.c_str(), &Segoe11Bold, BLACK, WHITE);
+        Paint_DrawString_segment(10, 70, studentID.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 90, email.c_str(), &Segoe11, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
 }
 
 void displayWrite3(UBYTE * BlackImage) {
-    const char * name = preferences.getString("name", "").c_str();
-    const char * email = preferences.getString("input2", "").c_str();
-    const char * employeeID = preferences.getString("input3", "").c_str();
-    const char * department = preferences.getString("input4", "").c_str();
-    const char * font = preferences.getString("font", "").c_str();
-    const char * schema = preferences.getString("schema", "").c_str();
+    String name = preferences.getString("name", "");
+    String email = preferences.getString("input2", "");
+    String employeeID = preferences.getString("input3", "");
+    String department = preferences.getString("input4", "");
+    String font = preferences.getString("font", "");
+    String schema = preferences.getString("schema", "");
 
     Serial.print(" -- name: ");
     Serial.println(name);
@@ -285,23 +285,23 @@ void displayWrite3(UBYTE * BlackImage) {
     Serial.print(" -- schema: ");
     Serial.println(schema);
 
-    if (compareStrings(schema, "1")) {
+    if (compareStrings(schema.c_str(), "1")) {
         EPD_2IN9_V2_Init();
         Paint_Clear(0xff);
-        Paint_DrawString_segment(10, 30, name, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(10, 50, email, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(10, 70, employeeID, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(10, 90, department, &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 30, name.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 50, email.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 70, employeeID.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 90, department.c_str(), &Segoe11, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
 }
 
 void displayWrite4(UBYTE * BlackImage) {
-    const char * name = preferences.getString("name", "").c_str();
-    const char * category = preferences.getString("input2", "").c_str();
-    const char * price = preferences.getString("input3", "").c_str();
-    const char * font = preferences.getString("font", "").c_str();
-    const char * schema = preferences.getString("schema", "").c_str();
+    String name = preferences.getString("name", "");
+    String category = preferences.getString("input2", "");
+    String price = preferences.getString("input3", "");
+    String font = preferences.getString("font", "");
+    String schema = preferences.getString("schema", "");
 
     Serial.print(" -- name: ");
     Serial.println(name);
@@ -314,26 +314,26 @@ void displayWrite4(UBYTE * BlackImage) {
     Serial.print(" -- schema: ");
     Serial.println(schema);
 
-    if (compareStrings(schema, "1")) {
+    if (compareStrings(schema.c_str(), "1")) {
         EPD_2IN9_V2_Init();
         Paint_SetScale(2);
         Paint_Clear(0xff);
-        if (compareStrings(schema, "1")) {
-            Paint_DrawString_segment(10, 50, name, &Segoe16Bold, BLACK, WHITE);
-            Paint_DrawString_segment(10, 90, price, &Segoe16, BLACK, WHITE);
-            Paint_DrawString_segment(10, 20, category, &Segoe11, BLACK, WHITE);
+        if (compareStrings(schema.c_str(), "1")) {
+            Paint_DrawString_segment(10, 50, name.c_str(), &Segoe16Bold, BLACK, WHITE);
+            Paint_DrawString_segment(10, 90, price.c_str(), &Segoe16, BLACK, WHITE);
+            Paint_DrawString_segment(10, 20, category.c_str(), &Segoe11, BLACK, WHITE);
         }
         EPD_2IN9_V2_Display(BlackImage);
     }
 }
 
 void displayWrite5(UBYTE * BlackImage) {
-    const char * name = preferences.getString("name", "").c_str();
-    const char * purpose = preferences.getString("input2", "").c_str();
-    const char * manager = preferences.getString("input3", "").c_str();
-    const char * status = preferences.getString("input4", "").c_str();
-    const char * font = preferences.getString("font", "").c_str();
-    const char * schema = preferences.getString("schema", "").c_str();
+    String name = preferences.getString("name", "");
+    String purpose = preferences.getString("input2", "");
+    String manager = preferences.getString("input3", "");
+    String status = preferences.getString("input4", "");
+    String font = preferences.getString("font", "");
+    String schema = preferences.getString("schema", "");
 
     Serial.print(" -- name: ");
     Serial.println(name);
@@ -348,13 +348,13 @@ void displayWrite5(UBYTE * BlackImage) {
     Serial.print(" -- schema: ");
     Serial.println(schema);
 
-    if (compareStrings(schema, "1")) {
+    if (compareStrings(schema.c_str(), "1")) {
         EPD_2IN9_V2_Init();
         Paint_Clear(0xff);
-        Paint_DrawString_segment(10, 30, name, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(10, 50, purpose, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(10, 70, manager, &Segoe11, BLACK, WHITE);
-        Paint_DrawString_segment(10, 90, status, &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 30, name.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 50, purpose.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 70, manager.c_str(), &Segoe11, BLACK, WHITE);
+        Paint_DrawString_segment(10, 90, status.c_str(), &Segoe11, BLACK, WHITE);
         EPD_2IN9_V2_Display(BlackImage);
     }
 }
