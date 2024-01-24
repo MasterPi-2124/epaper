@@ -23,9 +23,7 @@ const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
                   "Segoe UI Light, 20pt",
   ]
   const themes = ["Theme 1",
-                  "Theme 2",
-                  "Theme 3",
-                  "Theme 4",
+                  "Theme 2"
   ]
 
   const style = {
