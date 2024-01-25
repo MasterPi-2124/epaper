@@ -153,8 +153,10 @@ exports.unsubscribe = (topic) => {
 exports.getAllDevicesStatuses = async (topics) => {
   const updateStatus = async (topic, status) => {
     let device = await DeviceModel.findById(topic);
-    device["active"] = status;
-    await DeviceModel.findByIdAndUpdate(topic, device);
+    if (device) {
+      device["active"] = status;
+      await DeviceModel.findByIdAndUpdate(topic, device);
+    }
   }
 
   return new Promise((resolve) => {

@@ -76,7 +76,7 @@
 //     return output;
 // }
 
-UWORD alignMiddle(const char * text, const char * font, bool horizontal = true) {
+UWORD alignText(const char * text, const char * font, uint8_t type, bool horizontal = true) {
     Serial.println("aligning");
     float length = strlen(text);
     uint8_t height;
@@ -107,9 +107,9 @@ UWORD alignMiddle(const char * text, const char * font, bool horizontal = true) 
     }
 
     if (horizontal) {
-        return (uint16_t) (EPD_2IN9_V2_WIDTH - length) / 2;
+        return (uint16_t) (EPD_2IN9_V2_WIDTH - length) * type / 100;
     } else {
-        return (uint16_t) (EPD_2IN9_V2_HEIGHT - height) / 2;
+        return (uint16_t) (EPD_2IN9_V2_HEIGHT - height) * type / 100;
     }
 }
 
@@ -210,9 +210,9 @@ void displayWrite1(UBYTE * BlackImage) {
     Paint_Clear(0xff);
 
     if (compareStrings(schema.c_str(), "1")) {
-        UWORD xName = alignMiddle(name.c_str(), ft.c_str());
-        UWORD xEmail = alignMiddle(email.c_str(), "Segoe11");
-        UWORD xAddress = alignMiddle(address.c_str(), "Segoe11");
+        UWORD xName = alignText(name.c_str(), ft.c_str(), 50);
+        UWORD xEmail = alignText(email.c_str(), "Segoe11", 50);
+        UWORD xAddress = alignText(address.c_str(), "Segoe11", 50);
         Paint_DrawString_segment(xName, 30, name.c_str(), &sFont, BLACK, WHITE);
         Paint_DrawString_segment(xEmail, 50, email.c_str(), &Segoe11, BLACK, WHITE);
         Paint_DrawString_segment(xAddress, 70, address.c_str(), &Segoe11, BLACK, WHITE);
