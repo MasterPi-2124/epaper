@@ -259,14 +259,7 @@ tfoot tr th nav button {
     font-weight: 700;
 }
 
-.debug-right input.file-input {
-    border: 1px solid red;
-}
-
-
-
-
-.debug-right .drag-file-area {
+ .drag-file-area {
     gap: 15px;
 	border: 1px dashed #606060;
 }

@@ -11,6 +11,8 @@ import DashboardIcon from "@/assets/icons/thin/dashboard.svg";
 import UserIcon from "@/assets/icons/thin/human.svg";
 import DataIcon from "@/assets/icons/thin/data.svg";
 import DeviceIcon from "@/assets/icons/thin/device.svg";
+import ExportIcon from "@/assets/icons/thin/export.svg";
+import UpdateIcon from "@/assets/icons/thin/update.svg";
 
 const navButton = [
     {
@@ -40,6 +42,16 @@ const navButton = [
             }
         ]
     },
+    {
+        text: "Export",
+        path: "/export",
+        img: ExportIcon,
+    },
+    {
+        text: "Batch Update",
+        path: "/batch-update",
+        img: UpdateIcon,
+    }
 ];
 
 const Menu = ({ currentPath }) => {

@@ -12,6 +12,7 @@ import "@/styles/dashboard.css";
 import "@/styles/wheelpicker.css";
 import "@/styles/time-slider.css";
 import "@/styles/notiflix.css";
+import "@/styles/update.css";
 
 import localFont from 'next/font/local';
 import { ThemeProvider } from "next-themes";

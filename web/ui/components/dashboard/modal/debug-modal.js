@@ -23,7 +23,9 @@ const DebugModal = ({ data, onClose }) => {
 
     const uploadFirmware = () => {
         if (!file) {
-            Notify.failure('Please select a file to upload');
+            Notify.failure('Please select a file to upload', {
+                className: "notiflix-failure"
+            });
             return;
         }
 
@@ -35,11 +37,14 @@ const DebugModal = ({ data, onClose }) => {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(response => {
-            Notify.success('Uploaded firmware successfully!');
-        })
-            .catch(error => {
-                Notify.failure(`Error uploading firmware: ${error}`);
+            Notify.success('Uploaded firmware successfully!', {
+                className: "notiflix-success"
             });
+        }).catch(error => {
+            Notify.failure(`Error uploading firmware: ${error}`, {
+                className: "notiflix-failure"
+            });
+        });
     }
 
     useEffect(() => {
@@ -47,7 +52,9 @@ const DebugModal = ({ data, onClose }) => {
             instanceCoreApi.get(`${API}/data/${data.dataID}`).then((res) => {
                 setData1(res.data.data);
             }).catch((error) => {
-                Notify.failure(`Error fetching data: ${error}`);
+                Notify.failure(`Error fetching data: ${error}`, {
+                    className: "notiflix-failure"
+                });
                 console.log(error)
                 setData1();
             })
@@ -206,9 +213,9 @@ const DebugModal = ({ data, onClose }) => {
                             fullWidth
                             maxRows={10}
                         />
-                        {isPiPVisible ? 
-                            <button className="edit-button ok w-full" onClick={hidePiP}>Hide PiP</button> 
-                            :  
+                        {isPiPVisible ?
+                            <button className="edit-button ok w-full" onClick={hidePiP}>Hide PiP</button>
+                            :
                             <button
                                 className="edit-button ok w-full" onClick={() => {
                                     showPiP();
