@@ -187,6 +187,9 @@ typedef struct {
 } PAINT_TIME;
 extern PAINT_TIME sPaint_time;
 
+// Utilities
+int utf8ToUnicodePoint(const char *utf8);
+
 //init and Clear
 void Paint_NewImage(UBYTE *image, UWORD Width, UWORD Height, UWORD Rotate, UWORD Color);
 void Paint_SelectImage(UBYTE *image);
