@@ -50,7 +50,8 @@ exports.updateData = async (id, data) => {
       data.activeStartTime = -1;
       data.deviceID = "";
       data.deviceName = "";
-      data["activeTimestamp"].push(`${oldData["activeStartTime"]}-${now}`)
+      oldData["activeTimestamp"].push(`${oldData["activeStartTime"]}-${now}`)
+      data["activeTimestamp"] = oldData["activeTimestamp"];
       return await DataModel.findByIdAndUpdate(id, data);
     }
   }
