@@ -316,7 +316,7 @@ const BatchUpdate = () => {
                                                 <p>
                                                     {diffName.map((part) => {
                                                         const color = part.added ? 'green' : part.removed ? 'red' : 'transparent';
-                                                        return <span style={{ backgroundColor: color }}>{part.value}</span>
+                                                        return <span key={""} style={{ backgroundColor: color }}>{part.value}</span>
                                                     })}
                                                 </p>
 
@@ -326,7 +326,7 @@ const BatchUpdate = () => {
                                                     <p>
                                                         {diffEmail.map((part) => {
                                                             const color = part.added ? 'green' : part.removed ? 'red' : 'transparent';
-                                                            return <span style={{ backgroundColor: color }}>{part.value}</span>
+                                                            return <span key={""} style={{ backgroundColor: color }}>{part.value}</span>
                                                         })}
                                                     </p>
                                                 ) : (<></>)}
@@ -334,7 +334,7 @@ const BatchUpdate = () => {
                                                 <p>
                                                     {diffInput2.map((part) => {
                                                         const color = part.added ? 'green' : part.removed ? 'red' : 'transparent';
-                                                        return <span style={{ backgroundColor: color }}>{part.value}</span>
+                                                        return <span key={""} style={{ backgroundColor: color }}>{part.value}</span>
                                                     })}
                                                 </p>
 
@@ -342,7 +342,7 @@ const BatchUpdate = () => {
                                                     <p>
                                                         {diffInput3.map((part) => {
                                                             const color = part.added ? 'green' : part.removed ? 'red' : 'transparent';
-                                                            return <span style={{ backgroundColor: color }}>{part.value}</span>
+                                                            return <span key={""} style={{ backgroundColor: color }}>{part.value}</span>
                                                         })}
                                                     </p>
                                                 ) : (<></>)}
@@ -351,7 +351,7 @@ const BatchUpdate = () => {
                                                     <p>
                                                         {diffInput4.map((part) => {
                                                             const color = part.added ? 'green' : part.removed ? 'red' : 'transparent';
-                                                            return <span style={{ backgroundColor: color }}>{part.value}</span>
+                                                            return <span key={""} style={{ backgroundColor: color }}>{part.value}</span>
                                                         })}
                                                     </p>
                                                 ) : (<></>)}
