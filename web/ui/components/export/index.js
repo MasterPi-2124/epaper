@@ -14,14 +14,25 @@ const Export = () => {
 
         instanceCoreApi.get(`${API}/data`).then(res => {
             const data = res.data.data;
+            const fieldsToRemove = new Set(["__v", "deviceName", "activeStartTime", "activeTimestamp", "createdBy"]);
+            const newData = data.map(obj => {
+                const filteredObj = {};
+                Object.keys(obj).forEach(key => {
+                    if (!fieldsToRemove.has(key)) {
+                    filteredObj[key] = obj[key];
+                    }
+                });
+                return filteredObj;
+            });
+
             instanceCoreApi.get(`${API}/devices`).then(res => {
                 const devices = res.data.data;
                 Notify.success(`Fetching data and device`, {
                     className: "notiflix-success"
                 });
                 const time = Date.now();
-                console.log(data, devices)
-                const datasheet = XLSX.utils.json_to_sheet(data);
+                console.log(newData, devices)
+                const datasheet = XLSX.utils.json_to_sheet(newData);
                 const devicesheet = XLSX.utils.json_to_sheet(devices);
                 const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, datasheet, 'Data');
