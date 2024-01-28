@@ -62,6 +62,7 @@ exports.deleteDevice = async (id, userID = null) => {
     const data = await DataModel.findById(device.dataID);
     const now = Math.floor(new Date().getTime() / 1000);
     data["deviceID"] = "";
+    data["deviceName"] = "";
     data["active"] = false;
     data["activeTimestamp"].push(`${data["activeStartTime"]}-${now}`)
     data["activeStartTime"] = -1;
