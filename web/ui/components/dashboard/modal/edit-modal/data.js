@@ -72,8 +72,7 @@ const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
       });
         setDeviceLoading(1);
       })
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
       setDeviceLoading(-1);
       Notify.failure(`Error fetching active devices data: ${err}`, {

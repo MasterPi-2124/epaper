@@ -1,0 +1,100 @@
+.validate-table {
+    max-height: 250px;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.validate-table div.validate-item-list {
+    max-height: 100%;
+    overflow: auto;
+    border: 1px solid rgba(152, 152, 152, 0.354);
+    background-color: rgba(33, 33, 33, 0.43);
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.validate-table div.validate-item-list ul {
+    border-radius: 10px;
+}
+
+.validate-table div.validate-item-list li {
+    display: grid;
+    grid-template-columns: 80px 200px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    margin: 5px 0px;
+    background-color: rgba(154, 154, 154, 0.111);
+}
+
+.validate-table div.validate-item-list li:hover {
+    background-color: rgba(255, 255, 255, 0.173);
+    cursor: pointer;
+}
+
+.validate-table div.validate-item-list li.li-selected {
+    background-color: rgba(255, 255, 255, 0.173);
+    cursor: pointer;
+}
+
+div.validate-item-list li div {
+    height: 100%;
+    line-height: 40px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+div.validate-item-list li div p {
+    text-align: center;
+    font-weight: 700;
+}
+
+div.validate-item-list li div.validate-invalid {
+    background-color: rgba(255, 101, 101, 0.278);
+    color: rgba(255, 122, 122, 0.606);
+}
+
+div.validate-item-list li div.validate-edit {
+    background-color: rgba(0, 178, 209, 0.423);
+    color: rgba(116, 234, 255, 0.698);
+}
+
+div.validate-item-list li div.validate-create {
+    background-color: rgba(0, 209, 87, 0.423);
+    color: rgba(206, 255, 226, 0.575);
+}
+
+.validate-table div.validate-item-detail {
+    width: 300px;
+    justify-content: space-between;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.validate-table div.validate-item-detail .item-detail {
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    border: 1px solid rgba(152, 152, 152, 0.354);
+    background-color: rgba(33, 33, 33, 0.43);
+    border-radius: 10px;
+    overflow: auto;
+}
+
+.validate-table div.validate-item-detail .item-detail h4  {
+    font-weight: 700;
+}
+
+.validate-table div.validate-item-detail .item-detail p {
+    color: rgb(203, 203, 203);
+    font-weight: 100;
+    font-size: 15px;
+}
+
+.validate-table div.validate-item-detail button {
+    width: 100%;
+}

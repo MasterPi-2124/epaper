@@ -1,7 +1,7 @@
 form button {
     border: 1px solid rgba(86, 86, 86, 0.736);
     padding: 10px;
-    border-radius: 12px;
+    border-radius: 10px;
     background-color: #21212166;
     transition-duration: 200ms;
 }
@@ -29,7 +29,7 @@ button.get-qr:hover {
 button.ok {
     border: 1px solid rgba(86, 86, 86, 0.736);
     padding: 10px 20px;
-    border-radius: 12px;
+    border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.06) !important;
 }
 
@@ -45,6 +45,6 @@ button.export-button {
     margin-top: 20px;
     padding: 10px 20px;
     width: 100%;
-    border-radius: 12px;
+    border-radius: 10px;
     background-color: #21212166;
 }
