@@ -114,7 +114,7 @@ const BatchUpdate = () => {
                                         action: "INVALID",
                                         detail: (
                                             <div className="validate-error">
-                                                <h4>This item doesn't have a display device!</h4>
+                                                <h4>This item doesn&apos;t have a display device!</h4>
                                                 <p>If the active status is True, a display device is required to display the data.</p>
                                             </div>
                                         )
@@ -134,7 +134,7 @@ const BatchUpdate = () => {
                                     detail: (
                                         <div className="validate-error">
                                             <h4>This item has an invalid display status!</h4>
-                                            <p>Expected status in boolean format, got "{item.active}".</p>
+                                            <p>Expected status in boolean format, got &quot;{item.active}&quot;.</p>
                                         </div>
                                     )
                                 }
@@ -153,7 +153,7 @@ const BatchUpdate = () => {
                                 detail: (
                                     <div className="validate-error">
                                         <h4>This item has an invalid theme!</h4>
-                                        <p>Got unsupported theme "{item.designSchema}". Expected: </p>
+                                        <p>Got unsupported theme &quot;{item.designSchema}&quot;. Expected: </p>
                                         <p> - Theme 1</p>
                                         <p> - Theme 2</p>
                                     </div>
@@ -174,7 +174,7 @@ const BatchUpdate = () => {
                             detail: (
                                 <div className="validate-error">
                                     <h4>This item has an invalid font!</h4>
-                                    <p>Got unsupported font: "{item.fontStyle}". Expected:</p>
+                                    <p>Got unsupported font: &quot;{item.fontStyle}&quot;. Expected:</p>
                                     <p> - Monospace 12pt</p>
                                     <p> - Monospace 16pt</p>
                                     <p> - Monospace 20pt</p>
@@ -201,7 +201,7 @@ const BatchUpdate = () => {
                         detail: (
                             <div className="validate-error">
                                 <h4>This item has an invalid font!</h4>
-                                <p>Got unsupported font: "{item.type}". Expected:</p>
+                                <p>Got unsupported font: &quot;{item.type}&quot;. Expected:</p>
                                 <p> - Client</p>
                                 <p> - Student</p>
                                 <p> - Room</p>
@@ -245,7 +245,7 @@ const BatchUpdate = () => {
                                     detail: (
                                         <div className="validate-error">
                                             <h4>Can not find the display device of the item!</h4>
-                                            <p>The device "{item.deviceID}" is not found in the server</p>
+                                            <p>The device &quot;{item.deviceID}&quot; is not found in the server</p>
                                         </div>
                                     )
                                 }
@@ -292,8 +292,8 @@ const BatchUpdate = () => {
                                         action: "INVALID",
                                         detail: (
                                             <div className="validate-error">
-                                                <h4>Item's type must not be changed!</h4>
-                                                <p>Can not change type "{oldData.type}" to new type "{item.type}". If you want to change the type, remove the item and re-create it again with the new type "{item.type}".</p>
+                                                <h4>Item&apos;s type must not be changed!</h4>
+                                                <p>Can not change type &quot;{oldData.type}&quot; to new type &quot;{item.type}&quot;. If you want to change the type, remove the item and re-create it again with the new type &quot;{item.type}&quot;.</p>
                                             </div>
                                         ),
                                     }
