@@ -20,10 +20,6 @@ const BatchUpdate = () => {
         setFile(event.target.files[0]);
     };
 
-    const handleSelectedRow = (item) => {
-        setItem(item);
-    }
-
     const batchUpdate = async () => {
         setIsUpdating(true);
         const data = final.filter(item => item.action !== "INVALID")
@@ -429,7 +425,7 @@ const BatchUpdate = () => {
                             <ul>
                                 {final.map((ite) => (
                                     <li
-                                        onClick={() => handleSelectedRow(ite)}
+                                        onClick={() => setItem(ite)}
                                         className={item && ite.id === item.id ? "li-selected" : ""}
                                         key={ite.id}
                                     >
