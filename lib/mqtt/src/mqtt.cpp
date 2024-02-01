@@ -45,6 +45,7 @@ void setup_wifi(const char *ssid, const char *password, UBYTE *BlackImage)
             Paint_ClearWindows(30, 70, 30 + 14 * 15, 70 + Segoe11.Height, WHITE);
             Paint_DrawString_segment(60, 70, "Failed to connect to Wifi!", &Segoe11, BLACK, WHITE);
             EPD_2IN9_V2_Display_Partial(BlackImage);
+            delay(1000);
             break; // Exit the loop
         }
         delay(500);
