@@ -13,22 +13,23 @@ const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
   const [dataStage, setDataStage] = useState(0);
   const canvaRef = useRef(null);
   const [devices, setDevices] = useState();
-  const fonts = [ "Monospace 12pt",
-                  "Monospace 16pt",
-                  "Monospace 20pt",
-                  "Segoe UI Light, 11pt",
-                  "Segoe UI Bold, 11pt",
-                  "Segoe UI Light, 16pt",
-                  "Segoe UI Bold, 16pt",
-                  "Segoe UI Light, 20pt",
+  const fonts = ["Monospace 12pt",
+    "Monospace 16pt",
+    "Monospace 20pt",
+    "Segoe UI Light, 11pt",
+    "Segoe UI Bold, 11pt",
+    "Segoe UI Light, 16pt",
+    "Segoe UI Bold, 16pt",
+    "Segoe UI Light, 20pt",
   ]
   const themes = ["Theme 1",
-                  "Theme 2"
+    "Theme 2"
   ]
 
   const style = {
     font: "",
     color: "",
+    textAlign: "center"
   };
 
   const hourItems = Array.from({ length: 12 }, (_, index) => ({
@@ -64,12 +65,12 @@ const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
       Notify.info("Fetching for all active devices", {
         className: "notiflix-info",
         timeout: 6500,
-    });
+      });
       await instanceCoreApi.get(`${API}/devices?active=true`).then((res) => {
         setDevices(res.data.data);
         Notify.success(`Fetched all active devices successfully!`, {
           className: "notiflix-success",
-      });
+        });
         setDeviceLoading(1);
       })
     } catch (err) {
@@ -77,7 +78,7 @@ const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
       setDeviceLoading(-1);
       Notify.failure(`Error fetching active devices data: ${err}`, {
         className: "notiflix-failure"
-    });
+      });
     }
   }
 
@@ -115,82 +116,81 @@ const Data = ({ dataUpdated, handleSubmit, handleChange }) => {
 
       ctx.clearRect(0, 0, canva.width, canva.height);
 
-      if (dataUpdated.designSchema === "Theme 1") {
-        style["color"] = "black";
-      } else if (dataUpdated.designSchema === "Theme 2") {
-          style["color"] = "blue";
-      } else if (dataUpdated.designSchema === "Theme 3") {
-          style["color"] = "yellow";
-      } else {
-          style["color"] = "black"; // default to Theme 1
-      }
-
       if (dataUpdated.fontStyle === "Monospace 12pt") {
         style["font"] = "12px monospace";
-    } else if (dataUpdated.fontStyle === "Monospace 16pt") {
+      } else if (dataUpdated.fontStyle === "Monospace 16pt") {
         style["font"] = "16px monospace";
-    } else if (dataUpdated.fontStyle === "Monospace 20pt") {
+      } else if (dataUpdated.fontStyle === "Monospace 20pt") {
         style["font"] = "24px monospace";
-    } else if (dataUpdated.fontStyle === "Segoe UI Light, 11pt") {
-        style["font"] = "200 12px Segoe UI";
-    } else if (dataUpdated.fontStyle === "Segoe UI Bold, 11pt") {
-        style["font"] = "bold 20px Segoe UI";
-    } else if (dataUpdated.fontStyle === "Segoe UI Light, 16pt") {
-        style["font"] = "200 24px Segoe UI";
-    }  else if (dataUpdated.fontStyle === "Segoe UI Bold, 16pt") {
-        style["font"] = "bold 24px Segoe UI";
-    }  else if (dataUpdated.fontStyle === "Segoe UI Light, 20pt") {
-        style["font"] = "200 36px Segoe UI";
-    } else {
+      } else if (dataUpdated.fontStyle === "Segoe UI Light, 11pt") {
+        style["font"] = "200 17px Segoe UI";
+      } else if (dataUpdated.fontStyle === "Segoe UI Bold, 11pt") {
+        style["font"] = "bold 17px Segoe UI";
+      } else if (dataUpdated.fontStyle === "Segoe UI Light, 16pt") {
+        style["font"] = "200 22px Segoe UI";
+      } else if (dataUpdated.fontStyle === "Segoe UI Bold, 16pt") {
+        style["font"] = "bold 22px Segoe UI";
+      } else if (dataUpdated.fontStyle === "Segoe UI Light, 20pt") {
+        style["font"] = "100 27px Segoe UI";
+      } else {
         style["font"] = "bold 24px Segoe UI"; // default to Segoe UI Bold, 16pt
-    }
+      }
 
       if (dataUpdated.type === "Product") {
         if (dataUpdated.designSchema === "Theme 1") {
-            ctx.font = '200 12px Segoe UI';
-            ctx.fillStyle = style.color;
-            ctx.fillText(`${dataUpdated.input2}`, 10, 40);
+          ctx.font = '200 12px Segoe UI';
+          ctx.fillStyle = style.color;
+          ctx.fillText(`${dataUpdated.input2}`, 10, 40);
 
-            ctx.font = style.font;
-            ctx.fillStyle = style.color;
-            ctx.fillText(`${dataUpdated.name}`, 10, 70);
+          ctx.font = style.font;
+          ctx.fillStyle = style.color;
+          ctx.fillText(`${dataUpdated.name}`, 10, 70);
 
-            ctx.font = "bold 36px Segoe UI";
-            ctx.fillStyle = style.color;
-            ctx.fillText(`${dataUpdated.input3}`, 120, 90);
+          ctx.font = "bold 36px Segoe UI";
+          ctx.fillStyle = style.color;
+          ctx.fillText(`${dataUpdated.input3}`, 120, 90);
         } else if (dataUpdated.designSchema === "Theme 2") {
-            ctx.font = style.font;
-            ctx.fillStyle = style.color;
-            ctx.fillText(`${dataUpdated.input2}`, 10, 30);
+          ctx.font = style.font;
+          ctx.fillStyle = style.color;
+          ctx.fillText(`${dataUpdated.input2}`, 10, 30);
 
-            ctx.font = style.font;
-            ctx.fillStyle = style.color;
-            ctx.fillText(`${dataUpdated.name}`, 10, 60);
+          ctx.font = style.font;
+          ctx.fillStyle = style.color;
+          ctx.fillText(`${dataUpdated.name}`, 10, 60);
 
-            ctx.font = style.font;
-            ctx.fillStyle = style.color;
-            ctx.fillText(`Email: ${dataUpdated.input3}`, 10, 90);
+          ctx.font = style.font;
+          ctx.fillStyle = style.color;
+          ctx.fillText(`Email: ${dataUpdated.input3}`, 10, 90);
         }
       } else if (dataUpdated.type === "Client") {
-          ctx.font = style.font;
-          ctx.fillStyle = style.color;
-          ctx.fillText(`Name: ${dataUpdated.name}`, 10, 30);
-          ctx.fillText(`Email: ${dataUpdated.email}`, 10, 60);
+        ctx.font = style.font;
+        ctx.fillStyle = style.color;
+        ctx.fillText(`Name: ${dataUpdated.name}`, 10, 30);
+        ctx.fillText(`Email: ${dataUpdated.email}`, 10, 60);
       } else if (dataUpdated.type === "Student") {
-          ctx.font = style.font;
-          ctx.fillStyle = style.color;
-          ctx.fillText(`Name: ${dataUpdated.name}`, 10, 30);
-          ctx.fillText(`Email: ${dataUpdated.email}`, 10, 60);
+        ctx.font = style.font;
+        ctx.fillStyle = style.color;
+        ctx.textAlign = style.textAlign;
+        ctx.fillText(`${dataUpdated.name}`, canva.width / 2, 50);
+
+        ctx.font = "bold 17px Segoe UI";
+        ctx.fillText(`${dataUpdated.input3}`, canva.width / 2, 73);
+        
+        ctx.font = "200 17px Segoe UI";
+        ctx.fillText(`${dataUpdated.input2}`, canva.width / 2, 95);
+
+        ctx.font = "200 17px Segoe UI";
+        ctx.fillText(`${dataUpdated.email}`, canva.width / 2, 120);
       } else if (dataUpdated.type === "Employee") {
-          ctx.font = style.font;
-          ctx.fillStyle = style.color;
-          ctx.fillText(`Name: ${dataUpdated.name}`, 10, 30);
-          ctx.fillText(`Email: ${dataUpdated.email}`, 10, 60);
+        ctx.font = style.font;
+        ctx.fillStyle = style.color;
+        ctx.fillText(`Name: ${dataUpdated.name}`, 10, 30);
+        ctx.fillText(`Email: ${dataUpdated.email}`, 10, 60);
       } else if (dataUpdated.type === "Room") {
-          ctx.font = style.font;
-          ctx.fillStyle = style.color;
-          ctx.fillText(`Name: ${dataUpdated.name}`, 10, 30);
-          ctx.fillText(`Email: ${dataUpdated.email}`, 10, 60);
+        ctx.font = style.font;
+        ctx.fillStyle = style.color;
+        ctx.fillText(`Name: ${dataUpdated.name}`, 10, 30);
+        ctx.fillText(`Email: ${dataUpdated.email}`, 10, 60);
       }
     }
   }, [style, dataUpdated, dataStage])

@@ -26,6 +26,7 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
     const style = {
         font: "",
         color: "",
+        textAlign: "center"
     };
 
     const handleChange = (param, value) => {
@@ -71,16 +72,6 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
 
             ctx.clearRect(0, 0, canva.width, canva.height);
 
-            if (dataCreated.designSchema === "Theme 1") {
-                style["color"] = "black";
-            } else if (dataCreated.designSchema === "Theme 2") {
-                style["color"] = "blue";
-            } else if (dataCreated.designSchema === "Theme 3") {
-                style["color"] = "yellow";
-            } else {
-                style["color"] = "black"; // default to Theme 1
-            }
-
             if (dataCreated.fontStyle === "Monospace 12pt") {
                 style["font"] = "12px monospace";
             } else if (dataCreated.fontStyle === "Monospace 16pt") {
@@ -88,15 +79,15 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
             } else if (dataCreated.fontStyle === "Monospace 20pt") {
                 style["font"] = "24px monospace";
             } else if (dataCreated.fontStyle === "Segoe UI Light, 11pt") {
-                style["font"] = "200 12px Segoe UI";
+                style["font"] = "200 17px Segoe UI";
             } else if (dataCreated.fontStyle === "Segoe UI Bold, 11pt") {
-                style["font"] = "bold 20px Segoe UI";
+                style["font"] = "bold 17px Segoe UI";
             } else if (dataCreated.fontStyle === "Segoe UI Light, 16pt") {
-                style["font"] = "200 24px Segoe UI";
+                style["font"] = "200 22px Segoe UI";
             }  else if (dataCreated.fontStyle === "Segoe UI Bold, 16pt") {
-                style["font"] = "bold 24px Segoe UI";
+                style["font"] = "bold 22px Segoe UI";
             }  else if (dataCreated.fontStyle === "Segoe UI Light, 20pt") {
-                style["font"] = "200 36px Segoe UI";
+                style["font"] = "100 36px Segoe UI";
             } else {
                 style["font"] = "bold 24px Segoe UI"; // default to Segoe UI Bold, 16pt
             }
@@ -134,9 +125,16 @@ const ChooseDevice = ({ dataCreated, setDataCreated, stage, setStage, handleRese
                 ctx.fillText(`Email: ${dataCreated.email}`, 10, 60);
             } else if (dataCreated.type === "Student") {
                 ctx.font = style.font;
+                console.log(canva.width / 2);
+                ctx.moveTo(canva.width / 2, 20);
                 ctx.fillStyle = style.color;
-                ctx.fillText(`Name: ${dataCreated.name}`, 10, 30);
-                ctx.fillText(`Email: ${dataCreated.email}`, 10, 60);
+                ctx.textAlign = style.textAlign;
+                ctx.fillText(`${dataCreated.name}`, canva.width / 2, 50);
+                ctx.font = "bold 20px Segoe UI";
+
+                ctx.fillText(`${dataCreated.email}`, canva.width / 2, 80);
+                ctx.fillText(`${dataCreated.studentID}`, canva.width / 2, 100);
+                ctx.fillText(`${dataCreated.class}`, canva.width / 2, 120);
             } else if (dataCreated.type === "Employee") {
                 ctx.font = style.font;
                 ctx.fillStyle = style.color;
